@@ -10,6 +10,7 @@ namespace terminus.shared.models
         [Required]
         public DateTime transactionDate { get; set; }
 
+        [Display(Name = "Details")]
         [MaxLength(36), Required]
         public string glAccountId { get; set; }
 
@@ -30,6 +31,7 @@ namespace terminus.shared.models
         public string remarks { get; set; }
 
         [Required]
+        [Display(Name ="Amount")]
         public decimal amount { get; set; }
 
         [MaxLength(100)]
@@ -47,6 +49,7 @@ namespace terminus.shared.models
 
         public decimal checkAmount { get; set; }
 
+        [Display(Name = "Ledger")]
         [MaxLength(36), Required]
         public string cashAccountId { get; set; }
 

@@ -2,3 +2,42 @@
 
 @inherits JournalEntryListBase
 
+<h1 class="page-title">Journal Entry</h1>
+
+@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Loading...</em></p>
+}
+else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered while loading this page.</em></p>
+}
+else
+{
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Account Code</th>
+                <th>Account Name</th>
+                <th>Balance</th> 
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in JourlnalAccounts)
+            {
+                <tr>
+                    <td>@account.accountCode</td>
+                    <td>@account.accountDesc</td>
+                    <td>@account.balance.ToString("#,#0.00")</td>
+                    <td>
+                        <a href="@($"journalentry/{account.accountId.ToString()}")" class="btn btn-primary table-btn">
+                            <i class="fas fa-info-circle">Add new entry</i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

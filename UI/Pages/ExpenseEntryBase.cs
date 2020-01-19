@@ -23,6 +23,7 @@ namespace terminus_webapp.Pages
         public ExpenseViewModel expense { get; set; }
 
         public bool IsDataLoaded { get; set; }
+        public bool IsViewOnly { get; set; }
 
         protected async Task HandleValidSubmit()
         {
@@ -71,8 +72,9 @@ namespace terminus_webapp.Pages
                 jeHdr.company = company;
 
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
-                var vat = Math.Round(amount * 0.12m, 2);
-                r.taxAmount = vat;
+
+                //var vat = Math.Round(amount * 0.12m, 2);
+               // r.taxAmount = vat;
                 var jeList = new List<JournalEntryDtl>()
                 {
                     new JournalEntryDtl()
@@ -81,20 +83,20 @@ namespace terminus_webapp.Pages
                     createDate = DateTime.Now,
                     createdBy = "testadmin",
                     lineNumber=0,
-                    amount = amount - vat,
+                    amount = amount,
                     type ="C",
                     account = r.account
                     },
-                    new JournalEntryDtl()
-                    {
-                    id = Guid.NewGuid().ToString(),
-                    createDate = DateTime.Now,
-                    createdBy = "testadmin",
-                    lineNumber=1,
-                    amount = vat,
-                    type ="C",
-                    account = vatAccount
-                    },
+                    //new JournalEntryDtl()
+                    //{
+                    //id = Guid.NewGuid().ToString(),
+                    //createDate = DateTime.Now,
+                    //createdBy = "testadmin",
+                    //lineNumber=1,
+                    //amount = vat,
+                    //type ="C",
+                    //account = vatAccount
+                    //},
                     new JournalEntryDtl()
                     {
                     id = Guid.NewGuid().ToString(),
@@ -113,6 +115,7 @@ namespace terminus_webapp.Pages
                 appDBContext.JournalEntriesHdr.Add(jeHdr);
                 await appDBContext.SaveChangesAsync();
 
+                StateHasChanged();
 
                 NavigateToList();
             }
@@ -126,7 +129,7 @@ namespace terminus_webapp.Pages
         protected override async Task OnInitializedAsync()
         {
             IsDataLoaded = false;
-
+            IsViewOnly = false;
 
             if (string.IsNullOrEmpty(expenseId))
             {
@@ -136,6 +139,7 @@ namespace terminus_webapp.Pages
             }
             else
             {
+                IsViewOnly = true;
                 var id = Guid.Parse(expenseId);
 
                 var data = await appDBContext.Expenses

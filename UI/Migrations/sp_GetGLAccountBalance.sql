@@ -1,12 +1,11 @@
-create proc dbo.sp_GetGLAccountBalance
+alter proc dbo.sp_GetGLAccountBalance
 				@companyId nvarchar(10)
 as
-select t2.accountId, t2.accountCode, t2.accountDesc,t2.rowOrder,
-sum(t1.amount * case when t2.cashAccount=1 and t0.source='expense' then -1
-else 1 end) balance
-from JournalEntriesHdr t0
-inner join JournalEntriesDtl t1 on t0.id=t1.JournalEntryHdrid
-inner join GLAccounts t2 on t2.accountId=t1.accountId
-where t2.companyId=@companyId
-group by t2.accountId, t2.accountCode, t2.accountDesc, t2.rowOrder
-order by t2.rowOrder
+select t0.accountId, t0.accountCode, t0.accountDesc,t0.rowOrder,
+isnull(sum(t1.amount),0) balance
+from GLAccounts t0
+left outer join JournalEntriesDtl t1 on t0.accountId=t1.accountId
+left outer join JournalEntriesHdr t2 on t2.id=t1.JournalEntryHdrid
+where t0.companyId=@companyId
+group by t0.accountId, t0.accountCode, t0.accountDesc, t0.rowOrder
+order by t0.rowOrder

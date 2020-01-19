@@ -11,15 +11,24 @@
 else
 {
 <EditForm Model="@expense" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>
 
     <div class="form-group row">
         <label for="transactionDate" class="col-sm-2 col-form-label">Date: </label>
         <div class="col-sm-2">
-            <InputDate @bind-Value="@expense.transactionDate" class="form-control">
-            </InputDate>
+            @if (!IsViewOnly)
+            {
+                <InputDate @bind-Value="@expense.transactionDate" class="form-control">
+                </InputDate>
+            }
+            else
+            {
+                <label>@expense.transactionDate</label>
+            }
         </div>
 
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.glAccountId)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.transactionDate)" />
     </div>
 
     <div class="form-group row">
@@ -32,14 +41,8 @@ else
                     <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                     }
                 /**/
-                /**/
-                /**/
-                /**/
-                /**/
             </InputSelect>
-
         </div>
-
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.glAccountId)" />
     </div>
 
@@ -54,6 +57,7 @@ else
                     }
                 /**/
                 /**/
+                /**/
             </InputSelect>
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.vendorId)" />
@@ -66,7 +70,7 @@ else
             <label for="propertyId" class="col-sm-2 col-form-label">Others Supplier: </label>
             <div class="col-sm-5">
                 <InputText @bind-Value="@expense.vendorOther" class="form-control">
-                   
+
                 </InputText>
             </div>
             <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.vendorOther)" />
@@ -78,8 +82,7 @@ else
     <div class="form-group row">
         <label for="dueDate" class="col-sm-2 col-form-label">Due Date: </label>
         <div class="col-sm-2">
-            <InputDate @bind-Value="@expense.dueDate" class="form-control">
-            </InputDate>
+            <InputDate @bind-Value="@expense.dueDate" class="form-control" />
         </div>
     </div>
 
@@ -146,6 +149,7 @@ else
                     {
                     <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                     }
+                /**/
                 /**/
                 /**/
                 /**/

@@ -14,7 +14,8 @@
 else
 {
 <EditForm Model="@revenue" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
-
+    <DataAnnotationsValidator/>
+    <ValidationSummary></ValidationSummary>
     <div class="form-group row">
         <label for="transactionDate" class="col-sm-2 col-form-label">Date: </label>
         <div class="col-sm-2">

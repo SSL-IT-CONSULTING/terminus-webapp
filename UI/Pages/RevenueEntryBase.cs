@@ -11,6 +11,7 @@ namespace terminus_webapp.Pages
 {
     public class RevenueEntryBase:ComponentBase
     {
+
         [Inject]
         public AppDBContext appDBContext { get; set; }
 
@@ -53,7 +54,7 @@ namespace terminus_webapp.Pages
                 r.remarks = string.Format("{0}_{1}_{2} {3}", r.account.accountDesc, r.propertyDirectory.property.description, r.propertyDirectory.tenant.lastName, r.propertyDirectory.tenant.lastName);
                 r.company = company;
                 r.cashOrCheck = revenue.cashOrCheck;
-
+                
                 if(r.cashOrCheck.Equals("1"))
                 {
                     r.checkDetails = new CheckDetails()
@@ -75,7 +76,15 @@ namespace terminus_webapp.Pages
                 jeHdr.company = company;
 
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
-                var vat = Math.Round(amount * 0.12m,2);
+                var beforeVat = 0m;
+                var vat = 0m;
+
+                if (amount!=0)
+                {
+                    beforeVat = Math.Round(amount / 1.12m, 2);
+                    vat = amount - beforeVat;
+                }
+               
                 r.taxAmount = vat;
                 var jeList = new List<JournalEntryDtl>()
                 {
@@ -115,7 +124,8 @@ namespace terminus_webapp.Pages
                 r.journalEntry = jeHdr;
 
                 appDBContext.JournalEntriesHdr.Add(jeHdr);
-                await appDBContext.SaveChangesAsync();
+                await appDBContext.SaveChangesAsync(); 
+                StateHasChanged();
 
                 NavigateToList();
 
@@ -150,10 +160,11 @@ namespace terminus_webapp.Pages
                     .Include(a=>a.checkDetails)
                     .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
 
-                revenue = new RevenueViewModel() {   
+                revenue = new RevenueViewModel() {
                     id = data.id.ToString(),
                     transactionDate = data.transactionDate,
-                    dueDate = data.transactionDate,
+                    dueDate = data.dueDate,
+                    glAccountId = data.accountId.ToString(),
                     glAccountCode = data.account.accountCode,
                     glAccountName = data.account.accountDesc,
                     amount = data.cashOrCheck.Equals("0") ? data.amount : data.checkDetails.amount,
