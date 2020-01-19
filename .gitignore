@@ -1,0 +1,10 @@
+
+.vs/terminus-webapp/DesignTimeBuild/.dtbcache
+.vs/terminus-webapp/v16/.suo
+.vs/terminus-webapp/v16/Server/sqlite3/db.lock
+.vs/terminus-webapp/v16/Server/sqlite3/storage.ide
+/.vs/terminus-webapp/v16/Server/sqlite3
+/UI/obj
+/Shared/terminus.shared.models/bin/Debug/netcoreapp3.1
+/Shared/terminus.shared.models/obj
+/UI/bin/Debug/netcoreapp3.1

@@ -1,0 +1,45 @@
+﻿@page "/expenselist"
+
+@inherits ExpenseListBase
+
+<h1 class="page-title">Expense transactions</h1>
+
+@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Loading...</em></p>
+}
+else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered while loading this page.</em></p>
+}
+else
+{
+
+    <button @onclick="@AddExpense" class="btn btn-dark table-btn quick-add-btn">Create new</button>
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Details</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var expense in Expenses)
+            {
+                <tr>
+                    <td>@expense.transactionDate.ToString("yyyy-MM-dd")</td>
+                    <td>@expense.glAccountCode -  @expense.glAccountName.</td>
+                    <td>@expense.amount.ToString("#,#.00")</td>
+                    <td>
+                        <a href="@($"expense/{expense.id}")" class="btn btn-primary table-btn">
+                            <i class="fas fa-info-circle">View</i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
