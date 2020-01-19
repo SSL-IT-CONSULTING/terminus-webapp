@@ -1,8 +1,8 @@
 ﻿@page "/revenuelist"
 @using terminus.shared.models
+@attribute [Authorize]
 
 @inherits RevenueListBase
-
 <h1 class="page-title">Revenue transactions</h1>
 
 @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
@@ -32,19 +32,19 @@ else
         <tbody>
             @foreach (var revenue in Revenues)
             {
-            <tr>
-                <td>@revenue.transactionDate.ToString("yyyy-MM-dd")</td>
-                <td>@revenue.glAccountCode -  @revenue.glAccountName</td>
-                <td>@revenue.tenantName</td>
-                <td>@revenue.propertyDescription</td>
+                <tr>
+                    <td>@revenue.transactionDate.ToString("yyyy-MM-dd")</td>
+                    <td>@revenue.glAccountCode -  @revenue.glAccountName</td>
+                    <td>@revenue.tenantName</td>
+                    <td>@revenue.propertyDescription</td>
 
-                <td>@revenue.amount.ToString("#,#0.00")</td>
-                <td>
-                    <a href="@($"revenue/{revenue.id}")" class="btn btn-primary table-btn">
-                        <i class="fas fa-info-circle">View</i>
-                    </a>
-                </td>
-            </tr>
+                    <td>@revenue.amount.ToString("#,#0.00")</td>
+                    <td>
+                        <a href="@($"revenue/{revenue.id}")" class="btn btn-primary table-btn">
+                            <i class="fas fa-info-circle">View</i>
+                        </a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

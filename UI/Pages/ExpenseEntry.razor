@@ -1,5 +1,7 @@
 ﻿@page "/expense"
 @page "/expense/{expenseId}"
+@attribute [Authorize]
+
 @inherits ExpenseEntryBase
 
 <h1 class="page-title">Expense Transaction</h1>
@@ -10,167 +12,170 @@
 }
 else
 {
-<EditForm Model="@expense" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary></ValidationSummary>
+    <EditForm Model="@expense" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary></ValidationSummary>
 
-    <div class="form-group row">
-        <label for="transactionDate" class="col-sm-2 col-form-label">Date: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
-                <InputDate @bind-Value="@expense.transactionDate" class="form-control">
-                </InputDate>
-            }
-            else
-            {
-                <label>@expense.transactionDate</label>
-            }
-        </div>
-
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.transactionDate)" />
-    </div>
-
-    <div class="form-group row">
-        <label for="glAccountCode" class="col-sm-2 col-form-label">Details: </label>
-        <div class="col-sm-5">
-            <InputSelect @bind-Value="@expense.glAccountId" class="form-control">
-                <option value=""></option>
-                @foreach (var ga in expense.expenseAccounts.Where(a => a.expense))
-                    {
-                    <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
-                    }
-                /**/
-            </InputSelect>
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.glAccountId)" />
-    </div>
-
-    <div class="form-group row">
-        <label for="propertyId" class="col-sm-2 col-form-label">Supplier: </label>
-        <div class="col-sm-5">
-            <InputSelect @bind-Value="@expense.vendorId" class="form-control">
-                <option value=""></option>
-                @foreach (var p in expense.vendors)
-                    {
-                    <option value="@p.vendorId">@p.vendorName</option>
-                    }
-                /**/
-                /**/
-                /**/
-            </InputSelect>
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.vendorId)" />
-
-    </div>
-
-    @if (!string.IsNullOrEmpty(expense.vendorId) && expense.vendorId.StartsWith("OTHERS"))
-    {
         <div class="form-group row">
-            <label for="propertyId" class="col-sm-2 col-form-label">Others Supplier: </label>
+            <label for="transactionDate" class="col-sm-2 col-form-label">Date: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
+                    <InputDate @bind-Value="@expense.transactionDate" class="form-control">
+                    </InputDate>
+                }
+                else
+                {
+                    <label>@expense.transactionDate</label>
+                }
+            </div>
+
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.transactionDate)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="glAccountCode" class="col-sm-2 col-form-label">Details: </label>
             <div class="col-sm-5">
-                <InputText @bind-Value="@expense.vendorOther" class="form-control">
-
-                </InputText>
+                <InputSelect @bind-Value="@expense.glAccountId" class="form-control">
+                    <option value=""></option>
+                    @foreach (var ga in expense.expenseAccounts.Where(a => a.expense))
+                        {
+                        <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
+                        }
+                    /**/
+                    /**/
+                </InputSelect>
             </div>
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.vendorOther)" />
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.glAccountId)" />
         </div>
-    }
 
-
-
-    <div class="form-group row">
-        <label for="dueDate" class="col-sm-2 col-form-label">Due Date: </label>
-        <div class="col-sm-2">
-            <InputDate @bind-Value="@expense.dueDate" class="form-control" />
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="reference" class="col-sm-2 col-form-label">Reference: </label>
-        <div class="col-sm-5">
-            <InputText @bind-Value="@expense.reference" class="form-control">
-            </InputText>
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="cashOrCheck" class="col-sm-2 col-form-label">Cash or check: </label>
-        <div class="col-sm-5">
-            <InputSelect @bind-Value="@expense.cashOrCheck" class="form-control">
-                <option value="0">Cash</option>
-                <option value="1">Check</option>
-            </InputSelect>
-        </div>
-    </div>
-
-    @if (expense.cashOrCheck.Equals("1"))
-    {
         <div class="form-group row">
-            <label for="bankName" class="col-sm-2 col-form-label">Check details: </label>
-            <div class="col-sm-2">
-                <InputText @bind-Value="@expense.bankName" class="form-control" placeholder="Bank name">
-                </InputText>
-            </div>
-            <div class="col-sm-2">
-                <InputText @bind-Value="@expense.branch" class="form-control" placeholder="Branch">
-                </InputText>
-            </div>
-            <div class="col-sm-2">
-                <InputDate @bind-Value="@expense.checkDate" class="form-control" placeholder="Check Date">
-                </InputDate>
-            </div>
-
-            <div class="col-sm-2">
-                <InputNumber @bind-Value="@expense.checkAmount" class="form-control" placeholder="Amount">
-                </InputNumber>
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="form-group row">
-            <label for="amount" class="col-sm-2 col-form-label">Amount: </label>
+            <label for="propertyId" class="col-sm-2 col-form-label">Supplier: </label>
             <div class="col-sm-5">
-                <InputNumber @bind-Value="@expense.amount" class="form-control">
-                </InputNumber>
+                <InputSelect @bind-Value="@expense.vendorId" class="form-control">
+                    <option value=""></option>
+                    @foreach (var p in expense.vendors)
+                        {
+                        <option value="@p.vendorId">@p.vendorName</option>
+                        }
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                </InputSelect>
             </div>
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.amount)" />
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.vendorId)" />
+
         </div>
-    }
 
-    <div class="form-group row">
-        <label for="cashAccountId" class="col-sm-2 col-form-label">Ledger: </label>
-        <div class="col-sm-5">
-            <InputSelect @bind-Value="@expense.cashAccountId" class="form-control">
-                <option value=""></option>
+        @if (!string.IsNullOrEmpty(expense.vendorId) && expense.vendorId.StartsWith("OTHERS"))
+        {
+            <div class="form-group row">
+                <label for="propertyId" class="col-sm-2 col-form-label">Others Supplier: </label>
+                <div class="col-sm-5">
+                    <InputText @bind-Value="@expense.vendorOther" class="form-control">
 
-                @foreach (var ga in expense.expenseAccounts.Where(a => a.cashAccount))
-                    {
-                    <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
-                    }
-                /**/
-                /**/
-                /**/
-                /**/
-                /**/
-                /**/
-            </InputSelect>
+                    </InputText>
+                </div>
+                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.vendorOther)" />
+            </div>
+        }
+
+
+
+        <div class="form-group row">
+            <label for="dueDate" class="col-sm-2 col-form-label">Due Date: </label>
+            <div class="col-sm-2">
+                <InputDate @bind-Value="@expense.dueDate" class="form-control" />
+            </div>
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.cashAccountId)" />
-    </div>
 
-    <div class="form-group row">
-        <label for="receiptNo" class="col-sm-2 col-form-label">Issue receipt no: </label>
-        <div class="col-sm-5">
-            <InputText @bind-Value="@expense.receiptNo" class="form-control">
-            </InputText>
+        <div class="form-group row">
+            <label for="reference" class="col-sm-2 col-form-label">Reference: </label>
+            <div class="col-sm-5">
+                <InputText @bind-Value="@expense.reference" class="form-control">
+                </InputText>
+            </div>
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.receiptNo)" />
-    </div>
 
-    <button type="submit" class="btn btn-primary edit-btn">Save</button>
-    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Cancel</a>
+        <div class="form-group row">
+            <label for="cashOrCheck" class="col-sm-2 col-form-label">Cash or check: </label>
+            <div class="col-sm-5">
+                <InputSelect @bind-Value="@expense.cashOrCheck" class="form-control">
+                    <option value="0">Cash</option>
+                    <option value="1">Check</option>
+                </InputSelect>
+            </div>
+        </div>
 
-</EditForm>
+        @if (expense.cashOrCheck.Equals("1"))
+        {
+            <div class="form-group row">
+                <label for="bankName" class="col-sm-2 col-form-label">Check details: </label>
+                <div class="col-sm-2">
+                    <InputText @bind-Value="@expense.bankName" class="form-control" placeholder="Bank name">
+                    </InputText>
+                </div>
+                <div class="col-sm-2">
+                    <InputText @bind-Value="@expense.branch" class="form-control" placeholder="Branch">
+                    </InputText>
+                </div>
+                <div class="col-sm-2">
+                    <InputDate @bind-Value="@expense.checkDate" class="form-control" placeholder="Check Date">
+                    </InputDate>
+                </div>
+
+                <div class="col-sm-2">
+                    <InputNumber @bind-Value="@expense.checkAmount" class="form-control" placeholder="Amount">
+                    </InputNumber>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-group row">
+                <label for="amount" class="col-sm-2 col-form-label">Amount: </label>
+                <div class="col-sm-5">
+                    <InputNumber @bind-Value="@expense.amount" class="form-control">
+                    </InputNumber>
+                </div>
+                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.amount)" />
+            </div>
+        }
+
+        <div class="form-group row">
+            <label for="cashAccountId" class="col-sm-2 col-form-label">Ledger: </label>
+            <div class="col-sm-5">
+                <InputSelect @bind-Value="@expense.cashAccountId" class="form-control">
+                    <option value=""></option>
+
+                    @foreach (var ga in expense.expenseAccounts.Where(a => a.cashAccount))
+                        {
+                        <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
+                        }
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                </InputSelect>
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.cashAccountId)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="receiptNo" class="col-sm-2 col-form-label">Issue receipt no: </label>
+            <div class="col-sm-5">
+                <InputText @bind-Value="@expense.receiptNo" class="form-control">
+                </InputText>
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.receiptNo)" />
+        </div>
+
+        <button type="submit" class="btn btn-primary edit-btn">Save</button>
+        <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Cancel</a>
+
+    </EditForm>
 }

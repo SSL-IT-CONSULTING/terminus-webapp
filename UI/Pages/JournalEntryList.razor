@@ -1,5 +1,5 @@
 ﻿@page "/journalentrylist"
-
+@attribute [Authorize]
 @inherits JournalEntryListBase
 
 <h1 class="page-title">Journal Entry</h1>
@@ -20,7 +20,7 @@ else
             <tr>
                 <th>Account Code</th>
                 <th>Account Name</th>
-                <th>Balance</th> 
+                <th>Balance</th>
                 <th></th>
             </tr>
         </thead>

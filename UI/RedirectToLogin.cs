@@ -13,7 +13,7 @@ namespace terminus_webapp
 
         protected override void OnInitialized()
         {
-            NavigationManager.NavigateTo("identity/login/account/login");
+            NavigationManager.NavigateTo("loginpages/login");
         }
     }
 }

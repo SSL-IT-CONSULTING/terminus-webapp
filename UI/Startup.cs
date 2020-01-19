@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -49,7 +50,9 @@ namespace terminus_webapp
             
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
+            //services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>()
+            services.AddBlazoredSessionStorage();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<DapperManager, DapperManager>();
 
             services.AddTransient<IdentitySeeder>();
@@ -79,11 +82,9 @@ namespace terminus_webapp
 
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseRouting();
 
             app.UseAuthentication();
-
-            app.UseRouting();
-           
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
