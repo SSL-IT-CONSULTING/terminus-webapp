@@ -32,14 +32,15 @@ namespace terminus_webapp.Data
 
         public DbSet<Vendor> Vendors { get; set; }
 
+        public DbSet<Billing> Billings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.Entity<GLAccount>()
                .Property(c => c.balance).HasColumnType("decimal(18,4)");
-            
-   
+
             builder.Entity<Revenue>()
           .Property(c => c.amount).HasColumnType("decimal(18,4)");
 
@@ -55,6 +56,9 @@ namespace terminus_webapp.Data
             builder.Entity<CheckDetails>()
 .Property(c => c.amount).HasColumnType("decimal(18,4)");
 
+            builder.Entity<PropertyDirectory>()
+.Property(c => c.monthlyRate).HasColumnType("decimal(18,4)");
+
             builder.Entity<GLAccount>()
             .HasIndex("companyId", "accountCode").IsUnique(true);
 
@@ -64,6 +68,13 @@ namespace terminus_webapp.Data
 
             builder.Entity<Vendor>()
            .HasIndex(a => a.rowOrder);
+
+
+            builder.Entity<Billing>()
+           .HasIndex("companyId", "billRefId").IsUnique(true);
+
+            builder.Entity<Billing>()
+.Property(c => c.amountDue).HasColumnType("decimal(18,4)");
 
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
