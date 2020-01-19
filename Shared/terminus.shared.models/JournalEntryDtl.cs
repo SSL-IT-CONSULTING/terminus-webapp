@@ -19,6 +19,9 @@ namespace terminus.shared.models
 
         public int lineNumber { get; set; }
 
+        [ForeignKey("account")]
+        public Guid accountId { get; set; }
+
         public GLAccount account { get; set; }
 
         [MaxLength(200)]

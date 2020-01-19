@@ -1,10 +1,109 @@
-﻿@page "/journalentry"
+﻿
 @page "/journalentry/{accountId}"
 
 @using terminus_webapp.Data
 
 @inherits JournalEntryBase
 
-<h3>JournalEntry</h3>
+<h1 class="page-title">Journal Entry</h1>
+
+@if (!IsDataLoaded)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<EditForm Model="@journalEntry" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group row">
+        <label for="transactionDate" class="col-sm-2 col-form-label">Entry Date: </label>
+        <div class="col-sm-2">
+            <InputDate @bind-Value="@journalEntry.transactionDate" class="form-control">
+            </InputDate>
+        </div>
+
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.transactionDate)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="accountId" class="col-sm-2 col-form-label">Details: </label>
+        <div class="col-sm-5">
+
+            @*<InputSelect @bind-Value="@journalEntry.accountId" class="form-control">
+                <option value=""></option>
+                @foreach (var ga in journalEntry.gLAccounts)
+                    {
+                    <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
+                    }
+            </InputSelect>*@
+
+
+            <label>@journalEntry.accountCode - @journalEntry.accountName </label>
+
+        </div>
+
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.accountId)" />
+    </div>
+
+
+
+    <div class="form-group row">
+        <label for="amount" class="col-sm-2 col-form-label">Amount: </label>
+        <div class="col-sm-5">
+            <InputNumber @bind-Value="@journalEntry.amount" class="form-control">
+            </InputNumber>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.amount)" />
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <label for="cashAccountId" class="col-sm-2 col-form-label">Dr/Cr: </label>
+        <div class="col-sm-5">
+            <InputSelect @bind-Value="@journalEntry.type" class="form-control">
+                <option value=""></option>
+                <option value="D">Debit</option>
+                <option value="C">Credit</option>
+            </InputSelect>
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.type)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="detailDescription" class="col-sm-2 col-form-label">Description: </label>
+        <div class="col-sm-5">
+            <InputText @bind-Value="@journalEntry.detailDescription" class="form-control">
+            </InputText>
+
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.detailDescription)" />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="remarks" class="col-sm-2 col-form-label">Remarks: </label>
+        <div class="col-sm-5">
+            <InputText @bind-Value="@journalEntry.remarks" class="form-control">
+            </InputText>
+
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="postingDate" class="col-sm-2 col-form-label">Date: </label>
+        <div class="col-sm-2">
+            <InputDate @bind-Value="@journalEntry.postingDate" class="form-control">
+            </InputDate>
+        </div>
+
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.postingDate)" />
+    </div>
+
+    <button type="submit" class="
+            btn btn-primary edit-btn">Save</button>
+    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Cancel</a>
+
+</EditForm>
+}
 
 

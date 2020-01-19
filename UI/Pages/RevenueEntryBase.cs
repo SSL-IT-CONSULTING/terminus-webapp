@@ -74,6 +74,7 @@ namespace terminus_webapp.Pages
 
                 jeHdr.description = r.remarks;
                 jeHdr.company = company;
+                jeHdr.postingDate = r.transactionDate;
 
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
                 var beforeVat = 0m;

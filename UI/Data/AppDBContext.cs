@@ -34,8 +34,6 @@ namespace terminus_webapp.Data
 
         public DbSet<Billing> Billings { get; set; }
 
-        public DbSet<JEListViewModel> JEListViewModels { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

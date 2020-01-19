@@ -15,6 +15,9 @@ namespace terminus_webapp.Pages
         public AppDBContext appDBContext { get; set; }
 
         [Inject]
+        public DapperManager dapperManager { get; set; }
+
+        [Inject]
         public NavigationManager NavigationManager { get; set; }
 
         public List<JEListViewModel> JourlnalAccounts { get; set; }
@@ -31,8 +34,13 @@ namespace terminus_webapp.Pages
                 companyId = "ASRC";
                 var sqlcommand = $"exec sp_GetGLAccountBalance '{companyId.Replace("'", "''")}'";
 
-                JourlnalAccounts = await appDBContext.Query<JEListViewModel>().FromSqlRaw(sqlcommand).ToListAsync();
+                var param = new Dapper.DynamicParameters();
+                param.Add("companyId", companyId, System.Data.DbType.String);
 
+
+                JourlnalAccounts = dapperManager.GetAll<JEListViewModel>("sp_GetGLAccountBalance", param);
+
+                
                 
             }
             catch (Exception ex)

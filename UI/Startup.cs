@@ -50,6 +50,7 @@ namespace terminus_webapp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
+            services.AddScoped<DapperManager, DapperManager>();
 
             services.AddTransient<IdentitySeeder>();
 

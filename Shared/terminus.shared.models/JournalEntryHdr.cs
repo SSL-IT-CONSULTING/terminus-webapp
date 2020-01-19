@@ -27,6 +27,15 @@ namespace terminus.shared.models
         [MaxLength(36)]
         public string sourceId { get; set; }
 
+        public DateTime transactionDate { get; set; }
+
+        [MaxLength(1000)]
+        [Display(Name = "Remarks")]
+        public string remarks { get; set; }
+
+        public DateTime postingDate { get; set; }
+
+
 
     }
 }
