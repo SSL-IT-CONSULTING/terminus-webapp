@@ -36,7 +36,10 @@ namespace terminus_webapp.Pages
 
                 var data = await appDBContext.Revenues
                                              .Include(a=>a.account)
-                                              .Include(a=>a.checkDetails)      
+                                             .Include(a=>a.checkDetails)
+                                             .Include(a => a.propertyDirectory).ThenInclude(b => b.tenant)
+                                             .Include(a=>a.propertyDirectory).ThenInclude(b=>b.property)
+                                             .OrderByDescending(a => a.createDate)
                                              .ToListAsync();
 
                 Revenues = data.Select(a => new RevenueViewModel()
@@ -44,6 +47,8 @@ namespace terminus_webapp.Pages
                     id = a.id.ToString(),
                     glAccountCode = a.account.accountCode,
                     glAccountName = a.account.accountDesc,
+                    tenantName = $"{a.propertyDirectory.tenant.firstName} {a.propertyDirectory.tenant.lastName}",
+                    propertyDescription = a.propertyDirectory.property.description,
                     amount = a.cashOrCheck.Equals("0") ? a.amount : a.checkDetails.amount,
                     remarks = a.remarks,
                     transactionDate = a.transactionDate

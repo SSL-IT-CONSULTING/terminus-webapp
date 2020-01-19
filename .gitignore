@@ -8,3 +8,5 @@
 /Shared/terminus.shared.models/bin/Debug/netcoreapp3.1
 /Shared/terminus.shared.models/obj
 /UI/bin/Debug/netcoreapp3.1
+*.user
+.vs/terminus-webapp/config/applicationhost.config

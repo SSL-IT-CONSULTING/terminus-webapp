@@ -152,10 +152,20 @@ namespace terminus_webapp.Pages
 
                 revenue = new RevenueViewModel() {   
                     id = data.id.ToString(),
+                    transactionDate = data.transactionDate,
+                    dueDate = data.transactionDate,
                     glAccountCode = data.account.accountCode,
                     glAccountName = data.account.accountDesc,
                     amount = data.cashOrCheck.Equals("0") ? data.amount : data.checkDetails.amount,
-                    cashOrCheck = data.cashOrCheck
+                    cashAccountId = data.cashAccount.accountId.ToString(),
+                    cashAccountCode = data.cashAccount.accountCode,
+                    cashAccountName = data.cashAccount.accountDesc,
+                    cashOrCheck = data.cashOrCheck,
+                    checkAmount = data.cashOrCheck.Equals("1")?data.checkDetails.amount:0,
+                    bankName = data.cashOrCheck.Equals("1") ? data.checkDetails.bankName : "",
+                    branch = data.cashOrCheck.Equals("1") ? data.checkDetails.branch : "", 
+                    checkDate = data.cashOrCheck.Equals("1") ? (DateTime?)data.checkDetails.checkDate : null,
+                    propertyDirectoryId = data.propertyDirectory.id.ToString()
                 };
             }
 

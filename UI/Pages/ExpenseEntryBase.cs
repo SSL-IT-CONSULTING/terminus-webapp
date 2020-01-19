@@ -49,6 +49,8 @@ namespace terminus_webapp.Pages
 
                 r.company = company;
                 r.cashOrCheck = expense.cashOrCheck;
+                r.vendorId = expense.vendorId;
+                r.vendorOther = expense.vendorOther;
 
                 if (r.cashOrCheck.Equals("1"))
                 {
@@ -140,15 +142,27 @@ namespace terminus_webapp.Pages
                     .Include(a => a.account)
                     .Include(a => a.cashAccount)
                     .Include(a => a.checkDetails)
+                    .Include(a=>a.vendor)
                     .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
 
                 expense = new ExpenseViewModel()
                 {
                     id = data.id.ToString(),
+                    transactionDate = data.transactionDate,
+                    dueDate = data.transactionDate,
                     glAccountCode = data.account.accountCode,
                     glAccountName = data.account.accountDesc,
                     amount = data.cashOrCheck.Equals("0") ? data.amount : data.checkDetails.amount,
-                    cashOrCheck = data.cashOrCheck
+                    cashAccountId = data.cashAccount.accountId.ToString(),
+                    cashAccountCode = data.cashAccount.accountCode,
+                    cashAccountName = data.cashAccount.accountDesc,
+                    cashOrCheck = data.cashOrCheck,
+                    checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0,
+                    bankName = data.cashOrCheck.Equals("1") ? data.checkDetails.bankName : "",
+                    branch = data.cashOrCheck.Equals("1") ? data.checkDetails.branch : "",
+                    checkDate = data.cashOrCheck.Equals("1") ? (DateTime?)data.checkDetails.checkDate : null,
+                    vendorId = data.vendor.vendorId,
+                    vendorOther = data.vendorOther
                 };
             }
 

@@ -54,7 +54,7 @@ namespace terminus.shared.models
         public string cashAccountCode { get; set; }
 
         [MaxLength(1000)]
-        public int cashAccountName { get; set; }
+        public string cashAccountName { get; set; }
 
 
         public JournalEntryHdr journalEntry { get; set; }

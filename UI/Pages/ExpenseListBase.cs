@@ -21,6 +21,10 @@ namespace terminus_webapp.Pages
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
 
+        protected string FormatVendor(string _vendorId, string _vendorOther, string _vendorName)
+        {
+            return _vendorId.StartsWith("OTHER") ? _vendorOther : _vendorName;
+        }
 
         public void AddExpense()
         {
@@ -36,7 +40,9 @@ namespace terminus_webapp.Pages
 
                 var data = await appDBContext.Expenses
                                              .Include(a => a.account)
-                                              .Include(a => a.checkDetails)
+                                             .Include(a => a.checkDetails)
+                                             .Include(a=>a.vendor)
+                                             .OrderByDescending(a=>a.createDate)
                                              .ToListAsync();
 
                 Expenses = data.Select(a => new ExpenseViewModel()
@@ -46,7 +52,11 @@ namespace terminus_webapp.Pages
                     glAccountName = a.account.accountDesc,
                     amount = a.cashOrCheck.Equals("0") ? a.amount : a.checkDetails.amount,
                     remarks = a.remarks,
-                    transactionDate = a.transactionDate
+                    transactionDate = a.transactionDate,
+                    vendorId = a.vendorId,
+                    vendorName = a.vendor.vendorName,
+                    vendorOther = a.vendorOther
+
                 }).ToList();
 
             }

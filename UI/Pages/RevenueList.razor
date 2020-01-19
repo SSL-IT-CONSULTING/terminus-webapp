@@ -23,6 +23,8 @@ else
             <tr>
                 <th>Date</th>
                 <th>Details</th>
+                <th>Tenant</th>
+                <th>Property</th>
                 <th>Amount</th>
                 <th></th>
             </tr>
@@ -30,16 +32,19 @@ else
         <tbody>
             @foreach (var revenue in Revenues)
             {
-                <tr>
-                    <td>@revenue.transactionDate.ToString("yyyy-MM-dd")</td>
-                    <td>@revenue.glAccountCode -  @revenue.glAccountName.</td>
-                    <td>@revenue.amount.ToString("#,#.00")</td>
-                    <td>
-                        <a href="@($"revenue/{revenue.id}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-info-circle">View</i>
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@revenue.transactionDate.ToString("yyyy-MM-dd")</td>
+                <td>@revenue.glAccountCode -  @revenue.glAccountName</td>
+                <td>@revenue.tenantName</td>
+                <td>@revenue.propertyDescription</td>
+
+                <td>@revenue.amount.ToString("#,#.00")</td>
+                <td>
+                    <a href="@($"revenue/{revenue.id}")" class="btn btn-primary table-btn">
+                        <i class="fas fa-info-circle">View</i>
+                    </a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

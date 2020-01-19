@@ -13,6 +13,10 @@ namespace terminus.shared.models
     {
         public Guid id { get; set; }
 
+        [ForeignKey("vendor")]
+        [MaxLength(36)]
+        public string vendorId { get; set; }
+
         public Vendor vendor { get; set; }
         
         [MaxLength(200)]
