@@ -26,11 +26,12 @@ namespace terminus.shared.models
         [MaxLength(36), Required]
         public string propertyDirectoryId { get; set; }
 
-
-
         public List<GLAccount> revenueAccounts { get; set; }
 
         public List<PropertyDirectory> propertyDirectories { get; set; }
+
+        public string outputVatAccount { get; set; }
+        
 
     }
 }

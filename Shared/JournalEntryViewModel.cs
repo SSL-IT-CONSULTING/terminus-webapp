@@ -29,12 +29,14 @@ namespace terminus.shared.models
         [Required]
         public decimal amount { get; set; }
 
-        [MaxLength(1)]
+        [MaxLength(1), Required]
+        [Display(Name ="Debit/Credit")]
         public string type { get; set; }
 
         public int lineNumber { get; set; }
 
         public string accountId { get; set; }
+        public string ledgerAccountId { get; set; }
 
         public string accountCode { get; set; }
         public string accountName { get; set; }
@@ -47,7 +49,7 @@ namespace terminus.shared.models
         [Display(Name = "Remarks")]
         public string remarks { get; set; }
 
-       // public List<GLAccount> gLAccounts { get; set; }
+        public List<GLAccount> gLAccounts { get; set; }
             
         [Display(Name = "Posting Date")]
         public DateTime postingDate { get; set; }

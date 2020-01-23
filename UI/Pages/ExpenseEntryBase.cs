@@ -25,6 +25,23 @@ namespace terminus_webapp.Pages
         public bool IsDataLoaded { get; set; }
         public bool IsViewOnly { get; set; }
 
+        protected decimal GetAmount(string cashOrCheck, decimal amount, decimal checkAmount)
+        {
+            if (cashOrCheck.Equals("0"))
+                return amount;
+            else
+                return checkAmount;
+        }
+
+        protected string GetAccountDesc(string account)
+        {
+            var data = expense.expenseAccounts.Where(a => a.accountId.ToString().Equals(account, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            if (data != null)
+                return $"{data.accountCode} - {data.accountDesc}";
+
+            return string.Empty;
+        }
+
         protected async Task HandleValidSubmit()
         {
             if (string.IsNullOrEmpty(expense.id))

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace terminus.shared.models
@@ -17,6 +18,10 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string middleName { get; set; }
+
+        [MaxLength(10)]
+        [ForeignKey("company")]
+        public string companyId { get; set; }
 
         public Company company { get; set; }
 

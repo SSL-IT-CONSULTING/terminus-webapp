@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\terminus.shared.models\terminus.shared.models.csproj" />
+    <ProjectReference Include="..\Shared\terminus.shared.models.csproj" />
   </ItemGroup>
 
 </Project>

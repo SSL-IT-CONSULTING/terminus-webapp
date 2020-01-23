@@ -11,7 +11,9 @@
 }
 else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
 {
-    <p><em>Error encountered while loading this page.</em></p>
+    <p><em>Error encountered while loading this page.
+        @ErrorMessage
+        </em></p>
 }
 else
 {

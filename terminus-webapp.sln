@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "terminus-webapp", "UI\terminus-webapp.csproj", "{33F70A5F-B252-4C25-B723-469CC9E192C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "terminus.shared.models", "Shared\terminus.shared.models\terminus.shared.models.csproj", "{3047DAC4-C098-4C4C-8E47-FAAFBA598C80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "terminus.shared.models", "Shared\terminus.shared.models.csproj", "{907263B1-769B-48FE-BB50-719748C7266B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{33F70A5F-B252-4C25-B723-469CC9E192C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33F70A5F-B252-4C25-B723-469CC9E192C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33F70A5F-B252-4C25-B723-469CC9E192C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3047DAC4-C098-4C4C-8E47-FAAFBA598C80}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3047DAC4-C098-4C4C-8E47-FAAFBA598C80}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3047DAC4-C098-4C4C-8E47-FAAFBA598C80}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3047DAC4-C098-4C4C-8E47-FAAFBA598C80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{907263B1-769B-48FE-BB50-719748C7266B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{907263B1-769B-48FE-BB50-719748C7266B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{907263B1-769B-48FE-BB50-719748C7266B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{907263B1-769B-48FE-BB50-719748C7266B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

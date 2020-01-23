@@ -53,6 +53,17 @@ namespace terminus_webapp.Pages
                     type =journalEntry.type,
                     accountId = Guid.Parse(journalEntry.accountId),
                     description = journalEntry.detailDescription
+                    },
+                    new JournalEntryDtl()
+                    {
+                    id = Guid.NewGuid().ToString(),
+                    createDate = DateTime.Now,
+                    createdBy = "testadmin",
+                    lineNumber=0,
+                    amount = amount,
+                    type =journalEntry.type.Equals("C")?"D":"C",
+                    accountId = Guid.Parse(journalEntry.ledgerAccountId),
+                    description = string.Empty
                     }
                 };
 
@@ -90,6 +101,7 @@ namespace terminus_webapp.Pages
             try
             {
                 var id = Guid.Parse(accountId);
+                journalEntry.gLAccounts = await appDBContext.GLAccounts.Where(a => !a.accountId.Equals(id)).ToListAsync();
 
                 var account = await appDBContext.GLAccounts.Where(a=>a.accountId.Equals(id)).FirstOrDefaultAsync();
 

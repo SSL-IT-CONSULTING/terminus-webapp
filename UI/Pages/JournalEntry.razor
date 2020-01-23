@@ -14,38 +14,45 @@
 }
 else
 {
-    <EditForm Model="@journalEntry" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary></ValidationSummary>
-        <div class="form-group row">
-            <label for="transactionDate" class="col-sm-2 col-form-label">Entry Date: </label>
-            <div class="col-sm-2">
-                <InputDate @bind-Value="@journalEntry.transactionDate" class="form-control">
-                </InputDate>
-            </div>
-
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.transactionDate)" />
+<EditForm Model="@journalEntry" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>
+    <div class="form-group row">
+        <label for="transactionDate" class="col-sm-2 col-form-label">Entry Date: </label>
+        <div class="col-sm-2">
+            <InputDate @bind-Value="@journalEntry.transactionDate" class="form-control">
+            </InputDate>
         </div>
 
-        <div class="form-group row">
-            <label for="accountId" class="col-sm-2 col-form-label">Details: </label>
-            <div class="col-sm-5">
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.transactionDate)" />
+    </div>
 
-                @*<InputSelect @bind-Value="@journalEntry.accountId" class="form-control">
-                        <option value=""></option>
-                        @foreach (var ga in journalEntry.gLAccounts)
-                            {
-                            <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
-                            }
-                    </InputSelect>*@
+    <div class="form-group row">
+        <label for="accountId" class="col-sm-2 col-form-label">Details: </label>
+        <div class="col-sm-5">
 
+            <label>@journalEntry.accountCode - @journalEntry.accountName </label>
 
-                <label>@journalEntry.accountCode - @journalEntry.accountName </label>
-
-            </div>
-
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.accountId)" />
         </div>
+
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.accountId)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="accountId" class="col-sm-2 col-form-label">Ledger: </label>
+        <div class="col-sm-5">
+            <InputSelect @bind-Value="@journalEntry.ledgerAccountId" class="form-control">
+                <option value=""></option>
+                @foreach (var ga in journalEntry.gLAccounts)
+                    {
+                    <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
+                    }
+                
+            </InputSelect>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.ledgerAccountId)" />
+        </div>
+      </div>
 
 
 
@@ -106,7 +113,7 @@ else
         </button>
         <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Cancel</a>
 
-    </EditForm>
+</EditForm>
 }
 
 

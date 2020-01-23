@@ -30,6 +30,39 @@ namespace terminus_webapp.Pages
             var selected = e.Value;
         }
 
+        protected string GetAccountDesc(string account)
+        {
+            var data = revenue.revenueAccounts.Where(a => a.accountId.ToString().Equals(account, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+            if (data != null)
+                return $"{data.accountCode} - {data.accountDesc}";
+
+            return string.Empty;
+        }
+
+        protected decimal CalculateBeforeVat(decimal amount)
+        {
+            if (amount == 0m)
+                return 0m;
+
+            return Math.Round(amount / 1.12m, 2);
+        }
+
+        protected decimal CalculateVat(decimal amount)
+        {
+            if (amount == 0m)
+                return 0m;
+
+            return amount - Math.Round(amount / 1.12m, 2);
+        }
+
+        protected decimal GetAmount(string cashOrCheck,decimal amount, decimal checkAmount)
+        {
+            if (cashOrCheck.Equals("0"))
+                return amount;
+            else
+                return checkAmount;
+        }
+
         protected async Task HandleValidSubmit()
         {
             if(string.IsNullOrEmpty(revenue.id))
@@ -183,6 +216,11 @@ namespace terminus_webapp.Pages
 
             revenue.revenueAccounts = await appDBContext.GLAccounts.Where(a => a.revenue || a.cashAccount).ToListAsync();
             revenue.propertyDirectories = await appDBContext.PropertyDirectory.Include(a => a.property).Include(a => a.tenant).ToListAsync();
+
+            var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).FirstOrDefaultAsync();
+
+            if (vatAccount != null)
+                revenue.outputVatAccount = $"{vatAccount.accountCode} - {vatAccount.accountDesc}";
 
             IsDataLoaded = true;
         }

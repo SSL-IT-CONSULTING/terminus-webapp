@@ -9,7 +9,7 @@ namespace terminus.shared.models
     {
         [MaxLength(36)]
         public string id { get; set; }
-        [MaxLength(36)]
+        [MaxLength(36), Required]
         public string vendorId { get; set; }
 
         [MaxLength(200)]

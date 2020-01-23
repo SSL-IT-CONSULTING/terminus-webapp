@@ -54,15 +54,15 @@ namespace terminus_webapp.Pages
                     remarks = a.remarks,
                     transactionDate = a.transactionDate,
                     vendorId = a.vendorId,
-                    vendorName = a.vendor.vendorName,
-                    vendorOther = a.vendorOther
+                    vendorName = a.vendor==null?string.Empty: a.vendor.vendorName,
+                    vendorOther = a.vendor == null ? string.Empty : a.vendorOther
 
                 }).ToList();
 
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = ex.ToString();
             }
             finally
             {

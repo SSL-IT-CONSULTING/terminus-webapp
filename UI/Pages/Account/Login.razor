@@ -1,16 +1,12 @@
-﻿@page  "/loginpages/login"
+﻿@page  "/account/login"
 @inherits LoginBase
 
 
 <EditForm Model="@login" OnValidSubmit="@ValidateUser">
+    
+  
     <div>
-        <br /><br /><br /><br /><br />
-    </div>
-    <div>
-        <h3 style="font-weight:bold; color:purple">User Login</h3>
-    </div>
-    <div>
-        <br />
+   
     </div>
     <div class="col-12 row">
         <input class="form-control col-12" @bind="login.userName" placeholder="User name" />
@@ -24,6 +20,7 @@
         <span class="col-12"></span>
         <input type="submit" class="form-control col-6 btn btn-primary" value="Login" />
     </div>
-
+    <br/>
+    <p class="alert-primary">@errorMessage</p>
 </EditForm>
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -65,8 +66,7 @@ namespace terminus_webapp
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(  IApplicationBuilder app, 
-                                IWebHostEnvironment env,
-                                IdentitySeeder identitySeeder
+                                IWebHostEnvironment env
                                 )
         {
             if (env.IsDevelopment())
@@ -84,6 +84,11 @@ namespace terminus_webapp
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -94,7 +99,7 @@ namespace terminus_webapp
                 endpoints.MapFallbackToPage("/_Host");
             });
 
-            identitySeeder.Seed().Wait();
+            //identitySeeder.Seed().Wait();
         }
     }
 }
