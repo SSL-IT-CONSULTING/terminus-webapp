@@ -1,9 +1,9 @@
-﻿@page "/revenuelist"
+﻿@page "/collectionslist"
 @using terminus.shared.models
 @attribute [Authorize]
 
 @inherits RevenueListBase
-<h1 class="page-title">Revenue transactions</h1>
+<h1 class="page-title">Collections</h1>
 
 @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
 {
@@ -40,7 +40,7 @@ else
 
                     <td>@revenue.amount.ToString("#,#0.00")</td>
                     <td>
-                        <a href="@($"revenue/{revenue.id}")" class="btn btn-primary table-btn">
+                        <a href="@($"collection/{revenue.id}")" class="btn btn-primary table-btn">
                             <i class="fas fa-info-circle">View</i>
                         </a>
                     </td>

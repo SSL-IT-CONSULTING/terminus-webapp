@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace terminus.shared.models
@@ -25,6 +26,8 @@ namespace terminus.shared.models
         [MaxLength(200)]
         public string description { get; set; }
 
+        [Required]
+        [Display(Name ="Due date")]
         public DateTime? dueDate { get; set; }
 
         [MaxLength(500)]
@@ -34,7 +37,9 @@ namespace terminus.shared.models
         [Display(Name ="Amount")]
         public decimal amount { get; set; }
 
-        [MaxLength(100)]
+        [MaxLength(100),Required]
+
+        [Display(Name = "Reference")]
         public string reference { get; set; }
 
         public string cashOrCheck { get; set; }

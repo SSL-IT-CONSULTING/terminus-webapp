@@ -25,6 +25,8 @@ namespace terminus_webapp.Pages
         public bool IsDataLoaded { get; set; }
         public bool IsViewOnly { get; set; }
 
+        public string ErrorMessage = string.Empty;
+
         protected decimal GetAmount(string cashOrCheck, decimal amount, decimal checkAmount)
         {
             if (cashOrCheck.Equals("0"))
@@ -90,8 +92,6 @@ namespace terminus_webapp.Pages
 
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
 
-                //var vat = Math.Round(amount * 0.12m, 2);
-               // r.taxAmount = vat;
                 var jeList = new List<JournalEntryDtl>()
                 {
                     new JournalEntryDtl()
@@ -101,19 +101,9 @@ namespace terminus_webapp.Pages
                     createdBy = "testadmin",
                     lineNumber=0,
                     amount = amount,
-                    type ="C",
+                    type ="D",
                     account = r.account
                     },
-                    //new JournalEntryDtl()
-                    //{
-                    //id = Guid.NewGuid().ToString(),
-                    //createDate = DateTime.Now,
-                    //createdBy = "testadmin",
-                    //lineNumber=1,
-                    //amount = vat,
-                    //type ="C",
-                    //account = vatAccount
-                    //},
                     new JournalEntryDtl()
                     {
                     id = Guid.NewGuid().ToString(),
@@ -121,7 +111,7 @@ namespace terminus_webapp.Pages
                     createdBy = "testadmin",
                     lineNumber=2,
                     amount = amount,
-                    type ="D",
+                    type ="C",
                     account = r.cashAccount
                     },
                 };
@@ -145,52 +135,67 @@ namespace terminus_webapp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            IsDataLoaded = false;
-            IsViewOnly = false;
-
-            if (string.IsNullOrEmpty(expenseId))
+            try
             {
-                expense = new ExpenseViewModel();
-                expense.transactionDate = DateTime.Today;
-                expense.cashOrCheck = "0";
-            }
-            else
-            {
-                IsViewOnly = true;
-                var id = Guid.Parse(expenseId);
+                IsDataLoaded = false;
+                IsViewOnly = false;
+                ErrorMessage = string.Empty;
 
-                var data = await appDBContext.Expenses
-                    .Include(a => a.account)
-                    .Include(a => a.cashAccount)
-                    .Include(a => a.checkDetails)
-                    .Include(a=>a.vendor)
-                    .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
-
-                expense = new ExpenseViewModel()
+                if (string.IsNullOrEmpty(expenseId))
                 {
-                    id = data.id.ToString(),
-                    transactionDate = data.transactionDate,
-                    dueDate = data.transactionDate,
-                    glAccountCode = data.account.accountCode,
-                    glAccountName = data.account.accountDesc,
-                    amount = data.cashOrCheck.Equals("0") ? data.amount : data.checkDetails.amount,
-                    cashAccountId = data.cashAccount.accountId.ToString(),
-                    cashAccountCode = data.cashAccount.accountCode,
-                    cashAccountName = data.cashAccount.accountDesc,
-                    cashOrCheck = data.cashOrCheck,
-                    checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0,
-                    bankName = data.cashOrCheck.Equals("1") ? data.checkDetails.bankName : "",
-                    branch = data.cashOrCheck.Equals("1") ? data.checkDetails.branch : "",
-                    checkDate = data.cashOrCheck.Equals("1") ? (DateTime?)data.checkDetails.checkDate : null,
-                    vendorId = data.vendor.vendorId,
-                    vendorOther = data.vendorOther
-                };
+                    expense = new ExpenseViewModel();
+                    expense.transactionDate = DateTime.Today;
+                    expense.cashOrCheck = "0";
+                }
+                else
+                {
+                    IsViewOnly = true;
+                    var id = Guid.Parse(expenseId);
+
+                    var data = await appDBContext.Expenses
+                        .Include(a => a.account)
+                        .Include(a => a.cashAccount)
+                        .Include(a => a.checkDetails)
+                        .Include(a => a.vendor)
+                        .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
+
+                    expense = new ExpenseViewModel()
+                    {
+                        id = data.id.ToString(),
+                        transactionDate = data.transactionDate,
+                        dueDate = data.transactionDate,
+                        glAccountId = data.accountId.ToString(),
+                        glAccountCode = data.account.accountCode,
+                        glAccountName = data.account.accountDesc,
+                        amount = data.cashOrCheck.Equals("0") ? data.amount : data.checkDetails.amount,
+                        cashAccountId = data.cashAccount.accountId.ToString(),
+                        cashAccountCode = data.cashAccount.accountCode,
+                        cashAccountName = data.cashAccount.accountDesc,
+                        cashOrCheck = data.cashOrCheck,
+                        checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0,
+                        bankName = data.cashOrCheck.Equals("1") ? data.checkDetails.bankName : "",
+                        branch = data.cashOrCheck.Equals("1") ? data.checkDetails.branch : "",
+                        checkDate = data.cashOrCheck.Equals("1") ? (DateTime?)data.checkDetails.checkDate : null,
+                        vendorId = data.vendorId,
+                        vendorOther = data.vendorOther,
+                        vendorName = data.vendor.vendorName,
+                        reference = data.reference
+                    };
+                }
+
+                expense.expenseAccounts = await appDBContext.GLAccounts.Where(a => a.expense || a.cashAccount).ToListAsync();
+                expense.vendors = await appDBContext.Vendors.OrderBy(a => a.rowOrder).ToListAsync();
+
             }
-
-            expense.expenseAccounts = await appDBContext.GLAccounts.Where(a => a.expense || a.cashAccount).ToListAsync();
-            expense.vendors = await appDBContext.Vendors.OrderBy(a=>a.rowOrder).ToListAsync();
-
-            IsDataLoaded = true;
+            catch(Exception ex)
+            {
+                ErrorMessage = ex.ToString();
+            }
+            finally
+            {
+                IsDataLoaded = true;
+            }
+            
         }
 
         public void NavigateToList()

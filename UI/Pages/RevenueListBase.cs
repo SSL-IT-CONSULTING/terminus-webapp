@@ -24,7 +24,7 @@ namespace terminus_webapp.Pages
 
         public void AddRevenue()
         {
-            NavigationManager.NavigateTo("revenue");
+            NavigationManager.NavigateTo("collection");
         }
 
         protected override async Task OnInitializedAsync()
