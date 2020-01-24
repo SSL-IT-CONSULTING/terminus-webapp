@@ -27,7 +27,7 @@ namespace terminus_webapp.Data
 
             ClaimsIdentity identity;
 
-            if (userName != null)
+            if (!string.IsNullOrEmpty(userName) && !string.IsNullOrEmpty(companyId))
             {
                 identity = new ClaimsIdentity(new[]
                 {

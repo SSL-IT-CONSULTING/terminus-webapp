@@ -295,7 +295,7 @@ else
             </tr>
             <tr>
                 <td align="right">
-                    <label>@CalculateBeforeVat(GetAmount(revenue.cashOrCheck,revenue.amount,revenue.checkAmount))</label>
+                    @GetAmount(revenue.cashOrCheck,revenue.amount,revenue.checkAmount)
                 </td>
                 <td>&nbsp;</td>
             </tr>
@@ -311,7 +311,7 @@ else
                 <td>
                 </td>
                 <td align="right">
-                    @GetAmount(revenue.cashOrCheck,revenue.amount,revenue.checkAmount)
+                    @CalculateBeforeVat(GetAmount(revenue.cashOrCheck,revenue.amount,revenue.checkAmount))
                 </td>
             </tr>
             <tr>
