@@ -14,3 +14,5 @@
 /Shared/obj
 /UI/bin/Release/netcoreapp3.1
 /UI/Properties/PublishProfiles/FolderProfile.pubxml
+/Shared/libman.json
+/UI/libman.json
