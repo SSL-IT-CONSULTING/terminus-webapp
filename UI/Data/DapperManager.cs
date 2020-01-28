@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace terminus_webapp.Data
 {
-    public class DapperManager:IDisposable
+    public class DapperManager
     {
         private readonly IConfiguration _config;
         public DapperManager(IConfiguration config)
@@ -33,6 +34,17 @@ namespace terminus_webapp.Data
         {
             using IDbConnection db = new SqlConnection(_config.GetConnectionString("dbconn"));
             return db.Query<T>(sp, parms, commandType: commandType).ToList();
+        }
+
+        public async Task<List<T>> GetAllAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
+        {
+            using (IDbConnection db = new SqlConnection(_config.GetConnectionString("dbconn")))
+            {
+                var data = await db.QueryAsync<T>(sp, parms, commandType: commandType);
+
+                return data.ToList();
+            }
+           
         }
 
         public int Execute(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)

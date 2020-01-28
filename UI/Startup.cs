@@ -51,6 +51,14 @@ namespace terminus_webapp
             
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            //SQL database Connnection(name defined in appsettings.json)
+            var SQLConnectionConfiguration = new SQLConnectionConfiguration(Configuration.GetConnectionString("dbconn"));
+            services.AddSingleton(SQLConnectionConfiguration);
+
+            //
+
+            services.AddServerSideBlazor(o => o.DetailedErrors = true);
+            
             //services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>()
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
