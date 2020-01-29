@@ -37,7 +37,7 @@ else
                     <td>@expense.transactionDate.ToString("yyyy-MM-dd")</td>
                     <td>@expense.glAccountCode -  @expense.glAccountName</td>
                     <td>@FormatVendor(expense.vendorId, expense.vendorOther, expense.vendorName)</td>
-                    <td>@expense.amount.ToString("#,#0.00")</td>
+                    <td>@expense.amount.ToString("#,##0.00;(#,##0.00)")</td>
                     <td>
                         <a href="@($"expense/{expense.id}")" class="btn btn-primary table-btn">
                             <i class="fas fa-info-circle">View</i>

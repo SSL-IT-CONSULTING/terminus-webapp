@@ -38,7 +38,7 @@ else
                     <td>@revenue.tenantName</td>
                     <td>@revenue.propertyDescription</td>
 
-                    <td>@revenue.amount.ToString("#,#0.00")</td>
+                    <td>@revenue.amount.ToString("#,##0.00;(#,##0.00);-")</td>
                     <td>
                         <a href="@($"collection/{revenue.id}")" class="btn btn-primary table-btn">
                             <i class="fas fa-info-circle">View</i>

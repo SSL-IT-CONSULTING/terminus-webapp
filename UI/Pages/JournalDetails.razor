@@ -34,8 +34,8 @@ else
                 <tr>
                     <td>@account.postingDate.ToString("yyyy-MM-dd")</td>
                     <td>@account.transactionDate.ToString("yyyy-MM-dd")</td>
-                    <td align="right">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,#0.00") : "")</td>
-                    <td align="right">@(account.crAmt.HasValue ? account.crAmt.Value.ToString("#,#0.00") : "")</td>
+                    <td align="right">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
+                    <td align="right">@(account.crAmt.HasValue ? account.crAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
                     <td>@account.description</td>
                     <td>@account.reference</td>
                     <td>@account.remarks</td>
@@ -47,7 +47,7 @@ else
                 <td align="right" style="font-weight:bold">
                     @if (totalDR.HasValue)
                     {
-                        @totalDR.Value.ToString("N2")
+                        @totalDR.Value.ToString("#,##0.00;(#,##0.00)")
                     }
                     
                 </td>
@@ -55,7 +55,7 @@ else
 
                     @if (totalCR.HasValue)
                     {
-                        @totalCR.Value.ToString("N2")
+                        @totalCR.Value.ToString("#,##0.00;(#,##0.00)")
                     }
                     
 
@@ -69,7 +69,7 @@ else
                 <td colspan="2" align="right" style="font-weight:bold">
                     @if (totalBalance.HasValue)
                     {
-                        @totalBalance.Value.ToString("N2")
+                        @totalBalance.Value.ToString("#,##0.00;(#,##0.00)")
                     }
                    
                 </td>

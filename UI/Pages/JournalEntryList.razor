@@ -31,7 +31,7 @@ else
                 <tr>
                     <td>@account.accountCode</td>
                     <td>@account.accountDesc</td>
-                    <td>@account.balance.ToString("#,#0.00")</td>
+                    <td>@account.balance.ToString("#,##0.00;(#,##0.00)")</td>
                     <td>
                         <a href="@($"journaldetails/{account.accountId.ToString()}")" class="btn btn-primary table-btn">
                             <i class="fas fa-info-circle">View Details</i>
