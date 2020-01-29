@@ -1,0 +1,284 @@
+﻿
+
+@page "/reportslist/{reportParams}"
+@attribute [Authorize]
+@inherits ReportsListBase
+
+
+
+
+
+
+
+@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Loading...</em></p>
+}
+else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered while loading this page.</em></p>
+}
+else
+{
+    <hr />
+
+
+    @if (reportType == "PropertyInventory")
+    {
+        <h1 class="page-title">Property Inventory Report</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Description</th>
+                    <th>Property Type</th>
+                    <th>Tenant Name</th>
+                    <th>Contact Number</th>
+                    <th>Email Address</th>
+                    <th>Date From</th>
+                    <th>Date To</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptPropertypeInventoryMV)
+                {
+                    <tr>
+                        <td>@pi.description</td>
+                        <td>@pi.propertyType</td>
+                        <td>@pi.TenantName</td>
+                        <td>@pi.contactNumber</td>
+                        <td>@pi.emailAddress</td>
+                        <td>@pi.dateFrom</td>
+                        <td>@pi.dateTo</td>
+                        <td>@pi.dueDate</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
+
+
+    @if (reportType == "RentalIncomeDetails")
+    {
+
+        <h1 class="page-title">Rental Income Report</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Description</th>
+                    <th>Property Type</th>
+                    <th>Tenant Name</th>
+                    <th>Transaction Date</th>
+                    <th>Date From</th>
+                    <th>Date To</th>
+                    <th>Mode Of Payment</th>
+                    <th>Refernce</th>
+                    <th>Amount</th>
+                    <th>Remarks</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptRentalIncomeVM)
+                {
+                    <tr>
+                        <td>@pi.description</td>
+                        <td>@pi.propertyType</td>
+                        <td>@pi.TenantName</td>
+                        <td>@pi.transactionDate</td>
+                        <td>@pi.dateFrom</td>
+                        <td>@pi.dateTo</td>
+                        <td>@pi.ModeOfPayment</td>
+                        <td>@pi.reference</td>
+                        <td>@pi.amount</td>
+                        <td>@pi.remarks</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (reportType == "OtherIncomeDetails")
+    {
+
+        <h1 class="page-title">Other Income Details Report</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Transaction Date</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Transaction Reference</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptOtherIncomeDetailVM)
+                {
+                    <tr>
+                        <td>@pi.transactionDate</td>
+                        <td>@pi.amount</td>
+                        <td>@pi.description</td>
+                        <td>@pi.transactionReference</td>
+                        <td>@pi.comments</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (reportType == "Expenses")
+    {
+
+        <h1 class="page-title">Expenses Detail Report</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Transaction Date</th>
+                    <th>Payee</th>
+                    <th>Receipt No.</th>
+                    <th>Expense Title</th>
+                    <th>Amount</th>
+                    <th>Remarks</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptExpensesVM)
+                {
+                    <tr>
+                        <td>@pi.transactionDate</td>
+                        <td>@pi.Payee</td>
+                        <td>@pi.receiptNo</td>
+                        <td>@pi.expenseTitle</td>
+                        <td>@pi.amount</td>
+                        <td>@pi.remarks</td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (reportType == "NetIncomeSummary")
+    {
+
+        <h1 class="page-title">Net Income Summary Report</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Rental Revenue</th>
+                    <th>January</th>
+                    <th>February</th>
+                    <th>March</th>
+                    <th>April</th>
+                    <th>May</th>
+                    <th>June</th>
+                    <th>July</th>
+                    <th>August</th>
+                    <th>September</th>
+                    <th>October</th>
+                    <th>November</th>
+                    <th>December</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptNetIncomeSummaryVM)
+                {
+                    <tr>
+                        <td>@pi.rentalRevenue</td>
+                        <td>@pi.January</td>
+                        <td>@pi.Febuary</td>
+                        <td>@pi.March</td>
+                        <td>@pi.April</td>
+                        <td>@pi.May</td>
+                        <td>@pi.June</td>
+                        <td>@pi.July</td>
+                        <td>@pi.August</td>
+                        <td>@pi.September</td>
+                        <td>@pi.October</td>
+                        <td>@pi.November</td>
+                        <td>@pi.December</td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (reportType == "TrialBalance")
+    {
+
+        <h1 class="page-title">Trial Balance Report</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Description</th>
+                    <th>Amount</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptTrialBalanceVM)
+                {
+                    <tr>
+                        <td>@pi.accountDesc</td>
+                        <td>@pi.amount</td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (reportType == "NetIncome")
+    {
+
+        <h1 class="page-title">Trial Balance Report</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Revenue</th>
+                    <th>Year To Date</th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptNetIncomeVM)
+                {
+                    <tr>
+                        <td>@pi.Revenue</td>
+                        <td>@pi.yearToDate</td>
+
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+
+}

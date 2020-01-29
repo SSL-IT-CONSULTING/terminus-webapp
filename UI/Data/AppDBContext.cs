@@ -34,6 +34,9 @@ namespace terminus_webapp.Data
 
         public DbSet<Billing> Billings { get; set; }
 
+        public DbSet<ReportParameterViewModel> ReportParameterViewModels { get; set; }
+
+        public DbSet<ReferenceViewModal> ReferenceViewModals { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
