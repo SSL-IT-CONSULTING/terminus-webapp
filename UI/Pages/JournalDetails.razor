@@ -1,0 +1,81 @@
+﻿@page "/journaldetails/{accountId}"
+@attribute [Authorize]
+@inherits JournalDetailsBase
+
+<h1 class="page-title">Journal Entry</h1>
+
+@if (!IsDataLoaded && string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Loading...</em></p>
+}
+else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered while loading this page.</em></p>
+}
+else
+{
+  
+    <hr />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Posting Date</th> 					
+                <th>Entry Date</th>
+                <th>DR (Amt)</th>
+                <th>CR (Amt)</th>
+                <th>Description</th>
+                <th>Reference</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var account in JournalEntries)
+            {
+                <tr>
+                    <td>@account.postingDate.ToString("yyyy-MM-dd")</td>
+                    <td>@account.transactionDate.ToString("yyyy-MM-dd")</td>
+                    <td align="right">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,#0.00") : "")</td>
+                    <td align="right">@(account.crAmt.HasValue ? account.crAmt.Value.ToString("#,#0.00") : "")</td>
+                    <td>@account.description</td>
+                    <td>@account.reference</td>
+                    <td>@account.remarks</td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="2">&nbsp;</td>
+                <td align="right" style="font-weight:bold">
+                    @if (totalDR.HasValue)
+                    {
+                        @totalDR.Value.ToString("N2")
+                    }
+                    
+                </td>
+                <td align="right" style="font-weight:bold">
+
+                    @if (totalCR.HasValue)
+                    {
+                        @totalCR.Value.ToString("N2")
+                    }
+                    
+
+                </td>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="right" style="font-weight:bold">Balance</td>
+               
+                <td colspan="2" align="right" style="font-weight:bold">
+                    @if (totalBalance.HasValue)
+                    {
+                        @totalBalance.Value.ToString("N2")
+                    }
+                   
+                </td>
+              
+                <td colspan="3">&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+}

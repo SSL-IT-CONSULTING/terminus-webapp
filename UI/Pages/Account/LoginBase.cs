@@ -24,6 +24,7 @@ namespace terminus_webapp.Pages.Account
 
         [Inject]
         private UserManager<AppUser> UserManager { get; set; }
+
       
         [Inject]
         private Blazored.SessionStorage.ISessionStorageService sessionStorage { get; set; }
@@ -57,8 +58,8 @@ namespace terminus_webapp.Pages.Account
                 NavigationManager.NavigateTo("/");
 
                 await sessionStorage.SetItemAsync("UserName", login.userName);
-                
-
+                await sessionStorage.SetItemAsync("CompanyId", user.companyId);
+             
                 return await Task.FromResult(true);
             }
             errorMessage = "Invalid user name or password.";

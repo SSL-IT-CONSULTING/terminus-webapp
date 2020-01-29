@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ namespace terminus_webapp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public ISessionStorageService _sessionStorageService { get; set; }
+
         [Parameter]
         public string expenseId { get; set; }
 
@@ -26,6 +30,9 @@ namespace terminus_webapp.Pages
         public bool IsViewOnly { get; set; }
 
         public string ErrorMessage = string.Empty;
+
+        public string CompanyId { get; set; }
+        public string UserName { get; set; }
 
         protected decimal GetAmount(string cashOrCheck, decimal amount, decimal checkAmount)
         {
@@ -50,8 +57,6 @@ namespace terminus_webapp.Pages
             {
                 var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).FirstOrDefaultAsync();
 
-                var company = await appDBContext.Companies.Where(a => a.companyId.Equals("ASRC")).FirstOrDefaultAsync();
-
                 var r = new Expense();
                 r.id = Guid.NewGuid();
                 r.transactionDate = expense.transactionDate;
@@ -67,7 +72,7 @@ namespace terminus_webapp.Pages
                 r.reference = expense.reference;
                 r.remarks = $"{r.account.accountCode} {r.account.accountDesc}";
 
-                r.company = company;
+                r.companyId = CompanyId;
                 r.cashOrCheck = expense.cashOrCheck;
                 r.vendorId = expense.vendorId;
                 r.vendorOther = expense.vendorOther;
@@ -86,9 +91,9 @@ namespace terminus_webapp.Pages
 
                 appDBContext.Expenses.Add(r);
 
-                var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = "testadmin", id = Guid.NewGuid(),source = "expense", sourceId = r.id.ToString() };
+                var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = Guid.NewGuid(),source = "expense", sourceId = r.id.ToString(), companyId=CompanyId, postingDate = r.transactionDate };
                 jeHdr.description = r.remarks;
-                jeHdr.company = company;
+              
 
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
 
@@ -98,7 +103,7 @@ namespace terminus_webapp.Pages
                     {
                     id = Guid.NewGuid().ToString(),
                     createDate = DateTime.Now,
-                    createdBy = "testadmin",
+                    createdBy = UserName,
                     lineNumber=0,
                     amount = amount,
                     type ="D",
@@ -108,7 +113,7 @@ namespace terminus_webapp.Pages
                     {
                     id = Guid.NewGuid().ToString(),
                     createDate = DateTime.Now,
-                    createdBy = "testadmin",
+                    createdBy = UserName,
                     lineNumber=2,
                     amount = amount,
                     type ="C",
@@ -137,6 +142,9 @@ namespace terminus_webapp.Pages
         {
             try
             {
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
                 IsDataLoaded = false;
                 IsViewOnly = false;
                 ErrorMessage = string.Empty;

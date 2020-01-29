@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,15 @@ namespace terminus_webapp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public ISessionStorageService _sessionStorageService { get; set; }
+
         public List<ExpenseViewModel> Expenses { get; set; }
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
+
+        public string CompanyId { get; set; }
+        public string UserName { get; set; }
 
         protected string FormatVendor(string _vendorId, string _vendorOther, string _vendorName)
         {
@@ -37,11 +44,14 @@ namespace terminus_webapp.Pages
             {
                 DataLoaded = false;
                 ErrorMessage = string.Empty;
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
                 var data = await appDBContext.Expenses
                                              .Include(a => a.account)
                                              .Include(a => a.checkDetails)
                                              .Include(a=>a.vendor)
+                                             .Where(a=>a.companyId.Equals(CompanyId))
                                              .OrderByDescending(a=>a.createDate)
                                              .ToListAsync();
 

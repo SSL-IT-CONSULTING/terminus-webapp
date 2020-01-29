@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using terminus_webapp.Data;
 using terminus.shared.models;
+using Microsoft.AspNetCore.Http;
+using Blazored.SessionStorage;
 
 namespace terminus_webapp.Pages
 {
@@ -17,10 +19,17 @@ namespace terminus_webapp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public ISessionStorageService _sessionStorageService { get; set; }
+        
         public List<RevenueViewModel> Revenues { get; set; }
+
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
 
+        public string CompanyId { get; set; }
+
+        public string UserName { get; set; }
 
         public void AddRevenue()
         {
@@ -31,6 +40,9 @@ namespace terminus_webapp.Pages
         {
             try
             {
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
                 DataLoaded = false;
                 ErrorMessage = string.Empty;
 
@@ -39,6 +51,7 @@ namespace terminus_webapp.Pages
                                              .Include(a=>a.checkDetails)
                                              .Include(a => a.propertyDirectory).ThenInclude(b => b.tenant)
                                              .Include(a=>a.propertyDirectory).ThenInclude(b=>b.property)
+                                             .Where(a=>a.companyId.Equals(CompanyId))
                                              .OrderByDescending(a => a.createDate)
                                              .ToListAsync();
 

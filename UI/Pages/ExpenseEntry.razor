@@ -111,7 +111,7 @@ else
                 }
                 else
                 {
-                    <label>@expense.dueDate.Value.ToString("yyyy-MM-dd")</label>
+                    <label>@(expense.dueDate.HasValue ? expense.dueDate.Value.ToString("yyyy-MM-dd") : "")</label>
                 }
             </div>
             <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => expense.dueDate)" />
@@ -239,13 +239,11 @@ else
                     <InputSelect @bind-Value="@expense.cashAccountId" class="form-control">
                         <option value=""></option>
 
-                        @foreach (var ga in expense.expenseAccounts.Where(a => a.cashAccount))
+                        @foreach (var ga in expense.expenseAccounts.Where(a => a.expense))
                                 {
                             <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                                 }
-                        /**/
-                        /**/
-
+                       
                     </InputSelect>
                 }
                 else

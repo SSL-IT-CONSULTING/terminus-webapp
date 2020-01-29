@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,10 @@ namespace terminus_webapp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+
+        [Inject]
+        public ISessionStorageService _sessionStorageService { get; set; }
+
         [Parameter]
         public string revenueId { get; set; }
 
@@ -28,6 +33,9 @@ namespace terminus_webapp.Pages
 
         public string ErrorMessage { get; set; }
         public bool DataSaved { get; set; }
+
+        public string CompanyId { get; set; }
+        public string UserName { get; set; }
 
         public void HandleAccountChange(ChangeEventArgs e)
         {
@@ -75,8 +83,6 @@ namespace terminus_webapp.Pages
                 {
                     var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).FirstOrDefaultAsync();
 
-                    var company = await appDBContext.Companies.Where(a => a.companyId.Equals("ASRC")).FirstOrDefaultAsync();
-
                     var r = new Revenue();
                     r.id = Guid.NewGuid();
                     r.transactionDate = revenue.transactionDate;
@@ -87,11 +93,11 @@ namespace terminus_webapp.Pages
                     r.propertyDirectory = revenue.propertyDirectories.Where(a => a.id.ToString().Equals(revenue.propertyDirectoryId, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                     r.amount = revenue.amount;
                     r.createDate = DateTime.Now;
-                    r.createdBy = "testadmin";
+                    r.createdBy = UserName;
                     r.receiptNo = revenue.receiptNo;
                     r.reference = revenue.reference;
                     r.remarks = string.Format("{0}_{1}_{2} {3}", r.account.accountDesc, r.propertyDirectory.property.description, r.propertyDirectory.tenant.lastName, r.propertyDirectory.tenant.lastName);
-                    r.company = company;
+                    r.companyId = CompanyId;
                     r.cashOrCheck = revenue.cashOrCheck;
 
                     if (r.cashOrCheck.Equals("1"))
@@ -109,10 +115,9 @@ namespace terminus_webapp.Pages
                     appDBContext.Revenues.Add(r);
 
 
-                    var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = "testadmin", id = Guid.NewGuid(), source = "revenue", sourceId = r.id.ToString() };
+                    var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = Guid.NewGuid(), source = "revenue", sourceId = r.id.ToString(), companyId=CompanyId, postingDate = r.transactionDate };
 
                     jeHdr.description = r.remarks;
-                    jeHdr.company = company;
                     jeHdr.postingDate = r.transactionDate;
 
                     var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
@@ -132,7 +137,7 @@ namespace terminus_webapp.Pages
                     {
                     id = Guid.NewGuid().ToString(),
                     createDate = DateTime.Now,
-                    createdBy = "testadmin",
+                    createdBy = UserName,
                     lineNumber=0,
                     amount = amount - vat,
                     type ="C",
@@ -142,7 +147,7 @@ namespace terminus_webapp.Pages
                     {
                     id = Guid.NewGuid().ToString(),
                     createDate = DateTime.Now,
-                    createdBy = "testadmin",
+                    createdBy = UserName,
                     lineNumber=1,
                     amount = vat,
                     type ="C",
@@ -152,7 +157,7 @@ namespace terminus_webapp.Pages
                     {
                     id = Guid.NewGuid().ToString(),
                     createDate = DateTime.Now,
-                    createdBy = "testadmin",
+                    createdBy = UserName,
                     lineNumber=2,
                     amount = amount,
                     type ="D",
@@ -194,7 +199,10 @@ namespace terminus_webapp.Pages
             ErrorMessage = string.Empty;
             try {
 
-            if (string.IsNullOrEmpty(revenueId))
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
+                if (string.IsNullOrEmpty(revenueId))
             {
                 revenue = new RevenueViewModel();
                 revenue.transactionDate = DateTime.Today;

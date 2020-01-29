@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,25 +21,38 @@ namespace terminus_webapp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        [Inject]
+        public ISessionStorageService _sessionStorageService { get; set; }
+
         public List<JEListViewModel> JourlnalAccounts { get; set; }
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
-        public string companyId { get; set; }
-        
+        public string CompanyId { get; set; }
+
+        public string UserName { get; set; }
+
+        public void AddJE()
+        {
+            NavigationManager.NavigateTo("journalentry");
+        }
+
         protected override async Task OnInitializedAsync()
         {
             try
             {
                 DataLoaded = false;
                 ErrorMessage = string.Empty;
-                companyId = "ASRC";
-                var sqlcommand = $"exec sp_GetGLAccountBalance '{companyId.Replace("'", "''")}'";
+
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
+                var sqlcommand = $"exec sp_GetGLAccountBalance '{CompanyId.Replace("'", "''")}'";
 
                 var param = new Dapper.DynamicParameters();
-                param.Add("companyId", companyId, System.Data.DbType.String);
+                param.Add("companyId", CompanyId, System.Data.DbType.String);
 
 
-                JourlnalAccounts = dapperManager.GetAll<JEListViewModel>("sp_GetGLAccountBalance", param);
+                JourlnalAccounts = await dapperManager.GetAllAsync<JEListViewModel>("sp_GetGLAccountBalance", param);
 
                 
                 

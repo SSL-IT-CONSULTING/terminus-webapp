@@ -17,10 +17,8 @@ namespace terminus_webapp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
-        [Parameter]
-        public string accountId { get; set; }
-        public string companyId { get; set; }
-
+        public string CompanyId { get; set; }
+        public string UserName { get; set; }
 
         public bool IsDataLoaded { get; set; }
         public string ErrorMessage { get; set; }
@@ -30,13 +28,11 @@ namespace terminus_webapp.Pages
         {
             var id = Guid.NewGuid();
 
-            var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = "testadmin", id = id, source = "JE", sourceId = id.ToString() };
-
+            var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = id, source = "JE", sourceId = id.ToString(), companyId = CompanyId };
             jeHdr.description = journalEntry.detailDescription;
-            jeHdr.companyId = companyId;
+        
             jeHdr.postingDate = journalEntry.postingDate;
             jeHdr.transactionDate = journalEntry.transactionDate;
-
             jeHdr.remarks = journalEntry.remarks;
 
             var amount = journalEntry.amount;
@@ -58,7 +54,7 @@ namespace terminus_webapp.Pages
                     {
                     id = Guid.NewGuid().ToString(),
                     createDate = DateTime.Now,
-                    createdBy = "testadmin",
+                    createdBy = UserName,
                     lineNumber=0,
                     amount = amount,
                     type =journalEntry.type.Equals("C")?"D":"C",
@@ -90,24 +86,21 @@ namespace terminus_webapp.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            companyId = "ASRC";
-
-           
-
+          
             journalEntry = new JournalEntryViewModel();
             journalEntry.transactionDate = DateTime.Today;
             journalEntry.postingDate = DateTime.Today;
 
             try
             {
-                var id = Guid.Parse(accountId);
-                journalEntry.gLAccounts = await appDBContext.GLAccounts.Where(a => !a.accountId.Equals(id)).ToListAsync();
+                //var id = Guid.Parse(accountId);
+               // journalEntry.gLAccounts = await appDBContext.GLAccounts.Where(a => !a.accountId.Equals(id)).ToListAsync();
 
-                var account = await appDBContext.GLAccounts.Where(a=>a.accountId.Equals(id)).FirstOrDefaultAsync();
+                //var account = await appDBContext.GLAccounts.Where(a=>a.accountId.Equals(id)).FirstOrDefaultAsync();
 
-                journalEntry.accountId = accountId;
-                journalEntry.accountCode = account.accountCode;
-                journalEntry.accountName = account.accountDesc;
+                //journalEntry.accountId = accountId;
+                //journalEntry.accountCode = account.accountCode;
+                //journalEntry.accountName = account.accountDesc;
             }
             catch(Exception ex)
             {
