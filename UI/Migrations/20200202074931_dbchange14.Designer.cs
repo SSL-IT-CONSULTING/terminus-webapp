@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200202074931_dbchange14")]
+    partial class dbchange14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -523,10 +525,6 @@ namespace terminus_webapp.Migrations
                     b.Property<int>("lineNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("reference")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
                     b.Property<string>("remarks")
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
@@ -577,10 +575,6 @@ namespace terminus_webapp.Migrations
 
                     b.Property<DateTime>("postingDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("reference")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
 
                     b.Property<string>("remarks")
                         .HasColumnType("nvarchar(1000)")

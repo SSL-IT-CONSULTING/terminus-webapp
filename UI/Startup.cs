@@ -63,12 +63,7 @@ namespace terminus_webapp
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<DapperManager, DapperManager>();
-
             services.AddTransient<IdentitySeeder>();
-
-
-
-           // services.AddSingleton<WeatherForecastService>();
 
         }
 

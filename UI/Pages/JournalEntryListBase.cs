@@ -46,11 +46,8 @@ namespace terminus_webapp.Pages
                 UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
-                var sqlcommand = $"exec sp_GetGLAccountBalance '{CompanyId.Replace("'", "''")}'";
-
                 var param = new Dapper.DynamicParameters();
                 param.Add("companyId", CompanyId, System.Data.DbType.String);
-
 
                 JourlnalAccounts = await dapperManager.GetAllAsync<JEListViewModel>("sp_GetGLAccountBalance", param);
 

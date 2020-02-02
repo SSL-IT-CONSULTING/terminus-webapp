@@ -35,6 +35,9 @@ namespace terminus.shared.models
 
         public DateTime postingDate { get; set; }
 
+        [MaxLength(100)]
+        public string reference { get; set; }
+
 
 
     }
