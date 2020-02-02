@@ -10,6 +10,7 @@
     <PackageReference Include="Blazored.SessionStorage" Version="1.0.11" />
     <PackageReference Include="Dapper" Version="2.0.30" />
     <PackageReference Include="EPPlus" Version="4.5.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="0.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
@@ -34,15 +35,21 @@
       <PrivateAssets>all</PrivateAssets>
 
     </PackageReference>
+
+
+    <PackageReference Include="RxShim" Version="1.0.0" />
+
+
+    <PackageReference Include="System.ComponentModel.EventBasedAsync" Version="4.3.0" />
     
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\Shared\terminus.shared.models.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\terminus.shared.models.csproj" />
+    <Folder Include="Uploaded\" />
   </ItemGroup>
 
 </Project>

@@ -10,12 +10,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using terminus.shared.models;
 using terminus_webapp.Data;
-using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Builder;
 
 namespace terminus_webapp.Pages
 {
-    public class ReportsListBase : ComponentBase
+    public class ReportsListBase : ComponentBase 
     {
+
+
+        [Inject]
+        public IWebHostEnvironment _env { get; set; }
 
         [Inject]
         public AppDBContext appDBContext { get; set; }
@@ -42,11 +50,10 @@ namespace terminus_webapp.Pages
 
         public List<rptNetIncomeVM> rptNetIncomeVM { get; set; }
 
-
-        public List<rptTrialBalanceVM> rptTrialBalanceVM { get; set; }
         
+        public List<rptTrialBalanceVM> rptTrialBalanceVM { get; set; }
 
-   
+
 
 
 
@@ -61,8 +68,116 @@ namespace terminus_webapp.Pages
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
 
+        public string _path { get; set; }
         //public string asofdate { get; set; }
         //public string reporttype { get; set; }
+
+
+        //private IHostingEnvironment _hostingEnvironment;
+        //public ImportExportModel(IHostingEnvironment hostingEnvironment)
+        //{
+        //    _hostingEnvironment = hostingEnvironment;
+        //}
+
+
+
+
+
+
+
+        public void  ExportToExcel()
+        {
+            //string path = Path.Combine(_env.WebRootPath, "Uploaded");
+
+            //string sWebRootFolder = _env.WebRootPath.ToString();
+            string sFileName = @"" + reportType + ".xlsx";
+            
+
+
+            //var newpath = reportType + "" + "_" + DateTime.Today.ToString("MM/dd/yyyy").Replace("/", "").Replace(" ", "").Replace(":", "") + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".xlsx";
+
+           //string _filepath = path + newpath;
+
+
+            //string URL = string.Format("{0}://{1}/{2}", Request.Scheme, Request.Host, _filepath);
+
+          
+            var p = reportParams.Split("|");
+
+            asOfDate = DateTime.Parse(p[0]);
+            reportType = p[1];
+
+            DataTable table = new DataTable();
+
+
+            try
+            {
+                if (reportType == "PropertyInventory")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptPropertypeInventoryMV), (typeof(DataTable)));
+
+                }
+
+                if (reportType == "RentalIncomeDetails")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptRentalIncomeVM), (typeof(DataTable)));
+                }
+
+                if (reportType == "OtherIncomeDetails")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptOtherIncomeDetailVM), (typeof(DataTable)));
+                }
+
+                if (reportType == "Expenses")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptExpensesVM), (typeof(DataTable)));
+                }
+
+                if (reportType == "NetIncomeSummary")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeSummaryVM), (typeof(DataTable)));
+                }
+
+                if (reportType == "TrialBalance")
+                {
+
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptTrialBalanceVM), (typeof(DataTable)));
+                }
+
+
+                if (reportType == "NetIncome")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeVM), (typeof(DataTable)));
+                }
+
+
+
+                FileInfo file = new FileInfo(Path.Combine(_env.WebRootPath, "Uploaded"));
+                //FileInfo filePath = new FileInfo(_filepath);
+                using (var excelPack = new ExcelPackage(file))
+                {
+                    var ws = excelPack.Workbook.Worksheets.Add("WriteTest");
+                    ws.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
+                    excelPack.Save();
+
+                }
+
+ 
+                
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        }
+
 
 
         protected override async Task OnInitializedAsync()
@@ -85,7 +200,7 @@ namespace terminus_webapp.Pages
 
 
 
-                string path; 
+               //string path; 
                 DataTable table = new DataTable();
 
 
@@ -95,8 +210,6 @@ namespace terminus_webapp.Pages
                         dapperManager.GetAllAsync<rptPropertypeInventoryMV>("ASRCReports", param);
                     
                     
-                    path = @"d:\PropertyInventory"+ "_" + DateTime.Today.ToString() +".xlsx";
-
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptPropertypeInventoryMV), (typeof(DataTable)));
 
 
@@ -107,7 +220,7 @@ namespace terminus_webapp.Pages
                     rptRentalIncomeVM = await
                         dapperManager.GetAllAsync<rptRentalIncomeVM>("ASRCReports", param);
 
-                    path = @"d:\RentalIncomeDetails" + "_" + DateTime.Today.ToString() + ".xlsx";
+                    
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptRentalIncomeVM), (typeof(DataTable)));
                 }
 
@@ -116,7 +229,7 @@ namespace terminus_webapp.Pages
                     rptOtherIncomeDetailVM = await
                         dapperManager.GetAllAsync<rptOtherIncomeDetailVM>("ASRCReports", param);
 
-                    path = @"d:\OtherIncomeDetails" + "_" + DateTime.Today.ToString() + ".xlsx";
+                    
 
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptOtherIncomeDetailVM), (typeof(DataTable)));
@@ -128,7 +241,7 @@ namespace terminus_webapp.Pages
                         dapperManager.GetAllAsync<rptExpensesVM>("ASRCReports", param);
 
 
-                    path = @"d:\Expenses" + "_" + DateTime.Today.ToString() + ".xlsx";
+                    //path = @"d:\Expenses" + "_" + DateTime.Today.ToString() + ".xlsx";
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptExpensesVM), (typeof(DataTable)));
                 }
@@ -137,9 +250,6 @@ namespace terminus_webapp.Pages
                 {
                     rptNetIncomeSummaryVM = await
                         dapperManager.GetAllAsync<rptNetIncomeSummaryVM>("ASRCReports", param);
-
-
-                    path = @"d:\NetIncomeSummary" + "_" + DateTime.Today.ToString() + ".xlsx";
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeSummaryVM), (typeof(DataTable)));
                 }
@@ -167,21 +277,35 @@ namespace terminus_webapp.Pages
 
 
 
+                //var newpath = @"d:\"+ reportType +"" + "_" + DateTime.Today.ToString("MM/dd/yyyy").Replace("/","").Replace(" ","").Replace(":","") + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".xlsx";
 
-                var newpath = @"d:\"+ reportType +"" + "_" + DateTime.Today.ToString().Replace("/","").Replace(" ","").Replace(":","") + ".xlsx";
+                //string sFileName = @"" + reportType + ".xlsx";
 
-             
-
-
-                FileInfo filePath = new FileInfo(newpath);
-                using (var excelPack = new ExcelPackage(filePath))
+                if (table == null)
                 {
-                    var ws = excelPack.Workbook.Worksheets.Add("WriteTest");
-                    ws.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
-                    excelPack.Save();
+                    var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded");
+                    if (!Directory.Exists(tmpPath))
+                    {
+                        Directory.CreateDirectory(tmpPath);
+                    }
 
+
+                    var fileName = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}.xlsx";
+
+                    FileInfo file = new FileInfo(Path.Combine(tmpPath, fileName));
+
+                    using (var excelPack = new ExcelPackage(file))
+                    {
+                        var ws = excelPack.Workbook.Worksheets.Add("WriteTest");
+                        ws.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
+                        excelPack.Save();
+
+                    }
+
+                    _path = $"/Uploaded/{fileName}"; //file.FullName;
 
                 }
+
 
 
             }

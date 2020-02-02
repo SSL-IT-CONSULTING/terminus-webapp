@@ -1,0 +1,163 @@
+﻿
+@page "/glaccountentry"
+@attribute [Authorize]
+@inherits GLAccountEntryBase
+
+
+
+
+<h3>GL Account Entries</h3>
+
+
+@if (!IsDataLoaded)
+{
+    <p><em>Loading...</em></p>
+}
+else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered, please report it to the system administrator</em></p>
+    <p><em>@ErrorMessage</em></p>
+}
+else
+{
+<EditForm Model="@glAccount">
+    @*<DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>*@
+
+    <div class="form-group row">
+        <label for="accountCode" class="col-sm-2 col-form-label">Account Code </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind -Value="@glAccount.accountCode" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@glAccount.accountCode</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.accountCode)" />*@
+    </div>
+
+
+
+    <div class="form-group row">
+        <label for="accountDesc" class="col-sm-2 col-form-label">Account Description: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@glAccount.accountDesc" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@glAccount.accountDesc</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.accountDesc)" />
+    </div>
+
+
+
+    <div class="form-group row">
+        <label for="balance" class="col-sm-2 col-form-label">Balance: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind -Value="@glAccount.balance" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@glAccount.balance</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.balance)" />*@
+    </div>
+
+    <div class="form-group row">
+        <label for="Revenue" class="col-sm-2 col-form-label">Revenue: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputSelect @bind-Value="@glAccount.revenue" class="form-control">
+                    <option value="0">False</option>
+                    <option value="1">true</option>
+                </InputSelect>
+            }
+            else
+            {
+                <label>@glAccount.revenue</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.revenue)" />*@
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Expense: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputSelect @bind-Value="@glAccount.expense" class="form-control">
+                    <option value="0">False</option>
+                    <option value="1">true</option>
+                </InputSelect>
+            }
+            else
+            {
+                <label>@glAccount.expense</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.expense)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="cashAccount" class="col-sm-2 col-form-label">Cash Account: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputSelect @bind-Value="@glAccount.cashAccount" class="form-control">
+                    <option value="0">False</option>
+                    <option value="1">true</option>
+                </InputSelect>
+            }
+            else
+            {
+                <label>@glAccount.cashAccount</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.cashAccount)" />*@
+    </div>
+
+    <div class="form-group row">
+        <label for="outputVatAccount" class="col-sm-2 col-form-label">Output Vat Account: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputSelect @bind-Value="@glAccount.outputVatAccount" class="form-control">
+                    <option value="0">False</option>
+                    <option value="1">true</option>
+                </InputSelect>
+            }
+            else
+            {
+                <label>@glAccount.outputVatAccount</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.outputVatAccount)" />*@
+    </div>
+    @if (!IsViewOnly)
+    {
+        <button type="submit" class="btn btn-primary edit-btn">Save</button>
+    }
+    @*<a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>*@
+
+</EditForm>
+}

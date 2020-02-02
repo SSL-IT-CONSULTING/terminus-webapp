@@ -9,7 +9,6 @@
 
 
 
-
 @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
 {
     <p><em>Loading...</em></p>
@@ -22,11 +21,13 @@ else
 {
     <hr />
 
-
+    @*<button @onclick="@ExportToExcel" class="btn btn-dark table-btn quick-add-btn">Export To Excel</button>*@
+    <a href="@_path">Download Excel</a>
+    <br />
     @if (reportType == "PropertyInventory")
     {
         <h1 class="page-title">Property Inventory Report</h1>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -67,7 +68,7 @@ else
     {
 
         <h1 class="page-title">Rental Income Report</h1>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -111,7 +112,7 @@ else
     {
 
         <h1 class="page-title">Other Income Details Report</h1>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -142,7 +143,7 @@ else
     {
 
         <h1 class="page-title">Expenses Detail Report</h1>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -178,7 +179,7 @@ else
     {
 
         <h1 class="page-title">Net Income Summary Report</h1>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -227,7 +228,7 @@ else
     {
 
         <h1 class="page-title">Trial Balance Report</h1>
-        
+
         <table class="table">
             <thead>
                 <tr>
@@ -256,7 +257,7 @@ else
     {
 
         <h1 class="page-title">Trial Balance Report</h1>
-        
+
         <table class="table">
             <thead>
                 <tr>

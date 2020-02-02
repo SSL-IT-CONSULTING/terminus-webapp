@@ -1,0 +1,62 @@
+﻿@page "/glaccountlist"
+@attribute [Authorize]
+@inherits GLAccountListBase
+
+
+<h3>GLAccountList</h3>
+
+
+
+
+
+@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Loading...</em></p>
+}
+else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered while loading this page.</em></p>
+}
+else
+{
+    <hr />
+    <button type="submit" @onclick="@AddGLAccount" class="btn btn-primary edit-btn"> Add GL Account </button>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>GL Code</th>
+                <th>GL Description</th>
+                <th>Balance</th>
+                <th>Revenue</th>
+                <th>Expenses</th>
+                <th>Cash Account</th>
+                <th>Output Vat Account</th>
+                <th>Row Order</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var glAccount in glAccount)
+            {
+                <tr>
+                    <td>@glAccount.accountCode.ToString()</td>
+                    <td>@glAccount.accountDesc.ToString()</td>
+                    <td>@glAccount.balance.ToString()</td>
+                    <td>@glAccount.cashAccount.ToString()</td>
+                    <td>@glAccount.revenue.ToString()</td>
+                    <td>@glAccount.expense.ToString()</td>
+                    <td>@glAccount.outputVatAccount.ToString()</td>
+                    <td>@glAccount.rowOrder.ToString()</td>
+                </tr>
+
+            }
+
+
+        </tbody>
+    </table>
+
+
+
+}
