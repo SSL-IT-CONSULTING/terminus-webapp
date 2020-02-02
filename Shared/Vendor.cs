@@ -20,6 +20,13 @@ namespace terminus.shared.models
 
         public Company company { get; set; }
 
+        public bool isVatRegistered { get; set; }
+
+        [ForeignKey("inputVatAccount")]
+        public Guid? inputVatAccountId { get; set; }
+
+        public GLAccount inputVatAccount { get; set; }
+
         public int rowOrder { get; set; }
 
 

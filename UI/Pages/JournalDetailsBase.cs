@@ -38,6 +38,10 @@ namespace terminus_webapp.Pages
 
         public decimal? totalBalance { get; set; }
 
+        public void NavigateToList()
+        {
+            NavigationManager.NavigateTo("/journalentrylist");
+        }
         protected override async Task OnInitializedAsync()
         {
             try

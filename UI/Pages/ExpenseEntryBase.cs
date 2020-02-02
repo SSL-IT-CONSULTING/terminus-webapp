@@ -34,6 +34,57 @@ namespace terminus_webapp.Pages
         public string CompanyId { get; set; }
         public string UserName { get; set; }
 
+        private string _VendorId;
+        public string VendorId { get { return _VendorId; } 
+            set {
+                _VendorId = value;
+                this.expense.vendorId = _VendorId;
+                VendorSelected(_VendorId);
+            } }
+
+        public bool IsVatRegistered { get; set; }
+        public Guid? InputVatAccountId { get; set; }
+        public string InputVatAccountCode { get; set; }
+        public string InputVatAccountName { get; set; }
+
+
+        protected decimal CalculateBeforeVat(decimal amount)
+        {
+            if (amount == 0m)
+                return 0m;
+
+            return Math.Round(amount / 1.12m, 2);
+        }
+
+        protected decimal CalculateVat(decimal amount)
+        {
+            if (amount == 0m)
+                return 0m;
+
+            return amount - Math.Round(amount / 1.12m, 2);
+        }
+
+
+        public void VendorSelected(string vendorId)
+        {
+            var id = vendorId;
+            var vendor = this.expense.vendors.Where(v => v.vendorId.Equals(id, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+            if(vendor!=null && vendor.inputVatAccountId.HasValue)
+            {
+                InputVatAccountId = vendor.inputVatAccountId;
+                InputVatAccountCode = vendor.inputVatAccount.accountCode;
+                InputVatAccountName = vendor.inputVatAccount.accountDesc;
+            }
+            else
+            {
+                InputVatAccountId =null;
+                InputVatAccountCode = string.Empty;
+                InputVatAccountName = string.Empty;
+            }
+
+        }
+
         protected decimal GetAmount(string cashOrCheck, decimal amount, decimal checkAmount)
         {
             if (cashOrCheck.Equals("0"))
@@ -105,21 +156,36 @@ namespace terminus_webapp.Pages
                     createDate = DateTime.Now,
                     createdBy = UserName,
                     lineNumber=0,
-                    amount = amount,
+                    amount = InputVatAccountId.HasValue? CalculateBeforeVat(amount):amount,
                     type ="D",
                     account = r.account
-                    },
-                    new JournalEntryDtl()
+                    }
+                };
+
+                if(InputVatAccountId.HasValue)
+                {
+                    jeList.Add(new JournalEntryDtl()
                     {
+                        id = Guid.NewGuid().ToString(),
+                        createDate = DateTime.Now,
+                        createdBy = UserName,
+                        lineNumber = 1,
+                        amount = CalculateVat(amount),
+                        type = "D",
+                        accountId = InputVatAccountId.Value
+                    });
+                }
+
+                jeList.Add(new JournalEntryDtl()
+                {
                     id = Guid.NewGuid().ToString(),
                     createDate = DateTime.Now,
                     createdBy = UserName,
-                    lineNumber=2,
+                    lineNumber = 2,
                     amount = amount,
-                    type ="C",
+                    type = "C",
                     account = r.cashAccount
-                    },
-                };
+                });
 
                 jeHdr.JournalDetails = jeList.AsEnumerable();
                 r.journalEntry = jeHdr;
@@ -165,7 +231,17 @@ namespace terminus_webapp.Pages
                         .Include(a => a.cashAccount)
                         .Include(a => a.checkDetails)
                         .Include(a => a.vendor)
+                        .ThenInclude(v => v.inputVatAccount)
+
                         .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
+
+                    if(data.vendor.inputVatAccountId.HasValue)
+                    {
+                        IsVatRegistered = true;
+                        InputVatAccountId = data.vendor.inputVatAccountId;
+                        InputVatAccountCode = data.vendor.inputVatAccount.accountCode;
+                        InputVatAccountName = data.vendor.inputVatAccount.accountDesc;
+                    }
 
                     expense = new ExpenseViewModel()
                     {
@@ -192,7 +268,9 @@ namespace terminus_webapp.Pages
                 }
 
                 expense.expenseAccounts = await appDBContext.GLAccounts.Where(a => a.expense || a.cashAccount).ToListAsync();
-                expense.vendors = await appDBContext.Vendors.OrderBy(a => a.rowOrder).ToListAsync();
+                expense.vendors = await appDBContext.Vendors
+                                                    .Include(a=>a.inputVatAccount)
+                                                    .OrderBy(a => a.rowOrder).ToListAsync();
 
             }
             catch(Exception ex)
