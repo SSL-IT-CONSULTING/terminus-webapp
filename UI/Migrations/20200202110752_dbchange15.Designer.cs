@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200202110752_dbchange15")]
+    partial class dbchange15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -974,12 +976,6 @@ namespace terminus_webapp.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
-                    b.Property<Guid?>("inputVatAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("isVatRegistered")
-                        .HasColumnType("bit");
-
                     b.Property<int>("rowOrder")
                         .HasColumnType("int");
 
@@ -990,8 +986,6 @@ namespace terminus_webapp.Migrations
                     b.HasKey("vendorId");
 
                     b.HasIndex("companyId");
-
-                    b.HasIndex("inputVatAccountId");
 
                     b.HasIndex("rowOrder");
 
@@ -1206,10 +1200,6 @@ namespace terminus_webapp.Migrations
                     b.HasOne("terminus.shared.models.Company", "company")
                         .WithMany()
                         .HasForeignKey("companyId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "inputVatAccount")
-                        .WithMany()
-                        .HasForeignKey("inputVatAccountId");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200202074931_dbchange14")]
+    partial class dbchange14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -523,10 +525,6 @@ namespace terminus_webapp.Migrations
                     b.Property<int>("lineNumber")
                         .HasColumnType("int");
 
-                    b.Property<string>("reference")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
                     b.Property<string>("remarks")
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
@@ -577,10 +575,6 @@ namespace terminus_webapp.Migrations
 
                     b.Property<DateTime>("postingDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("reference")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
 
                     b.Property<string>("remarks")
                         .HasColumnType("nvarchar(1000)")
@@ -974,12 +968,6 @@ namespace terminus_webapp.Migrations
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
 
-                    b.Property<Guid?>("inputVatAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("isVatRegistered")
-                        .HasColumnType("bit");
-
                     b.Property<int>("rowOrder")
                         .HasColumnType("int");
 
@@ -990,8 +978,6 @@ namespace terminus_webapp.Migrations
                     b.HasKey("vendorId");
 
                     b.HasIndex("companyId");
-
-                    b.HasIndex("inputVatAccountId");
 
                     b.HasIndex("rowOrder");
 
@@ -1206,10 +1192,6 @@ namespace terminus_webapp.Migrations
                     b.HasOne("terminus.shared.models.Company", "company")
                         .WithMany()
                         .HasForeignKey("companyId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "inputVatAccount")
-                        .WithMany()
-                        .HasForeignKey("inputVatAccountId");
                 });
 #pragma warning restore 612, 618
         }

@@ -17,6 +17,7 @@ else
 <EditForm Model="@journalEntry" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary></ValidationSummary>
+
     <div class="form-group row">
         <label for="transactionDate" class="col-sm-2 col-form-label">Entry Date: </label>
         <div class="col-sm-2">
@@ -28,92 +29,130 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="accountId" class="col-sm-2 col-form-label">Details: </label>
-        <div class="col-sm-5">
-
-            <label>@journalEntry.accountCode - @journalEntry.accountName </label>
-
+        <label for="postingDate" class="col-sm-2 col-form-label">Posting Date: </label>
+        <div class="col-sm-2">
+            <InputDate @bind-Value="@journalEntry.postingDate" class="form-control">
+            </InputDate>
         </div>
 
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.accountId)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.postingDate)" />
     </div>
 
+    <div class="form-group row">
+        <label for="reference" class="col-sm-2 col-form-label">Reference: </label>
+        <div class="col-sm-2">
+            <InputText @bind-Value="@journalEntry.reference" class="form-control">
+            </InputText>
+        </div>
+
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.reference)" />
+    </div>
 
     <div class="form-group row">
-        <label for="accountId" class="col-sm-2 col-form-label">Ledger: </label>
-        <div class="col-sm-5">
-            <InputSelect @bind-Value="@journalEntry.ledgerAccountId" class="form-control">
-                <option value=""></option>
-                @foreach (var ga in journalEntry.gLAccounts)
-                    {
-                    <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
-                    }
-                
-            </InputSelect>
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.ledgerAccountId)" />
+        <label for="remarks" class="col-sm-2 col-form-label">Remarks: </label>
+        <div class="col-sm-2">
+            <InputText @bind-Value="@journalEntry.remarks" class="form-control">
+            </InputText>
         </div>
-      </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.remarks)" />
+    </div>
+    <br />
+    <button @onclick="@AddDetail" class="btn btn-dark table-btn quick-add-btn" type="button">Add</button>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>GL Account</th>
+                <th>Description</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Reference</th>
+                <th>Remarks</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dtl in journalEntry.journalEntryDtls)
+            {
+                <tr>
+                    <td>@dtl.accountCode - @dtl.accountName</td>
+                    <td>@dtl.description</td>
+                    <td align="right">
+                        @if (dtl.type.Equals("D", StringComparison.OrdinalIgnoreCase))
+                        {
+                            @dtl.amount.ToString("#,##0.00;(#,##0.00)")
+                        }
+                    </td>
+                    <td align="right">
+                        @if (dtl.type.Equals("C", StringComparison.OrdinalIgnoreCase))
+                        {
+                            @dtl.amount.ToString("#,##0.00;(#,##0.00)")
+                        }
+                    </td>
+                    <td>@dtl.reference</td>
+                    <td>@dtl.remarks</td>
+                    <td>
+                        <button type="button" class="btn btn-primary table-btn" @onclick="@(() => EditJE(dtl.id))">
+                            <i class="fas fa-info-circle">Edit</i>
+                        </button>
+                        <button type="button" class="btn btn-primary table-btn" @onclick="@(() => DeleteJE(dtl.id))">
+                            <i class="fas fa-info-circle">Delete</i>
+                        </button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">&nbsp;</td>
+                <td align="right" style="font-weight:bold">
+
+                    @TotalDR.ToString("#,##0.00;(#,##0.00)")
+
+                </td>
+                <td align="right" style="font-weight:bold">
+
+                    @TotalCR.ToString("#,##0.00;(#,##0.00)")
+
+                </td>
+                <td colspan="3">&nbsp;</td>
+            </tr>
+
+            <tr>
+                <td colspan="2" align="right" style="font-weight:bold">Balance</td>
+
+                <td colspan="2" align="right" style="font-weight:bold">
+
+                    @TotalBalance.ToString("#,##0.00;(#,##0.00)")
+
+                </td>
+
+                <td colspan="3">&nbsp;</td>
+            </tr>
+
+        </tfoot>
+    </table>
 
 
-
-        <div class="form-group row">
-            <label for="amount" class="col-sm-2 col-form-label">Amount: </label>
-            <div class="col-sm-5">
-                <InputNumber @bind-Value="@journalEntry.amount" class="form-control">
-                </InputNumber>
-                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.amount)" />
-            </div>
-        </div>
-
-
-        <div class="form-group row">
-            <label for="cashAccountId" class="col-sm-2 col-form-label">Dr/Cr: </label>
-            <div class="col-sm-5">
-                <InputSelect @bind-Value="@journalEntry.type" class="form-control">
-                    <option value=""></option>
-                    <option value="D">Debit</option>
-                    <option value="C">Credit</option>
-                </InputSelect>
-            </div>
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.type)" />
-        </div>
-
-        <div class="form-group row">
-            <label for="detailDescription" class="col-sm-2 col-form-label">Description: </label>
-            <div class="col-sm-5">
-                <InputText @bind-Value="@journalEntry.detailDescription" class="form-control">
-                </InputText>
-
-                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.detailDescription)" />
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="remarks" class="col-sm-2 col-form-label">Remarks: </label>
-            <div class="col-sm-5">
-                <InputText @bind-Value="@journalEntry.remarks" class="form-control">
-                </InputText>
-
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="postingDate" class="col-sm-2 col-form-label">Date: </label>
-            <div class="col-sm-2">
-                <InputDate @bind-Value="@journalEntry.postingDate" class="form-control">
-                </InputDate>
-            </div>
-
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.postingDate)" />
-        </div>
-
-        <button type="submit" class="
-            btn btn-primary edit-btn">
-            Save
-        </button>
-        <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Cancel</a>
-
+    <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this journal entry?');">Save</button>
+    <button type="button" class="btn btn-primary edit-btn" @onclick="NavigateToList">Cancel</button>
 </EditForm>
+
+
+    @if (!string.IsNullOrEmpty(ErrorMessage))
+    {
+        <br />
+        <p style="color:red"><em>@ErrorMessage</em></p>
+        <br />
+    }
+
+    <JournalEntryDetail @ref="JournalEntryDetail" SaveEventCallback="@JournalEntryDetail_OnSave"
+                        CancelEventCallback="@JournalEntryDetail_OnCancel"></JournalEntryDetail>
+
+
+
+
 }
 
 

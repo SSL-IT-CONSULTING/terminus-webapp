@@ -27,8 +27,6 @@ namespace terminus_webapp
             Configuration = configuration;
         }
 
-
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -65,15 +63,7 @@ namespace terminus_webapp
             services.AddBlazoredSessionStorage();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<DapperManager, DapperManager>();
-
             services.AddTransient<IdentitySeeder>();
-
-            services.Configure<IISServerOptions>(options =>
-            {
-                options.AllowSynchronousIO = true;
-            });
-
-            // services.AddSingleton<WeatherForecastService>();
 
         }
 
@@ -111,7 +101,6 @@ namespace terminus_webapp
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
-
 
             //identitySeeder.Seed().Wait();
         }

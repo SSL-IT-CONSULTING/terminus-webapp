@@ -14,12 +14,12 @@ else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
 }
 else
 {
-  
+
     <hr />
     <table class="table">
         <thead>
             <tr>
-                <th>Posting Date</th> 					
+                <th>Posting Date</th>
                 <th>Entry Date</th>
                 <th>DR (Amt)</th>
                 <th>CR (Amt)</th>
@@ -49,7 +49,7 @@ else
                     {
                         @totalDR.Value.ToString("#,##0.00;(#,##0.00)")
                     }
-                    
+
                 </td>
                 <td align="right" style="font-weight:bold">
 
@@ -57,7 +57,7 @@ else
                     {
                         @totalCR.Value.ToString("#,##0.00;(#,##0.00)")
                     }
-                    
+
 
                 </td>
                 <td colspan="3">&nbsp;</td>
@@ -65,17 +65,19 @@ else
 
             <tr>
                 <td colspan="2" align="right" style="font-weight:bold">Balance</td>
-               
+
                 <td colspan="2" align="right" style="font-weight:bold">
                     @if (totalBalance.HasValue)
                     {
                         @totalBalance.Value.ToString("#,##0.00;(#,##0.00)")
                     }
-                   
+
                 </td>
-              
+
                 <td colspan="3">&nbsp;</td>
             </tr>
         </tbody>
     </table>
+
+    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
 }

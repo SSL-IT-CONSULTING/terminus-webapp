@@ -26,5 +26,11 @@ namespace terminus.shared.models
 
         [MaxLength(200)]
         public string description { get; set; }
+
+        [MaxLength(1000)]
+        public string remarks { get; set; }
+
+        [MaxLength(100)]
+        public string reference { get; set; }
     }
 }
