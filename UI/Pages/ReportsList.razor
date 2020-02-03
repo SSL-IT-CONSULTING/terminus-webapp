@@ -197,27 +197,29 @@ else
                     <th>October</th>
                     <th>November</th>
                     <th>December</th>
+                    <th>Total</th>
 
                 </tr>
             </thead>
             <tbody>
                 @foreach (var pi in rptNetIncomeSummaryVM)
                 {
-                    <tr>
-                        <td>@pi.rentalRevenue</td>
-                        <td>@pi.January</td>
-                        <td>@pi.Febuary</td>
-                        <td>@pi.March</td>
-                        <td>@pi.April</td>
-                        <td>@pi.May</td>
-                        <td>@pi.June</td>
-                        <td>@pi.July</td>
-                        <td>@pi.August</td>
-                        <td>@pi.September</td>
-                        <td>@pi.October</td>
-                        <td>@pi.November</td>
-                        <td>@pi.December</td>
-                    </tr>
+                <tr>
+                    <td>@pi.rentalRevenue</td>
+                    <td>@pi.January</td>
+                    <td>@pi.Febuary</td>
+                    <td>@pi.March</td>
+                    <td>@pi.April</td>
+                    <td>@pi.May</td>
+                    <td>@pi.June</td>
+                    <td>@pi.July</td>
+                    <td>@pi.August</td>
+                    <td>@pi.September</td>
+                    <td>@pi.October</td>
+                    <td>@pi.November</td>
+                    <td>@pi.December</td>
+                    <td>@pi.Total</td>
+                </tr>
 
                 }
             </tbody>
@@ -256,7 +258,7 @@ else
     @if (reportType == "NetIncome")
     {
 
-        <h1 class="page-title">Trial Balance Report</h1>
+        <h1 class="page-title">Income Statement</h1>
 
         <table class="table">
             <thead>
