@@ -279,7 +279,7 @@ namespace terminus_webapp.Pages
 
                 //string sFileName = @"" + reportType + ".xlsx";
 
-                if (table != null)
+                if (table != null && table.Rows.Count>0)
                 {
                     var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded");
                     if (!Directory.Exists(tmpPath))
