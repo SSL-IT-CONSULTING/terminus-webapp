@@ -157,19 +157,17 @@ namespace terminus_webapp.Pages
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeVM), (typeof(DataTable)));
                 }
 
+                var fileName = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}.xlsx"; 
 
-
-                FileInfo file = new FileInfo(Path.Combine(_env.WebRootPath, "Uploaded"));
+                FileInfo file = new FileInfo(Path.Combine(_env.WebRootPath, "Uploaded", fileName));
                 //FileInfo filePath = new FileInfo(_filepath);
                 using (var excelPack = new ExcelPackage(file))
                 {
-                    var ws = excelPack.Workbook.Worksheets.Add("WriteTest");
+                    var ws = excelPack.Workbook.Worksheets.Add("sheet1");
                     ws.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
                     excelPack.Save();
-
+                    _path = $"/Uploaded/{fileName}";
                 }
-
- 
                 
             }
             catch (Exception ex)
@@ -281,7 +279,7 @@ namespace terminus_webapp.Pages
 
                 //string sFileName = @"" + reportType + ".xlsx";
 
-                if (table == null)
+                if (table != null)
                 {
                     var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded");
                     if (!Directory.Exists(tmpPath))
@@ -296,7 +294,7 @@ namespace terminus_webapp.Pages
 
                     using (var excelPack = new ExcelPackage(file))
                     {
-                        var ws = excelPack.Workbook.Worksheets.Add("WriteTest");
+                        var ws = excelPack.Workbook.Worksheets.Add("Sheet1");
                         ws.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
                         excelPack.Save();
 

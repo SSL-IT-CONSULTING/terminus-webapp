@@ -46,4 +46,8 @@
     <ProjectReference Include="..\Shared\terminus.shared.models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Uploaded\" />
+  </ItemGroup>
+
 </Project>

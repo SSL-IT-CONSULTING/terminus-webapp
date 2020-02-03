@@ -263,7 +263,8 @@ namespace terminus_webapp.Pages
                         vendorId = data.vendorId,
                         vendorOther = data.vendorOther,
                         vendorName = data.vendor.vendorName,
-                        reference = data.reference
+                        reference = data.reference,
+                        receiptNo = data.receiptNo
                     };
                 }
 

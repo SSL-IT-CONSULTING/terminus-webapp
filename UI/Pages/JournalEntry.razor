@@ -77,13 +77,13 @@ else
                 <tr>
                     <td>@dtl.accountCode - @dtl.accountName</td>
                     <td>@dtl.description</td>
-                    <td align="right">
+                    <td align="left">
                         @if (dtl.type.Equals("D", StringComparison.OrdinalIgnoreCase))
                         {
                             @dtl.amount.ToString("#,##0.00;(#,##0.00)")
                         }
                     </td>
-                    <td align="right">
+                    <td align="left">
                         @if (dtl.type.Equals("C", StringComparison.OrdinalIgnoreCase))
                         {
                             @dtl.amount.ToString("#,##0.00;(#,##0.00)")
@@ -106,12 +106,12 @@ else
         <tfoot>
             <tr>
                 <td colspan="2">&nbsp;</td>
-                <td align="right" style="font-weight:bold">
+                <td align="left" style="font-weight:bold">
 
                     @TotalDR.ToString("#,##0.00;(#,##0.00)")
 
                 </td>
-                <td align="right" style="font-weight:bold">
+                <td align="left" style="font-weight:bold">
 
                     @TotalCR.ToString("#,##0.00;(#,##0.00)")
 
@@ -120,15 +120,15 @@ else
             </tr>
 
             <tr>
-                <td colspan="2" align="right" style="font-weight:bold">Balance</td>
+                <td colspan="3" align="right" style="font-weight:bold">Balance:</td>
 
-                <td colspan="2" align="right" style="font-weight:bold">
+                <td colspan="2" align="left" style="font-weight:bold">
 
                     @TotalBalance.ToString("#,##0.00;(#,##0.00)")
 
                 </td>
 
-                <td colspan="3">&nbsp;</td>
+                <td colspan="2">&nbsp;</td>
             </tr>
 
         </tfoot>
