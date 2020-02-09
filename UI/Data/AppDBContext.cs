@@ -20,8 +20,7 @@ namespace terminus_webapp.Data
         public DbSet<Expense> Expenses { get; set; }
 
         public DbSet<GLAccount> GLAccounts { get; set; }
-        public DbSet<GLAccountVM> GLAccountsVM { get; set; }
-
+    
         public DbSet<JournalEntryHdr> JournalEntriesHdr { get; set; }
         public DbSet<JournalEntryDtl> JournalEntriesDtl { get; set; }
 

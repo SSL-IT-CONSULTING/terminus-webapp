@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using terminus.shared.models;
 using terminus_webapp.Data;
 
-
 namespace terminus_webapp.Pages
 {
     public class GLAccountListBase:ComponentBase
@@ -42,7 +41,6 @@ namespace terminus_webapp.Pages
 
 
 
-
         protected override async Task OnInitializedAsync()
         {
             try
@@ -57,6 +55,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.GLAccounts
                                              .OrderByDescending(a => a.createDate)
                                              .Select(a => new { accountId = a.accountId, accountCode = a.accountCode, accountDesc = a.accountDesc, balance = a.balance, companyId = a.companyId, revenue = a.revenue, expense = a.expense, cashAccount = a.cashAccount, outputVatAccount = a.outputVatAccount, rowOrder = a.rowOrder })
+                                             .OrderBy(a => a.rowOrder)
                                              .ToListAsync();
 
 
@@ -70,11 +69,11 @@ namespace terminus_webapp.Pages
                     accountDesc = a.accountDesc,
                     balance = a.balance,
                     companyid = a.companyId,
-                    revenue = a.revenue,
-                    expense = a.expense,
-                    cashAccount = a.cashAccount,
-                    outputVatAccount = a.outputVatAccount,
-                    rowOrder = a.rowOrder
+                    revenue = a.revenue.ToString(),
+                    expense = a.expense.ToString(),
+                    cashAccount = a.cashAccount.ToString(),
+                    outputVatAccount = a.outputVatAccount.ToString(),
+                    rowOrder = a.rowOrder,
 
                 }).ToList();
 

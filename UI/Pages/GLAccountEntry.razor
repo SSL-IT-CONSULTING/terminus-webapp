@@ -20,21 +20,21 @@ else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
 }
 else
 {
-<EditForm Model="@glAccount">
-    @*<DataAnnotationsValidator />
-    <ValidationSummary></ValidationSummary>*@
+<EditForm Model="@glAccountView" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>
 
     <div class="form-group row">
         <label for="accountCode" class="col-sm-2 col-form-label">Account Code </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputText @bind -Value="@glAccount.accountCode" class="form-control">
+                <InputText @bind-Value="@glAccountView.accountCode" class="form-control">
                 </InputText>
             }
             else
             {
-                <label>@glAccount.accountCode</label>
+                <label>@glAccountView.accountCode</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.accountCode)" />*@
@@ -47,16 +47,16 @@ else
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
-                <InputText @bind-Value="@glAccount.accountDesc" class="form-control">
+                <InputText @bind-Value="@glAccountView.accountDesc" class="form-control">
 
                 </InputText>
             }
             else
             {
-                <label>@glAccount.accountDesc</label>
+                <label>@glAccountView.accountDesc</label>
             }
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.accountDesc)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.accountDesc)" />
     </div>
 
 
@@ -66,13 +66,13 @@ else
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputText @bind -Value="@glAccount.balance" class="form-control">
+                <InputNumber @bind-Value="@glAccountView.balance" class="form-control">
 
-                </InputText>
+                </InputNumber>
             }
             else
             {
-                <label>@glAccount.balance</label>
+                <label>@glAccountView.balance</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.balance)" />*@
@@ -84,14 +84,14 @@ else
             @if (!IsViewOnly)
             {
 
-                <InputSelect @bind-Value="@glAccount.revenue" class="form-control">
+                <InputSelect @bind-Value="@glAccountView.revenue" class="form-control">
                     <option value="0">False</option>
-                    <option value="1">true</option>
+                    <option value="1">True</option>
                 </InputSelect>
             }
             else
             {
-                <label>@glAccount.revenue</label>
+                <label>@glAccountView.revenue</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.revenue)" />*@
@@ -103,17 +103,17 @@ else
             @if (!IsViewOnly)
             {
 
-                <InputSelect @bind-Value="@glAccount.expense" class="form-control">
+                <InputSelect @bind-Value="@glAccountView.expense" class="form-control">
                     <option value="0">False</option>
-                    <option value="1">true</option>
+                    <option value="1">True</option>
                 </InputSelect>
             }
             else
             {
-                <label>@glAccount.expense</label>
+                <label>@glAccountView.expense</label>
             }
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.expense)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.expense)" />
     </div>
 
     <div class="form-group row">
@@ -122,14 +122,14 @@ else
             @if (!IsViewOnly)
             {
 
-                <InputSelect @bind-Value="@glAccount.cashAccount" class="form-control">
+                <InputSelect @bind-Value="@glAccountView.cashAccount" class="form-control">
                     <option value="0">False</option>
-                    <option value="1">true</option>
+                    <option value="1">True</option>
                 </InputSelect>
             }
             else
             {
-                <label>@glAccount.cashAccount</label>
+                <label>@glAccountView.cashAccount</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.cashAccount)" />*@
@@ -141,23 +141,42 @@ else
             @if (!IsViewOnly)
             {
 
-                <InputSelect @bind-Value="@glAccount.outputVatAccount" class="form-control">
+                <InputSelect @bind-Value="@glAccountView.outputVatAccount" class="form-control">
                     <option value="0">False</option>
-                    <option value="1">true</option>
+                    <option value="1">True</option>
                 </InputSelect>
             }
             else
             {
-                <label>@glAccount.outputVatAccount</label>
+                <label>@glAccountView.outputVatAccount</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.outputVatAccount)" />*@
     </div>
+    <div class="form-group row">
+        <label for="outputVatAccount" class="col-sm-2 col-form-label">Row Order: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputNumber @bind-Value="@glAccountView.rowOrder" class="form-control">
+
+                </InputNumber>
+            }
+            else
+            {
+                <label>@glAccountView.rowOrder</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.outputVatAccount)" />*@
+    </div>
+
     @if (!IsViewOnly)
     {
-        <button type="submit" class="btn btn-primary edit-btn">Save</button>
+        <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');">Save</button>
     }
     @*<a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>*@
 
 </EditForm>
+ 
 }

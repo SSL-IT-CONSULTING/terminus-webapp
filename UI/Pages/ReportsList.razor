@@ -94,12 +94,12 @@ else
                         <td>@pi.description</td>
                         <td>@pi.propertyType</td>
                         <td>@pi.TenantName</td>
-                        <td>@pi.transactionDate</td>
-                        <td>@pi.dateFrom</td>
-                        <td>@pi.dateTo</td>
+                        <td>@pi.transactionDate.ToString()</td>
+                        <td>@pi.dateFrom.ToString()</td>
+                        <td>@pi.dateTo.ToString()</td>
                         <td>@pi.ModeOfPayment</td>
                         <td>@pi.reference</td>
-                        <td>@pi.amount</td>
+                        <td>@pi.amount.ToString("n2")</td>
                         <td>@pi.remarks</td>
 
                     </tr>
@@ -258,16 +258,13 @@ else
     @if (reportType == "NetIncome")
     {
 
-        <h1 class="page-title">Income Statement</h1>
+<h1 class="page-title">Receipt Over Expenses</h1>
 
         <table class="table">
             <thead>
                 <tr>
-
                     <th>Revenue</th>
                     <th>Year To Date</th>
-
-
                 </tr>
             </thead>
             <tbody>
@@ -275,7 +272,7 @@ else
                 {
                     <tr>
                         <td>@pi.Revenue</td>
-                        <td>@pi.yearToDate</td>
+                        <td>@pi.YearToDate</td>
 
                     </tr>
 

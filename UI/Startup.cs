@@ -35,8 +35,7 @@ namespace terminus_webapp
         {
            
       
-          
-
+       
 
             var connectionString = Configuration["connectionStrings:dbconn"];
 

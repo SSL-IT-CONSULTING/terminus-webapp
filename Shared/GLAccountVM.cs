@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace terminus.shared.models
 {
-    public class GLAccountVM:TBase
+    public class GLAccountVM
     {
 
         [Key]
@@ -21,11 +21,11 @@ namespace terminus.shared.models
 
         public string companyid { get; set; }
 
-        public bool revenue { get; set; }
-        public bool expense { get; set; }
+        public string revenue { get; set; }
+        public string expense { get; set; }
 
-        public bool cashAccount { get; set; }
-        public bool outputVatAccount { get; set; }
+        public string cashAccount { get; set; }
+        public string outputVatAccount { get; set; }
 
         public int rowOrder { get; set; }
     }

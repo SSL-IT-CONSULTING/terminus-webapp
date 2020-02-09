@@ -74,7 +74,7 @@ namespace terminus_webapp.Pages
                 reportParameterViewModel = new ReportParameterViewModel();
                 reportParameterViewModel.AsOfDate = DateTime.Today;
 
-                reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ASRCReportsDtls", param);
+                reportParameterViewModel.ReferenceVM = await dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
                 //dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
 
                 //reportParameterViewModel.ReferenceVM = await

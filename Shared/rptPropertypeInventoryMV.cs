@@ -20,8 +20,8 @@ namespace terminus.shared.models
         public string contactNumber { get; set; }
         [MaxLength(100)]
         public string emailAddress { get; set; }
-        public DateTime dateFrom { get; set; }
-        public DateTime dateTo { get; set; }
-        public DateTime dueDate { get; set; }
+        public Nullable<DateTime> dateFrom { get; set; }
+        public Nullable<DateTime> dateTo { get; set; }
+        public Nullable<DateTime> dueDate { get; set; }
     } 
 }
