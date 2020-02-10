@@ -1,0 +1,122 @@
+﻿@page "/propertyentry"
+@page "/propertyentry/{id}"
+@attribute [Authorize]
+@inherits PropertyEntryBase
+
+
+
+
+<h3>Properties Entries</h3>
+
+
+@if (!IsDataLoaded)
+{
+    <p><em>Loading...</em></p>
+}
+else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered, please report it to the system administrator</em></p>
+    <p><em>@ErrorMessage</em></p>
+}
+else
+{
+    //
+<EditForm Model="@properties" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>
+
+    <div class="form-group row">
+        <label for="accountCode" class="col-sm-2 col-form-label">Description:</label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@properties.description" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@properties.description</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.description)" />*@
+    </div>
+
+
+
+    <div class="form-group row">
+        <label for="accountDesc" class="col-sm-2 col-form-label">Address: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@properties.address" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@properties.address.ToString()</label>
+            }
+        </div>
+        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.firstName)" />*@
+    </div>
+
+
+
+    <div class="form-group row">
+        <label for="balance" class="col-sm-2 col-form-label">Property Type: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputSelect @bind-Value="@properties.propertyType" class="form-control">
+                    <option value="resident">Resident</option>
+                    <option value="parking">Parking</option>
+                    <option value="unit">Unit</option>
+                </InputSelect>
+            }
+            else
+            {
+                <label>@properties.propertyType</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.propertyType)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Revenue" class="col-sm-2 col-form-label">Area: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputNumber @bind-Value="@properties.area" class="form-control">
+
+                </InputNumber>
+            }
+            else
+            {
+                <label>@properties.area</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.area)" />
+    </div>
+
+
+
+
+
+    @if (!IsViewOnly)
+    {
+        @if (!IsEditOnly)
+        {
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Property Entry?');"> Save </button>
+        }
+        else
+        { 
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Property Entry?');"> Update </button>
+        }
+
+    }
+    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
+
+</EditForm>
+
+}

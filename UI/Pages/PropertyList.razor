@@ -1,7 +1,6 @@
-﻿@page "/glaccountlist"
-
+﻿@page "/propertylist"
 @attribute [Authorize]
-@inherits GLAccountListBase
+@inherits PropertyListBase
 
 
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -18,7 +17,7 @@
     </div>
 </nav>
 
-<h3>GL Account List</h3>
+<h3>Property List</h3>
 
 @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
 {
@@ -31,39 +30,32 @@ else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
 else
 {
     <hr />
-    <button type="submit" @onclick="@AddGLAccount" class="btn btn-primary edit-btn"> Add GL Account </button>
+    <button type="submit" @onclick="@PropertyEntry" class="btn btn-primary edit-btn"> Add Property </button>
     <br />
+
     <br />
     <table class="table">
         <thead>
             <tr>
 
-                <th>GL Code</th>
-                <th>GL Description</th>
-                <th>Balance</th>
-                <th>Revenue</th>
-                <th>Expenses</th>
-                <th>Cash Account</th>
-                <th>Output Vat Account</th>
-                <th>Row Order</th>
+                <th>Property Description</th>
+                <th>Address</th>
+                @*<th>Property Type</th>
+                    <th>Area</th>*@
                 <th></th>
 
             </tr>
         </thead>
         <tbody>
-            @foreach (var glAccount in glAccount)
+            @foreach (var p in properties)
             {
                 <tr>
-                    <td>@glAccount.accountCode.ToString()</td>
-                    <td>@glAccount.accountDesc.ToString()</td>
-                    <td>@glAccount.balance.ToString()</td>
-                    <td>@glAccount.cashAccount.ToString()</td>
-                    <td>@glAccount.revenue.ToString()</td>
-                    <td>@glAccount.expense.ToString()</td>
-                    <td>@glAccount.outputVatAccount.ToString()</td>
-                    <td>@glAccount.rowOrder.ToString()</td>
+                    <td>@p.description.ToString()</td>
+                    <td>@p.address.ToString()</td>
+                    @*<td>@p.propertyType.ToString()</td>
+                        <td>@p.area.ToString()</td>*@
                     <td>
-                        <a href="@($"glAccountentry/{glAccount.accountId}")" class="btn btn-primary table-btn">
+                        <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
                             <i class="fas fa-info-circle">EDIT</i>
                         </a>
                     </td>
