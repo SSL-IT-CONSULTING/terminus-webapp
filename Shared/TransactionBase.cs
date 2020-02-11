@@ -47,5 +47,7 @@ namespace terminus.shared.models
         public decimal taxAmount { get; set; }
 
         public DateTime? dueDate { get; set; }
+
+        public decimal beforeTax { get; set; }
     }
 }

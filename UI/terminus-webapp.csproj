@@ -9,6 +9,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200202144207_dbchange17.cs" />
     <Compile Remove="Migrations\20200202144207_dbchange17.Designer.cs" />
+    <Compile Remove="Migrations\20200211042740_dbchange17.cs" />
+    <Compile Remove="Migrations\20200211042740_dbchange17.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

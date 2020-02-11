@@ -130,6 +130,7 @@ namespace terminus_webapp.Pages
                         vat = amount - beforeVat;
                     }
 
+                    r.beforeTax = beforeVat;
                     r.taxAmount = vat;
                     var jeList = new List<JournalEntryDtl>()
                 {

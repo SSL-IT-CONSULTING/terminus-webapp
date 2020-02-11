@@ -145,8 +145,8 @@ namespace terminus_webapp.Pages
                 var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = Guid.NewGuid(),source = "expense", sourceId = r.id.ToString(), companyId=CompanyId, postingDate = r.transactionDate };
                 jeHdr.description = r.remarks;
               
-
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
+                r.beforeTax = amount;
 
                 var jeList = new List<JournalEntryDtl>()
                 {
@@ -164,13 +164,18 @@ namespace terminus_webapp.Pages
 
                 if(InputVatAccountId.HasValue)
                 {
+                    var beforeVat = CalculateBeforeVat(amount);
+                    var taxAmount = CalculateVat(amount);
+                    r.beforeTax=  beforeVat;
+                    r.taxAmount = taxAmount;
+
                     jeList.Add(new JournalEntryDtl()
                     {
                         id = Guid.NewGuid().ToString(),
                         createDate = DateTime.Now,
                         createdBy = UserName,
                         lineNumber = 1,
-                        amount = CalculateVat(amount),
+                        amount = taxAmount,
                         type = "D",
                         accountId = InputVatAccountId.Value
                     });

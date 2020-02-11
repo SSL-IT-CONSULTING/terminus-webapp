@@ -79,7 +79,11 @@ namespace terminus_webapp.Data
             builder.Entity<Billing>()
 .Property(c => c.amountDue).HasColumnType("decimal(18,4)");
 
+            builder.Entity<Revenue>()
+.Property(c => c.beforeTax).HasColumnType("decimal(18,4)");
 
+            builder.Entity<Expense>()
+.Property(c => c.beforeTax).HasColumnType("decimal(18,4)");
             //builder.Ignore<JEListViewModel>();
 
             // Customize the ASP.NET Identity model and override the defaults if needed.
