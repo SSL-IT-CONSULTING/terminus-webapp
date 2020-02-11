@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace terminus_webapp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        public ISessionStorageService _sessionStorageService { get; set; }
         public string accountId { get; set; }
 
         //public List<ReferenceViewModal> referenceViewModal { get; set; }
@@ -33,7 +35,8 @@ namespace terminus_webapp.Pages
         public ReportParameterViewModel reportParameterViewModel { get; set; }
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
-        public string companyId { get; set; }
+        public string CompanyId { get; set; }
+        public string UserName { get; set; }
 
         protected void NavigateToList()
         {
@@ -61,20 +64,25 @@ namespace terminus_webapp.Pages
 
             try
             {
-                companyId = "ASRC";
+
+                //UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                //CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
+                CompanyId = "ASRC";
 
                 DataLoaded = false;
                 ErrorMessage = string.Empty;
-                companyId = "ASRC";
+                //companyId = "ASRC";
                 // var sqlcommand = $"exec ASRCReportsDtls '{companyId.Replace("'", "''")}'";
                 // var sqlcommand = $"exec ASRCReportsDtls '{companyId.Replace("'", "''")}'";
                 var param = new Dapper.DynamicParameters();
-                param.Add("companyId", companyId, System.Data.DbType.String);
+                param.Add("companyId", CompanyId, System.Data.DbType.String);
 
                 reportParameterViewModel = new ReportParameterViewModel();
                 reportParameterViewModel.AsOfDate = DateTime.Today;
 
-                reportParameterViewModel.ReferenceVM = await dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
+                //reportParameterViewModel.ReferenceVM = await dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
+                reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ASRCReportsDtls", param);
                 //dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
 
                 //reportParameterViewModel.ReferenceVM = await

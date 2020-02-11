@@ -1,5 +1,6 @@
 ﻿
 @page "/glaccountentry"
+@page "/glaccountentry/{accountId}"
 @attribute [Authorize]
 @inherits GLAccountEntryBase
 
@@ -85,8 +86,8 @@ else
             {
 
                 <InputSelect @bind-Value="@glAccountView.revenue" class="form-control">
-                    <option value="0">False</option>
-                    <option value="1">True</option>
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
                 </InputSelect>
             }
             else
@@ -104,8 +105,8 @@ else
             {
 
                 <InputSelect @bind-Value="@glAccountView.expense" class="form-control">
-                    <option value="0">False</option>
-                    <option value="1">True</option>
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
                 </InputSelect>
             }
             else
@@ -123,8 +124,8 @@ else
             {
 
                 <InputSelect @bind-Value="@glAccountView.cashAccount" class="form-control">
-                    <option value="0">False</option>
-                    <option value="1">True</option>
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
                 </InputSelect>
             }
             else
@@ -142,8 +143,8 @@ else
             {
 
                 <InputSelect @bind-Value="@glAccountView.outputVatAccount" class="form-control">
-                    <option value="0">False</option>
-                    <option value="1">True</option>
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
                 </InputSelect>
             }
             else
@@ -173,10 +174,19 @@ else
 
     @if (!IsViewOnly)
     {
-        <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');">Save</button>
+
+        @if (!IsEditOnly)
+        {
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');">Save</button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');">Edit</button>
+        }
+
     }
     @*<a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>*@
 
 </EditForm>
- 
+
 }

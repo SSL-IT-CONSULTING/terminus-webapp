@@ -45,17 +45,18 @@ else
             <tbody>
                 @foreach (var pi in rptPropertypeInventoryMV)
                 {
-                    <tr>
-                        <td>@pi.description</td>
-                        <td>@pi.propertyType</td>
-                        <td>@pi.TenantName</td>
-                        <td>@pi.contactNumber</td>
-                        <td>@pi.emailAddress</td>
-                        <td>@pi.dateFrom</td>
-                        <td>@pi.dateTo</td>
-                        <td>@pi.dueDate</td>
+                <tr>
+                    <td>@pi.description</td>
+                    <td>@pi.propertyType</td>
+                    <td>@pi.TenantName</td>
+                    <td>@pi.contactNumber</td>
+                    <td>@pi.emailAddress</td>
+                    <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
+                    
+                    <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
+                    <td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
 
-                    </tr>
+                </tr>
                 }
             </tbody>
         </table>
@@ -94,9 +95,9 @@ else
                         <td>@pi.description</td>
                         <td>@pi.propertyType</td>
                         <td>@pi.TenantName</td>
-                        <td>@pi.transactionDate.ToString()</td>
-                        <td>@pi.dateFrom.ToString()</td>
-                        <td>@pi.dateTo.ToString()</td>
+                        <td>@pi.transactionDate.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
+                        <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
+                        <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
                         <td>@pi.ModeOfPayment</td>
                         <td>@pi.reference</td>
                         <td>@pi.amount.ToString("n2")</td>
@@ -128,8 +129,8 @@ else
                 @foreach (var pi in rptOtherIncomeDetailVM)
                 {
                     <tr>
-                        <td>@pi.transactionDate</td>
-                        <td>@pi.amount</td>
+                        <td>@pi.transactionDate.ToString("MM/dd/yyyy")</td>
+                        <td>@pi.amount.ToString("n2")</td>
                         <td>@pi.description</td>
                         <td>@pi.transactionReference</td>
                         <td>@pi.comments</td>
@@ -161,11 +162,11 @@ else
                 @foreach (var pi in rptExpensesVM)
                 {
                     <tr>
-                        <td>@pi.transactionDate</td>
+                        <td>@pi.transactionDate.ToString("MM/dd/yyyy")</td>
                         <td>@pi.Payee</td>
                         <td>@pi.receiptNo</td>
                         <td>@pi.expenseTitle</td>
-                        <td>@pi.amount</td>
+                        <td>@pi.amount.ToString("n2")</td>
                         <td>@pi.remarks</td>
 
                     </tr>
@@ -205,6 +206,7 @@ else
                 @foreach (var pi in rptNetIncomeSummaryVM)
                 {
                 <tr>
+                 
                     <td>@pi.rentalRevenue</td>
                     <td>@pi.January</td>
                     <td>@pi.Febuary</td>
@@ -219,6 +221,8 @@ else
                     <td>@pi.November</td>
                     <td>@pi.December</td>
                     <td>@pi.Total</td>
+          
+
                 </tr>
 
                 }
@@ -258,7 +262,7 @@ else
     @if (reportType == "NetIncome")
     {
 
-<h1 class="page-title">Receipt Over Expenses</h1>
+<h1 class="page-title">Income Statement</h1>
 
         <table class="table">
             <thead>
@@ -271,8 +275,8 @@ else
                 @foreach (var pi in rptNetIncomeVM)
                 {
                     <tr>
-                        <td>@pi.Revenue</td>
-                        <td>@pi.YearToDate</td>
+                        <td>@pi.Revenue </td>
+                        <td>@pi.YearToDate.ToString() </td>
 
                     </tr>
 

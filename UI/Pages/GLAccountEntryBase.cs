@@ -38,6 +38,8 @@ namespace terminus_webapp.Pages
 
         public bool IsViewOnly { get; set; }
 
+        public bool IsEditOnly { get; set; }
+        
         public bool IsDataLoaded { get; set; }
 
         public void AddGLAccount()
@@ -47,41 +49,118 @@ namespace terminus_webapp.Pages
 
         public void NavigateToList()
         {
-            NavigationManager.NavigateTo("/glaacountlsit");
+            NavigationManager.NavigateTo("/glaacountlist");
         }
 
         protected async Task HandleValidSubmit()
         {
-            if (string.IsNullOrEmpty(glAccountView.accountCode))
+
+
+            UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+            CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
+            bool _rev;
+            bool _exp;
+            bool _cshacc;
+            bool _outvat;
+
+
+            if (glAccountView.revenue == "N")
             {
-                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
-                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+                _rev = false;
+            }
+            else
+            {
+                _rev = true;
+            }
 
-                GLAccount gl = new GLAccount() { accountId = Guid.NewGuid() };
 
-                //var gla = new GLAccount() { accountId = Guid.NewGuid() };
-                //gla.accountId = Guid.NewGuid();
-                //gla.createDate = DateTime.Now;
-                //gla.createdBy = UserName;
-                //gla.accountCode = glAccount.accountCode;
-                //gla.accountDesc = glAccount.accountDesc;
-                //gla.balance = glAccount.balance;
-                //gla.revenue = Boolean.Parse(glAccount.revenue.ToString());
-                //gla.expense = Boolean.Parse(glAccount.expense.ToString());
-                //gla.cashAccount = Boolean.Parse(glAccount.cashAccount.ToString());
-                //gla.outputVatAccount = Boolean.Parse(glAccount.outputVatAccount.ToString());
-                //gla.rowOrder = glAccount.rowOrder;
+            if (glAccountView.expense == "N")
+            {
+                _exp = false;
+            }
+            else
+            {
+                _exp = true;
+            }
 
-                //appDBContext.GLAccounts.Add(gla);
+
+            if (glAccountView.cashAccount == "N")
+            {
+                _cshacc = false;
+            }
+            else
+            {
+                _cshacc = true;
+            }
+
+
+            if (glAccountView.outputVatAccount == "N")
+            {
+                _outvat = false;
+            }
+            else
+            {
+                _outvat = true;
+            }
+
+
+            if (string.IsNullOrEmpty(accountId))
+            {
+
+
+                GLAccount gl = new GLAccount()
+                {
+
+
+                    accountId = Guid.NewGuid(),
+                    createDate = DateTime.Now,
+                    createdBy = UserName,
+                    accountCode = glAccountView.accountCode,
+                    accountDesc = glAccountView.accountDesc,
+                    balance = glAccountView.balance,
+                    revenue = _rev,
+                    expense = _exp,
+                    cashAccount = _cshacc,
+                    outputVatAccount = _outvat
+                };
+
+
+                appDBContext.GLAccounts.Add(gl);
+                await appDBContext.SaveChangesAsync();
+            }
+
+            else
+            {
+
+                var data = await appDBContext.GLAccounts
+                                    //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
+                                    .Include(a => a.company)
+                                    .Where(r => r.accountId.Equals(Guid.Parse(accountId))).FirstOrDefaultAsync();
+
+
+                data.updateDate = DateTime.Now;
+                data.updatedBy = UserName;
+                data.accountCode = glAccountView.accountCode;
+                data.accountDesc = glAccountView.accountDesc;
+                data.balance = glAccountView.balance;
+                data.revenue = _rev;
+                data.expense = _exp;
+                data.outputVatAccount = _outvat;
+                data.cashAccount = _cshacc;
+                data.rowOrder = glAccountView.rowOrder;
+
+                appDBContext.GLAccounts.Update(data);
+                await appDBContext.SaveChangesAsync();
+            }
 
 
                 
-                //await appDBContext.SaveChangesAsync();
 
                 StateHasChanged();
 
                 NavigateToList();
-            }
+            
         }
 
         protected override async Task OnInitializedAsync()
@@ -94,6 +173,7 @@ namespace terminus_webapp.Pages
                 IsDataLoaded = false;
                 IsViewOnly = false;
                 ErrorMessage = string.Empty;
+                IsEditOnly = false;
 
                 if (string.IsNullOrEmpty(accountId))
                 {
@@ -103,7 +183,8 @@ namespace terminus_webapp.Pages
                 }
                 else
                 {
-                    IsViewOnly = true;
+                    IsViewOnly = false;
+                    IsEditOnly = true;
                     var id = Guid.Parse(accountId);
 
                     var data = await appDBContext.GLAccounts.Where(a=>a.accountId.Equals(Guid.Parse(accountId))).FirstOrDefaultAsync();
