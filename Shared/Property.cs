@@ -18,5 +18,10 @@ namespace terminus.shared.models
         [MaxLength(1000)]
         public string address { get; set; }
 
+        [MaxLength(10)]
+        public string propertyType { get; set; }
+
+        public decimal areaInSqm { get; set; }
+
     }
 }

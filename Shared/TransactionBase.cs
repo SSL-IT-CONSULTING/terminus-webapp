@@ -49,5 +49,8 @@ namespace terminus.shared.models
         public DateTime? dueDate { get; set; }
 
         public decimal beforeTax { get; set; }
+
+        [MaxLength(20)]
+        public string documentId { get; set; }
     }
 }

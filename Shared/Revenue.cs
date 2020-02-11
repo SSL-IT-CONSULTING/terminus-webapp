@@ -14,8 +14,9 @@ namespace terminus.shared.models
 
         public PropertyDirectory propertyDirectory { get; set; }
 
-      
-
+        [ForeignKey("billing")]
+        public Guid? billId { get; set; }
+        public Billing billing { get; set; }
 
        
     }

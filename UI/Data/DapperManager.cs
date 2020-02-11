@@ -30,6 +30,15 @@ namespace terminus_webapp.Data
             return db.Query<T>(sp, parms, commandType: commandType).FirstOrDefault();
         }
 
+        public async Task<T> GetAsync<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
+        {
+            using (IDbConnection db = new SqlConnection(_config.GetConnectionString("dbconn")))
+            {
+                var result = await db.QueryAsync<T>(sp, parms, commandType: commandType);
+                return result.FirstOrDefault();
+            }
+        }
+
         public List<T> GetAll<T>(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
         {
             using IDbConnection db = new SqlConnection(_config.GetConnectionString("dbconn"));

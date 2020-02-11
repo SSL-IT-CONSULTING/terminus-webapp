@@ -11,7 +11,7 @@ namespace terminus.shared.models
         [Key]
         public Guid id { get; set; }
 
-        [MaxLength(120)]
+        [MaxLength(200)]
         public string description { get; set; }
 
         public IEnumerable<JournalEntryDtl> JournalDetails { get; set; }
@@ -37,6 +37,9 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string reference { get; set; }
+
+        [MaxLength(20)]
+        public string documentId { get; set; }
 
 
 

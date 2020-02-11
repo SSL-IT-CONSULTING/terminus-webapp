@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200211060052_dbchange18")]
+    partial class dbchange18
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -241,11 +243,12 @@ namespace terminus_webapp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("amountPaid")
+                    b.Property<decimal>("amountDue")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<decimal>("balance")
-                        .HasColumnType("decimal(18,4)");
+                    b.Property<string>("billRefId")
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<string>("companyId")
                         .HasColumnType("nvarchar(10)")
@@ -264,22 +267,12 @@ namespace terminus_webapp.Migrations
                     b.Property<bool>("deleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("documentId")
-                        .HasColumnType("nvarchar(36)")
-                        .HasMaxLength(36);
-
                     b.Property<Guid>("propertyDirectoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(12)")
                         .HasMaxLength(12);
-
-                    b.Property<decimal>("totalAmount")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<DateTime>("transactionDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
@@ -292,40 +285,11 @@ namespace terminus_webapp.Migrations
 
                     b.HasIndex("propertyDirectoryId");
 
-                    b.HasIndex("companyId", "documentId")
+                    b.HasIndex("companyId", "billRefId")
                         .IsUnique()
-                        .HasFilter("[companyId] IS NOT NULL AND [documentId] IS NOT NULL");
+                        .HasFilter("[companyId] IS NOT NULL AND [billRefId] IS NOT NULL");
 
                     b.ToTable("Billings");
-                });
-
-            modelBuilder.Entity("terminus.shared.models.BillingLineItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("amount")
-                        .HasColumnType("decimal(18,4)");
-
-                    b.Property<Guid>("billingId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("description")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("generated")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("lineNo")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("billingId");
-
-                    b.ToTable("BillingLineItems");
                 });
 
             modelBuilder.Entity("terminus.shared.models.CheckDetails", b =>
@@ -723,9 +687,6 @@ namespace terminus_webapp.Migrations
                         .HasColumnType("nvarchar(1000)")
                         .HasMaxLength(1000);
 
-                    b.Property<decimal>("areaInSqm")
-                        .HasColumnType("decimal(18,4)");
-
                     b.Property<string>("companyId")
                         .HasColumnType("nvarchar(10)");
 
@@ -742,10 +703,6 @@ namespace terminus_webapp.Migrations
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
-
-                    b.Property<string>("propertyType")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
 
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
@@ -766,9 +723,6 @@ namespace terminus_webapp.Migrations
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("associationDues")
-                        .HasColumnType("decimal(18,4)");
 
                     b.Property<string>("companyId")
                         .HasColumnType("nvarchar(10)")
@@ -793,15 +747,9 @@ namespace terminus_webapp.Migrations
                     b.Property<decimal>("monthlyRate")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<decimal>("penaltyPct")
-                        .HasColumnType("decimal(18,4)");
-
                     b.Property<string>("propertyId")
                         .HasColumnType("nvarchar(36)")
                         .HasMaxLength(36);
-
-                    b.Property<decimal>("ratePerSQM")
-                        .HasColumnType("decimal(18,4)");
 
                     b.Property<Guid?>("revenueAccountId")
                         .HasColumnType("uniqueidentifier");
@@ -813,9 +761,6 @@ namespace terminus_webapp.Migrations
                     b.Property<string>("tenandId")
                         .HasColumnType("nvarchar(36)")
                         .HasMaxLength(36);
-
-                    b.Property<decimal>("totalBalance")
-                        .HasColumnType("decimal(18,4)");
 
                     b.Property<DateTime?>("updateDate")
                         .HasColumnType("datetime2");
@@ -903,9 +848,6 @@ namespace terminus_webapp.Migrations
                     b.Property<decimal>("beforeTax")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<Guid?>("billId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("cashAccountaccountId")
                         .HasColumnType("uniqueidentifier");
 
@@ -975,8 +917,6 @@ namespace terminus_webapp.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("accountId");
-
-                    b.HasIndex("billId");
 
                     b.HasIndex("cashAccountaccountId");
 
@@ -1149,15 +1089,6 @@ namespace terminus_webapp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("terminus.shared.models.BillingLineItem", b =>
-                {
-                    b.HasOne("terminus.shared.models.Billing", "billing")
-                        .WithMany("billingLineItems")
-                        .HasForeignKey("billingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("terminus.shared.models.Expense", b =>
                 {
                     b.HasOne("terminus.shared.models.GLAccount", "account")
@@ -1261,10 +1192,6 @@ namespace terminus_webapp.Migrations
                         .HasForeignKey("accountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("terminus.shared.models.Billing", "billing")
-                        .WithMany("collections")
-                        .HasForeignKey("billId");
 
                     b.HasOne("terminus.shared.models.GLAccount", "cashAccount")
                         .WithMany()

@@ -70,6 +70,13 @@ namespace terminus.shared.models
         [MaxLength(36)]
         public string receiptNo { get; set; }
 
+        [Display(Name ="Billing Id")]
+        [MaxLength(36), Required]
+        public string billingDocumentId { get; set; }
+
+        [MaxLength(36)]
+        public string billingId { get; set; }
+
         public decimal taxAmount
         {
             get; set;

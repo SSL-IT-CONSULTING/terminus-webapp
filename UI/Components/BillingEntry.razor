@@ -1,0 +1,130 @@
+﻿
+@using terminus_webapp.Data
+
+@inherits BillingEntryBase
+
+@if (IsDataLoaded && ShowDialog)
+{
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleLabel">Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="CloseDialog">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <BillingLineItemDetail @ref="BillingLineItemDetail" SaveEventCallback="@BillingLineItemDetail_OnSave"
+                                           CancelEventCallback="@BillingLineItemDetail_OnCancel"></BillingLineItemDetail>
+                    <br/>
+                    <EditForm Model="@billing" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary></ValidationSummary>
+
+                        <div class="form-group row">
+                            <label for="documentId" class="col-sm-4 col-form-label">Document Id: </label>
+                            <div class="col-sm-8">
+                                <label>@billing.documentId</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="transactionDate" class="col-sm-4 col-form-label">Entry Date: </label>
+                            <div class="col-sm-8">
+                                <InputDate @bind-Value="@billing.transactionDate" class="form-control">
+                                </InputDate>
+                            </div>
+
+                            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => billing.transactionDate)" />
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="dateDue" class="col-sm-4 col-form-label">Due Date: </label>
+                            <div class="col-sm-8">
+                                <InputDate @bind-Value="@billing.dateDue" class="form-control">
+                                </InputDate>
+                            </div>
+
+                            <ValidationMessage class="offset-sm-4 col-sm-8" For="@(() => billing.dateDue)" />
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-4 col-form-label">Property: </label>
+                            <div class="col-sm-8">
+                                <label>@billing.propertyDirectory.property.description</label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-4 col-form-label">Tenant: </label>
+                            <div class="col-sm-8">
+                                <label>@($"{billing.propertyDirectory.tenant.lastName} {billing.propertyDirectory.tenant.firstName}  {billing.propertyDirectory.tenant.middleName}")</label>
+                            </div>
+                        </div>
+
+                        <br />
+                        <button @onclick="@AddDetail" class="btn btn-dark table-btn quick-add-btn" type="button">Add</button>
+                        <br />
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var dtl in billing.billingLineItems)
+                                {
+                                    <tr>
+
+                                        <td>@dtl.description</td>
+                                        <td>@dtl.amount</td>
+                                        <td>
+                                            @if (!dtl.generated)
+                                            {
+                                                <button type="button" class="btn btn-primary table-btn" @onclick="@(() => EditBillItem(dtl.Id))">
+                                                    <i class="fas fa-info-circle">Edit</i>
+                                                </button>
+                                                <button type="button" class="btn btn-primary table-btn" @onclick="@(() => DeleteBillItem(dtl.Id))">
+                                                    <i class="fas fa-info-circle">Delete</i>
+                                                </button>
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total:</td>
+                                    <td align="left" style="font-weight:bold">
+                                        @billing.totalAmount.ToString("#,##0.00;(#,##0.00)")
+                                    </td>
+                                </tr>
+
+                            </tfoot>
+                        </table>
+
+
+                        <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to submit this billing entry?');">Submit</button>
+                        <button type="button" class="btn btn-primary edit-btn" @onclick="CloseDialog">Cancel</button>
+                    </EditForm>
+
+
+                    @if (!string.IsNullOrEmpty(ErrorMessage))
+                    {
+                        <br />
+                        <p style="color:red"><em>@ErrorMessage</em></p>
+                        <br />
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}

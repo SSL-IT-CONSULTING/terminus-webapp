@@ -34,6 +34,8 @@ namespace terminus_webapp.Data
 
         public DbSet<Billing> Billings { get; set; }
 
+        public DbSet<BillingLineItem> BillingLineItems { get; set; }
+
         public DbSet<ReportParameterViewModel> ReportParameterViewModels { get; set; }
 
         public DbSet<ReferenceViewModal> ReferenceViewModals { get; set; }
@@ -61,6 +63,21 @@ namespace terminus_webapp.Data
 
             builder.Entity<PropertyDirectory>()
 .Property(c => c.monthlyRate).HasColumnType("decimal(18,4)");
+           
+            builder.Entity<PropertyDirectory>()
+.Property(c => c.ratePerSQM).HasColumnType("decimal(18,4)");
+
+            builder.Entity<PropertyDirectory>()
+.Property(c => c.penaltyPct).HasColumnType("decimal(18,4)");
+
+            builder.Entity<PropertyDirectory>()
+.Property(c => c.associationDues).HasColumnType("decimal(18,4)");
+
+            builder.Entity<PropertyDirectory>()
+.Property(c => c.totalBalance).HasColumnType("decimal(18,4)");
+
+            builder.Entity<Property>()
+.Property(c => c.areaInSqm).HasColumnType("decimal(18,4)");
 
             builder.Entity<GLAccount>()
             .HasIndex("companyId", "accountCode").IsUnique(true);
@@ -74,10 +91,19 @@ namespace terminus_webapp.Data
 
 
             builder.Entity<Billing>()
-           .HasIndex("companyId", "billRefId").IsUnique(true);
+           .HasIndex("companyId", "documentId").IsUnique(true);
 
             builder.Entity<Billing>()
-.Property(c => c.amountDue).HasColumnType("decimal(18,4)");
+.Property(c => c.amountPaid).HasColumnType("decimal(18,4)");
+            
+            builder.Entity<Billing>()
+.Property(c => c.totalAmount).HasColumnType("decimal(18,4)");
+
+            builder.Entity<Billing>()
+.Property(c => c.balance).HasColumnType("decimal(18,4)");
+            
+            builder.Entity<BillingLineItem>()
+.Property(c => c.amount).HasColumnType("decimal(18,4)");
 
             builder.Entity<Revenue>()
 .Property(c => c.beforeTax).HasColumnType("decimal(18,4)");

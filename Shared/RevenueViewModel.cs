@@ -23,7 +23,7 @@ namespace terminus.shared.models
         [MaxLength(300)]
         public string tenantName { get; set; }
 
-        [MaxLength(36), Required]
+        [MaxLength(36)]
         public string propertyDirectoryId { get; set; }
 
         public List<GLAccount> revenueAccounts { get; set; }

@@ -1,0 +1,34 @@
+﻿@inherits BillingLineItemDetailBase
+
+@if (IsDataLoaded && ShowDialog)
+{
+    <div style="display:block; margin-top:20px;">
+        <EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+            <DataAnnotationsValidator />
+            <ValidationSummary></ValidationSummary>
+            <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label">Description: </label>
+                <div class="col-sm-8">
+                    <InputText @bind-Value="@model.description" class="form-control">
+
+                    </InputText>
+                    <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => @model.description)" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="amount" class="col-sm-2 col-form-label">Amount: </label>
+                <div class="col-sm-8">
+                    <InputNumber @bind-Value="@model.amount" class="form-control">
+
+                    </InputNumber>
+                    <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => model.amount)" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary edit-btn">Save Line</button>
+            <button type="button" class="btn btn-primary edit-btn" @onclick="CloseDialog">Cancel</button>
+        </EditForm>
+    </div>
+                 
+               
+}

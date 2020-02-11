@@ -8,6 +8,7 @@ namespace terminus.shared.models
     {
         public Guid id { get; set; }
 
+        [MaxLength(200)]
         public string description { get; set; }
 
 
@@ -37,7 +38,9 @@ namespace terminus.shared.models
 
         public List<JournalEntryDtlViewModel> journalEntryDtls { get;set;}
 
-       
+        [MaxLength(20)]
+        public string documentId { get; set; }
+
 
     }
 }

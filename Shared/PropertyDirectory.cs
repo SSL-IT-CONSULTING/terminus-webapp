@@ -36,6 +36,14 @@ namespace terminus.shared.models
 
         [MaxLength(12)]
         public string status { get; set; }
+        
+        public decimal associationDues { get; set; }
+
+        public decimal penaltyPct { get; set; }
+
+        public decimal ratePerSQM { get; set; }
+
+        public decimal totalBalance { get; set; }
 
 
     }
