@@ -71,7 +71,7 @@ namespace terminus_webapp.Pages
                     description = properties.description,
                     address = properties.address,
                     propertyType = properties.propertyType,
-                    area = properties.area
+                    areaInSqm = properties.areaInSqm
 
                 };
 
@@ -95,7 +95,7 @@ namespace terminus_webapp.Pages
                 data.description = properties.description;
                 data.address = properties.address;
                 data.propertyType = properties.propertyType;
-                data.area = properties.area;
+                data.areaInSqm = properties.areaInSqm;
 
 
                 appDBContext.Properties.Update(data);
@@ -146,7 +146,7 @@ namespace terminus_webapp.Pages
                         description = data.description,
                         address = data.address,
                         propertyType = data.propertyType,
-                        area = data.area
+                        areaInSqm = data.areaInSqm
 
                     };
                 }

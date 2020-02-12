@@ -63,7 +63,7 @@ else
 
 
     <div class="form-group row">
-        <label for="balance" class="col-sm-2 col-form-label">Property Type: </label>
+        <label for="propertyType" class="col-sm-2 col-form-label">Property Type: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
@@ -82,21 +82,21 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Revenue" class="col-sm-2 col-form-label">Area: </label>
+        <label for="areaInSqm" class="col-sm-2 col-form-label">Area: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
 
-                <InputNumber @bind-Value="@properties.area" class="form-control">
+                <InputNumber @bind-Value="@properties.areaInSqm" class="form-control">
 
                 </InputNumber>
             }
             else
             {
-                <label>@properties.area</label>
+                <label>@properties.areaInSqm</label>
             }
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.area)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.areaInSqm)" />
     </div>
 
 

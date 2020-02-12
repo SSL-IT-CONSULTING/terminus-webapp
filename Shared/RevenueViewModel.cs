@@ -28,8 +28,10 @@ namespace terminus.shared.models
 
         public List<GLAccount> revenueAccounts { get; set; }
 
-        public List<PropertyDirectory> propertyDirectories { get; set; }
+       // public List<PropertyDirectory> propertyDirectories { get; set; }
 
+        public List<Property> properties { get; set; }
+        public List<Tenant> tenants { get; set; }
         public string outputVatAccount { get; set; }
         
 

@@ -90,7 +90,7 @@ namespace terminus_webapp.Pages
                     r.description = revenue.description;
                     r.account = revenue.revenueAccounts.Where(a => a.accountId.Equals(Guid.Parse(revenue.glAccountId))).FirstOrDefault();
                     r.cashAccount = await appDBContext.GLAccounts.Where(a => a.accountId.Equals(Guid.Parse(revenue.cashAccountId))).FirstOrDefaultAsync();
-                    r.propertyDirectory = revenue.propertyDirectories.Where(a => a.id.ToString().Equals(revenue.propertyDirectoryId, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+                    //r.propertyDirectory = revenue.propertyDirectories.Where(a => a.id.ToString().Equals(revenue.propertyDirectoryId, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                     r.amount = revenue.amount;
                     r.createDate = DateTime.Now;
                     r.createdBy = UserName;
@@ -248,7 +248,7 @@ namespace terminus_webapp.Pages
             }
 
             revenue.revenueAccounts = await appDBContext.GLAccounts.Where(a => a.revenue || a.cashAccount).ToListAsync();
-            revenue.propertyDirectories = await appDBContext.PropertyDirectory.Include(a => a.property).Include(a => a.tenant).ToListAsync();
+            //revenue.propertyDirectories = await appDBContext.PropertyDirectory.Include(a => a.property).Include(a => a.tenant).ToListAsync();
 
             var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).FirstOrDefaultAsync();
 

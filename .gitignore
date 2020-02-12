@@ -18,3 +18,8 @@
 /UI/libman.json
 /UI/wwwroot/Uploaded/20200203a7d7aaba-c165-4009-9696-6904cab21b71.xlsx
 *.xlsx
+.vs/terminus-webapp/xs/project-cache/terminus-webapp-Debug.json
+.vs/terminus-webapp/xs/project-cache/terminus.shared.models-Debug.json
+.vs/terminus-webapp/xs/sqlite3/db.lock
+.vs/terminus-webapp/xs/sqlite3/storage.ide
+.vs/terminus-webapp/xs/UserPrefs.xml

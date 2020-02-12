@@ -71,14 +71,23 @@ else
         <div class="col-sm-5">
             @if (!IsViewonly)
             {
-                <InputSelect @bind-Value="@revenue.propertyId" class="form-control">
+            <select id="propertyId" name="propertyId" @bind="PropertyId" class="form-control">
+                <option value=""></option>
+                @foreach (var p in revenue.properties)
+                {
+                    <option value="@p.id">@p.description</option>
+                }
+            </select>
+
+                @*<InputSelect @bind-Value="@revenue.propertyId" class="form-control">
                     <option value=""></option>
                     @foreach (var p in revenue.propertyDirectories)
                             {
                         <option value="@p.propertyId">@p.property.description</option>
                             }
                     /**/
-                </InputSelect>
+                    /**/
+                </InputSelect>*@
             }
             else
             {
@@ -93,22 +102,23 @@ else
     <div class="form-group row">
         <label for="tenantId" class="col-sm-2 col-form-label">Tenant: </label>
         <div class="col-sm-5">
-            @if (!IsViewonly)
+            @*@if (!IsViewonly)
             {
                 <InputSelect @bind-Value="@revenue.tenantId" class="form-control">
                     <option value=""></option>
 
-                    @foreach (var p in revenue.propertyDirectories)
+                    @foreach (var p in revenue.tenants)
                             {
-                        <option value="@p.tenandId">@string.Format("{0} {1}", p.tenant.firstName, p.tenant.lastName)</option>
+                        <option value="@p.id">@string.Format("{0} {1}", p.firstName, p.lastName)</option>
                             }
                     /**/
                 </InputSelect>
             }
             else
-            {
+            {*@
+            <input type="hidden" id="tenantId" name="tenantId" @bind="@revenue.tenantId"  />
                 <label>@revenue.tenantName</label>
-            }
+            @*}*@
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.tenantId)" />
 

@@ -32,6 +32,69 @@ namespace terminus_webapp.Pages
 
         public RevenueViewModel revenue { get; set; }
 
+        //private string _VendorId;
+        //public string VendorId
+        //{
+        //    get { return _VendorId; }
+        //    set
+        //    {
+        //        _VendorId = value;
+        //        this.expense.vendorId = _VendorId;
+        //        VendorSelected(_VendorId);
+        //    }
+        //}
+
+        private string _PropertyId;
+        public string PropertyId { get { return _PropertyId; } set { 
+            _PropertyId = value;
+                this.revenue.propertyId = value;
+                 PopulateTenant();
+            } }
+
+        private void PopulateTenant()
+        {
+            try
+            {
+                var dueDate = revenue.dueDate.HasValue ? revenue.dueDate.Value : DateTime.Today;
+                var tenants = appDBContext.PropertyDirectory
+                                                .Include(a=>a.tenant)
+                                                .Where(a => a.propertyId.Equals(PropertyId)
+                                                && dueDate >= a.dateFrom && dueDate<=a.dateTo
+                                                && a.companyId.Equals(CompanyId)
+                                                ).ToList();
+
+
+                if(!tenants.Any())
+                {
+                    revenue.tenants = tenants.Select(a => a.tenant).ToList();
+                    revenue.tenantId = string.Empty;
+                    revenue.tenantName = string.Empty;
+                }
+                else
+                {
+                    if(!string.IsNullOrEmpty(revenue.tenantId) && 
+                        !tenants.Where(t=>t.tenandId.Equals(revenue.tenantId)).Any())
+                    {
+                        revenue.tenantId = string.Empty;
+                        revenue.tenantName = string.Empty;
+                    }
+
+                    //revenue.tenants = tenants.Select(a => a.tenant).ToList();
+                    //StateHasChanged();
+                    if (tenants.Count==1)
+                    {
+                        revenue.tenantId = tenants.First().tenandId;
+                        revenue.tenantName = $"{tenants.First().tenant.lastName} {tenants.First().tenant.firstName}";
+                    }
+                }
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         public bool IsDataLoaded { get; set; }
         public bool IsViewonly { get; set; }
 
@@ -321,6 +384,7 @@ namespace terminus_webapp.Pages
                         .Include(a => a.propertyDirectory).ThenInclude(b => b.property)
                         .Include(a => a.propertyDirectory).ThenInclude(b => b.tenant)
                         .Include(a => a.checkDetails)
+                        .Include(a=>a.billing)
                         .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
 
                     revenue = new RevenueViewModel()
@@ -342,14 +406,23 @@ namespace terminus_webapp.Pages
                         checkDate = data.cashOrCheck.Equals("1") ? (DateTime?)data.checkDetails.checkDate : null,
                         propertyDirectoryId = data.propertyDirectory.id.ToString(),
                         propertyDescription = data.propertyDirectory.property.description,
+                        propertyId = data.propertyDirectory.propertyId,
                         tenantName = $"{data.propertyDirectory.tenant.firstName} {data.propertyDirectory.tenant.lastName}",
                         reference = data.reference,
-                        receiptNo = data.receiptNo
+                        receiptNo = data.receiptNo,
+                        billingId = data.billing == null ? string.Empty : data.billing.billId.ToString(),
+                        billingDocumentId = data.billing==null?string.Empty:data.billing.documentId
                     };
                 }
 
                 revenue.revenueAccounts = await appDBContext.GLAccounts.Where(a => a.revenue || a.cashAccount).ToListAsync();
-                revenue.propertyDirectories = await appDBContext.PropertyDirectory.Include(a => a.property).Include(a => a.tenant).ToListAsync();
+                //revenue.propertyDirectories = await appDBContext.PropertyDirectory.Include(a => a.property).Include(a => a.tenant).ToListAsync();
+                var pdlist = await appDBContext.PropertyDirectory.Include(a => a.property).ToListAsync();
+
+                    revenue.properties = pdlist.GroupBy(a => a.propertyId)
+      .Select(grp => grp.First().property).ToList();
+
+                revenue.tenants = new List<Tenant>();
 
                 var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).FirstOrDefaultAsync();
 
