@@ -23,3 +23,5 @@
 .vs/terminus-webapp/xs/sqlite3/db.lock
 .vs/terminus-webapp/xs/sqlite3/storage.ide
 .vs/terminus-webapp/xs/UserPrefs.xml
+.vs/terminus-webapp/xs/sqlite3/storage.ide-shm
+.vs/terminus-webapp/xs/sqlite3/storage.ide-wal
