@@ -67,11 +67,14 @@ else
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputSelect @bind-Value="@properties.propertyType" class="form-control">
-                    <option value="resident">Resident</option>
-                    <option value="parking">Parking</option>
-                    <option value="unit">Unit</option>
-                </InputSelect>
+            <InputSelect @bind-Value="@properties.propertyType" class="form-control">
+                <option value="resident">Resident</option>
+                <option value="parking">Parking</option>
+                <option value="unit">Unit</option>
+                <option value="storage">Storage</option>
+
+            </InputSelect>
+
             }
             else
             {

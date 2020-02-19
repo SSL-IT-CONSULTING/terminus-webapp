@@ -61,39 +61,53 @@ namespace terminus_webapp.Pages
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
-            bool _vatregister;
+            var vn = await appDBContext.Vendors.ToListAsync();
 
-            if (vendors.isVatRegistered.ToString() == "N")
+            int rowCount =  vn.Max(r => r.rowOrder);
+
+
+            bool _vatregister;
+            string accnt;
+
+            if (vendors.isVatRegistered == "N")
             {
                 _vatregister = false;
 
-
+                accnt = "AEE3CBD3-4D95-4363-A971-D79B9DAA4109";
             }
             else
             {
                 _vatregister = true;
+                accnt = "52BDDE45-382B-471E-8D08-5CA2613FD6FA";
+            }
+
+
+            int maxRow = appDBContext.Vendors.Max(a => a.rowOrder);
+            int _maxRow;
+            if (maxRow == null)
+            {
+                _maxRow = 1;
+            }
+            else
+            {
+                _maxRow = maxRow + 1;
             }
 
             if (string.IsNullOrEmpty(vendors.vendorId))
             {
 
-
-
                 var id = Guid.NewGuid();
-
-
 
                 Vendor v = new Vendor()
                 {
                     //var id = Guid.NewGuid(vendors.inputVatAccountid);
 
-                    vendorId = vendors.vendorId,
+                    vendorId = id.ToString(),
                     companyId = vendors.companyId,
                     vendorName = vendors.vendorName,
-                    rowOrder = vendors.rowOrder,
-                    inputVatAccountId = id,
+                    rowOrder = _maxRow,
+                    inputVatAccountId = Guid.Parse(accnt),
                     isVatRegistered = _vatregister
-
 
                 };
 
@@ -111,12 +125,17 @@ namespace terminus_webapp.Pages
                         //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                         .Include(a => a.company)
                         .Where(r => r.vendorId.Equals(vendorId)).FirstOrDefaultAsync();
+                //int max_row = await appDBContext.Vendors
+                //                                    .Select(a => new { companyId = a.companyId,rowOrder = a.rowOrder })
+                //                                   .Where(a => a.companyId.Equals(CompanyId)).Max(a => a.rowOrder);
 
 
-                data.vendorId = vendors.vendorId;
-                data.vendorName = vendors.vendorName;
-                data.rowOrder = vendors.rowOrder;
-                data.inputVatAccountId = Guid.Parse(vendors.inputVatAccountid);
+                var id = Guid.NewGuid();
+
+                data.vendorId = id.ToString();
+                data.vendorName = vendors.vendorName.ToString();
+                //data.rowOrder = vendors.rowOrder;
+               // data.inputVatAccountId = Guid.Parse(accnt);
                 data.isVatRegistered = _vatregister;
 
 
@@ -148,9 +167,9 @@ namespace terminus_webapp.Pages
                 if (string.IsNullOrEmpty(vendorId))
                 {
 
-                    IsEditOnly = false;
+                   
                     vendors = new VendorsViewModal();
-
+                    
                 }
                 else
                 {
@@ -186,8 +205,8 @@ namespace terminus_webapp.Pages
                         vendorId = data.vendorId.ToString(),
                         vendorName = data.vendorName,
                         companyId  = CompanyId,
-                        rowOrder = data.rowOrder,
-                        inputVatAccountid = data.inputVatAccountId.ToString(),
+                        //rowOrder = data.rowOrder,
+                        //inputVatAccountid = data.inputVatAccountId.ToString(),
                         
                         isVatRegistered = strIVR
 
