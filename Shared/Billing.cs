@@ -6,7 +6,7 @@ using System.Text;
 
 namespace terminus.shared.models
 {
-    public class Billing:TBase
+    public class Billing : TBase
     {
         [Key]
         public Guid billId { get; set; }
@@ -36,6 +36,11 @@ namespace terminus.shared.models
 
         public IEnumerable<Revenue> collections { get; set; }
 
+        [MaxLength(10)]
+        public string billType { get; set; }
+
+        [MaxLength(8)]
+        public string MonthYear {get;set;}
         public ICollection<BillingLineItem> billingLineItems { get; set; }
 
     }

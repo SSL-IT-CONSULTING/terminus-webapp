@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200220035743_dbchange28")]
+    partial class dbchange28
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1053,23 +1055,15 @@ namespace terminus_webapp.Migrations
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<string>("bankName")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
-
                     b.Property<Guid>("billingLineItemId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("branch")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
 
                     b.Property<string>("cashOrCheck")
                         .HasColumnType("nvarchar(1)")
                         .HasMaxLength(1);
 
-                    b.Property<DateTime?>("checkDate")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid?>("checkDetailscheckDetailId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("creditAccountId")
                         .HasColumnType("uniqueidentifier");
@@ -1087,6 +1081,8 @@ namespace terminus_webapp.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("billingLineItemId");
+
+                    b.HasIndex("checkDetailscheckDetailId");
 
                     b.HasIndex("creditAccountId");
 
@@ -1417,6 +1413,10 @@ namespace terminus_webapp.Migrations
                         .HasForeignKey("billingLineItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("terminus.shared.models.CheckDetails", "checkDetails")
+                        .WithMany()
+                        .HasForeignKey("checkDetailscheckDetailId");
 
                     b.HasOne("terminus.shared.models.GLAccount", "creditAccount")
                         .WithMany()

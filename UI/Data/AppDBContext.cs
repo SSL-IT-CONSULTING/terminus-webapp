@@ -39,6 +39,9 @@ namespace terminus_webapp.Data
         public DbSet<ReportParameterViewModel> ReportParameterViewModels { get; set; }
 
         public DbSet<ReferenceViewModal> ReferenceViewModals { get; set; }
+
+        public DbSet<CompanyDefault> CompanyDefaults { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -51,6 +54,9 @@ namespace terminus_webapp.Data
 
             builder.Entity<Revenue>()
 .Property(c => c.taxAmount).HasColumnType("decimal(18,4)");
+
+            builder.Entity<RevenueLineItem>()
+.Property(c => c.amount).HasColumnType("decimal(18,4)");
 
             builder.Entity<Expense>()
           .Property(c => c.amount).HasColumnType("decimal(18,4)");
@@ -105,16 +111,18 @@ namespace terminus_webapp.Data
             builder.Entity<BillingLineItem>()
 .Property(c => c.amount).HasColumnType("decimal(18,4)");
 
+            builder.Entity<BillingLineItem>()
+.Property(c => c.amountPaid).HasColumnType("decimal(18,4)");
+
             builder.Entity<Revenue>()
 .Property(c => c.beforeTax).HasColumnType("decimal(18,4)");
 
             builder.Entity<Expense>()
 .Property(c => c.beforeTax).HasColumnType("decimal(18,4)");
-            //builder.Ignore<JEListViewModel>();
 
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+            builder.Entity<Billing>()
+            .HasIndex(a=>a.MonthYear);
+
         }
     }
 }

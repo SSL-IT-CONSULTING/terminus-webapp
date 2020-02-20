@@ -15,6 +15,10 @@
     <Compile Remove="Migrations\20200211114029_dbchange19.Designer.cs" />
     <Compile Remove="Migrations\20200211160703_dbchange20.cs" />
     <Compile Remove="Migrations\20200211160703_dbchange20.Designer.cs" />
+    <Compile Remove="Migrations\20200216115413_dbchange21.cs" />
+    <Compile Remove="Migrations\20200216115413_dbchange21.Designer.cs" />
+    <Compile Remove="Migrations\20200220035507_dbchange28.cs" />
+    <Compile Remove="Migrations\20200220035507_dbchange28.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

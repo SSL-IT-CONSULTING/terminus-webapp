@@ -130,6 +130,19 @@ namespace terminus_webapp.Data
             return result;
         }
 
+        public async Task<int> ExecuteAsync(string sp, IDbTransaction dbTran, IDbConnection dbConn, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
+        {
+                if (dbConn.State == ConnectionState.Closed)
+                    dbConn.Open();
+
+                 var sqlCmd = dbConn.CreateCommand();
+                 sqlCmd.CommandText = sp;
+                 sqlCmd.CommandType = commandType;
+
+                 var result = await dbConn.ExecuteAsync(sp, parms,dbTran,null,commandType);
+                return result;
+        }
+
 
         public void Dispose()
         {

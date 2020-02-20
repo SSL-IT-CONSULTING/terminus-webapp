@@ -24,5 +24,10 @@ namespace terminus.shared.models
 
         public bool generated { get; set; }
 
+        public decimal amountPaid { get; set; }
+
+        [MaxLength(40)]
+        public string billLineType { get; set; }
+
     }
 }
