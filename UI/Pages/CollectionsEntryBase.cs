@@ -615,8 +615,9 @@ namespace terminus_webapp.Pages
                     IsViewonly = true;
 
                     var data = await appDBContext.Revenues
-                        //.Include(a => a.account)
-                        //.Include(a => a.cashAccount)
+                        .Include(a => a.revenueLineItems).ThenInclude(a=>a.debitAccount)
+                        .Include(a => a.revenueLineItems).ThenInclude(a => a.creditAccount)
+                        .Include(a => a.revenueLineItems).ThenInclude(a => a.billingLineItem)
                         .Include(a => a.propertyDirectory).ThenInclude(b => b.property)
                         .Include(a => a.propertyDirectory).ThenInclude(b => b.tenant)
                         .Include(a => a.checkDetails)
@@ -628,19 +629,6 @@ namespace terminus_webapp.Pages
                         id = data.id.ToString(),
                         transactionDate = data.transactionDate,
                         dueDate = data.dueDate,
-                        //glAccountId = data.accountId.ToString(),
-                        //glAccountCode = data.account.accountCode,
-                        //glAccountName = data.account.accountDesc,
-                        //amount = data.cashOrCheck.Equals("0") ? data.amount : data.checkDetails.amount,
-                        //cashAccountId = data.cashAccount.accountId.ToString(),
-                        //cashAccountCode = data.cashAccount.accountCode,
-                        //cashAccountName = data.cashAccount.accountDesc,
-                        //cashOrCheck = data.cashOrCheck,
-                        //checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0,
-
-                        //bankName = data.cashOrCheck.Equals("1") ? data.checkDetails.bankName : "",
-                        //branch = data.cashOrCheck.Equals("1") ? data.checkDetails.branch : "",
-                        //checkDate = data.cashOrCheck.Equals("1") ? (DateTime?)data.checkDetails.checkDate : null,
                         propertyDirectoryId = data.propertyDirectory.id.ToString(),
                         propertyDescription = data.propertyDirectory.property.description,
                         propertyId = data.propertyDirectory.propertyId,
@@ -650,10 +638,32 @@ namespace terminus_webapp.Pages
                         billingId = data.billing == null ? string.Empty : data.billing.billId.ToString(),
                         billingDocumentId = data.billing==null?string.Empty:data.billing.documentId
                     };
+
+                    revenue.revenueLineItems = data.revenueLineItems.Select(a =>
+                    new RevenueLineItemViewModel()
+                    {
+                        Id = a.id,
+                        description = a.description,
+                        billBalance = a.billingLineItem.amount - a.billingLineItem.amountPaid,
+                        amount = a.amount,
+                        debitAccountId = a.debitAccountId.ToString(),
+                        debitAccountCode = a.debitAccount.accountCode,
+                        debitAccountName = a.debitAccount.accountDesc,
+
+                        creditAccountId = a.creditAccountId.ToString(),
+                        creditAccountCode = a.creditAccount.accountCode,
+                        creditAccountName = a.creditAccount.accountDesc,
+                        bankName = a.bankName,
+                        branch = a.branch,
+                        checkDate = a.checkDate
+
+                    }
+
+                    ).ToList();
+
                 }
 
                 revenue.revenueAccounts = await appDBContext.GLAccounts.ToListAsync();
-                //revenue.propertyDirectories = await appDBContext.PropertyDirectory.Include(a => a.property).Include(a => a.tenant).ToListAsync();
                 var pdlist = await appDBContext.PropertyDirectory.Include(a => a.property).ToListAsync();
 
                     revenue.properties = pdlist.GroupBy(a => a.propertyId)
