@@ -1,0 +1,203 @@
+﻿@page "/propertydirectory"
+@page "/propertydirectory/{id}"
+@attribute [Authorize]
+@inherits PropertyDirectoryBase
+
+<h3>Property Directory</h3>
+
+
+@if (!IsDataLoaded)
+{
+    <p><em>Loading...</em></p>
+}
+else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered, please report it to the system administrator</em></p>
+    <p><em>@ErrorMessage</em></p>
+}
+else
+
+{
+
+    @*OnValidSubmit="@HandleValidSubmit"*@
+    <EditForm Model="@propertyDirectory" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary></ValidationSummary>
+
+
+        <div class="form-group row">
+            <label for="properties" class="col-sm-2 col-form-label">Property: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputSelect @bind-Value="@propertyDirectory.propertyId" class="form-control">
+                        <option value=""></option>
+                        @foreach (var pd in propertyDirectory.property)
+                                {
+                            <option value="@pd.id">@pd.description</option>
+                                }
+
+                    </InputSelect>
+                }
+                else
+                {
+                    <label>@propertyDirectory.propertyId</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.propertyId)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="dateFrom" class="col-sm-2 col-form-label">Date From: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputDate @bind-Value="@propertyDirectory.dateFrom" class="form-control">
+                    </InputDate>
+                }
+                else
+                {
+                    <label>@propertyDirectory.dateFrom</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.dateFrom)" />
+        </div>
+        <div class="form-group row">
+            <label for="dateTo" class="col-sm-2 col-form-label">Date To: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputDate @bind-Value="@propertyDirectory.dateTo" class="form-control">
+                    </InputDate>
+                }
+                else
+                {
+                    <label>@propertyDirectory.dateTo</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.dateTo)" />
+        </div>
+        <div class="form-group row">
+            <label for="monthlyRate" class="col-sm-2 col-form-label">Monthly Rate: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputNumber @bind-Value="@propertyDirectory.monthlyRate" class="form-control">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>@propertyDirectory.monthlyRate</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.monthlyRate)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="tenants" class="col-sm-2 col-form-label">Tenant: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputSelect @bind-Value="@propertyDirectory.tenandId" class="form-control">
+                        <option value=""></option>
+                        @foreach (var t in propertyDirectory.tenant)
+                                {
+                            <option value="@t.id">@t.lastName, @t.firstName</option>
+                                }
+                        /**/
+                        /**/
+                        /**/
+                        /**/
+                        /**/
+
+                    </InputSelect>
+                }
+                else
+                {
+                    <label>@propertyDirectory.propertyId</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.propertyId)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="associationDues" class="col-sm-2 col-form-label">Association Dues: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputNumber @bind-Value="@propertyDirectory.associationDues" class="form-control">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>@propertyDirectory.associationDues</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.associationDues)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="penaltyPct" class="col-sm-2 col-form-label">Penalty %: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputNumber @bind-Value="@propertyDirectory.penaltyPct" class="form-control">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>@propertyDirectory.penaltyPct</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.penaltyPct)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="ratePerSQM" class="col-sm-2 col-form-label">Rate Per SQM: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputNumber @bind-Value="@propertyDirectory.ratePerSQM" class="form-control">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>@propertyDirectory.ratePerSQM</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.ratePerSQM)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="totalBalance" class="col-sm-2 col-form-label">Total Balance: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputNumber @bind-Value="@propertyDirectory.totalBalance" class="form-control">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>@propertyDirectory.totalBalance</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => propertyDirectory.totalBalance)" />
+        </div>
+
+        @if (!IsViewOnly)
+        {
+            @if (!@IsEditOnly)
+            {
+                <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Property Directory Entry?');"> Save </button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Property Directory Entry?');"> Update </button>
+            }
+
+        }
+        <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
+
+    </EditForm>
+
+}

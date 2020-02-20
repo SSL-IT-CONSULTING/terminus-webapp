@@ -61,11 +61,14 @@ namespace terminus_webapp.Pages
             if (string.IsNullOrEmpty(properties.id))
             {
 
+                string _pro = properties.propertyType;
+
                 Property pr = new Property()
                 {
 
 
                     id = Guid.NewGuid().ToString(),
+                    companyId = CompanyId,
                     createDate = DateTime.Now,
                     createdBy = UserName,
                     description = properties.description,

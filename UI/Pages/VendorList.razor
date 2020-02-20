@@ -3,19 +3,19 @@
 @attribute [Authorize]
 @inherits VendorListBase
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div class="container-fluid">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
 
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="setup">SET UP</a></li>
-            <li><a href="tenantlist">TENANT</a></li>
-            <li><a href="propertylist">PROPERTY</a></li>
-            <li><a href="propertylist">PROPERTY DIRECTORY</a></li>
-            <li><a href="vendorlist">VENDOR</a></li>
-            <li><a href="glaccountlist">GL ACCOUNT</a></li>
-        </ul>
-    </div>
-</nav>
+            <ul class="nav navbar-nav">
+                @*<li class="active"><a href="setup">SET UP</a></li>*@
+                <li><a href="tenantlist">&nbsp;&nbsp;&nbsp;&nbsp;TENANT&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="propertylist">&nbsp;&nbsp;&nbsp;&nbsp;PROPERTY&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                @*<li><a href="propertydirectorylist">PROPERTY DIRECTORY</a></li>*@
+                <li><a href="vendorlist">&nbsp;&nbsp;&nbsp;&nbsp;VENDOR&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="glaccountlist">&nbsp;&nbsp;&nbsp;&nbsp;GL ACCOUNT&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            </ul>
+        </div>
+    </nav>
 
 <h3>Vendor List</h3>
 
@@ -39,10 +39,11 @@ else
         <thead>
             <tr>
 
+                @*<th>Vendor ID</th>*@
                 <th>Vendor Name</th>
                 <th>Is VAT Registered?</th>
-                <th>Input VAT Account</th>
-                <th>Row Order</th>
+                @*<th>Input VAT Account</th>*@
+                @*<th>Row Order</th>*@
                 @*<th>Property Type</th>
                     <th>Area</th>*@
 
@@ -53,16 +54,17 @@ else
             @foreach (var v in vendors)
             {
                 <tr>
+                    @*<td>@v.vendorId.ToString()</td>*@
                     <td>@v.vendorName.ToString()</td>
                     <td>@v.isVatRegistered.ToString()</td>
-                    <td>
-                        @if (@v.inputVatAccount != null)
-                        {
-                            @v.inputVatAccount.accountDesc.ToString()
-                        }
+                    @*<td>
+                            @if (@v.inputVatAccount != null)
+                            {
+                                @v.inputVatAccount.accountDesc.ToString()
+                            }
 
-                    </td>
-                    <td>@v.rowOrder.ToString()</td>
+                        </td>*@
+                    @*<td>@v.rowOrder.ToString()</td>*@
                     <td>
                         <a href="@($"vendorentry/{v.vendorId}")" class="btn btn-primary table-btn">
                             <i class="fas fa-info-circle">EDIT</i>

@@ -4,19 +4,19 @@
 @inherits TenantListBase
 
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div class="container-fluid">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
 
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="setup">SET UP</a></li>
-            <li><a href="tenantlist">TENANT</a></li>
-            <li><a href="propertylist">PROPERTY</a></li>
-            <li><a href="propertylist">PROPERTY DIRECTORY</a></li>
-            <li><a href="vendorlist">VENDOR</a></li>
-            <li><a href="glaccountlist">GL ACCOUNT</a></li>
-        </ul>
-    </div>
-</nav>
+            <ul class="nav navbar-nav">
+                @*<li class="active"><a href="setup">SET UP</a></li>*@
+                <li><a href="tenantlist">&nbsp;&nbsp;&nbsp;&nbsp;TENANT&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="propertylist">&nbsp;&nbsp;&nbsp;&nbsp;PROPERTY&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                @*<li><a href="propertydirectorylist">PROPERTY DIRECTORY</a></li>*@
+                <li><a href="vendorlist">&nbsp;&nbsp;&nbsp;&nbsp;VENDOR&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="glaccountlist">&nbsp;&nbsp;&nbsp;&nbsp;GL ACCOUNT&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            </ul>
+        </div>
+    </nav>
 
 
 <h3>Tenant List</h3>
@@ -51,18 +51,18 @@ else
         <tbody>
             @foreach (var t in tenants)
             {
-            <tr>
-                <td>@t.lastName.ToString()</td>
-                <td>@t.firstName.ToString()</td>
-                <td>@t.middleName.ToString()</td>
-                <td>@t.contactNumber.ToString()</td>
-                <td>@t.emailAddress.ToString()</td>
-                <td>
-                    <a href="@($"tenantentry/{t.id}")" class="btn btn-primary table-btn">
-                        <i class="fas fa-info-circle">EDIT</i>
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>@t.lastName.ToString()</td>
+                    <td>@t.firstName.ToString()</td>
+                    <td>@t.middleName.ToString()</td>
+                    <td>@t.contactNumber.ToString()</td>
+                    <td>@t.emailAddress.ToString()</td>
+                    <td>
+                        <a href="@($"tenantentry/{t.id}")" class="btn btn-primary table-btn">
+                            <i class="fas fa-info-circle">EDIT</i>
+                        </a>
+                    </td>
+                </tr>
 
             }
 

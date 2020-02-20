@@ -58,21 +58,22 @@ namespace terminus_webapp.Pages
                                              .OrderBy(a => a.rowOrder)
                                              .ToListAsync();
 
-
-
+                
 
 
                 glAccount = data.Select(a => new GLAccountVM()
                 {
-                    accountId = a.accountId,
+
+
+                accountId = a.accountId,
                     accountCode = a.accountCode,
                     accountDesc = a.accountDesc,
                     balance = a.balance,
                     companyid = a.companyId,
-                    revenue = a.revenue.ToString(),
-                    expense = a.expense.ToString(),
-                    cashAccount = a.cashAccount.ToString(),
-                    outputVatAccount = a.outputVatAccount.ToString(),
+                    revenue = a.revenue ? "Y" : "N",
+                    expense = a.expense ? "Y" : "N",
+                    cashAccount = a.cashAccount ? "Y" : "N",
+                    outputVatAccount = a.outputVatAccount ? "Y" : "N",
                     rowOrder = a.rowOrder,
 
                 }).ToList();

@@ -136,7 +136,7 @@ else
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.cashAccount)" />*@
     </div>
 
-    <div class="form-group row">
+    @*<div class="form-group row">
         <label for="outputVatAccount" class="col-sm-2 col-form-label">Output Vat Account: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
@@ -152,9 +152,9 @@ else
                 <label>@glAccountView.outputVatAccount</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.outputVatAccount)" />*@
-    </div>
-    <div class="form-group row">
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.outputVatAccount)" />
+    </div>*@
+    @*<div class="form-group row">
         <label for="outputVatAccount" class="col-sm-2 col-form-label">Row Order: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
@@ -169,8 +169,8 @@ else
                 <label>@glAccountView.rowOrder</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.outputVatAccount)" />*@
-    </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.rowOrder)" />
+    </div>*@
 
     @if (!IsViewOnly)
     {
@@ -185,7 +185,7 @@ else
         }
 
     }
-    @*<a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>*@
+    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
 
 </EditForm>
 

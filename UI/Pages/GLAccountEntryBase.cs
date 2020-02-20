@@ -49,7 +49,7 @@ namespace terminus_webapp.Pages
 
         public void NavigateToList()
         {
-            NavigationManager.NavigateTo("/glaacountlist");
+            NavigationManager.NavigateTo("/glaccountlist");
         }
 
         protected async Task HandleValidSubmit()
@@ -108,6 +108,19 @@ namespace terminus_webapp.Pages
             if (string.IsNullOrEmpty(accountId))
             {
 
+                //var data = await appDBContext.GLAccounts.ToListAsync();
+                //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
+
+                int maxRow = appDBContext.GLAccounts.Max(a => a.rowOrder);
+                int _maxRow;
+                if (maxRow == null)
+                {
+                    _maxRow = 1;
+                }
+                else
+                {
+                    _maxRow = maxRow + 1;
+                }
 
                 GLAccount gl = new GLAccount()
                 {
@@ -116,12 +129,14 @@ namespace terminus_webapp.Pages
                     accountId = Guid.NewGuid(),
                     createDate = DateTime.Now,
                     createdBy = UserName,
+                    companyId = CompanyId,
                     accountCode = glAccountView.accountCode,
                     accountDesc = glAccountView.accountDesc,
                     balance = glAccountView.balance,
                     revenue = _rev,
                     expense = _exp,
                     cashAccount = _cshacc,
+                    rowOrder = _maxRow,
                     outputVatAccount = _outvat
                 };
 
@@ -147,8 +162,8 @@ namespace terminus_webapp.Pages
                 data.revenue = _rev;
                 data.expense = _exp;
                 data.outputVatAccount = _outvat;
-                data.cashAccount = _cshacc;
-                data.rowOrder = glAccountView.rowOrder;
+                //data.cashAccount = _cshacc;
+                //data.rowOrder = _maxRow;
 
                 appDBContext.GLAccounts.Update(data);
                 await appDBContext.SaveChangesAsync();

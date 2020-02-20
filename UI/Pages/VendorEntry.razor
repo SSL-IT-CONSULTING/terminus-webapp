@@ -26,7 +26,7 @@ else
     <DataAnnotationsValidator />
     <ValidationSummary></ValidationSummary>
 
-    <div class="form-group row">
+    @*<div class="form-group row">
         <label for="vendorId" class="col-sm-2 col-form-label">Vendor ID:</label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
@@ -39,9 +39,8 @@ else
                 <label>@vendors.vendorId</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.lastName)" />*@
-    </div>
-
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.vendorId)" />
+    </div>*@
 
 
     <div class="form-group row">
@@ -50,7 +49,6 @@ else
             @if (!IsViewOnly)
             {
                 <InputText @bind-Value="@vendors.vendorName" class="form-control">
-
                 </InputText>
             }
             else
@@ -63,56 +61,57 @@ else
 
 
 
+
+    @*<div class="form-group row">
+            <label for="rowOrder" class="col-sm-2 col-form-label">Row Order: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
+                    <InputNumber @bind-Value="@vendors.rowOrder" class="form-control">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>@vendors.rowOrder</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.rowOrder)" />
+        </div>*@
+
+    @*<div class="form-group row">
+            <label for="vataccount" class="col-sm-2 col-form-label">VAT Account: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+
+                    <InputSelect @bind-Value="@vendors.inputVatAccountid" class="form-control">
+                        <option value="">--- select item ---</option>
+
+                        @foreach (var gl in vendors.inputVatAccount)
+                                {
+                            <option value="@gl.accountId">@gl.accountDesc</option>
+                                }
+                        /**/
+
+                    </InputSelect>
+                }
+                else
+                {
+                    <label>@vendors.inputVatAccountid.ToString()</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.inputVatAccountid)" />
+        </div>*@
+
     <div class="form-group row">
-        <label for="rowOrder" class="col-sm-2 col-form-label">Row Order: </label>
+        <label for="isVatRegistered" class="col-sm-2 col-form-label">is VAT Registered: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputNumber @bind-Value="@vendors.rowOrder" class="form-control">
-                </InputNumber>
-            }
-            else
-            {
-                <label>@vendors.rowOrder</label>
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.rowOrder)" />
-    </div>
-
-    <div class="form-group row">
-        <label for="vataccount" class="col-sm-2 col-form-label">VAT Account: </label>
-        <div class="col-sm-5">
-            @if (!IsViewOnly)
-            {
-
-                <InputSelect @bind-Value="@vendors.inputVatAccountid" class="form-control">
-                    @*<option value="">--- select item ---</option>*@
-                    
-                    @foreach (var gl in vendors.inputVatAccount)
-                            {
-                        <option value="@gl.accountId">@gl.accountDesc</option>
-                            }
-                    /**/
-
+                <InputSelect @bind-Value="@vendors.isVatRegistered" class="form-control">
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
                 </InputSelect>
-            }
-            else
-            {
-                <label>@vendors.inputVatAccountid.ToString()</label>
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.inputVatAccountid)" />
-    </div>
-
-    <div class="form-group row">
-        <label for="rowOrder" class="col-sm-2 col-form-label">is VAT Registered: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
-            <InputSelect @bind-Value="@vendors.isVatRegistered" class="form-control">
-                <option value="N">No</option>
-                <option value="Y">Yes</option>
-            </InputSelect>
 
             }
             else
@@ -127,13 +126,13 @@ else
 
     @if (!IsViewOnly)
     {
-        @if (@IsEditOnly)
+        @if (!@IsEditOnly)
         {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Vendor Entry?');"> Save </button>
         }
         else
         {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Update </button>
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Vendor Entry?');"> Update </button>
         }
 
     }

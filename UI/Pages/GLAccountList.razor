@@ -8,12 +8,12 @@
     <div class="container-fluid">
 
         <ul class="nav navbar-nav">
-            <li class="active"><a href="setup">SET UP</a></li>
-            <li><a href="tenantlist">TENANT</a></li>
-            <li><a href="propertylist">PROPERTY</a></li>
-            <li><a href="propertylist">PROPERTY DIRECTORY</a></li>
-            <li><a href="vendorlist">VENDOR</a></li>
-            <li><a href="glaccountlist">GL ACCOUNT</a></li>
+            @*<li class="active"><a href="setup">SET UP</a></li>*@
+            <li><a href="tenantlist">&nbsp;&nbsp;&nbsp;&nbsp;TENANT&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            <li><a href="propertylist">&nbsp;&nbsp;&nbsp;&nbsp;PROPERTY&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            @*<li><a href="propertydirectorylist">PROPERTY DIRECTORY</a></li>*@
+            <li><a href="vendorlist">&nbsp;&nbsp;&nbsp;&nbsp;VENDOR&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            <li><a href="glaccountlist">&nbsp;&nbsp;&nbsp;&nbsp;GL ACCOUNT&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
         </ul>
     </div>
 </nav>
@@ -44,8 +44,8 @@ else
                 <th>Revenue</th>
                 <th>Expenses</th>
                 <th>Cash Account</th>
-                <th>Output Vat Account</th>
-                <th>Row Order</th>
+                @*<th>Output Vat Account</th>*@
+                @*<th>Row Order</th>*@
                 <th></th>
 
             </tr>
@@ -60,8 +60,8 @@ else
                     <td>@glAccount.cashAccount.ToString()</td>
                     <td>@glAccount.revenue.ToString()</td>
                     <td>@glAccount.expense.ToString()</td>
-                    <td>@glAccount.outputVatAccount.ToString()</td>
-                    <td>@glAccount.rowOrder.ToString()</td>
+                    @*<td>@glAccount.outputVatAccount.ToString()</td>*@
+                    @*<td>@glAccount.rowOrder.ToString()</td>*@
                     <td>
                         <a href="@($"glAccountentry/{glAccount.accountId}")" class="btn btn-primary table-btn">
                             <i class="fas fa-info-circle">EDIT</i>

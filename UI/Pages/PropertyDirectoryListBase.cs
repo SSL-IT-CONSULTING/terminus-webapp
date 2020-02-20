@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using terminus.shared.models;
 using terminus_webapp.Data;
 
+
+
 namespace terminus_webapp.Pages
 {
-    public class PropertyListBase:ComponentBase
+    public class PropertyDirectoryListBase:ComponentBase
     {
 
         [Inject]
@@ -24,7 +26,7 @@ namespace terminus_webapp.Pages
 
         public DapperManager dapperManager { get; set; }
 
-        public List<Property> properties { get; set; }
+        public List<PropertyDirectoryViewModal> propertyDirectory { get; set; }
 
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
@@ -32,21 +34,13 @@ namespace terminus_webapp.Pages
         public string CompanyId { get; set; }
         public string UserName { get; set; }
 
-        public void PropertyEntry()
+        public void AddProperDirectory()
         {
-            NavigationManager.NavigateTo("propertyentry");
+            NavigationManager.NavigateTo("propertydirectory");
         }
 
-        public void PropertyEdit()
-        {
-            NavigationManager.NavigateTo("propertyedit");
-        }
 
-        public void PropertyList()
-        {
-            NavigationManager.NavigateTo("propertylist");
 
-        }
 
         protected override async Task OnInitializedAsync()
         {
@@ -59,29 +53,37 @@ namespace terminus_webapp.Pages
                 UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
-
-                var data = await appDBContext.Properties
-                                             //.OrderByDescending(a => a.createDate)
-                                             .Select(a => new { id = a.id, company = a.company, description = a.description, address = a.address, propertyType=a.propertyType, areaInSqm = a.areaInSqm})
-                                             .OrderBy(a => a.description)
+                var data = await appDBContext.PropertyDirectory
+                                             .Include(a => a.property)
+                                             .Include(a => a.tenant)
+                                             .Include(a => a.company)
                                              .ToListAsync();
 
 
-                
 
 
-                properties = data.Select(a => new Property()
+
+                propertyDirectory = data.Select(a => new PropertyDirectoryViewModal()
                 {
+                    id = a.id,
+                    propertyId = a.propertyId,
+                    propertyDesc = a.property.description,
+                    dateFrom = a.dateFrom,
+                    dateTo = a.dateTo,
+                    companyId= "ASRC",
+                    monthlyRate = a.monthlyRate,
+                    revenueAccountId = a.revenueAccountId,
+                    status = a.status,
+                    tenandId = a.tenandId,
+                    tenantLastNName = a.tenant.lastName,
+                    tenantFirtsName = a.tenant.firstName,
+                    associationDues = a.associationDues,
+                    penaltyPct = a.penaltyPct,
+                    ratePerSQM = a.ratePerSQM,
+                    totalBalance = a.totalBalance
 
-                    
-
-                id = a.id,
-                    company = a.company,
-                    description = a.description.ToString(),
-                    address = a.address.ToString(),
-                    propertyType = a.propertyType.ToString(),
-                    areaInSqm = a.areaInSqm
                 }).ToList();
+
 
             }
             catch (Exception ex)
@@ -93,5 +95,6 @@ namespace terminus_webapp.Pages
                 DataLoaded = true;
             }
         }
+
     }
 }

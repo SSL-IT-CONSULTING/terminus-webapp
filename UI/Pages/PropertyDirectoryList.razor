@@ -1,0 +1,83 @@
+﻿@page "/propertydirectorylist"
+@attribute [Authorize]
+@inherits PropertyDirectoryListBase
+
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="setup">SET UP</a></li>
+            <li><a href="tenantlist">TENANT</a></li>
+            <li><a href="propertylist">PROPERTY</a></li>
+            <li><a href="propertylist">PROPERTY DIRECTORY</a></li>
+            <li><a href="vendorlist">VENDOR</a></li>
+            <li><a href="glaccountlist">GL ACCOUNT</a></li>
+        </ul>
+    </div>
+</nav>
+
+<h3>Property List</h3>
+
+@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Loading...</em></p>
+}
+else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered while loading this page.</em></p>
+}
+else
+{
+    <hr />
+    <button type="submit" @onclick="@AddProperDirectory" class="btn btn-primary edit-btn"> Add Property </button>
+    <br />
+
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>Property</th>
+                <th>Date From</th>
+                <th>Date To</th>
+                <th>Montly Rate</th>
+                <th>Tenant</th>
+                <th>Association Dues</th>
+                <th>Penalty %</th>
+                <th>Rate Per SQM %</th>
+                <th>Total Balance</th>
+                <th></th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pd in propertyDirectory)
+            {
+                <tr>
+                    <td>@pd.propertyDesc</td>
+                    <td>@pd.dateFrom.ToString("MM/dd/yyyy")</td>
+                    <td>@pd.dateTo.ToString("MM/dd/yyyy")</td>
+                    <td>@pd.monthlyRate.ToString("n2")</td>
+                    <td>@pd.tenantLastNName, @pd.tenantFirtsName</td>
+                    <td>@pd.associationDues.ToString("n2")</td>
+                    <td>@pd.penaltyPct</td>
+                    <td>@pd.ratePerSQM</td>
+                    <td>@pd.totalBalance.ToString("n2")</td>
+                    <td>
+                        <a href="@($"propertydirectory/{pd.id}")" class="btn btn-primary table-btn">
+                            <i class="fas fa-info-circle">EDIT</i>
+                        </a>
+                    </td>
+                </tr>
+
+            }
+
+
+        </tbody>
+    </table>
+
+
+
+}
