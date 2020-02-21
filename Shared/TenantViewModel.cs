@@ -5,7 +5,7 @@ using System.Text;
 
 namespace terminus.shared.models
 {
-    public class TenantViewModel
+    public class TenantViewModel:TBase
     {
 
         [Key, MaxLength(36)]
@@ -30,5 +30,31 @@ namespace terminus.shared.models
 
         [MaxLength(300)]
         public string emailAddress { get; set; }
+
+        public string propertyDirectoryId { get; set; }
+
+        public string propertyid { get; set; }
+        public List<Property> properties { get; set; }
+
+
+        public DateTime dateFrom { get; set; }
+        public DateTime dateTo { get; set; }
+
+        public decimal monthlyRate { get; set; }
+
+        public string revenueAccountId { get; set; }
+
+        public string status { get; set; }
+
+        public decimal associationDues { get; set; }
+
+        public decimal penaltyPct { get; set; }
+
+        public decimal ratePerSQM { get; set; }
+
+        public decimal totalBalance { get; set; }
+
+
+
     }
 }

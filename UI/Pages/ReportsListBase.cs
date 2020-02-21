@@ -295,7 +295,40 @@ namespace terminus_webapp.Pages
                     using (var excelPack = new ExcelPackage(file))
                     {
                         var ws = excelPack.Workbook.Worksheets.Add("Sheet1");
-                        ws.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
+                        int rowIndex = 1;
+                        int colnameindex = 1;
+
+                        foreach (DataColumn col in table.Columns)
+                        {
+                            if (colnameindex != 1)
+                            {
+                                ws.Cells[rowIndex, colnameindex -1].Value = col.ColumnName.ToString();
+                                
+                            }
+                            colnameindex += 1;
+
+                        }
+
+                        rowIndex = 2;
+
+                        foreach (DataRow row in table.Rows)
+                        {
+                            int colIndex = 1;
+                            foreach (DataColumn col in table.Columns)
+                            {
+                                if (colIndex != 1)
+                                {
+                                    ws.Cells[rowIndex, colIndex - 1].Value = row[col.ColumnName].ToString().Replace("1/1/0001 12:00:00 AM", "");
+
+                                }
+                                colIndex += 1;
+                            }
+                            rowIndex += 1;
+
+                        }
+
+
+                        //ws.Cells.LoadFromDataTable(table, true, OfficeOpenXml.Table.TableStyles.Light8);
                         excelPack.Save();
 
                     }

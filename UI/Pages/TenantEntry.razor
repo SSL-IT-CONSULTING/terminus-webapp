@@ -1,5 +1,5 @@
 ﻿@page "/tenantentry"
-@page "/tenantentry/{id}"
+@page "/tenantentry/{id}/{tenandId}"
 @attribute [Authorize]
 @inherits TenantEntryBase
 
@@ -7,7 +7,7 @@
 
 
 <h3>Tenant Entries</h3>
-
+<hr />
 
 @if (!IsDataLoaded)
 {
@@ -24,9 +24,11 @@ else
     <DataAnnotationsValidator />
     <ValidationSummary></ValidationSummary>
 
+
+
     <div class="form-group row">
         <label for="accountCode" class="col-sm-2 col-form-label">Last Name:</label>
-        <div class="col-sm-2">
+        <div class="col-sm-5">
 
             @if (!IsViewOnly)
             {
@@ -64,7 +66,7 @@ else
 
     <div class="form-group row">
         <label for="balance" class="col-sm-2 col-form-label">Middle Name: </label>
-        <div class="col-sm-2">
+        <div class="col-sm-5">
             @if (!IsViewOnly)
             {
                 <InputText @bind-Value="@tenants.middleName" class="form-control">
@@ -81,13 +83,13 @@ else
 
     <div class="form-group row">
         <label for="Revenue" class="col-sm-2 col-form-label">Contact Number: </label>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
             @if (!IsViewOnly)
             {
 
-                <InputText @bind-Value="@tenants.contactNumber" class="form-control">
+                <InputTextArea rows="4" @bind-Value="@tenants.contactNumber" class="form-control">
 
-                </InputText>
+                </InputTextArea>
             }
             else
             {
@@ -103,9 +105,9 @@ else
             @if (!IsViewOnly)
             {
 
-                <InputText @bind-Value="@tenants.emailAddress" class="form-control">
+                <InputTextArea rows="4" @bind-Value="@tenants.emailAddress" class="form-control">
 
-                </InputText>
+                </InputTextArea>
             }
             else
             {
@@ -114,6 +116,154 @@ else
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emailAddress)" />*@
     </div>
+
+    <hr />
+
+    <div class="form-group row">
+        <label for="properties" class="col-sm-2 col-form-label">Property: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
+                    <option value=""></option>
+                    @foreach (var p in tenants.properties)
+                            {
+                        <option value="@p.id">@p.description</option>
+                            }
+
+                </InputSelect>
+            }
+            else
+            {
+                <label>@tenants.propertyid</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.propertyid)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="dateFrom" class="col-sm-2 col-form-label">Date From: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputDate @bind-Value="@tenants.dateFrom" class="form-control">
+                </InputDate>
+            }
+            else
+            {
+                <label>@tenants.dateFrom</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateFrom)" />
+    </div>
+    <div class="form-group row">
+        <label for="dateTo" class="col-sm-2 col-form-label">Date To: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputDate @bind-Value="@tenants.dateTo" class="form-control">
+                </InputDate>
+            }
+            else
+            {
+                <label>@tenants.dateTo</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateTo)" />
+    </div>
+    <div class="form-group row">
+        <label for="monthlyRate" class="col-sm-2 col-form-label">Monthly Rate: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputNumber @bind-Value="@tenants.monthlyRate" class="form-control">
+                </InputNumber>
+            }
+            else
+            {
+                <label>@tenants.monthlyRate</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.monthlyRate)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="associationDues" class="col-sm-2 col-form-label">Association Dues: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputNumber @bind-Value="@tenants.associationDues" class="form-control">
+                </InputNumber>
+            }
+            else
+            {
+                <label>@tenants.associationDues</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.associationDues)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="penaltyPct" class="col-sm-2 col-form-label">Penalty %: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputNumber @bind-Value="@tenants.penaltyPct" class="form-control">
+                </InputNumber>
+            }
+            else
+            {
+                <label>@tenants.penaltyPct</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.penaltyPct)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="ratePerSQM" class="col-sm-2 col-form-label">Rate Per SQM: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputNumber @bind-Value="@tenants.ratePerSQM" class="form-control">
+                </InputNumber>
+            }
+            else
+            {
+                <label>@tenants.ratePerSQM</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.ratePerSQM)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="totalBalance" class="col-sm-2 col-form-label">Total Balance: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputNumber @bind-Value="@tenants.totalBalance" class="form-control">
+                </InputNumber>
+            }
+            else
+            {
+                <label>@tenants.totalBalance</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.totalBalance)" />
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

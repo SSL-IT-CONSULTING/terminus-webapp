@@ -8,7 +8,7 @@
 
 
 <h3>GL Account Entries</h3>
-
+<hr />
 
 @if (!IsDataLoaded)
 {
@@ -76,7 +76,7 @@ else
                 <label>@glAccountView.balance</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.balance)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.balance)" />
     </div>
 
     <div class="form-group row">
@@ -95,7 +95,7 @@ else
                 <label>@glAccountView.revenue</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.revenue)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.revenue)" />
     </div>
 
     <div class="form-group row">
@@ -133,7 +133,7 @@ else
                 <label>@glAccountView.cashAccount</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccount.cashAccount)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.cashAccount)" />
     </div>
 
     @*<div class="form-group row">

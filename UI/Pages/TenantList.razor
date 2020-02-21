@@ -38,35 +38,42 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>Property</th>
+                <th>Tenant Name</th>
+                <th>Date From</th>
+                <th>Date To</th>
+                <th>Monthly Date</th>
+                <th>Association Dues</th>
+                <th>Penalty %</th>
+                <th>Rate Per SQM</th>
+                <th>Total Balance</th>
 
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Contact Number</th>
-                <th>Email Address</th>
 
 
             </tr>
         </thead>
         <tbody>
-            @foreach (var t in tenants)
+            @foreach (var pi in propertyDirectories)
             {
-                <tr>
-                    <td>@t.lastName.ToString()</td>
-                    <td>@t.firstName.ToString()</td>
-                    <td>@t.middleName.ToString()</td>
-                    <td>@t.contactNumber.ToString()</td>
-                    <td>@t.emailAddress.ToString()</td>
-                    <td>
-                        <a href="@($"tenantentry/{t.id}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-info-circle">EDIT</i>
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@pi.propertyDesc</td>
+                <td>@pi.tenantLastNName, @pi.tenantFirtsName </td>
+                <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
 
+                <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
+                <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
+                <td>@pi.penaltyPct</td>
+                <td>@pi.ratePerSQM</td>
+                <td>@pi.totalBalance.ToString("n2").Replace("01/01/0001", "")</td>
+                <td>
+                    <a href="@($"tenantentry/{pi.id}/{pi.tenandId}")" class="btn btn-primary table-btn">
+                        <i class="fas fa-info-circle">EDIT</i>
+                    </a>
+                </td>
+
+            </tr>
             }
-
-
         </tbody>
     </table>
 

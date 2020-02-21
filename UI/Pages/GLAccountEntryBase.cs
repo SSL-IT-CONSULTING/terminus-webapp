@@ -211,10 +211,11 @@ namespace terminus_webapp.Pages
                         accountDesc = data.accountDesc,
                         balance = data.balance,
                         companyid = data.companyId,
+
                         revenue = data.revenue?"Y":"N",
-                        expense = data.expense?"Y":"N",
-                        cashAccount = data.cashAccount?"Y":"N",
-                        outputVatAccount = data.outputVatAccount?"Y":"N",
+                        expense = data.expense? "Y":"N",
+                        cashAccount = data.cashAccount? "Y":"N",
+                        outputVatAccount = data.outputVatAccount? "Y":"N",
                         rowOrder = data.rowOrder,
 
                     };

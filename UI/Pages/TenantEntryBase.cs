@@ -26,7 +26,8 @@ namespace terminus_webapp.Pages
 
         [Parameter]
         public string id { get; set; }
-
+        [Parameter]
+        public string tenandId { get; set; }
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
 
@@ -59,20 +60,20 @@ namespace terminus_webapp.Pages
 
             var company = await appDBContext.Companies.Where(a => a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
+            DateTime datetoday = DateTime.Now;
+
             if (string.IsNullOrEmpty(id))
             {
 
-                var id = Guid.NewGuid();
-
-                
+                var tenantId = Guid.NewGuid();
+                var properDirectoryId = Guid.NewGuid().ToString();
 
                 Tenant t = new Tenant()
                 {
 
-                    id = id.ToString(),
+                    id = tenantId.ToString(),
                     company = company,
-
-                    updateDate = DateTime.Now,
+                    updateDate = datetoday,
                     updatedBy = UserName,
                     lastName = tenants.lastName,
                     firstName = tenants.firstName,
@@ -82,45 +83,88 @@ namespace terminus_webapp.Pages
 
                 };
 
-
                 appDBContext.Tenants.Add(t);
+                await appDBContext.SaveChangesAsync();
 
+                //---------------------------------------------
                 
+                var pd = new PropertyDirectory();
 
-                
+                //id = properDirectoryId;
+                pd.id = Guid.Parse(properDirectoryId.ToString());
+                pd.createDate = datetoday;
+                pd.createdBy = UserName;
+                pd.propertyId = tenants.propertyid;
+                //pd.property = tenants.properties.Where(a => a.id.Equals(Guid.Parse(tenants.propertyid))).FirstOrDefault();
+                pd.dateFrom = tenants.dateFrom;
+                pd.dateTo = tenants.dateTo;
+                pd.companyId = CompanyId;
+                pd.monthlyRate = tenants.monthlyRate;
+                pd.tenandId = tenantId.ToString();
+
+                pd.associationDues = tenants.associationDues;
+                pd.penaltyPct = tenants.penaltyPct;
+                pd.ratePerSQM = tenants.ratePerSQM;
+                pd.totalBalance = tenants.totalBalance;
+
+
+                appDBContext.PropertyDirectory.Add(pd);
+                await appDBContext.SaveChangesAsync();
+
 
             }
             else
             {
 
 
-                var data = await appDBContext.Tenants
+                var t = await appDBContext.Tenants
                                                 //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                                                 .Include(a => a.company)
-                                                .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
+                                                .Where(r => r.id.Equals(tenandId)).FirstOrDefaultAsync();
 
 
 
-                data.lastName = tenants.lastName;
-                data.firstName = tenants.firstName;
-                data.middleName = tenants.middleName;
-                data.contactNumber = tenants.contactNumber;
-                data.emailAddress = tenants.emailAddress;
- 
+                t.lastName = tenants.lastName;
+                t.firstName = tenants.firstName;
+                t.middleName = tenants.middleName;
+                t.contactNumber = tenants.contactNumber;
+                t.emailAddress = tenants.emailAddress;
+
+
+                appDBContext.Tenants.Update(t);
+                await appDBContext.SaveChangesAsync();
 
 
 
+                var pd = await appDBContext.PropertyDirectory
+                                                //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
+                                                .Include(a => a.company)
+                                                .Include(a => a.property)
+                                                .Include(a => a.tenant)
+                                                .Where(r => r.id.Equals(Guid.Parse(id))).FirstOrDefaultAsync();
 
 
-                appDBContext.Tenants.Update(data);
+                //id = properDirectoryId;
                 
+                pd.updateDate = datetoday;
+                pd.updatedBy = UserName;
 
+                pd.dateFrom = tenants.dateFrom;
+                pd.dateTo = tenants.dateTo;
 
-                
+                pd.monthlyRate = tenants.monthlyRate;
+
+                pd.associationDues = tenants.associationDues;
+                pd.penaltyPct = tenants.penaltyPct;
+                pd.ratePerSQM = tenants.ratePerSQM;
+                pd.totalBalance = tenants.totalBalance;
+
+                appDBContext.PropertyDirectory.Update(pd);
+                await appDBContext.SaveChangesAsync();
             }
 
 
-            await appDBContext.SaveChangesAsync();
+            
             StateHasChanged();
 
             NavigateToList();
@@ -140,39 +184,77 @@ namespace terminus_webapp.Pages
 
                 if (string.IsNullOrEmpty(id))
                 {
+
+
                     tenants = new TenantViewModel();
                     // glAccount.createDate = DateTime.Today;
                     tenants.id = Guid.NewGuid().ToString();
+                    //tenants.propertyDictory.id = Guid.NewGuid();
+
+
+
+
+                    
                 }
                 else
                 {
+
+
+
+                    //pd.id = Guid.Parse(properDirectoryId.ToString());
+                    //pd.createDate = datetoday;
+                    //pd.createdBy = UserName;
+                    //pd.propertyId = tenants.propertyid;
+                    ////pd.property = tenants.properties.Where(a => a.id.Equals(Guid.Parse(tenants.propertyid))).FirstOrDefault();
+                    //pd.dateFrom = tenants.dateFrom;
+                    //pd.dateTo = tenants.dateTo;
+                    //pd.companyId = CompanyId;
+                    //pd.monthlyRate = tenants.monthlyRate;
+                    //pd.tenandId = tenantId.ToString();
+
+                    //pd.associationDues = tenants.associationDues;
+                    //pd.penaltyPct = tenants.penaltyPct;
+                    //pd.ratePerSQM = tenants.ratePerSQM;
+                    //pd.totalBalance = tenants.totalBalance;
+
                     IsViewOnly = false;
                     IsEditOnly = true;
 
                     //var id = Guid.Parse(Id);
                     //var tenatnid = Guid.Parse(id);
-                    var data = await appDBContext.Tenants
+                    var data = await appDBContext.PropertyDirectory
                                                     .Include(a => a.company)
-                                                    .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
+                                                    .Include(a => a.property)
+                                                    .Include(a => a.tenant)
+                                                    .Where(r => r.id.Equals(Guid.Parse(id))).FirstOrDefaultAsync();
                     //var data = await appDBContext.Tenants.Where(a => a.id.Equals(Guid.Parse(id))).ToListAsync();
 
                     tenants = new TenantViewModel()
                     {
-                        id = data.id,
+                        id = data.id.ToString(),
                         companyid = data.company.companyId,
                         company = data.company,
-                        lastName = data.lastName,
-                        firstName = data.firstName,
-                        middleName = data.middleName,
-                        contactNumber = data.contactNumber,
-                        emailAddress = data.emailAddress
+                        
+                        lastName = data.tenant.lastName,
+                        firstName = data.tenant.firstName,
+                        middleName = data.tenant.middleName,
+                        contactNumber = data.tenant.contactNumber,
+                        emailAddress = data.tenant.emailAddress,
+                        propertyid = data.propertyId,
+                        dateFrom = data.dateFrom,
+                        dateTo = data.dateTo,
+                        monthlyRate = data.monthlyRate,
+                        associationDues = data.associationDues,
+                        penaltyPct = data.penaltyPct,
+                        ratePerSQM = data.ratePerSQM,
+                        totalBalance = data.totalBalance
                     };
 
 
 
 
                 }
-                
+                tenants.properties = await appDBContext.Properties.ToListAsync();
 
             }
             catch (Exception ex)

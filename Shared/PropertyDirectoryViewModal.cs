@@ -58,7 +58,6 @@ namespace terminus.shared.models
         public decimal totalBalance { get; set; }
 
 
-
 }
 }
 

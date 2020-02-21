@@ -70,10 +70,10 @@ namespace terminus_webapp.Pages
                     accountDesc = a.accountDesc,
                     balance = a.balance,
                     companyid = a.companyId,
-                    revenue = a.revenue ? "Y" : "N",
-                    expense = a.expense ? "Y" : "N",
-                    cashAccount = a.cashAccount ? "Y" : "N",
-                    outputVatAccount = a.outputVatAccount ? "Y" : "N",
+                    revenue = a.revenue ? "Yes":"No",
+                    expense = a.expense ? "Yes":"No",
+                    cashAccount = a.cashAccount ? "Yes":"No",
+                    outputVatAccount = a.outputVatAccount ? "Yes":"No",
                     rowOrder = a.rowOrder,
 
                 }).ToList();

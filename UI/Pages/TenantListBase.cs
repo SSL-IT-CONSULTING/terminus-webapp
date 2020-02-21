@@ -24,7 +24,7 @@ namespace terminus_webapp.Pages
 
         public DapperManager dapperManager { get; set; }
 
-        public List<Tenant> tenants { get; set; }
+        public List<PropertyDirectoryViewModal> propertyDirectories { get; set; }
 
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
@@ -62,26 +62,39 @@ namespace terminus_webapp.Pages
                 UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
-                var data = await appDBContext.Tenants   
+                var data = await appDBContext.PropertyDirectory   
+                                             .Include(a => a.tenant)
+                                             .Include(a => a.property)
                                              .OrderByDescending(a => a.createDate)
-                                             .Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress})
                                              .ToListAsync();
 
 
 
+                    //                < td > @pi.description </ td >
+                    //< td > @pi.propertyType </ td >
+                    //< td > @pi.TenantName </ td >
+                    //< td > @pi.contactNumber </ td >
+                    //< td > @pi.emailAddress </ td >
+                    //< td > @pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "") </ td >
 
+                    //< td > @pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "") </ td >
+                    //< td > @pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "") </ td >
 
-                tenants = data.Select(a => new Tenant()
+                propertyDirectories = data.Select(a => new PropertyDirectoryViewModal()
                 {
                     id = a.id,
-                    company = a.company,
-                    lastName = a.lastName,
-                    firstName = a.firstName,
-                    middleName = a.middleName,
-                    contactNumber = a.contactNumber,
-                    emailAddress = a.emailAddress,
-
-
+                    propertyId = a.property.id,
+                    propertyDesc= a.property.description,
+                    tenandId = a.tenant.id,
+                    tenantLastNName = a.tenant.lastName,
+                    tenantFirtsName = a.tenant.firstName,
+                    monthlyRate = a.monthlyRate,
+                    associationDues = a.associationDues,
+                    penaltyPct = a.penaltyPct,
+                    ratePerSQM = a.ratePerSQM,
+                    totalBalance = a.totalBalance,
+                    dateFrom = a.dateFrom,
+                    dateTo = a.dateTo
                 }).ToList();
 
             }
