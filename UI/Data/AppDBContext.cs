@@ -41,6 +41,8 @@ namespace terminus_webapp.Data
         public DbSet<ReferenceViewModal> ReferenceViewModals { get; set; }
 
         public DbSet<CompanyDefault> CompanyDefaults { get; set; }
+
+        public DbSet<DocumentIdTable> DocumentIdTable { get; set; }
         
         protected override void OnModelCreating(ModelBuilder builder)
         {

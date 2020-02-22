@@ -286,6 +286,21 @@ namespace terminus_webapp.Pages
                                 }
                                 break;
 
+                            case Constants.BillLineTypes.MONTHLYBILLITEM_WT:
+                                if (companyDefault.RevenueMonthlyDueWTAccountId.HasValue)
+                                {
+                                    a.creditAccountId = companyDefault.RevenueMonthlyDueWTAccountId.Value.ToString();
+                                    a.creditAccountCode = companyDefault.RevenueMonthlyDueWTAccount.accountCode;
+                                    a.creditAccountName = companyDefault.RevenueMonthlyDueWTAccount.accountDesc;
+                                }
+                                if (companyDefault.RevenueMonthlyDueDebitAccountId.HasValue)
+                                {
+                                    a.debitAccountId = companyDefault.RevenueMonthlyDueDebitAccountId.Value.ToString();
+                                    a.debitAccountCode = companyDefault.RevenueMonthlyDueDebitAccount.accountCode;
+                                    a.debitAccountName = companyDefault.RevenueMonthlyDueDebitAccount.accountDesc;
+                                }
+                                break;
+
                             case Constants.BillLineTypes.MONTHLYASSOCDUE_PREVBAL:
                             case Constants.BillLineTypes.MONTHLYASSOCDUE:
                             case Constants.BillLineTypes.MONTHLYASSOCDUEPENALTY:

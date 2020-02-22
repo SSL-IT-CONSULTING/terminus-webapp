@@ -142,6 +142,14 @@ namespace terminus_webapp.Components
             return amount - Math.Round(amount / 1.12m, 2);
         }
 
+        protected decimal CalculateWT(decimal amount)
+        {
+            if (amount == 0m)
+                return 0m;
+
+            return amount - Math.Round(amount / 1.02m, 2);
+        }
+
         public async Task InitNewBilling()
         {
             try
@@ -206,7 +214,9 @@ namespace terminus_webapp.Components
                         monthlyRentBalance = balanceView.Where(a => a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM, StringComparison.OrdinalIgnoreCase)
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_PREVBAL, StringComparison.OrdinalIgnoreCase)
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEMPENALTY, StringComparison.OrdinalIgnoreCase)
-                                                                 || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_VAT, StringComparison.OrdinalIgnoreCase))
+                                                                 || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_VAT, StringComparison.OrdinalIgnoreCase)
+                                                                 || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_WT, StringComparison.OrdinalIgnoreCase)
+                                                                 )
                                                         .Sum(a => a.balance);
 
                         monthlyAssocDueBalance = balanceView.Where(a => a.billLineType.Equals(Constants.BillLineTypes.MONTHLYASSOCDUE, StringComparison.OrdinalIgnoreCase)
@@ -226,7 +236,14 @@ namespace terminus_webapp.Components
                             dueAmount = pd.monthlyRate;
 
                         var dueAmountVat = CalculateVat(dueAmount);
-                        var dueAmountBeforeVat = CalculateBeforeVat(dueAmount);
+                        var dueAmountBeforeVat = dueAmount- dueAmountVat;
+                        var wtAmt = 0m;
+
+                        if(dueAmountBeforeVat!=0m)
+                        {
+                            wtAmt = CalculateWT(dueAmountBeforeVat);
+                            dueAmountBeforeVat = dueAmount - (dueAmountVat - wtAmt);
+                        }
 
                         if (monthlyRentBalance > 0)
                         {
@@ -251,33 +268,13 @@ namespace terminus_webapp.Components
                             });
                         }
 
-                        decimal amtPaidRent = 0m;
-                        if (monthlyRentBalance < 0)
-                        {
-                            if (Math.Abs(monthlyRentBalance) > dueAmount)
-                                amtPaidRent = dueAmount;
-                            else
-                                amtPaidRent = Math.Abs(dueAmount);
-
-                            billItems.Add(new BillingLineItem()
-                            {
-                                Id = Guid.NewGuid(),
-                                description = "Rent advance payment balance",
-                                amount = 0,
-                                amountPaid = monthlyRentBalance + dueAmount,
-                                lineNo = 2,
-                                generated = true,
-                                billLineType = Constants.BillLineTypes.MONTHLYBILLITEM
-                            });
-                        }
-
-
+                       
                         billItems.Add(new BillingLineItem()
                         {
                             Id = Guid.NewGuid(),
                             description = "Monthly due",
                             amount = dueAmountBeforeVat,
-                            amountPaid = CalculateBeforeVat(amtPaidRent),
+                            amountPaid = 0,
                             lineNo = 2,
                             generated = true,
                             billLineType = Constants.BillLineTypes.MONTHLYBILLITEM
@@ -288,11 +285,25 @@ namespace terminus_webapp.Components
                             Id = Guid.NewGuid(),
                             description = "Monthly due (VAT)",
                             amount = dueAmountVat,
-                            amountPaid = CalculateVat(amtPaidRent),
+                            amountPaid = 0,
                             lineNo = 2,
                             generated = true,
                             billLineType = Constants.BillLineTypes.MONTHLYBILLITEM_VAT
                         });
+
+                        if(wtAmt!=0m)
+                        {
+                            billItems.Add(new BillingLineItem()
+                            {
+                                Id = Guid.NewGuid(),
+                                description = "Monthly due (WT)",
+                                amount = wtAmt,
+                                amountPaid = 0,
+                                lineNo = 2,
+                                generated = true,
+                                billLineType = Constants.BillLineTypes.MONTHLYBILLITEM_VAT
+                            });
+                        }
 
                         if (monthlyAssocDueBalance>0)
                         {
@@ -319,26 +330,6 @@ namespace terminus_webapp.Components
 
                         if (pd.associationDues > 0)
                         {
-                            decimal amtPaid = 0m;
-                            if(monthlyAssocDueBalance<0)
-                            {
-                                if (Math.Abs(monthlyAssocDueBalance) > pd.associationDues)
-                                    amtPaid = pd.associationDues;
-                                else
-                                    amtPaid = Math.Abs(monthlyAssocDueBalance);
-
-                                billItems.Add(new BillingLineItem()
-                                {
-                                    Id = Guid.NewGuid(),
-                                    description = "Advance payment of association dues balance",
-                                    amount = 0,
-                                    amountPaid = monthlyAssocDueBalance + amtPaid,
-                                    lineNo = 5,
-                                    generated = true,
-                                    billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE
-                                });
-                            }
-
                             var assocDuesBeforevat = CalculateBeforeVat(pd.associationDues);
                             var assocDuesVat = CalculateVat(pd.associationDues);
 
@@ -347,7 +338,7 @@ namespace terminus_webapp.Components
                                 Id = Guid.NewGuid(),
                                 description = "Association dues",
                                 amount = assocDuesBeforevat,
-                                amountPaid = CalculateBeforeVat(amtPaid),
+                                amountPaid = 0,
                                 lineNo = 6,
                                 generated = true,
                                 billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE
@@ -358,7 +349,7 @@ namespace terminus_webapp.Components
                                 Id = Guid.NewGuid(),
                                 description = "Association dues (VAT)",
                                 amount = assocDuesVat,
-                                amountPaid = CalculateVat(amtPaidRent),
+                                amountPaid = 0,
                                 lineNo = 7,
                                 generated = true,
                                 billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT

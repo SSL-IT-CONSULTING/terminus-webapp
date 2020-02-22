@@ -24,6 +24,10 @@ namespace terminus.shared.models
         public Guid? RevenueMonthlyDueVatAccountId { get; set; }
         public GLAccount RevenueMonthlyDueVatAccount { get; set; }
 
+        [ForeignKey("RevenueMonthlyDueWTAccount")]
+        public Guid? RevenueMonthlyDueWTAccountId { get; set; }
+        public GLAccount RevenueMonthlyDueWTAccount { get; set; }
+
 
         [ForeignKey("RevenueAssocDuesDebitAccount")]
         public Guid? RevenueAssocDuesDebitAccountId { get; set; }

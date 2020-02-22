@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200220113331_dbchange30")]
+    partial class dbchange30
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,10 +367,6 @@ namespace terminus_webapp.Migrations
                     b.Property<DateTime>("checkDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("checkNo")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
                     b.HasKey("checkDetailId");
 
                     b.ToTable("CheckDetails");
@@ -414,9 +412,6 @@ namespace terminus_webapp.Migrations
                     b.Property<Guid?>("RevenueMonthlyDueVatAccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RevenueMonthlyDueWTAccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("companyId");
 
                     b.HasIndex("RevenueAssocDuesAccountId");
@@ -430,8 +425,6 @@ namespace terminus_webapp.Migrations
                     b.HasIndex("RevenueMonthlyDueDebitAccountId");
 
                     b.HasIndex("RevenueMonthlyDueVatAccountId");
-
-                    b.HasIndex("RevenueMonthlyDueWTAccountId");
 
                     b.ToTable("CompanyDefaults");
                 });
@@ -1322,10 +1315,6 @@ namespace terminus_webapp.Migrations
                     b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueVatAccount")
                         .WithMany()
                         .HasForeignKey("RevenueMonthlyDueVatAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueWTAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueMonthlyDueWTAccountId");
                 });
 
             modelBuilder.Entity("terminus.shared.models.DocumentIdTable", b =>

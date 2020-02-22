@@ -13,6 +13,7 @@ namespace terminus_webapp.Common
             public const string MONTHLYBILLITEM = "MONTHLYBILLITEM";
             public const string MONTHLYBILLITEM_PREVBAL = "MONTHLYBILLITEM_PREVBAL";
             public const string MONTHLYBILLITEM_VAT = "MONTHLYBILLITEM_VAT";
+            public const string MONTHLYBILLITEM_WT = "MONTHLYBILLITEM_WT";
             public const string MONTHLYBILLITEMPENALTY = "MONTHLYBILLITEMPENALTY";
 
             public const string MONTHLYASSOCDUE = "MONTHLYASSOCDUE";

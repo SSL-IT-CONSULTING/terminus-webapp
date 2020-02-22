@@ -29,10 +29,6 @@ namespace terminus.shared.models
 
         public Company company { get; set; }
 
-        //[ForeignKey("account")]
-        //public Guid accountId { get; set; }
-        //public GLAccount account { get; set; }
-
         public DateTime transactionDate { get; set; }
 
         [MaxLength(200)]
@@ -50,8 +46,6 @@ namespace terminus.shared.models
         public string cashOrCheck { get; set; }
 
         public CheckDetails checkDetails { get; set; }
-
-        //public GLAccount cashAccount { get; set; }
 
         public JournalEntryHdr journalEntry { get; set; }
 
