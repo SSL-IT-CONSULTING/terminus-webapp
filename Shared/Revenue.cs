@@ -58,7 +58,7 @@ namespace terminus.shared.models
 
         public decimal beforeTax { get; set; }
 
-        [MaxLength(20)]
+        [MaxLength(36)]
         public string documentId { get; set; }
 
     }

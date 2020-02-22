@@ -163,6 +163,21 @@ namespace terminus_webapp.Components
 
                 if (string.IsNullOrEmpty(billingId))
                 {
+                    DynamicParameters dynamicParameters = new DynamicParameters();
+
+                    var IdKey = $"BILLING{DateTime.Today.ToString("yyyyMM")}";
+                    dynamicParameters.Add("IdKey", IdKey);
+                    dynamicParameters.Add("Format", "000000");
+                    dynamicParameters.Add("CompanyId", CompanyId);
+
+                    var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                    var documentId = string.Empty;
+
+                    if (documentIdTable.Any())
+                    {
+                        documentId = $"BILLING{DateTime.Today.ToString("yyyyMM")}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                    }
+
                     var dateDue = DateTime.Parse(dueDate);
                     var pdlist = await appDBContext.
                                         PropertyDirectory
@@ -182,15 +197,18 @@ namespace terminus_webapp.Components
 
                     var pd = pdlist.First();
                     billing.billId = Guid.NewGuid();
+                    billing.documentId = documentId;
                     billing.transactionDate = DateTime.Today;
                     billing.billType = this.billingType;
                     billing.MonthYear = dateDue.ToString("yyyyMM");
-                    var tenantInitials = string.Format("{0}{1}{2}",
-                                        string.IsNullOrEmpty(pd.tenant.firstName) ? string.Empty : pd.tenant.firstName.Substring(0, 1),
-                                        string.IsNullOrEmpty(pd.tenant.middleName) ? string.Empty : pd.tenant.middleName.Substring(0, 1),
-                                        string.IsNullOrEmpty(pd.tenant.lastName) ? string.Empty : pd.tenant.lastName.Substring(0, 1));
 
-                    billing.documentId = $"BILL_{this.billingType}_{tenantInitials}{DateTime.Now.ToString("yyyyMMddHHmmss")}".ToUpper();
+                    //var tenantInitials = string.Format("{0}{1}{2}",
+                    //                    string.IsNullOrEmpty(pd.tenant.firstName) ? string.Empty : pd.tenant.firstName.Substring(0, 1),
+                    //                    string.IsNullOrEmpty(pd.tenant.middleName) ? string.Empty : pd.tenant.middleName.Substring(0, 1),
+                    //                    string.IsNullOrEmpty(pd.tenant.lastName) ? string.Empty : pd.tenant.lastName.Substring(0, 1));
+
+                    //billing.documentId = $"BILL_{this.billingType}_{tenantInitials}{DateTime.Now.ToString("yyyyMMddHHmmss")}".ToUpper();
+                   
                     billing.dateDue = dateDue;
                     billing.propertyDirectoryId = pd.id;
                     billing.propertyDirectory = pd;

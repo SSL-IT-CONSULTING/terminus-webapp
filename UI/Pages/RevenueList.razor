@@ -21,7 +21,10 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>Document Id</th>
+                <th>Billing Id</th>
                 <th>Date</th>
+
                 <th>Description</th>
                 <th>Tenant</th>
                 <th>Property</th>
@@ -35,6 +38,8 @@ else
             @foreach (var revenue in Revenues)
             {
             <tr>
+                <td>@revenue.documentId</td>
+                <td>@revenue.billingDocumentId</td>
                 <td>@revenue.transactionDate.ToString("yyyy-MM-dd")</td>
                 <td>@revenue.description</td>
                 <td>@revenue.tenantName</td>

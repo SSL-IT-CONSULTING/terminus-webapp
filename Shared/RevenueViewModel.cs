@@ -9,6 +9,9 @@ namespace terminus.shared.models
     {
         [MaxLength(36)]
         public string id { get; set; }
+
+        [MaxLength(36)]
+        public string documentId { get; set; }
         public string propertyId { get; set; }
 
         [MaxLength(100)]
@@ -85,6 +88,9 @@ namespace terminus.shared.models
         public DateTime? checkDate { get; set; }
 
         public decimal checkAmount { get; set; }
+
+        [MaxLength(50)]
+        public string checkNo { get; set; }
 
         [Display(Name = "Ledger")]
         [MaxLength(36)]

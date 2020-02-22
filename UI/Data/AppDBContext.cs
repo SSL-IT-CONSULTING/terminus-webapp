@@ -125,6 +125,8 @@ namespace terminus_webapp.Data
             builder.Entity<Billing>()
             .HasIndex(a=>a.MonthYear);
 
+            builder.Entity<DocumentIdTable>()
+          .HasKey("IdKey", "CompanyId");
         }
     }
 }

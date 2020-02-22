@@ -36,7 +36,7 @@ namespace terminus.shared.models
 
         [Display(Name = "Amount")]
         public decimal amount { get; set; }
-
+        public decimal amountPaid { get; set; }
         public string cashOrCheck { get; set; }
 
         [MaxLength(300)]

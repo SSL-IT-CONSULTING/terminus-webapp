@@ -5,7 +5,7 @@ namespace terminus.shared.models
 {
     public class DocumentIdTable
     {
-        [Key, MaxLength(200)]
+        [MaxLength(200)]
         public string IdKey { get; set; }
 
         [MaxLength(200)]

@@ -220,14 +220,27 @@ namespace terminus_webapp.Pages
             StateHasChanged();
         }
 
+        protected void PayOutstanding()
+        {
+            foreach(var item in revenue.revenueLineItems)
+            { 
+                if(item.billBalance>0)
+                {
+                    item.amountApplied = item.billBalance;
+                }
+            }
+
+            StateHasChanged();
+        }
+
         protected void BillEntry_OnSave()
         {
             var billId = BillingEntry.billing.billId;
 
             this.revenue.billingId = billId.ToString();
             this.revenue.billingDocumentId = BillingEntry.billing.documentId;
-            this.revenue.amount = BillingEntry.billing.balance;
-            this.revenue.checkAmount = BillingEntry.billing.balance;
+            //this.revenue.amount = BillingEntry.billing.balance;
+            //this.revenue.checkAmount = BillingEntry.billing.balance;
             this.revenue.collect = true;
             try
             {
@@ -266,7 +279,7 @@ namespace terminus_webapp.Pages
                                 }
                                 if (companyDefault.RevenueMonthlyDueDebitAccountId.HasValue)
                                 {
-                                    a.debitAccountId = companyDefault.RevenueMonthlyDueAccountId.Value.ToString();
+                                    a.debitAccountId = companyDefault.RevenueMonthlyDueDebitAccountId.Value.ToString();
                                     a.debitAccountCode = companyDefault.RevenueMonthlyDueDebitAccount.accountCode;
                                     a.debitAccountName = companyDefault.RevenueMonthlyDueDebitAccount.accountDesc;
                                 }
@@ -440,6 +453,19 @@ namespace terminus_webapp.Pages
                 return checkAmount;
         }
 
+        private bool IsTaxLineItem(string lineItem)
+        {
+            switch(lineItem)
+            {
+                case Constants.BillLineTypes.MONTHLYBILLITEM_VAT:
+                case Constants.BillLineTypes.MONTHLYASSOCDUE_VAT:
+                case Constants.BillLineTypes.MONTHLYBILLITEM_WT:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
         protected async Task HandleValidSubmit()
         {
             try
@@ -483,16 +509,17 @@ namespace terminus_webapp.Pages
 
                     var r = new Revenue();
                     r.id = Guid.NewGuid();
+                    r.documentId = revenue.documentId;
                     r.transactionDate = revenue.transactionDate;
                     r.dueDate = revenue.dueDate;
                     r.description = revenue.description;
-                    //r.account = revenue.revenueAccounts.Where(a => a.accountId.Equals(Guid.Parse(revenue.glAccountId))).FirstOrDefault();
-                    //r.cashAccount = await appDBContext.GLAccounts.Where(a => a.accountId.Equals(Guid.Parse(revenue.cashAccountId))).FirstOrDefaultAsync();
                     r.propertyDirectory = pd; //revenue.propertyDirectories.Where(a => a.id.ToString().Equals(revenue.propertyDirectoryId, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                     
                     r.amount = revenue.revenueLineItems.Sum(a=>a.amountApplied);
-                    r.beforeTax = revenue.revenueLineItems.Where(a=>!a.description.Contains("VAT")).Sum(a => a.amountApplied);
-                    r.taxAmount = revenue.revenueLineItems.Where(a => a.description.Contains("VAT")).Sum(a => a.amountApplied);
+                    r.beforeTax = revenue.revenueLineItems.Where(a=>!IsTaxLineItem(a.billLineType)
+                    
+                    ).Sum(a => a.amountApplied);
+                    r.taxAmount = revenue.revenueLineItems.Where(a => IsTaxLineItem(a.billLineType)).Sum(a => a.amountApplied);
 
                     r.createDate = DateTime.Now;
                     r.createdBy = UserName;
@@ -500,27 +527,24 @@ namespace terminus_webapp.Pages
                     r.reference = revenue.reference;
                     r.remarks = string.Empty; //string.Format("{0}_{1}_{2} {3}", r.account.accountDesc, r.propertyDirectory.property.description, r.propertyDirectory.tenant.lastName, r.propertyDirectory.tenant.firstName);
                     r.companyId = CompanyId;
-                    //r.cashOrCheck = revenue.cashOrCheck;
+                    r.cashOrCheck = revenue.cashOrCheck;
                     r.billId = Guid.Parse(revenue.billingId);
 
                     //var bill = await appDBContext.Billings.Include(a=>a.propertyDirectory)
                     //    .Where(b => b.billId.Equals(r.billId)).FirstOrDefaultAsync();
 
-                    //if (r.cashOrCheck.Equals("1"))
-                    //{
-                    //    r.checkDetails = new CheckDetails()
-                    //    {
-                    //        amount = revenue.checkAmount,
-                    //        bankName = revenue.bankName,
-                    //        branch = revenue.branch,
-                    //        checkDate = revenue.checkDate.HasValue ? revenue.checkDate.Value : DateTime.MinValue,
-                    //        checkDetailId = Guid.NewGuid()
-                    //    };
-                    //    r.amount = 0;
-                    //}
-                    
-                  
-
+                    if (r.cashOrCheck.Equals("1"))
+                    {
+                        r.checkDetails = new CheckDetails()
+                        {
+                            amount = revenue.checkAmount,
+                            bankName = revenue.bankName,
+                            branch = revenue.branch,
+                            checkDate = revenue.checkDate.HasValue ? revenue.checkDate.Value : DateTime.MinValue,
+                            checkNo = revenue.checkNo,
+                            checkDetailId = Guid.NewGuid()
+                        };
+                    }
 
                     var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = Guid.NewGuid(), source = "revenue", sourceId = r.id.ToString(), companyId = CompanyId, postingDate = r.transactionDate };
 
@@ -582,6 +606,12 @@ namespace terminus_webapp.Pages
 
                     appDBContext.JournalEntriesHdr.Add(jeHdr);
                     await appDBContext.SaveChangesAsync();
+
+                    DynamicParameters dynamicParameters = new DynamicParameters();
+                    dynamicParameters.Add("billingId", Guid.Parse(revenue.billingId));
+
+                    await dapperManager.ExecuteAsync("spUpdateBalance", dynamicParameters);
+
                     StateHasChanged();
 
                     NavigateToList();
@@ -615,6 +645,19 @@ namespace terminus_webapp.Pages
 
                 UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+                DynamicParameters dynamicParameters = new DynamicParameters();
+                var IdKey  = $"COLLECTION{DateTime.Today.ToString("yyyyMM")}";
+                dynamicParameters.Add("IdKey", IdKey);
+                dynamicParameters.Add("Format", "000000");
+                dynamicParameters.Add("CompanyId", CompanyId);
+
+                var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                var documentId = string.Empty;
+
+                if(documentIdTable.Any())
+                {
+                    documentId = $"COL{DateTime.Today.ToString("yyyyMM")}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                }
 
                 if (string.IsNullOrEmpty(revenueId))
                 {
@@ -623,6 +666,7 @@ namespace terminus_webapp.Pages
                     revenue.dueDate = DateTime.Today;
                     revenue.cashOrCheck = "0";
                     IsViewonly = false;
+                    revenue.documentId = documentId;
                 }
                 else
                 {
@@ -642,6 +686,7 @@ namespace terminus_webapp.Pages
                     revenue = new RevenueViewModel()
                     {
                         id = data.id.ToString(),
+                        documentId = data.documentId,
                         transactionDate = data.transactionDate,
                         dueDate = data.dueDate,
                         propertyDirectoryId = data.propertyDirectory.id.ToString(),
@@ -651,7 +696,12 @@ namespace terminus_webapp.Pages
                         reference = data.reference,
                         receiptNo = data.receiptNo,
                         billingId = data.billing == null ? string.Empty : data.billing.billId.ToString(),
-                        billingDocumentId = data.billing==null?string.Empty:data.billing.documentId
+                        billingDocumentId = data.billing==null?string.Empty:data.billing.documentId,
+                        cashOrCheck = data.cashOrCheck,
+                        bankName = data.cashOrCheck.Equals("1")?data.checkDetails.bankName:string.Empty,
+                        checkNo = data.cashOrCheck.Equals("1") ? data.checkDetails.checkNo : string.Empty,
+                        checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0m,
+                        checkDate = data.cashOrCheck.Equals("1") ? data.checkDetails.checkDate : DateTime.Today
                     };
 
                     revenue.revenueLineItems = data.revenueLineItems.Select(a =>
@@ -660,7 +710,10 @@ namespace terminus_webapp.Pages
                         Id = a.id,
                         description = a.description,
                         billBalance = a.billingLineItem.amount - a.billingLineItem.amountPaid,
-                        amount = a.amount,
+                        billLineType = a.billingLineItem.billLineType,
+                        amount = a.billingLineItem.amount,
+                        amountPaid = a.amount,
+                        amountApplied = a.amount,
                         debitAccountId = a.debitAccountId.ToString(),
                         debitAccountCode = a.debitAccount.accountCode,
                         debitAccountName = a.debitAccount.accountDesc,
