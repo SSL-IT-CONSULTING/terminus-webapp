@@ -67,13 +67,13 @@ namespace terminus_webapp.Pages
 
 
             bool _vatregister;
-            string accnt;
+            string accnt = string.Empty;
 
-            if (vendors.isVatRegistered == "N")
+            if (vendors.isVatRegistered == "Y")
             {
                 _vatregister = false;
 
-                accnt = "AEE3CBD3-4D95-4363-A971-D79B9DAA4109";
+                accnt = (string)null;
             }
             else
             {
@@ -81,6 +81,19 @@ namespace terminus_webapp.Pages
                 accnt = "52BDDE45-382B-471E-8D08-5CA2613FD6FA";
             }
 
+            Guid? new_accnt;
+            if (accnt == null)
+            {
+
+
+                new_accnt = null;
+            }
+            else
+
+            {
+                new_accnt = Guid.Parse(accnt);
+            }
+            
 
             int maxRow = appDBContext.Vendors.Max(a => a.rowOrder);
             int _maxRow;
@@ -106,7 +119,7 @@ namespace terminus_webapp.Pages
                     companyId = vendors.companyId,
                     vendorName = vendors.vendorName,
                     rowOrder = _maxRow,
-                    inputVatAccountId = Guid.Parse(accnt),
+                    inputVatAccountId = new_accnt, //Guid.Parse(accnt),
                     isVatRegistered = _vatregister
 
                 };
@@ -132,10 +145,10 @@ namespace terminus_webapp.Pages
 
                 var id = Guid.NewGuid();
 
-                data.vendorId = id.ToString();
+                //data.vendorId = id.ToString();
                 data.vendorName = vendors.vendorName.ToString();
                 //data.rowOrder = vendors.rowOrder;
-               // data.inputVatAccountId = Guid.Parse(accnt);
+                data.inputVatAccountId = new_accnt;
                 data.isVatRegistered = _vatregister;
 
 
