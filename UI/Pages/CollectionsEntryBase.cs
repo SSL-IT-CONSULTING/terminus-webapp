@@ -114,7 +114,8 @@ namespace terminus_webapp.Pages
 
         public string ErrorMessage { get; set; }
         public bool DataSaved { get; set; }
-
+        public bool IsSaving { get; set; }
+        
         public string CompanyId { get; set; }
         public string UserName { get; set; }
 
@@ -470,6 +471,7 @@ namespace terminus_webapp.Pages
         {
             try
             {
+                IsSaving = true;
                 if (string.IsNullOrEmpty(revenue.id))
                 {
                     var pd = await appDBContext.PropertyDirectory
@@ -529,9 +531,6 @@ namespace terminus_webapp.Pages
                     r.companyId = CompanyId;
                     r.cashOrCheck = revenue.cashOrCheck;
                     r.billId = Guid.Parse(revenue.billingId);
-
-                    //var bill = await appDBContext.Billings.Include(a=>a.propertyDirectory)
-                    //    .Where(b => b.billId.Equals(r.billId)).FirstOrDefaultAsync();
 
                     if (r.cashOrCheck.Equals("1"))
                     {
@@ -631,7 +630,7 @@ namespace terminus_webapp.Pages
                     await appDBContext.SaveChangesAsync();
 
                     DynamicParameters par = new DynamicParameters();
-                    dynamicParameters.Add("billingId", Guid.Parse(revenue.billingId));
+                    par.Add("billingId", Guid.Parse(revenue.billingId));
 
                     await dapperManager.ExecuteAsync("spUpdateBalance", par);
 
@@ -648,6 +647,7 @@ namespace terminus_webapp.Pages
             finally
             {
                 DataSaved = true;
+                IsSaving = false;
             }
         }
 

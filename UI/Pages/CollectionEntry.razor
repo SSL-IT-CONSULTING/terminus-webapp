@@ -28,7 +28,7 @@ else
     <ValidationSummary></ValidationSummary>
     <div class="form-group row">
         <label for="documentId" class="col-sm-2 col-form-label">Document Id: </label>
-    
+
         <div class="col-sm-5">
             <input type="hidden" name="documentId" id="documentId" @bind-value="@revenue.documentId" for="documentId" class="col-sm-2 col-form-label" />
             <label> @revenue.documentId</label>
@@ -300,7 +300,10 @@ else
         <button type="button" class="btn btn-primary edit-btn" @onclick="@PayOutstanding">Pay outstanding</button>
     }
     <button type="button" class="btn btn-primary edit-btn" @onclick="@NavigateToList">Cancel</button>
-
+    @if (!IsSaving)
+    {
+        <h5>Saving..</h5>
+    }
 </EditForm>
 
     @if (revenue != null && revenue.revenueLineItems != null && IsDataLoaded)

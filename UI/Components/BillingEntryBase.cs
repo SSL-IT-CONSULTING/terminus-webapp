@@ -123,7 +123,9 @@ namespace terminus_webapp.Components
         {
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
-            billing = new Billing(); 
+            billing = new Billing();
+            billing.billingLineItems = new List<BillingLineItem>();
+
         }
 
         protected decimal CalculateBeforeVat(decimal amount)
@@ -319,7 +321,7 @@ namespace terminus_webapp.Components
                                 amountPaid = 0,
                                 lineNo = 2,
                                 generated = true,
-                                billLineType = Constants.BillLineTypes.MONTHLYBILLITEM_VAT
+                                billLineType = Constants.BillLineTypes.MONTHLYBILLITEM_WT
                             });
                         }
 
