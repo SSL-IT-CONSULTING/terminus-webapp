@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200220050259_dbchange29")]
+    partial class dbchange29
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,10 +367,6 @@ namespace terminus_webapp.Migrations
                     b.Property<DateTime>("checkDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("checkNo")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
                     b.HasKey("checkDetailId");
 
                     b.ToTable("CheckDetails");
@@ -414,9 +412,6 @@ namespace terminus_webapp.Migrations
                     b.Property<Guid?>("RevenueMonthlyDueVatAccountId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("RevenueMonthlyDueWTAccountId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("companyId");
 
                     b.HasIndex("RevenueAssocDuesAccountId");
@@ -431,33 +426,7 @@ namespace terminus_webapp.Migrations
 
                     b.HasIndex("RevenueMonthlyDueVatAccountId");
 
-                    b.HasIndex("RevenueMonthlyDueWTAccountId");
-
                     b.ToTable("CompanyDefaults");
-                });
-
-            modelBuilder.Entity("terminus.shared.models.DocumentIdTable", b =>
-                {
-                    b.Property<string>("IdKey")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("CompanyId")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Format")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("NextId")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdKey", "CompanyId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("DocumentIdTable");
                 });
 
             modelBuilder.Entity("terminus.shared.models.Expense", b =>
@@ -1025,8 +994,8 @@ namespace terminus_webapp.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("documentId")
-                        .HasColumnType("nvarchar(36)")
-                        .HasMaxLength(36);
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime?>("dueDate")
                         .HasColumnType("datetime2");
@@ -1322,19 +1291,6 @@ namespace terminus_webapp.Migrations
                     b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueVatAccount")
                         .WithMany()
                         .HasForeignKey("RevenueMonthlyDueVatAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueWTAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueMonthlyDueWTAccountId");
-                });
-
-            modelBuilder.Entity("terminus.shared.models.DocumentIdTable", b =>
-                {
-                    b.HasOne("terminus.shared.models.Company", "company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("terminus.shared.models.Expense", b =>

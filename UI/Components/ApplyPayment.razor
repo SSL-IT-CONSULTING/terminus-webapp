@@ -1,0 +1,82 @@
+﻿@inherits ApplyPaymentBase
+
+@if (IsDataLoaded && ShowDialog && revenueLineItem!=null)
+{
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleLabel">Apply Payment</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="CloseDialog">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <EditForm Model="@revenueLineItem" OnValidSubmit="HandleValidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary></ValidationSummary>
+
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Description: </label>
+                            <div class="col-sm-5">
+                                <label>@revenueLineItem.description</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="debitAccountId" class="col-sm-2 col-form-label">Debit: </label>
+                            <div class="col-sm-5">
+                                <InputSelect @bind-Value="@revenueLineItem.debitAccountId" class="form-control">
+                                    <option value=""></option>
+                                    @foreach (var ga in GLAccounts)
+                                        {
+                                        <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
+                                        }
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
+
+                                </InputSelect>
+                                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenueLineItem.debitAccountId)" />
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="debitAccountId" class="col-sm-2 col-form-label">Credit: </label>
+                            <div class="col-sm-5">
+                                <InputSelect @bind-Value="@revenueLineItem.creditAccountId" class="form-control">
+                                    <option value=""></option>
+                                    @foreach (var ga in GLAccounts)
+                                        {
+                                        <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
+                                        }
+                                    /**/
+                                    /**/
+                                    /**/
+                                    /**/
+
+                                </InputSelect>
+                                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenueLineItem.creditAccountId)" />
+                            </div>
+                        </div>
+                       
+                        <div class="form-group row">
+                            <label for="amountApplied" class="col-sm-2 col-form-label">Amount: </label>
+                            <div class="col-sm-5">
+                                <InputNumber @bind-Value="@revenueLineItem.amountApplied" class="form-control">
+                                </InputNumber>
+                                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenueLineItem.amountApplied)" />
+                            </div>
+                        </div>
+
+
+
+                        <button type="submit" class="btn btn-primary edit-btn">Save</button>
+                        <button type="button" class="btn btn-primary edit-btn" @onclick="CloseDialog">Cancel</button>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>
+}

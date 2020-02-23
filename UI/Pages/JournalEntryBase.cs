@@ -1,4 +1,5 @@
 ﻿using Blazored.SessionStorage;
+using Dapper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,6 +17,10 @@ namespace terminus_webapp.Pages
         [Inject]
         public AppDBContext appDBContext { get; set; }
 
+        [Inject]
+        public DapperManager dapperManager { get; set; }
+
+        
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
@@ -52,6 +57,7 @@ namespace terminus_webapp.Pages
             dtl.accountCode = source.accountCode;
             dtl.accountName = source.accountName;
             dtl.reference = source.reference;
+            
             return dtl;
         }
         public void JournalEntryDetail_OnSave()
@@ -102,6 +108,7 @@ namespace terminus_webapp.Pages
             var id = Guid.NewGuid();
 
             var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = id, source = "JE", sourceId = id.ToString(), companyId = CompanyId };
+            jeHdr.documentId = journalEntry.documentId;
             jeHdr.description = journalEntry.description; 
             jeHdr.postingDate = journalEntry.postingDate;
             jeHdr.transactionDate = journalEntry.transactionDate;
@@ -181,7 +188,22 @@ namespace terminus_webapp.Pages
                 UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
+                DynamicParameters dynamicParameters = new DynamicParameters();
+                var IdKey = $"JE{DateTime.Today.ToString("yyyyMM")}";
+                dynamicParameters.Add("IdKey", IdKey);
+                dynamicParameters.Add("Format", "000000");
+                dynamicParameters.Add("CompanyId", CompanyId);
+
+                var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                var documentId = string.Empty;
+
+                if (documentIdTable.Any())
+                {
+                    documentId = $"{IdKey}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                }
+
                 journalEntry = new JournalEntryViewModel();
+                journalEntry.documentId = documentId;
                 journalEntry.transactionDate = DateTime.Today;
                 journalEntry.postingDate = DateTime.Today;
                 journalEntry.journalEntryDtls = new List<JournalEntryDtlViewModel>();

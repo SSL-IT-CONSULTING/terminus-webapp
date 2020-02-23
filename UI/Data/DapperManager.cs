@@ -130,6 +130,67 @@ namespace terminus_webapp.Data
             return result;
         }
 
+        public async Task<int> ExecuteAsync(string sp, IDbTransaction dbTran, IDbConnection dbConn, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
+        {
+                if (dbConn.State == ConnectionState.Closed)
+                    dbConn.Open();
+
+                 var sqlCmd = dbConn.CreateCommand();
+                 sqlCmd.CommandText = sp;
+                 sqlCmd.CommandType = commandType;
+
+                 var result = await dbConn.ExecuteAsync(sp, parms,dbTran,null,commandType);
+                return result;
+        }
+
+        public async Task<int> ExecuteAsync(string sp, DynamicParameters parms, CommandType commandType = CommandType.StoredProcedure)
+        {
+            using (IDbConnection dbConn = new SqlConnection(_config.GetConnectionString("dbconn")))
+            {
+                if (dbConn.State == ConnectionState.Closed)
+                    dbConn.Open();
+
+                try
+                {
+                    using (var dbTran = dbConn.BeginTransaction())
+                    {
+                        try
+                        {
+                            var sqlCmd = dbConn.CreateCommand();
+                            sqlCmd.CommandText = sp;
+                            sqlCmd.CommandType = commandType;
+
+                            var result = await dbConn.ExecuteAsync(sp, parms, dbTran, null, commandType);
+                            dbTran.Commit();
+
+                            return result;
+                        }
+                        catch (Exception ex)
+                        {
+                            dbTran.Rollback();
+                            throw ex;
+                        }
+                    }
+                }
+                catch(Exception ex2)
+                {
+                    throw ex2;
+                }
+                finally
+                {
+                    if (dbConn.State == ConnectionState.Open)
+                        dbConn.Close();
+                }
+
+              
+
+
+
+            }
+
+            
+        }
+
 
         public void Dispose()
         {

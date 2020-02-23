@@ -18,6 +18,9 @@ namespace terminus.shared.models
 
         public decimal amount { get; set; }
 
+        [MaxLength(50)]
+        public string checkNo { get; set; }
+
 
     }
 }

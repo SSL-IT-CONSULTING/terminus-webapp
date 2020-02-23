@@ -76,26 +76,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var dtl in billing.billingLineItems)
+                                @if (billing.billingLineItems != null)
                                 {
-                                    <tr>
+                                    @foreach (var dtl in billing.billingLineItems)
+                                    {
+                                        <tr>
 
-                                        <td>@dtl.description</td>
-                                        <td>@dtl.amount</td>
-                                        <td>
-                                            @if (!dtl.generated)
-                                            {
-                                                <button type="button" class="btn btn-primary table-btn" @onclick="@(() => EditBillItem(dtl.Id))">
-                                                    <i class="fas fa-info-circle">Edit</i>
-                                                </button>
-                                                <button type="button" class="btn btn-primary table-btn" @onclick="@(() => DeleteBillItem(dtl.Id))">
-                                                    <i class="fas fa-info-circle">Delete</i>
-                                                </button>
-                                            }
+                                            <td>@dtl.description</td>
+                                            <td>@dtl.amount.ToString("#,##0.00;(#,##0.00)")</td>
+                                            <td>
+                                                @if (!dtl.generated)
+                                                {
+                                                    <button type="button" class="btn btn-primary table-btn" @onclick="@(() => EditBillItem(dtl.Id))">
+                                                        <i class="fas fa-info-circle">Edit</i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary table-btn" @onclick="@(() => DeleteBillItem(dtl.Id))">
+                                                        <i class="fas fa-info-circle">Delete</i>
+                                                    </button>
+                                                }
 
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    }
                                 }
+
 
                             </tbody>
                             <tfoot>
@@ -109,8 +113,7 @@
                             </tfoot>
                         </table>
 
-
-                        <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to submit this billing entry?');">Submit</button>
+                        <button type="submit" class="btn btn-primary edit-btn">Save & Collect</button>
                         <button type="button" class="btn btn-primary edit-btn" @onclick="CloseDialog">Cancel</button>
                     </EditForm>
 

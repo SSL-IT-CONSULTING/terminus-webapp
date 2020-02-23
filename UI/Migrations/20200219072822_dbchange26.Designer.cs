@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200219072822_dbchange26")]
+    partial class dbchange26
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -365,10 +367,6 @@ namespace terminus_webapp.Migrations
                     b.Property<DateTime>("checkDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("checkNo")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
                     b.HasKey("checkDetailId");
 
                     b.ToTable("CheckDetails");
@@ -388,76 +386,6 @@ namespace terminus_webapp.Migrations
                     b.HasKey("companyId");
 
                     b.ToTable("Companies");
-                });
-
-            modelBuilder.Entity("terminus.shared.models.CompanyDefault", b =>
-                {
-                    b.Property<string>("companyId")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<Guid?>("RevenueAssocDuesAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RevenueAssocDuesDebitAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RevenueAssocDuesVatAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RevenueMonthlyDueAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RevenueMonthlyDueDebitAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RevenueMonthlyDueVatAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("RevenueMonthlyDueWTAccountId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("companyId");
-
-                    b.HasIndex("RevenueAssocDuesAccountId");
-
-                    b.HasIndex("RevenueAssocDuesDebitAccountId");
-
-                    b.HasIndex("RevenueAssocDuesVatAccountId");
-
-                    b.HasIndex("RevenueMonthlyDueAccountId");
-
-                    b.HasIndex("RevenueMonthlyDueDebitAccountId");
-
-                    b.HasIndex("RevenueMonthlyDueVatAccountId");
-
-                    b.HasIndex("RevenueMonthlyDueWTAccountId");
-
-                    b.ToTable("CompanyDefaults");
-                });
-
-            modelBuilder.Entity("terminus.shared.models.DocumentIdTable", b =>
-                {
-                    b.Property<string>("IdKey")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("CompanyId")
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Format")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("NextId")
-                        .HasColumnType("int");
-
-                    b.HasKey("IdKey", "CompanyId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.ToTable("DocumentIdTable");
                 });
 
             modelBuilder.Entity("terminus.shared.models.Expense", b =>
@@ -986,6 +914,9 @@ namespace terminus_webapp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("accountId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(18,4)");
 
@@ -998,6 +929,9 @@ namespace terminus_webapp.Migrations
                     b.Property<string>("billingType")
                         .HasColumnType("nvarchar(8)")
                         .HasMaxLength(8);
+
+                    b.Property<Guid?>("cashAccountaccountId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("cashOrCheck")
                         .HasColumnType("nvarchar(1)")
@@ -1025,8 +959,8 @@ namespace terminus_webapp.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("documentId")
-                        .HasColumnType("nvarchar(36)")
-                        .HasMaxLength(36);
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime?>("dueDate")
                         .HasColumnType("datetime2");
@@ -1064,7 +998,11 @@ namespace terminus_webapp.Migrations
 
                     b.HasKey("id");
 
+                    b.HasIndex("accountId");
+
                     b.HasIndex("billId");
+
+                    b.HasIndex("cashAccountaccountId");
 
                     b.HasIndex("checkDetailscheckDetailId");
 
@@ -1086,23 +1024,15 @@ namespace terminus_webapp.Migrations
                     b.Property<decimal>("amount")
                         .HasColumnType("decimal(18,4)");
 
-                    b.Property<string>("bankName")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
-
                     b.Property<Guid>("billingLineItemId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("branch")
-                        .HasColumnType("nvarchar(300)")
-                        .HasMaxLength(300);
 
                     b.Property<string>("cashOrCheck")
                         .HasColumnType("nvarchar(1)")
                         .HasMaxLength(1);
 
-                    b.Property<DateTime?>("checkDate")
-                        .HasColumnType("datetime2");
+                    b.Property<Guid?>("checkDetailscheckDetailId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("creditAccountId")
                         .HasColumnType("uniqueidentifier");
@@ -1120,6 +1050,8 @@ namespace terminus_webapp.Migrations
                     b.HasKey("id");
 
                     b.HasIndex("billingLineItemId");
+
+                    b.HasIndex("checkDetailscheckDetailId");
 
                     b.HasIndex("creditAccountId");
 
@@ -1297,46 +1229,6 @@ namespace terminus_webapp.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("terminus.shared.models.CompanyDefault", b =>
-                {
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueAssocDuesAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueAssocDuesAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueAssocDuesDebitAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueAssocDuesDebitAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueAssocDuesVatAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueAssocDuesVatAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueMonthlyDueAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueDebitAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueMonthlyDueDebitAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueVatAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueMonthlyDueVatAccountId");
-
-                    b.HasOne("terminus.shared.models.GLAccount", "RevenueMonthlyDueWTAccount")
-                        .WithMany()
-                        .HasForeignKey("RevenueMonthlyDueWTAccountId");
-                });
-
-            modelBuilder.Entity("terminus.shared.models.DocumentIdTable", b =>
-                {
-                    b.HasOne("terminus.shared.models.Company", "company")
-                        .WithMany()
-                        .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("terminus.shared.models.Expense", b =>
                 {
                     b.HasOne("terminus.shared.models.GLAccount", "account")
@@ -1435,9 +1327,19 @@ namespace terminus_webapp.Migrations
 
             modelBuilder.Entity("terminus.shared.models.Revenue", b =>
                 {
+                    b.HasOne("terminus.shared.models.GLAccount", "account")
+                        .WithMany()
+                        .HasForeignKey("accountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("terminus.shared.models.Billing", "billing")
                         .WithMany("collections")
                         .HasForeignKey("billId");
+
+                    b.HasOne("terminus.shared.models.GLAccount", "cashAccount")
+                        .WithMany()
+                        .HasForeignKey("cashAccountaccountId");
 
                     b.HasOne("terminus.shared.models.CheckDetails", "checkDetails")
                         .WithMany()
@@ -1463,6 +1365,10 @@ namespace terminus_webapp.Migrations
                         .HasForeignKey("billingLineItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("terminus.shared.models.CheckDetails", "checkDetails")
+                        .WithMany()
+                        .HasForeignKey("checkDetailscheckDetailId");
 
                     b.HasOne("terminus.shared.models.GLAccount", "creditAccount")
                         .WithMany()

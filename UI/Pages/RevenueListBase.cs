@@ -48,7 +48,7 @@ namespace terminus_webapp.Pages
                 ErrorMessage = string.Empty;
 
                 var data = await appDBContext.Revenues
-                                             .Include(a=>a.account)
+                                             .Include(a=>a.billing)
                                              .Include(a=>a.checkDetails)
                                              .Include(a => a.propertyDirectory).ThenInclude(b => b.tenant)
                                              .Include(a=>a.propertyDirectory).ThenInclude(b=>b.property)
@@ -59,13 +59,16 @@ namespace terminus_webapp.Pages
                 Revenues = data.Select(a => new RevenueViewModel()
                 {
                     id = a.id.ToString(),
-                    glAccountCode = a.account.accountCode,
-                    glAccountName = a.account.accountDesc,
+                    documentId = a.documentId,
+                    description = a.description,
                     tenantName = $"{a.propertyDirectory.tenant.firstName} {a.propertyDirectory.tenant.lastName}",
                     propertyDescription = a.propertyDirectory.property.description,
-                    amount = a.cashOrCheck.Equals("0") ? a.amount : a.checkDetails.amount,
+                    amount = a.amount,
+                    beforeTax =a.beforeTax,
+                    taxAmount = a.taxAmount,
                     remarks = a.remarks,
-                    transactionDate = a.transactionDate
+                    transactionDate = a.transactionDate,
+                    billingDocumentId = a.billing!=null?a.billing.documentId:string.Empty
                 }).ToList();
 
             }

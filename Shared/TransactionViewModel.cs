@@ -33,7 +33,7 @@ namespace terminus.shared.models
         [MaxLength(500)]
         public string remarks { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name ="Amount")]
         public decimal amount { get; set; }
 
@@ -70,12 +70,12 @@ namespace terminus.shared.models
         [MaxLength(36)]
         public string receiptNo { get; set; }
 
-        [Display(Name ="Billing Id")]
-        [MaxLength(36), Required]
-        public string billingDocumentId { get; set; }
+        //[Display(Name ="Billing Id")]
+        //[MaxLength(36), Required]
+        //public string billingDocumentId { get; set; }
 
-        [MaxLength(36)]
-        public string billingId { get; set; }
+        //[MaxLength(36)]
+        //public string billingId { get; set; }
 
         public decimal taxAmount
         {
@@ -83,6 +83,9 @@ namespace terminus.shared.models
 
         }
 
+        public decimal beforeTax { get; set; }
+
+        public string documentId { get; set; }
 
     }
 }
