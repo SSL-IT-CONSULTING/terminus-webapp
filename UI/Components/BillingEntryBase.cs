@@ -125,7 +125,7 @@ namespace terminus_webapp.Components
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
             billing = new Billing();
             billing.billingLineItems = new List<BillingLineItem>();
-
+            
         }
 
         protected decimal CalculateBeforeVat(decimal amount)
@@ -149,7 +149,7 @@ namespace terminus_webapp.Components
             if (amount == 0m)
                 return 0m;
 
-            return amount - Math.Round(amount / 1.02m, 2);
+            return Math.Round((amount * .05m), 2);
         }
 
         public async Task InitNewBilling()
@@ -250,11 +250,12 @@ namespace terminus_webapp.Components
 
                         var dueAmount = 0m;
 
-                        if (!string.IsNullOrEmpty(pd.property.propertyType) && pd.property.propertyType.Equals("PARKING"))
-                            dueAmount = pd.ratePerSQM * pd.property.areaInSqm;
-                        else
-                            dueAmount = pd.monthlyRate;
+                        //if (!string.IsNullOrEmpty(pd.property.propertyType) && pd.property.propertyType.Equals("PARKING"))
+                        //    dueAmount = pd.ratePerSQM * pd.property.areaInSqm;
+                        //else
+                        //    dueAmount = pd.monthlyRate;
 
+                        dueAmount = pd.monthlyRate;
                         var dueAmountVat = CalculateVat(dueAmount);
                         var dueAmountBeforeVat = dueAmount- dueAmountVat;
                         var wtAmt = 0m;
@@ -262,7 +263,7 @@ namespace terminus_webapp.Components
                         if(dueAmountBeforeVat!=0m)
                         {
                             wtAmt = CalculateWT(dueAmountBeforeVat);
-                            dueAmountBeforeVat = dueAmount - (dueAmountVat - wtAmt);
+                            dueAmountBeforeVat = dueAmount - (dueAmountVat + wtAmt);
                         }
 
                         if (monthlyRentBalance > 0)

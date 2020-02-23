@@ -663,6 +663,7 @@ namespace terminus_webapp.Pages
             DataSaved = false;
             ErrorMessage = string.Empty;
             _BillingType = "MB";
+            IsSaving = false;
             try
             {
 

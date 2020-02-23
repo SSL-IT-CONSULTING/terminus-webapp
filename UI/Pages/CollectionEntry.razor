@@ -300,7 +300,7 @@ else
         <button type="button" class="btn btn-primary edit-btn" @onclick="@PayOutstanding">Pay outstanding</button>
     }
     <button type="button" class="btn btn-primary edit-btn" @onclick="@NavigateToList">Cancel</button>
-    @if (!IsSaving)
+    @if (IsSaving)
     {
         <h5>Saving..</h5>
     }

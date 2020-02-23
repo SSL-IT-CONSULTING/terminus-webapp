@@ -76,6 +76,9 @@ namespace terminus_webapp.Data
 .Property(c => c.ratePerSQM).HasColumnType("decimal(18,4)");
 
             builder.Entity<PropertyDirectory>()
+.Property(c => c.ratePerSQMAssocDues).HasColumnType("decimal(18,4)");
+
+            builder.Entity<PropertyDirectory>()
 .Property(c => c.penaltyPct).HasColumnType("decimal(18,4)");
 
             builder.Entity<PropertyDirectory>()
