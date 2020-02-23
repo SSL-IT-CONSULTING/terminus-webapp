@@ -88,15 +88,11 @@ namespace terminus_webapp.Pages
                     r.transactionDate = revenue.transactionDate;
                     r.dueDate = revenue.dueDate;
                     r.description = revenue.description;
-                    //r.account = revenue.revenueAccounts.Where(a => a.accountId.Equals(Guid.Parse(revenue.glAccountId))).FirstOrDefault();
-                    //r.cashAccount = await appDBContext.GLAccounts.Where(a => a.accountId.Equals(Guid.Parse(revenue.cashAccountId))).FirstOrDefaultAsync();
-                    //r.propertyDirectory = revenue.propertyDirectories.Where(a => a.id.ToString().Equals(revenue.propertyDirectoryId, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
                     r.amount = revenue.amount;
                     r.createDate = DateTime.Now;
                     r.createdBy = UserName;
                     r.receiptNo = revenue.receiptNo;
                     r.reference = revenue.reference;
-                  //  r.remarks = string.Format("{0}_{1}_{2} {3}", r.account.accountDesc, r.propertyDirectory.property.description, r.propertyDirectory.tenant.lastName, r.propertyDirectory.tenant.lastName);
                     r.companyId = CompanyId;
                     r.cashOrCheck = revenue.cashOrCheck;
 
@@ -216,9 +212,7 @@ namespace terminus_webapp.Pages
                 IsViewonly = true;
 
                 var data = await appDBContext.Revenues
-                    //.Include(a => a.account)
-                    //.Include(a => a.cashAccount)
-                    .Include(a => a.propertyDirectory).ThenInclude(b=>b.property)
+                   .Include(a => a.propertyDirectory).ThenInclude(b=>b.property)
                     .Include(a => a.propertyDirectory).ThenInclude(b => b.tenant)
                     .Include(a => a.checkDetails)
                     .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
@@ -227,13 +221,9 @@ namespace terminus_webapp.Pages
                     id = data.id.ToString(),
                     transactionDate = data.transactionDate,
                     dueDate = data.dueDate,
-                    //glAccountId = data.accountId.ToString(),
-                    //glAccountCode = data.account.accountCode,
-                    //glAccountName = data.account.accountDesc,
+                   
                     amount = data.cashOrCheck.Equals("0") ? data.amount : data.checkDetails.amount,
-                    //cashAccountId = data.cashAccount.accountId.ToString(),
-                    //cashAccountCode = data.cashAccount.accountCode,
-                    //cashAccountName = data.cashAccount.accountDesc,
+                    
                     cashOrCheck = data.cashOrCheck,
                     checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0,
                     bankName = data.cashOrCheck.Equals("1") ? data.checkDetails.bankName : "",
@@ -248,8 +238,7 @@ namespace terminus_webapp.Pages
             }
 
             revenue.revenueAccounts = await appDBContext.GLAccounts.Where(a => a.revenue || a.cashAccount).ToListAsync();
-            //revenue.propertyDirectories = await appDBContext.PropertyDirectory.Include(a => a.property).Include(a => a.tenant).ToListAsync();
-
+         
             var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).FirstOrDefaultAsync();
 
             if (vatAccount != null)

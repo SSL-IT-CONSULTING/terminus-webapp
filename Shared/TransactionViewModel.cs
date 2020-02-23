@@ -85,6 +85,7 @@ namespace terminus.shared.models
 
         public decimal beforeTax { get; set; }
 
+        public string documentId { get; set; }
 
     }
 }

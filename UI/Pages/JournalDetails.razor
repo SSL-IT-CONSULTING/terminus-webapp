@@ -19,6 +19,7 @@ else
     <table class="table">
         <thead>
             <tr>
+                <th>Document Id</th>
                 <th>Posting Date</th>
                 <th>Entry Date</th>
                 <th>DR (Amt)</th>
@@ -31,19 +32,20 @@ else
         <tbody>
             @foreach (var account in JournalEntries)
             {
-                <tr>
-                    <td>@account.postingDate.ToString("yyyy-MM-dd")</td>
-                    <td>@account.transactionDate.ToString("yyyy-MM-dd")</td>
-                    <td align="left">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
-                    <td align="left">@(account.crAmt.HasValue ? account.crAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
-                    <td>@account.description</td>
-                    <td>@account.reference</td>
-                    <td>@account.remarks</td>
-                </tr>
+            <tr>
+                <td>@account.documentId</td>
+                <td>@account.postingDate.ToString("yyyy-MM-dd")</td>
+                <td>@account.transactionDate.ToString("yyyy-MM-dd")</td>
+                <td align="left">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
+                <td align="left">@(account.crAmt.HasValue ? account.crAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
+                <td>@account.description</td>
+                <td>@account.reference</td>
+                <td>@account.remarks</td>
+            </tr>
             }
 
             <tr>
-                <td colspan="2">&nbsp;</td>
+                <td colspan="3">&nbsp;</td>
                 <td align="left" style="font-weight:bold">
                     @if (totalDR.HasValue)
                     {

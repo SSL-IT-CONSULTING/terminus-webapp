@@ -9,6 +9,7 @@ namespace terminus.shared.models
 
         //Posting Date	Entry Date	DR (Amt)	CR (Amt)	Description	Reference	Remarks
 
+        public string documentId { get; set; }
         public DateTime postingDate { get; set; }
         public DateTime transactionDate { get; set; }
 

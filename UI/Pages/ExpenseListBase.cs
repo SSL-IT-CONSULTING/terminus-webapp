@@ -58,6 +58,8 @@ namespace terminus_webapp.Pages
                 Expenses = data.Select(a => new ExpenseViewModel()
                 {
                     id = a.id.ToString(),
+                    documentId = a.documentId,
+                    dueDate = DateTime.Today,
                     glAccountCode = a.account.accountCode,
                     glAccountName = a.account.accountDesc,
                     amount = a.cashOrCheck.Equals("0") ? a.amount : a.checkDetails.amount,

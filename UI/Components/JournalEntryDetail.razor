@@ -24,8 +24,7 @@
                                         {
                                         <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                                         }
-                                    /**/
-                                    /**/
+                                 
                                 </InputSelect>
                                 <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => JournalEntryDtl.accountId)" />
                             </div>
@@ -58,20 +57,6 @@
                                 <InputNumber @bind-Value="@JournalEntryDtl.amount" class="form-control">
                                 </InputNumber>
                                 <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => JournalEntryDtl.amount)" />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="remarks" class="col-sm-2 col-form-label">Reference: </label>
-                            <div class="col-sm-5">
-                                <InputText @bind-Value="@JournalEntryDtl.reference" class="form-control">
-                                </InputText>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="remarks" class="col-sm-2 col-form-label">Remarks: </label>
-                            <div class="col-sm-5">
-                                <InputText @bind-Value="@JournalEntryDtl.remarks" class="form-control">
-                                </InputText>
                             </div>
                         </div>
 

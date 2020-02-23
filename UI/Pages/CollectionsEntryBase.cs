@@ -546,7 +546,30 @@ namespace terminus_webapp.Pages
                         };
                     }
 
-                    var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = Guid.NewGuid(), source = "revenue", sourceId = r.id.ToString(), companyId = CompanyId, postingDate = r.transactionDate };
+                    DynamicParameters dynamicParameters = new DynamicParameters();
+                    var IdKey = $"JE{DateTime.Today.ToString("yyyyMM")}";
+                    dynamicParameters.Add("IdKey", IdKey);
+                    dynamicParameters.Add("Format", "000000");
+                    dynamicParameters.Add("CompanyId", CompanyId);
+
+                    var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                    var documentId = string.Empty;
+
+                    if (documentIdTable.Any())
+                    {
+                        documentId = $"{IdKey}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                    }
+
+
+                    var jeHdr = new JournalEntryHdr() { documentId = documentId, 
+                                                        createDate = DateTime.Now, 
+                                                        createdBy = UserName, 
+                                                        id = Guid.NewGuid(), 
+                                                        source = "revenue", 
+                                                        sourceId = r.id.ToString(), 
+                                                        companyId = CompanyId, 
+                                                        postingDate = r.transactionDate 
+                                                      };
 
                     jeHdr.description = r.remarks;
                     jeHdr.postingDate = r.transactionDate;
@@ -607,10 +630,10 @@ namespace terminus_webapp.Pages
                     appDBContext.JournalEntriesHdr.Add(jeHdr);
                     await appDBContext.SaveChangesAsync();
 
-                    DynamicParameters dynamicParameters = new DynamicParameters();
+                    DynamicParameters par = new DynamicParameters();
                     dynamicParameters.Add("billingId", Guid.Parse(revenue.billingId));
 
-                    await dapperManager.ExecuteAsync("spUpdateBalance", dynamicParameters);
+                    await dapperManager.ExecuteAsync("spUpdateBalance", par);
 
                     StateHasChanged();
 

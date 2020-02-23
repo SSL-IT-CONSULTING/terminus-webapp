@@ -1,4 +1,5 @@
 ﻿using Blazored.SessionStorage;
+using Dapper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +15,9 @@ namespace terminus_webapp.Pages
     {
         [Inject]
         public AppDBContext appDBContext { get; set; }
+
+        [Inject]
+        public DapperManager dapperManager { get; set; }
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -115,10 +119,11 @@ namespace terminus_webapp.Pages
                 r.description = expense.description;
                 r.account = expense.expenseAccounts.Where(a => a.accountId.Equals(Guid.Parse(expense.glAccountId))).FirstOrDefault();
                 r.cashAccount = await appDBContext.GLAccounts.Where(a => a.accountId.Equals(Guid.Parse(expense.cashAccountId))).FirstOrDefaultAsync();
-            
+                r.documentId = expense.documentId;
+
                 r.amount = expense.amount;
                 r.createDate = DateTime.Now;
-                r.createdBy = "testadmin";
+                r.createdBy = UserName;
                 r.receiptNo = expense.receiptNo;
                 r.reference = expense.reference;
                 r.remarks = $"{r.account.accountCode} {r.account.accountDesc}";
@@ -140,9 +145,28 @@ namespace terminus_webapp.Pages
                     };
                 }
 
-                appDBContext.Expenses.Add(r);
+               
+                DynamicParameters dynamicParameters = new DynamicParameters();
+                var IdKey = $"JE{DateTime.Today.ToString("yyyyMM")}";
+                dynamicParameters.Add("IdKey", IdKey);
+                dynamicParameters.Add("Format", "000000");
+                dynamicParameters.Add("CompanyId", CompanyId);
 
-                var jeHdr = new JournalEntryHdr() { createDate = DateTime.Now, createdBy = UserName, id = Guid.NewGuid(),source = "expense", sourceId = r.id.ToString(), companyId=CompanyId, postingDate = r.transactionDate };
+                var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                var documentId = string.Empty;
+
+                if (documentIdTable.Any())
+                {
+                    documentId = $"{IdKey}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                }
+
+                var jeHdr = new JournalEntryHdr() { documentId = documentId, 
+                                                    createDate = DateTime.Now, 
+                                                    createdBy = UserName, 
+                                                    id = Guid.NewGuid(),source = "expense", 
+                                                    sourceId = r.id.ToString(), 
+                                                    companyId=CompanyId, 
+                                                    postingDate = r.transactionDate };
                 jeHdr.description = r.remarks;
               
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;
@@ -195,6 +219,7 @@ namespace terminus_webapp.Pages
                 jeHdr.JournalDetails = jeList.AsEnumerable();
                 r.journalEntry = jeHdr;
 
+                appDBContext.Expenses.Add(r);
                 appDBContext.JournalEntriesHdr.Add(jeHdr);
                 await appDBContext.SaveChangesAsync();
 
@@ -222,9 +247,25 @@ namespace terminus_webapp.Pages
 
                 if (string.IsNullOrEmpty(expenseId))
                 {
+                    DynamicParameters dynamicParameters = new DynamicParameters();
+                    var IdKey = $"EXP{DateTime.Today.ToString("yyyyMM")}";
+                    dynamicParameters.Add("IdKey", IdKey);
+                    dynamicParameters.Add("Format", "000000");
+                    dynamicParameters.Add("CompanyId", CompanyId);
+
+                    var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                    var documentId = string.Empty;
+
+                    if (documentIdTable.Any())
+                    {
+                        documentId = $"{IdKey}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                    }
+
+
                     expense = new ExpenseViewModel();
                     expense.transactionDate = DateTime.Today;
                     expense.cashOrCheck = "0";
+                    expense.documentId = documentId;
                 }
                 else
                 {
@@ -251,6 +292,7 @@ namespace terminus_webapp.Pages
                     expense = new ExpenseViewModel()
                     {
                         id = data.id.ToString(),
+                        documentId = data.documentId,
                         transactionDate = data.transactionDate,
                         dueDate = data.transactionDate,
                         glAccountId = data.accountId.ToString(),
