@@ -58,7 +58,42 @@ namespace terminus_webapp.Pages
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
+            string propertyid = tenants.propertyid.ToString();
+
             var company = await appDBContext.Companies.Where(a => a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
+            var property = await appDBContext.Properties
+                                .Where(a => a.id.Equals(propertyid)).FirstOrDefaultAsync();
+
+            
+
+
+            decimal areasq = property.areaInSqm;
+            decimal asssq = tenants.ratePerSQM;
+
+            if (areasq==null)
+            {
+                areasq = 0;
+            }
+
+            if (asssq == null)
+                {
+                asssq = 0;
+            }
+
+            decimal _monthlyrate = areasq * asssq;
+            decimal _assorate = property.areaInSqm * tenants.ratePerSQMAssocDues;
+
+            bool withWT_sw;
+
+
+            if (tenants.withWT == "N")
+            {
+                withWT_sw = false;
+            }
+            else
+            {
+                withWT_sw = true;
+            }
 
             DateTime datetoday = DateTime.Now;
 
@@ -67,6 +102,8 @@ namespace terminus_webapp.Pages
 
                 var tenantId = Guid.NewGuid();
                 var properDirectoryId = Guid.NewGuid().ToString();
+                
+                
 
                 Tenant t = new Tenant()
                 {
@@ -99,14 +136,15 @@ namespace terminus_webapp.Pages
                 pd.dateFrom = tenants.dateFrom;
                 pd.dateTo = tenants.dateTo;
                 pd.companyId = CompanyId;
-                pd.monthlyRate = tenants.monthlyRate;
+                pd.monthlyRate = _monthlyrate;
                 pd.tenandId = tenantId.ToString();
 
-                pd.associationDues = tenants.associationDues;
+                pd.associationDues = _assorate;
                 pd.penaltyPct = tenants.penaltyPct;
                 pd.ratePerSQM = tenants.ratePerSQM;
                 pd.totalBalance = tenants.totalBalance;
-
+                pd.withWT = withWT_sw;
+                pd.ratePerSQMAssocDues = tenants.ratePerSQMAssocDues;
 
                 appDBContext.PropertyDirectory.Add(pd);
                 await appDBContext.SaveChangesAsync();
@@ -151,13 +189,15 @@ namespace terminus_webapp.Pages
 
                 pd.dateFrom = tenants.dateFrom;
                 pd.dateTo = tenants.dateTo;
-
-                pd.monthlyRate = tenants.monthlyRate;
-
-                pd.associationDues = tenants.associationDues;
+                pd.monthlyRate = _monthlyrate;
+                    
+                pd.associationDues = _assorate;
                 pd.penaltyPct = tenants.penaltyPct;
                 pd.ratePerSQM = tenants.ratePerSQM;
                 pd.totalBalance = tenants.totalBalance;
+                pd.withWT = withWT_sw;
+                pd.ratePerSQMAssocDues = tenants.ratePerSQMAssocDues;
+
 
                 appDBContext.PropertyDirectory.Update(pd);
                 await appDBContext.SaveChangesAsync();
@@ -190,6 +230,8 @@ namespace terminus_webapp.Pages
                     // glAccount.createDate = DateTime.Today;
                     tenants.id = Guid.NewGuid().ToString();
                     //tenants.propertyDictory.id = Guid.NewGuid();
+                    tenants.dateFrom = DateTime.Now;
+                    tenants.dateTo = DateTime.Now;
 
 
 
@@ -247,8 +289,10 @@ namespace terminus_webapp.Pages
                         associationDues = data.associationDues,
                         penaltyPct = data.penaltyPct,
                         ratePerSQM = data.ratePerSQM,
-                        totalBalance = data.totalBalance
-                    };
+                        totalBalance = data.totalBalance,
+                        withWT = data.withWT?"Yes":"No",
+                        ratePerSQMAssocDues = data.ratePerSQMAssocDues
+                };
 
 
 

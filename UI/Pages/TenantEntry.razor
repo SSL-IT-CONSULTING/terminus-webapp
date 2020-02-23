@@ -130,6 +130,8 @@ else
                             {
                         <option value="@p.id">@p.description</option>
                             }
+                    /**/
+                    /**/
 
                 </InputSelect>
             }
@@ -172,38 +174,10 @@ else
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateTo)" />
     </div>
-    <div class="form-group row">
-        <label for="monthlyRate" class="col-sm-2 col-form-label">Monthly Rate: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
-                <InputNumber @bind-Value="@tenants.monthlyRate" class="form-control">
-                </InputNumber>
-            }
-            else
-            {
-                <label>@tenants.monthlyRate</label>
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.monthlyRate)" />
-    </div>
 
 
-    <div class="form-group row">
-        <label for="associationDues" class="col-sm-2 col-form-label">Association Dues: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
-                <InputNumber @bind-Value="@tenants.associationDues" class="form-control">
-                </InputNumber>
-            }
-            else
-            {
-                <label>@tenants.associationDues</label>
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.associationDues)" />
-    </div>
+
+
 
     <div class="form-group row">
         <label for="penaltyPct" class="col-sm-2 col-form-label">Penalty %: </label>
@@ -238,32 +212,38 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="totalBalance" class="col-sm-2 col-form-label">Total Balance: </label>
+        <label for="ratePerSQM" class="col-sm-2 col-form-label">Association Due Rate Per SQM: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputNumber @bind-Value="@tenants.totalBalance" class="form-control">
+                <InputNumber @bind-Value="@tenants.ratePerSQMAssocDues" class="form-control">
                 </InputNumber>
             }
             else
             {
-                <label>@tenants.totalBalance</label>
+                <label>@tenants.ratePerSQMAssocDues</label>
             }
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.totalBalance)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.ratePerSQMAssocDues)" />
     </div>
 
-
-
-
-
-
-
-
-
-
-
-
+    <div class="form-group row">
+        <label for="properties" class="col-sm-2 col-form-label">Withholding Tax Switch : </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+            <InputSelect @bind-Value="@tenants.withWT" class="form-control">
+                <option value="Y">Yes</option>
+                <option value="N">No</option>
+            </InputSelect>
+            }
+            else
+            {
+                <label>@tenants.withWT</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.withWT)" />
+    </div>
 
 
 
@@ -277,7 +257,7 @@ else
         }
         else
         {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Update </button>
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
 
         }
 

@@ -54,7 +54,9 @@ namespace terminus.shared.models
 
         public decimal totalBalance { get; set; }
 
+        public string withWT { get; set; }
 
+        public decimal ratePerSQMAssocDues { get; set; }
 
     }
 }

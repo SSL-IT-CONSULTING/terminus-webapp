@@ -81,7 +81,7 @@ else
 
     <div class="form-group row">
         <label for="Revenue" class="col-sm-2 col-form-label">Revenue: </label>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
             @if (!IsViewOnly)
             {
 
@@ -100,7 +100,7 @@ else
 
     <div class="form-group row">
         <label for="Expense" class="col-sm-2 col-form-label">Expense: </label>
-        <div class="col-sm-5">
+        <div class="col-sm-2">
             @if (!IsViewOnly)
             {
 
@@ -117,7 +117,7 @@ else
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.expense)" />
     </div>
 
-    <div class="form-group row">
+    @*<div class="form-group row">
         <label for="cashAccount" class="col-sm-2 col-form-label">Cash Account: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
@@ -134,7 +134,7 @@ else
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => glAccountView.cashAccount)" />
-    </div>
+    </div>*@
 
     @*<div class="form-group row">
         <label for="outputVatAccount" class="col-sm-2 col-form-label">Output Vat Account: </label>
@@ -177,11 +177,11 @@ else
 
         @if (!IsEditOnly)
         {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');">Save</button>
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');"> Save </button>
         }
         else
         {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');">Edit</button>
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this GL Account Entry?');"> Save </button>
         }
 
     }

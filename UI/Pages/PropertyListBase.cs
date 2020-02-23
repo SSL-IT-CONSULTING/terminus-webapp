@@ -79,7 +79,7 @@ namespace terminus_webapp.Pages
                     company = a.company,
                     description = a.description.ToString(),
                     address = a.address.ToString(),
-                    propertyType = a.propertyType.ToString(),
+                    propertyType = a.propertyType.ToString().Replace("Resident","Residential"),
                     areaInSqm = a.areaInSqm
                 }).ToList();
 

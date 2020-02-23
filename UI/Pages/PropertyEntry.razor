@@ -68,10 +68,10 @@ else
             @if (!IsViewOnly)
             {
             <InputSelect @bind-Value="@properties.propertyType" class="form-control">
-                <option value="resident">Resident</option>
-                <option value="parking">Parking</option>
-                <option value="unit">Unit</option>
-                <option value="storage">Storage</option>
+                <option value="Resident">Residentail</option>
+                <option value="Parking">Parking</option>
+                <option value="Commercial">Commercial</option>
+                <option value="Storage">Storage</option>
 
             </InputSelect>
 
@@ -114,7 +114,7 @@ else
         }
         else
         { 
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Property Entry?');"> Update </button>
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Property Entry?');"> Save </button>
         }
 
     }
