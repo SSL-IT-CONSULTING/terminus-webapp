@@ -21,5 +21,7 @@ namespace terminus.shared.models
         public string reference { get; set; }
         public string remarks { get; set; }
 
+        public string source { get; set; }
+        public string sourceId { get; set; }
     }
 }

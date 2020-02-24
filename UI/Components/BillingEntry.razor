@@ -42,10 +42,8 @@
                         <div class="form-group row">
                             <label for="dateDue" class="col-sm-4 col-form-label">Due Date: </label>
                             <div class="col-sm-8">
-                                <InputDate @bind-Value="@billing.dateDue" class="form-control">
-                                </InputDate>
+                                <label>@billing.dateDue.ToString("yyyy-MM-dd")</label>
                             </div>
-
                             <ValidationMessage class="offset-sm-4 col-sm-8" For="@(() => billing.dateDue)" />
                         </div>
 

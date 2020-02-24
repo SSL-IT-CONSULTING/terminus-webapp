@@ -203,14 +203,7 @@ namespace terminus_webapp.Components
                     billing.transactionDate = DateTime.Today;
                     billing.billType = this.billingType;
                     billing.MonthYear = dateDue.ToString("yyyyMM");
-
-                    //var tenantInitials = string.Format("{0}{1}{2}",
-                    //                    string.IsNullOrEmpty(pd.tenant.firstName) ? string.Empty : pd.tenant.firstName.Substring(0, 1),
-                    //                    string.IsNullOrEmpty(pd.tenant.middleName) ? string.Empty : pd.tenant.middleName.Substring(0, 1),
-                    //                    string.IsNullOrEmpty(pd.tenant.lastName) ? string.Empty : pd.tenant.lastName.Substring(0, 1));
-
-                    //billing.documentId = $"BILL_{this.billingType}_{tenantInitials}{DateTime.Now.ToString("yyyyMMddHHmmss")}".ToUpper();
-                   
+   
                     billing.dateDue = dateDue;
                     billing.propertyDirectoryId = pd.id;
                     billing.propertyDirectory = pd;
@@ -236,6 +229,7 @@ namespace terminus_webapp.Components
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEMPENALTY, StringComparison.OrdinalIgnoreCase)
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_VAT, StringComparison.OrdinalIgnoreCase)
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_WT, StringComparison.OrdinalIgnoreCase)
+                                                                
                                                                  )
                                                         .Sum(a => a.balance);
 
@@ -260,7 +254,7 @@ namespace terminus_webapp.Components
                         var dueAmountBeforeVat = dueAmount- dueAmountVat;
                         var wtAmt = 0m;
 
-                        if(dueAmountBeforeVat!=0m)
+                        if(dueAmountBeforeVat!=0m && pd.withWT)
                         {
                             wtAmt = CalculateWT(dueAmountBeforeVat);
                             dueAmountBeforeVat = dueAmount - (dueAmountVat + wtAmt);
@@ -268,16 +262,22 @@ namespace terminus_webapp.Components
 
                         if (monthlyRentBalance > 0)
                         {
-                            billItems.Add(new BillingLineItem()
-                            {
-                                Id = Guid.NewGuid(),
-                                description = "Monthly rent penalty",
-                                amount = monthlyRentBalance * (pd.penaltyPct / 100m),
-                                lineNo = 0,
-                                generated = true,
-                                billLineType = Constants.BillLineTypes.MONTHLYBILLITEMPENALTY
-                            });
+                            var penaltyPct = pd.penaltyPct == 0m ? 3m : pd.penaltyPct;
+                            var penalty = monthlyRentBalance * (penaltyPct / 100m);
 
+                            if(penalty>0)
+                            {
+                                billItems.Add(new BillingLineItem()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    description = $"Monthly rent penalty {penaltyPct.ToString("0.00")}%",
+                                    amount =penalty,
+                                    lineNo = 0,
+                                    generated = true,
+                                    billLineType = Constants.BillLineTypes.MONTHLYBILLITEMPENALTY
+                                });
+                            }
+                            
                             billItems.Add(new BillingLineItem()
                             {
                                 Id = Guid.NewGuid(),

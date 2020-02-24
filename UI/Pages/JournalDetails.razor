@@ -2,7 +2,7 @@
 @attribute [Authorize]
 @inherits JournalDetailsBase
 
-<h1 class="page-title">Journal Entry</h1>
+<h1 class="page-title">Journal Entries (@HeaderTitle)</h1>
 
 @if (!IsDataLoaded && string.IsNullOrEmpty(ErrorMessage))
 {
@@ -33,7 +33,26 @@ else
             @foreach (var account in JournalEntries)
             {
             <tr>
-                <td>@account.documentId</td>
+                <td>
+                    @if (account.source.Equals("revenue"))
+                    {
+                        <a href="@($"collectionentry/{account.sourceId}")">
+                            @account.documentId
+                        </a>
+                    }
+                    else if (account.source.Equals("expense"))
+                    {
+                        <a href="@($"expense/{account.sourceId}")">
+                            @account.documentId
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@($"journalentry/{account.sourceId}")">
+                            @account.documentId
+                        </a>
+                    }
+                </td>
                 <td>@account.postingDate.ToString("yyyy-MM-dd")</td>
                 <td>@account.transactionDate.ToString("yyyy-MM-dd")</td>
                 <td align="left">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>

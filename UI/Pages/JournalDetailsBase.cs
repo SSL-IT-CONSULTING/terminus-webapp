@@ -1,5 +1,6 @@
 ﻿using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +39,7 @@ namespace terminus_webapp.Pages
 
         public decimal? totalBalance { get; set; }
 
+        public string HeaderTitle { get; set; }
         public void NavigateToList()
         {
             NavigationManager.NavigateTo("/journalentrylist");
@@ -58,6 +60,11 @@ namespace terminus_webapp.Pages
 
                 JournalEntries = await dapperManager.GetAllAsync<JournalDetailViewModel>("spGetGLTransactions", param);
 
+                var glAccount = await appDBContext.GLAccounts.Where(a => a.accountId.Equals(Guid.Parse(accountId))).FirstOrDefaultAsync();
+
+                if(glAccount!=null)
+                    HeaderTitle = $"{glAccount.accountCode} - {glAccount.accountDesc}";
+                
                 totalDR = JournalEntries.Sum(a => a.drAmt);
                 totalCR = JournalEntries.Sum(a => a.crAmt);
 

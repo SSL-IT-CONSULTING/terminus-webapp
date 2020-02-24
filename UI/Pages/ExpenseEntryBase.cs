@@ -74,7 +74,7 @@ namespace terminus_webapp.Pages
             var id = vendorId;
             var vendor = this.expense.vendors.Where(v => v.vendorId.Equals(id, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
 
-            if(vendor!=null && vendor.inputVatAccountId.HasValue)
+            if(vendor!=null && vendor.inputVatAccountId.HasValue && vendor.isVatRegistered)
             {
                 InputVatAccountId = vendor.inputVatAccountId;
                 InputVatAccountCode = vendor.inputVatAccount.accountCode;
@@ -166,7 +166,9 @@ namespace terminus_webapp.Pages
                                                     id = Guid.NewGuid(),source = "expense", 
                                                     sourceId = r.id.ToString(), 
                                                     companyId=CompanyId, 
-                                                    postingDate = r.transactionDate };
+                                                    postingDate = r.transactionDate,
+                                                    transactionDate = r.transactionDate
+                };
                 jeHdr.description = r.remarks;
               
                 var amount = r.cashOrCheck.Equals("1") ? r.checkDetails.amount : r.amount;

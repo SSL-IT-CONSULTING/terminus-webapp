@@ -39,6 +39,11 @@ namespace terminus_webapp.Pages
         public decimal TotalCR { get; set; }
         public decimal TotalBalance { get; set; }
 
+        [Parameter]
+        public string JEId { get; set; }
+
+        public bool IsViewOnly { get; set; }
+
         public JournalEntryViewModel journalEntry { get; set; }
 
         protected JournalEntryDetail JournalEntryDetail { get; set; }
@@ -185,28 +190,57 @@ namespace terminus_webapp.Pages
         {
             try
             {
+                IsViewOnly = false;
                 UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
-                DynamicParameters dynamicParameters = new DynamicParameters();
-                var IdKey = $"JE{DateTime.Today.ToString("yyyyMM")}";
-                dynamicParameters.Add("IdKey", IdKey);
-                dynamicParameters.Add("Format", "000000");
-                dynamicParameters.Add("CompanyId", CompanyId);
-
-                var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
-                var documentId = string.Empty;
-
-                if (documentIdTable.Any())
+                if(string.IsNullOrEmpty(JEId))
                 {
-                    documentId = $"{IdKey}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
-                }
+                    DynamicParameters dynamicParameters = new DynamicParameters();
+                    var IdKey = $"JE{DateTime.Today.ToString("yyyyMM")}";
+                    dynamicParameters.Add("IdKey", IdKey);
+                    dynamicParameters.Add("Format", "000000");
+                    dynamicParameters.Add("CompanyId", CompanyId);
 
-                journalEntry = new JournalEntryViewModel();
-                journalEntry.documentId = documentId;
-                journalEntry.transactionDate = DateTime.Today;
-                journalEntry.postingDate = DateTime.Today;
-                journalEntry.journalEntryDtls = new List<JournalEntryDtlViewModel>();
+                    var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                    var documentId = string.Empty;
+
+                    if (documentIdTable.Any())
+                    {
+                        documentId = $"{IdKey}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                    }
+
+                    journalEntry = new JournalEntryViewModel();
+                    journalEntry.documentId = documentId;
+                    journalEntry.transactionDate = DateTime.Today;
+                    journalEntry.postingDate = DateTime.Today;
+                    journalEntry.journalEntryDtls = new List<JournalEntryDtlViewModel>();
+                }
+                else
+                {
+                   IsViewOnly = true;
+                   var je = await appDBContext
+                                 .JournalEntriesHdr
+                                 .Include(a=>a.JournalDetails)
+                                 .ThenInclude(a=>a.account)
+                                 .Where(a=>a.id.Equals(Guid.Parse(JEId))).FirstOrDefaultAsync();
+
+                    journalEntry = new JournalEntryViewModel();
+                    journalEntry.id = je.id;
+                    journalEntry.documentId = je.documentId;
+                    journalEntry.transactionDate =je.transactionDate;
+                    journalEntry.postingDate = je.postingDate;
+                    journalEntry.journalEntryDtls = je.JournalDetails.Select(a=> new JournalEntryDtlViewModel() { 
+                    id = a.id,
+                    accountId = a.accountId.ToString(),
+                    accountCode = a.account.accountCode,
+                    accountName = a.account.accountCode,
+                    description = a.description,
+                    amount = a.amount,
+                    type = a.type
+                    }).ToList();
+
+                }
 
             }
             catch(Exception ex)

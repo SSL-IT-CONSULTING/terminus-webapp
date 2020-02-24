@@ -1,5 +1,6 @@
 ﻿
 @page "/journalentry"
+@page "/journalentry/{JEId}"
 
 @using terminus_webapp.Data
 @attribute [Authorize]
@@ -29,8 +30,15 @@ else
     <div class="form-group row">
         <label for="transactionDate" class="col-sm-2 col-form-label">Entry Date: </label>
         <div class="col-sm-2">
-            <InputDate @bind-Value="@journalEntry.transactionDate" class="form-control">
-            </InputDate>
+            @if (!IsViewOnly)
+            {
+                <InputDate @bind-Value="@journalEntry.transactionDate" class="form-control">
+                </InputDate>
+            }
+            else
+            {
+                <label>@journalEntry.transactionDate.ToString("yyyy-MM-dd")</label>
+            }
         </div>
 
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.transactionDate)" />
@@ -39,8 +47,15 @@ else
     <div class="form-group row">
         <label for="postingDate" class="col-sm-2 col-form-label">Posting Date: </label>
         <div class="col-sm-2">
-            <InputDate @bind-Value="@journalEntry.postingDate" class="form-control">
-            </InputDate>
+            @if (!IsViewOnly)
+            {
+                <InputDate @bind-Value="@journalEntry.postingDate" class="form-control">
+                </InputDate>
+            }
+            else
+            {
+                <label>@journalEntry.postingDate.ToString("yyyy-MM-dd")</label>
+            }
         </div>
 
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.postingDate)" />
@@ -49,8 +64,15 @@ else
     <div class="form-group row">
         <label for="description" class="col-sm-2 col-form-label">Description: </label>
         <div class="col-sm-2">
-            <InputText @bind-Value="@journalEntry.description" class="form-control">
-            </InputText>
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@journalEntry.description" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@journalEntry.description</label>
+            }
         </div>
 
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.description)" />
@@ -59,8 +81,15 @@ else
     <div class="form-group row">
         <label for="reference" class="col-sm-2 col-form-label">Reference: </label>
         <div class="col-sm-2">
-            <InputText @bind-Value="@journalEntry.reference" class="form-control">
-            </InputText>
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@journalEntry.reference" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@journalEntry.reference</label>
+            }
         </div>
 
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.reference)" />
@@ -69,19 +98,35 @@ else
     <div class="form-group row">
         <label for="remarks" class="col-sm-2 col-form-label">Remarks: </label>
         <div class="col-sm-2">
-            <InputText @bind-Value="@journalEntry.remarks" class="form-control">
-            </InputText>
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@journalEntry.remarks" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@journalEntry.remarks</label>
+            }
+
+
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => journalEntry.remarks)" />
     </div>
     <br />
-    <button @onclick="@AddDetail" class="btn btn-dark table-btn quick-add-btn" type="button">Add</button>
+    @if (!IsViewOnly)
+    {
+        <div style="display:block">
+            <button @onclick="@AddDetail" class="btn btn-dark table-btn quick-add-btn" type="button">Add</button>
+        </div>
+
+    }
+
     <br />
     <table class="table">
         <thead>
             <tr>
                 <th>GL Account</th>
-                <th>Description</th>
+                @*<th>Description</th>*@
                 <th>Debit</th>
                 <th>Credit</th>
                 <th></th>
@@ -92,7 +137,6 @@ else
             {
                 <tr>
                     <td>@dtl.accountCode - @dtl.accountName</td>
-                    <td>@dtl.description</td>
                     <td align="left">
                         @if (dtl.type.Equals("D", StringComparison.OrdinalIgnoreCase))
                         {
@@ -106,12 +150,15 @@ else
                         }
                     </td>
                     <td>
-                        <button type="button" class="btn btn-primary table-btn" @onclick="@(() => EditJE(dtl.id))">
-                            <i class="fas fa-info-circle">Edit</i>
-                        </button>
-                        <button type="button" class="btn btn-primary table-btn" @onclick="@(() => DeleteJE(dtl.id))">
-                            <i class="fas fa-info-circle">Delete</i>
-                        </button>
+                        @if (!IsViewOnly)
+                        {
+                            <button type="button" class="btn btn-primary table-btn" @onclick="@(() => EditJE(dtl.id))">
+                                <i class="fas fa-info-circle">Edit</i>
+                            </button>
+                            <button type="button" class="btn btn-primary table-btn" @onclick="@(() => DeleteJE(dtl.id))">
+                                <i class="fas fa-info-circle">Delete</i>
+                            </button>
+                        }
                     </td>
                 </tr>
             }
@@ -119,7 +166,7 @@ else
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="2">&nbsp;</td>
+                <td>&nbsp;</td>
                 <td align="left" style="font-weight:bold">
 
                     @TotalDR.ToString("#,##0.00;(#,##0.00)")
@@ -130,28 +177,32 @@ else
                     @TotalCR.ToString("#,##0.00;(#,##0.00)")
 
                 </td>
-                <td colspan="3">&nbsp;</td>
+                <td>&nbsp;</td>
             </tr>
 
             <tr>
-                <td colspan="3" align="right" style="font-weight:bold">Balance:</td>
+                <td colspan="2" align="right" style="font-weight:bold">Balance:</td>
 
-                <td colspan="2" align="left" style="font-weight:bold">
+                <td align="left" style="font-weight:bold">
 
                     @TotalBalance.ToString("#,##0.00;(#,##0.00)")
 
                 </td>
 
-                <td colspan="2">&nbsp;</td>
+                <td>&nbsp;</td>
             </tr>
 
         </tfoot>
     </table>
 
-
-    <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this journal entry?');">Save</button>
-    <button type="button" class="btn btn-primary edit-btn" @onclick="NavigateToList">Cancel</button>
-</EditForm>
+    @if (!IsViewOnly)
+    {
+        <div style="display:block">
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this journal entry?');">Save</button>
+            <button type="button" class="btn btn-primary edit-btn" @onclick="NavigateToList">Cancel</button>
+            </div>
+    }
+    </EditForm>
 
 
     @if (!string.IsNullOrEmpty(ErrorMessage))

@@ -265,6 +265,9 @@ namespace terminus_webapp.Pages
                         a.Id = Guid.NewGuid();
                     }
 
+                    if (a.billBalance > 0)
+                        a.amountApplied = a.billBalance;
+
                     if (companyDefault != null)
                     {
                        switch(a.billLineType)
@@ -567,7 +570,8 @@ namespace terminus_webapp.Pages
                                                         source = "revenue", 
                                                         sourceId = r.id.ToString(), 
                                                         companyId = CompanyId, 
-                                                        postingDate = r.transactionDate 
+                                                        postingDate = r.transactionDate,
+                                                        transactionDate = r.transactionDate
                                                       };
 
                     jeHdr.description = r.remarks;

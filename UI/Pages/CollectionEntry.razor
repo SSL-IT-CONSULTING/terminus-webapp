@@ -297,7 +297,7 @@ else
     @if (!IsViewonly || revenue.collect)
     {
         <button type="submit" class="btn btn-primary edit-btn">Save</button>
-        <button type="button" class="btn btn-primary edit-btn" @onclick="@PayOutstanding">Pay outstanding</button>
+        @*<button type="button" class="btn btn-primary edit-btn" @onclick="@PayOutstanding">Pay outstanding</button>*@
     }
     <button type="button" class="btn btn-primary edit-btn" @onclick="@NavigateToList">Cancel</button>
     @if (IsSaving)
