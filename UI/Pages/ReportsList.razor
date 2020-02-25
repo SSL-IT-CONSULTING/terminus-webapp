@@ -45,18 +45,18 @@ else
             <tbody>
                 @foreach (var pi in rptPropertypeInventoryMV)
                 {
-                <tr>
-                    <td>@pi.description</td>
-                    <td>@pi.propertyType</td>
-                    <td>@pi.TenantName</td>
-                    <td>@pi.contactNumber</td>
-                    <td>@pi.emailAddress</td>
-                    <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
-                    
-                    <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
-                    <td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
+                    <tr>
+                        <td>@pi.description</td>
+                        <td>@pi.propertyType</td>
+                        <td>@pi.TenantName</td>
+                        <td>@pi.contactNumber</td>
+                        <td>@pi.emailAddress</td>
+                        <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
 
-                </tr>
+                        <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        <td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+
+                    </tr>
                 }
             </tbody>
         </table>
@@ -77,11 +77,12 @@ else
                     <th>Description</th>
                     <th>Property Type</th>
                     <th>Tenant Name</th>
+                    <th>Due Date</th>
                     <th>Transaction Date</th>
-                    <th>Date From</th>
-                    <th>Date To</th>
+                    <th>Lease Start</th>
+                    <th>Lease End</th>
                     <th>Mode Of Payment</th>
-                    <th>Refernce</th>
+                    <th>Reference</th>
                     <th>Amount</th>
                     <th>Remarks</th>
 
@@ -95,9 +96,10 @@ else
                         <td>@pi.description</td>
                         <td>@pi.propertyType</td>
                         <td>@pi.TenantName</td>
-                        <td>@pi.transactionDate.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
-                        <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
-                        <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001","")</td>
+                        <td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        <td>@pi.transactionDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
                         <td>@pi.ModeOfPayment</td>
                         <td>@pi.reference</td>
                         <td>@pi.amount.ToString("n2")</td>
@@ -206,25 +208,25 @@ else
             <tbody>
                 @foreach (var pi in rptNetIncomeSummaryVM)
                 {
-                <tr>
-                 
-                    <td>@pi.rentalRevenue</td>
-                    <td>@pi.January</td>
-                    <td>@pi.Febuary</td>
-                    <td>@pi.March</td>
-                    <td>@pi.April</td>
-                    <td>@pi.May</td>
-                    <td>@pi.June</td>
-                    <td>@pi.July</td>
-                    <td>@pi.August</td>
-                    <td>@pi.September</td>
-                    <td>@pi.October</td>
-                    <td>@pi.November</td>
-                    <td>@pi.December</td>
-                    <td>@pi.Total</td>
-          
+                    <tr>
 
-                </tr>
+                        <td>@pi.rentalRevenue</td>
+                        <td>@pi.January</td>
+                        <td>@pi.Febuary</td>
+                        <td>@pi.March</td>
+                        <td>@pi.April</td>
+                        <td>@pi.May</td>
+                        <td>@pi.June</td>
+                        <td>@pi.July</td>
+                        <td>@pi.August</td>
+                        <td>@pi.September</td>
+                        <td>@pi.October</td>
+                        <td>@pi.November</td>
+                        <td>@pi.December</td>
+                        <td>@pi.Total</td>
+
+
+                    </tr>
 
                 }
             </tbody>
@@ -247,23 +249,36 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var pi in rptTrialBalanceVM)
-                {
-                    <tr>
+                @{
+                    int cnt = 0;
+                    @foreach (var pi in rptTrialBalanceVM)
+                    {
+                <tr>
+                    @if (cnt == 48)
+                    {
+                        <td><b>@pi.accountDesc</b></td>
+                        <td><b>@pi.amount</b></td>
+                    }
+                    else
+                    {
                         <td>@pi.accountDesc</td>
                         <td>@pi.amount</td>
 
-                    </tr>
+                    }
 
-                }
-            </tbody>
+                    
+                </tr>
+                        cnt = cnt + 1;
+                    }
+                 }
+                </tbody>
         </table>
     }
 
     @if (reportType == "NetIncome")
     {
 
-<h1 class="page-title">Income Statement</h1>
+        <h1 class="page-title">Income Statement</h1>
 
         <table class="table">
             <thead>
@@ -273,16 +288,71 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var pi in rptNetIncomeVM)
-                {
-                    <tr>
+                @{
+                    int cnt = 0;
+                    @foreach (var pi in rptNetIncomeVM)
+                    {
+                <tr>
+                    @if (cnt == 4 || cnt == 9 || cnt == 23 || cnt == 26 )
+                    {
+                        <td><b>@pi.Revenue</b></td>
+                        <td><b>@pi.YearToDate.ToString()</b></td>
+                    }
+                    else
+                    {
                         <td>@pi.Revenue </td>
                         <td>@pi.YearToDate.ToString() </td>
 
-                    </tr>
+                    }
 
-                }
-            </tbody>
+
+                </tr>
+                     cnt = cnt + 1;
+                    }
+                 }
+                </tbody>
+        </table>
+    }
+
+    @if (reportType == "BalanceSheet")
+    {
+
+        <h1 class="page-title">Income Statement</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Revenue</th>
+                    <th>As of @asOfDate.ToString("MM/dd/yyyy")</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int cnt = 0;
+                    @foreach (var pi in rptbalanceSheetVM)
+                    {
+
+                <tr>
+                    @if (cnt == 0 || cnt == 11|| cnt == 13|| cnt == 20|| cnt == 24|| cnt == 25)
+                    {
+
+                        <td><b>@pi.accountDesc</b></td>
+                        <td><b>@pi.amount </b></td>
+                    }
+                    else
+                    {
+                        <td>@pi.accountDesc </td>
+                        <td>@pi.amount </td>
+
+
+                    }
+                </tr>
+
+                        cnt = cnt + 1;
+
+                    }
+                    }
+                </tbody>
         </table>
     }
 

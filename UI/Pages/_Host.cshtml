@@ -11,18 +11,21 @@
     <meta charset="utf-8" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <title>terminus-webapp</title>
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
+    <script src="_content/BlazorInputFile/inputfile.js"></script>
 
-  
 </head>
 <body>
     <app>
         <component type="typeof(App)" render-mode="Server" />
     </app>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="js/inputfile.js"></script>
 
     <div id="blazor-error-ui">
         <environment include="Staging,Production">

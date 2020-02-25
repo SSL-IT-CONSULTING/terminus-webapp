@@ -50,7 +50,9 @@ namespace terminus_webapp.Pages
 
         public List<rptNetIncomeVM> rptNetIncomeVM { get; set; }
 
-        
+        public List<rptBalanceSheetVM> rptbalanceSheetVM { get; set; }
+
+
         public List<rptTrialBalanceVM> rptTrialBalanceVM { get; set; }
 
 
@@ -156,6 +158,13 @@ namespace terminus_webapp.Pages
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeVM), (typeof(DataTable)));
                 }
+
+                if (reportType == "BalanceSheet")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptbalanceSheetVM), (typeof(DataTable)));
+                }
+
 
                 var fileName = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}.xlsx"; 
 
@@ -266,13 +275,16 @@ namespace terminus_webapp.Pages
                     rptNetIncomeVM = await
                         dapperManager.GetAllAsync<rptNetIncomeVM>("ASRCReports", param);
 
-
-                    
-
-
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeVM), (typeof(DataTable)));
                 }
 
+                if (reportType == "BalanceSheet")
+                {
+                    rptbalanceSheetVM = await
+                        dapperManager.GetAllAsync<rptBalanceSheetVM>("ASRCReports", param);
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptbalanceSheetVM), (typeof(DataTable)));
+                }
 
 
                 //var newpath = @"d:\"+ reportType +"" + "_" + DateTime.Today.ToString("MM/dd/yyyy").Replace("/","").Replace(" ","").Replace(":","") + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".xlsx";
