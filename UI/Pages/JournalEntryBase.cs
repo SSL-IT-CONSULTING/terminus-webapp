@@ -234,7 +234,7 @@ namespace terminus_webapp.Pages
                     id = a.id,
                     accountId = a.accountId.ToString(),
                     accountCode = a.account.accountCode,
-                    accountName = a.account.accountCode,
+                    accountName = a.account.accountDesc,
                     description = a.description,
                     amount = a.amount,
                     type = a.type

@@ -503,7 +503,12 @@ namespace terminus_webapp.Pages
                         validationMessage.AppendLine("Credit account is required. Please select a Credit account.");
                     }
 
-                    if(!string.IsNullOrEmpty(validationMessage.ToString()))
+                    if(!revenue.dueDate.HasValue)
+                        validationMessage.AppendLine("Due date is required.");
+                    else if(BillingType=="MB" && revenue.dueDate.Value.ToString("yyyyMM")!=DateTime.Today.ToString("yyyyMM"))
+                        validationMessage.AppendLine("Due date must be within the current month and year.");
+
+                    if (!string.IsNullOrEmpty(validationMessage.ToString()))
                     {
                         await JSRuntime.InvokeVoidAsync("alert", validationMessage.ToString());
 
