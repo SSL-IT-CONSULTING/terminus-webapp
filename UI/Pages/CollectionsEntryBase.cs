@@ -503,7 +503,12 @@ namespace terminus_webapp.Pages
                         validationMessage.AppendLine("Credit account is required. Please select a Credit account.");
                     }
 
-                    if(!string.IsNullOrEmpty(validationMessage.ToString()))
+                    if(!revenue.dueDate.HasValue)
+                        validationMessage.AppendLine("Due date is required.");
+                    else if(BillingType=="MB" && revenue.dueDate.Value.ToString("yyyyMM")!=DateTime.Today.ToString("yyyyMM"))
+                        validationMessage.AppendLine("Due date must be within the current month and year.");
+
+                    if (!string.IsNullOrEmpty(validationMessage.ToString()))
                     {
                         await JSRuntime.InvokeVoidAsync("alert", validationMessage.ToString());
 
@@ -534,6 +539,7 @@ namespace terminus_webapp.Pages
                     r.companyId = CompanyId;
                     r.cashOrCheck = revenue.cashOrCheck;
                     r.billId = Guid.Parse(revenue.billingId);
+                    r.billingType = BillingType;
 
                     if (r.cashOrCheck.Equals("1"))
                     {
@@ -725,12 +731,14 @@ namespace terminus_webapp.Pages
                         receiptNo = data.receiptNo,
                         billingId = data.billing == null ? string.Empty : data.billing.billId.ToString(),
                         billingDocumentId = data.billing==null?string.Empty:data.billing.documentId,
+                        billingType = data.billingType,
                         cashOrCheck = data.cashOrCheck,
                         bankName = data.cashOrCheck.Equals("1")?data.checkDetails.bankName:string.Empty,
                         checkNo = data.cashOrCheck.Equals("1") ? data.checkDetails.checkNo : string.Empty,
                         checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0m,
                         checkDate = data.cashOrCheck.Equals("1") ? data.checkDetails.checkDate : DateTime.Today
                     };
+                    BillingType = revenue.billingType;
 
                     revenue.revenueLineItems = data.revenueLineItems.Select(a =>
                     new RevenueLineItemViewModel()

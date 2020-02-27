@@ -312,11 +312,11 @@ else
 
                     @if (InputVatAccountId.HasValue)
                     {
-                        <label>@CalculateBeforeVat(GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount))</label>
+                        <label>@CalculateBeforeVat(GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount)).ToString("#,##0.00;(#,##0.00)")</label>
                     }
                     else
                     {
-                        <label>@GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount)</label>
+                        <label>@GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount).ToString("#,##0.00;(#,##0.00)")</label>
 
                     }
                 </td>
@@ -338,7 +338,7 @@ else
 
                 <tr>
                     <td align="right">
-                        <label>@CalculateVat(GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount))</label>
+                        <label>@CalculateVat(GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount)).ToString("#,##0.00;(#,##0.00)")</label>
                     </td>
                     <td>
                         &nbsp;
@@ -358,7 +358,7 @@ else
                     &nbsp;
                 </td>
                 <td align="right">
-                    @GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount)
+                    @GetAmount(expense.cashOrCheck, expense.amount, expense.checkAmount).ToString("#,##0.00;(#,##0.00)")
                 </td>
             </tr>
         </tbody>
