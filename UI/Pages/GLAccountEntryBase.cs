@@ -132,10 +132,10 @@ namespace terminus_webapp.Pages
                     companyId = CompanyId,
                     accountCode = glAccountView.accountCode,
                     accountDesc = glAccountView.accountDesc,
-                    balance = glAccountView.balance,
+                    balance = 0,
                     revenue = _rev,
                     expense = _exp,
-                    cashAccount = _cshacc,
+                    cashAccount = false,
                     rowOrder = _maxRow,
                     outputVatAccount = _outvat
                 };

@@ -39,7 +39,7 @@ else
                     <th>Email Address</th>
                     <th>Date From</th>
                     <th>Date To</th>
-                    <th>Due Date</th>
+                    @*<th>Due Date</th>*@
                 </tr>
             </thead>
             <tbody>
@@ -54,7 +54,7 @@ else
                         <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
 
                         <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-                        <td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
 
                     </tr>
                 }
@@ -146,7 +146,7 @@ else
     @if (reportType == "Expenses")
     {
 
-        <h1 class="page-title">Expenses Detail Report</h1>
+        <h1 class="page-title">Expense Detail Report</h1>
 
         <table class="table">
             <thead>
@@ -317,7 +317,7 @@ else
     @if (reportType == "BalanceSheet")
     {
 
-        <h1 class="page-title">Income Statement</h1>
+        <h1 class="page-title">Balance Sheet</h1>
 
         <table class="table">
             <thead>

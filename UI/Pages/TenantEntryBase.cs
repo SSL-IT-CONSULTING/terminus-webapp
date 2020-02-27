@@ -1,5 +1,7 @@
 ﻿using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -8,7 +10,7 @@ using terminus.shared.models;
 using terminus_webapp.Data;
 namespace terminus_webapp.Pages
 {
-    public class TenantEntryBase:ComponentBase
+    public class TenantEntryBase : ComponentBase
     {
 
         [Inject]
@@ -31,7 +33,7 @@ namespace terminus_webapp.Pages
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
 
-        public string CompanyId { get; set; }
+    public string CompanyId { get; set; }
         public string UserName { get; set; }
 
 
@@ -50,6 +52,34 @@ namespace terminus_webapp.Pages
         {
             NavigationManager.NavigateTo("tenantlist");
         }
+
+        [HttpPost]
+        //public IActionResult Upload(IFormFile[] files)
+        //{
+        //    // Iterate through uploaded files array
+        //    foreach (var file in files)
+        //    {
+        //        // Extract file name from whatever was posted by browser
+        //        var fileName = System.IO.Path.GetFileName(file.FileName);
+
+        //        // If file with same name exists delete it
+        //        if (System.IO.File.Exists(fileName))
+        //        {
+        //            System.IO.File.Delete(fileName);
+        //        }
+
+        //        // Create new local file and copy contents of uploaded file
+        //        using (var localFile = System.IO.File.OpenWrite(fileName))
+        //        using (var uploadedFile = file.OpenReadStream())
+        //        {
+        //            uploadedFile.CopyTo(localFile);
+        //        }
+        //    }
+
+        //    ViewBag.Message = "Files successfully uploaded";
+
+        //    return View();
+        //}
 
         protected async Task HandleValidSubmit()
         {

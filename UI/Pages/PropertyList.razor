@@ -53,7 +53,7 @@ else
             <td>@p.description.ToString()</td>
             <td>@p.address.ToString()</td>
             <td>@p.propertyType.ToString()</td>
-            <td>@p.areaInSqm.ToString()</td>
+            <td>@p.areaInSqm.ToString("####")</td>
             <td>
                 <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
                     <i class="fas fa-info-circle">EDIT</i>

@@ -32,12 +32,12 @@ else
 
             @if (!IsViewOnly)
             {
-                <InputText @bind-Value="@tenants.lastName" class="form-control">
-                </InputText>
+            <InputText @bind-Value="@tenants.lastName" class="form-control">
+            </InputText>
             }
             else
             {
-                <label>@tenants.lastName</label>
+            <label>@tenants.lastName</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.lastName)" />*@
@@ -50,13 +50,13 @@ else
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
-                <InputText @bind-Value="@tenants.firstName" class="form-control">
+            <InputText @bind-Value="@tenants.firstName" class="form-control">
 
-                </InputText>
+            </InputText>
             }
             else
             {
-                <label>@tenants.firstName</label>
+            <label>@tenants.firstName</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.firstName)" />*@
@@ -69,13 +69,13 @@ else
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
-                <InputText @bind-Value="@tenants.middleName" class="form-control">
+            <InputText @bind-Value="@tenants.middleName" class="form-control">
 
-                </InputText>
+            </InputText>
             }
             else
             {
-                <label>@tenants.middleName</label>
+            <label>@tenants.middleName</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.middleName)" />*@
@@ -87,13 +87,13 @@ else
             @if (!IsViewOnly)
             {
 
-                <InputTextArea rows="4" @bind-Value="@tenants.contactNumber" class="form-control">
+            <InputTextArea rows="4" @bind-Value="@tenants.contactNumber" class="form-control">
 
-                </InputTextArea>
+            </InputTextArea>
             }
             else
             {
-                <label>@tenants.contactNumber</label>
+            <label>@tenants.contactNumber</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.contactNumber)" />*@
@@ -105,13 +105,13 @@ else
             @if (!IsViewOnly)
             {
 
-                <InputTextArea rows="4" @bind-Value="@tenants.emailAddress" class="form-control">
+            <InputTextArea rows="4" @bind-Value="@tenants.emailAddress" class="form-control">
 
-                </InputTextArea>
+            </InputTextArea>
             }
             else
             {
-                <label>@tenants.emailAddress</label>
+            <label>@tenants.emailAddress</label>
             }
         </div>
         @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emailAddress)" />*@
@@ -124,20 +124,20 @@ else
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
-                <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
-                    <option value=""></option>
-                    @foreach (var p in tenants.properties)
+            <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
+                <option value=""></option>
+                @foreach (var p in tenants.properties)
                             {
-                        <option value="@p.id">@p.description</option>
+                <option value="@p.id">@p.description</option>
                             }
-                    /**/
-                    /**/
+                /**/
+                /**/
 
-                </InputSelect>
+            </InputSelect>
             }
             else
             {
-                <label>@tenants.propertyid</label>
+            <label>@tenants.propertyid</label>
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.propertyid)" />
@@ -149,12 +149,12 @@ else
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputDate @bind-Value="@tenants.dateFrom" class="form-control">
-                </InputDate>
+            <InputDate @bind-Value="@tenants.dateFrom" class="form-control">
+            </InputDate>
             }
             else
             {
-                <label>@tenants.dateFrom</label>
+            <label>@tenants.dateFrom</label>
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateFrom)" />
@@ -164,12 +164,12 @@ else
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputDate @bind-Value="@tenants.dateTo" class="form-control">
-                </InputDate>
+            <InputDate @bind-Value="@tenants.dateTo" class="form-control">
+            </InputDate>
             }
             else
             {
-                <label>@tenants.dateTo</label>
+            <label>@tenants.dateTo</label>
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateTo)" />
@@ -184,12 +184,12 @@ else
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputNumber @bind-Value="@tenants.penaltyPct" class="form-control">
-                </InputNumber>
+            <InputNumber @bind-Value="@tenants.penaltyPct" class="form-control">
+            </InputNumber>
             }
             else
             {
-                <label>@tenants.penaltyPct</label>
+            <label>@tenants.penaltyPct</label>
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.penaltyPct)" />
@@ -200,12 +200,12 @@ else
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputNumber @bind-Value="@tenants.ratePerSQM" class="form-control">
-                </InputNumber>
+            <InputNumber @bind-Value="@tenants.ratePerSQM" class="form-control">
+            </InputNumber>
             }
             else
             {
-                <label>@tenants.ratePerSQM</label>
+            <label>@tenants.ratePerSQM</label>
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.ratePerSQM)" />
@@ -216,12 +216,12 @@ else
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputNumber @bind-Value="@tenants.ratePerSQMAssocDues" class="form-control">
-                </InputNumber>
+            <InputNumber @bind-Value="@tenants.ratePerSQMAssocDues" class="form-control">
+            </InputNumber>
             }
             else
             {
-                <label>@tenants.ratePerSQMAssocDues</label>
+            <label>@tenants.ratePerSQMAssocDues</label>
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.ratePerSQMAssocDues)" />
@@ -239,25 +239,29 @@ else
             }
             else
             {
-                <label>@tenants.withWT</label>
+            <label>@tenants.withWT</label>
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.withWT)" />
     </div>
-
-
-
+    <hr />
+    <br />
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="files" multiple />
+        <button type="submit">Upload</button>
+    </form>
+    <br />
     @if (!IsViewOnly)
     {
 
-        @if (!IsEditOnly)
+    @if (!IsEditOnly)
         {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
+    <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
 
         }
         else
         {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
+    <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
 
         }
 
@@ -267,5 +271,7 @@ else
     <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
 
 </EditForm>
+
+
 
 }
