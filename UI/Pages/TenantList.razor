@@ -46,7 +46,7 @@ else
             <th>Association Dues</th>
             <th>Penalty %</th>
             <th>Rate Per SQM</th>
-            <th>Total Balance</th>
+            @*<th>Total Balance</th>*@
 
 
 
@@ -64,8 +64,8 @@ else
             <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
             <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
             <td>@pi.penaltyPct.ToString("##")</td>
-            <td>@pi.ratePerSQM.ToString("####")</td>
-            <td>@pi.totalBalance.ToString("n2").Replace("01/01/0001", "")</td>
+            <td>@pi.ratePerSQM.ToString("#,##0.00;(#,##0.00);-")</td>
+            @*<td>@pi.totalBalance.ToString("n2").Replace("01/01/0001", "")</td>*@
             <td>
                 <a href="@($"tenantentry/{pi.id}/{pi.tenandId}")" class="btn btn-primary table-btn">
                     <i class="fas fa-info-circle">EDIT</i>

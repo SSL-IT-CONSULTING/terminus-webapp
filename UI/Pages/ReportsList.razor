@@ -24,6 +24,49 @@ else
     @*<button @onclick="@ExportToExcel" class="btn btn-dark table-btn quick-add-btn">Export To Excel</button>*@
     <a href="@_path">Download Excel</a>
     <br />
+
+    @if (reportType == "GLDetails")
+    {
+        <h1 class="page-title">General Ledger Details</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>GL Code - Desc</th>
+                    <th>Document ID</th>
+                    <th>Posting Date</th>
+                    <th>Entry Date</th>
+                    <th>DR Amount</th>
+                    <th>CR Amount</th>
+                    <th>Description</th>
+                    <th>Reference</th>
+                    <th>Remarks</th>
+                    @*<th>Due Date</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptGLDVM)
+                {
+                <tr>
+                    <td>@pi.glaccount</td>
+                    <td>@pi.documentId</td>
+                    <td>@pi.postingDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                    <td>@pi.transactionDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                    <td>@pi.DRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.CRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.description</td>
+                    <td>@pi.reference</td>
+                    <td>@pi.remarks</td>
+                    @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
     @if (reportType == "PropertyInventory")
     {
         <h1 class="page-title">Property Inventory Report</h1>
@@ -121,22 +164,24 @@ else
                 <tr>
 
                     <th>Transaction Date</th>
+                    <th>GL Account</th>
                     <th>Amount</th>
                     <th>Description</th>
-                    <th>Transaction Reference</th>
+                    <th>Document ID</th>
                     <th>Comments</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var pi in rptOtherIncomeDetailVM)
                 {
-                    <tr>
-                        <td>@pi.transactionDate.ToString("MM/dd/yyyy")</td>
-                        <td>@pi.amount.ToString("n2")</td>
-                        <td>@pi.description</td>
-                        <td>@pi.transactionReference</td>
-                        <td>@pi.comments</td>
-                    </tr>
+                <tr>
+                    <td>@pi.transactionDate.ToString("MM/dd/yyyy")</td>
+                    <td>@pi.gLAccount.ToString()</td>
+                    <td>@pi.amount.ToString("n2")</td>
+                    <td>@pi.description</td>
+                    <td>@pi.documentID</td>
+                    <td>@pi.comments</td>
+                </tr>
                 }
             </tbody>
 
@@ -169,7 +214,7 @@ else
                         <td>@pi.Payee</td>
                         <td>@pi.receiptNo</td>
                         <td>@pi.expenseTitle</td>
-                        <td>@pi.amount.ToString("n2")</td>
+                        <td>@pi.amount.ToString("#,##0.00;(#,##0.00);-")</td>
                         <td>@pi.remarks</td>
 
                     </tr>
@@ -206,27 +251,48 @@ else
                 </tr>
             </thead>
             <tbody>
-                
+
                 @foreach (var pi in rptNetIncomeSummaryVM)
                 {
                 <tr>
-                    
-                    <td>@pi.rentalRevenue</td>
-                    <td> @pi.January.ToString("#,##0.00;(#,##0.00);''") </td>
-                    <td>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.March.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.April.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.May.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.June.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.July.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.August.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.September.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.October.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.November.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.December.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</td>
+                    @if (pi.rentalRevenue == "TOTAL RENTAL INCOME" || pi.rentalRevenue == "TOTAL INCOME" || pi.rentalRevenue == "TOTAL" || pi.rentalRevenue == "EXPENSES" || pi.rentalRevenue == "OTHER EXPENSES" || pi.rentalRevenue == "NET INCOME")
 
+                    {
 
+                        <td><b>@pi.rentalRevenue</b></td>
+                        <td><b>@pi.January.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.March.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.April.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.May.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.June.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.July.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.August.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.September.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.October.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.November.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.December.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                        <td><b>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</b></td>
+
+                    }
+                    else
+                    {
+                        <td>@pi.rentalRevenue</td>
+                        <td> @pi.January.ToString("#,##0.00;(#,##0.00);''") </td>
+                        <td>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.March.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.April.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.May.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.June.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.July.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.August.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.September.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.October.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.November.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.December.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</td>
+
+                    }
                 </tr>
 
                 }
@@ -252,27 +318,31 @@ else
             <tbody>
                 @{
                     int cnt = 0;
+
+                    int rowcount = rptTrialBalanceVM.Count;
+
+
                     @foreach (var pi in rptTrialBalanceVM)
                     {
-                <tr>
-                    @if (cnt == 48)
-                    {
-                        <td><b>@pi.accountDesc</b></td>
-                        <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                    }
-                    else
-                    {
-                        <td>@pi.accountDesc</td>
-                        <td>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <tr>
+                            @if (cnt == rowcount - 1)
+                            {
+                                <td><b>@pi.accountDesc</b></td>
+                                <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            }
+                            else
+                            {
+                                <td>@pi.accountDesc</td>
+                                <td>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</td>
 
-                    }
+                            }
 
-                    
-                </tr>
+
+                        </tr>
                         cnt = cnt + 1;
                     }
-                 }
-                </tbody>
+                }
+            </tbody>
         </table>
     }
 
@@ -293,25 +363,25 @@ else
                     int cnt = 0;
                     @foreach (var pi in rptNetIncomeVM)
                     {
-                <tr>
-                    @if (cnt == 4 || cnt == 9 || cnt == 23 || cnt == 26 )
-                    {
-                        <td><b>@pi.Revenue</b></td>
-                        <td><b>@pi.YearToDate.ToString("#,##0.00;(#,##0.00);-")</b></td>
-                    }
-                    else
-                    {
-                        <td>@pi.Revenue </td>
-                        <td>@pi.YearToDate.ToString("#,##0.00;(#,##0.00);-") </td>
+                        <tr>
+                            @if (cnt == 4 || cnt == 9 || cnt == 23 || cnt == 26)
+                            {
+                                <td><b>@pi.Revenue</b></td>
+                                <td><b>@pi.YearToDate.ToString("#,##0.00;(#,##0.00);-")</b></td>
+                            }
+                            else
+                            {
+                                <td>@pi.Revenue </td>
+                                <td>@pi.YearToDate.ToString("#,##0.00;(#,##0.00);-") </td>
 
-                    }
+                            }
 
 
-                </tr>
-                     cnt = cnt + 1;
+                        </tr>
+                        cnt = cnt + 1;
                     }
-                 }
-                </tbody>
+                }
+            </tbody>
         </table>
     }
 
@@ -333,27 +403,27 @@ else
                     @foreach (var pi in rptbalanceSheetVM)
                     {
 
-                <tr>
-                    @if (cnt == 0 || cnt == 11|| cnt == 13|| cnt == 20|| cnt == 24|| cnt == 25)
-                    {
+                        <tr>
+                            @if (cnt == 0 || cnt == 11 || cnt == 13 || cnt == 18 || cnt == 20 || cnt == 24 || cnt == 25)
+                            {
 
-                        <td><b>@pi.accountDesc</b></td>
-                        <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);-") </b></td>
-                    }
-                    else
-                    {
-                        <td>@pi.accountDesc </td>
-                        <td>@pi.amount.ToString("#,##0.00;(#,##0.00);-") </td>
+                                <td><b>@pi.accountDesc</b></td>
+                                <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);-") </b></td>
+                            }
+                            else
+                            {
+                                <td>@pi.accountDesc </td>
+                                <td>@pi.amount.ToString("#,##0.00;(#,##0.00);-") </td>
 
 
-                    }
-                </tr>
+                            }
+                        </tr>
 
                         cnt = cnt + 1;
 
                     }
-                    }
-                </tbody>
+                }
+            </tbody>
         </table>
     }
 

@@ -55,7 +55,7 @@ namespace terminus_webapp.Pages
 
         public List<rptTrialBalanceVM> rptTrialBalanceVM { get; set; }
 
-
+        public List<rptGLDetailViewModel> rptGLDVM { get; set; }
 
 
 
@@ -117,6 +117,14 @@ namespace terminus_webapp.Pages
 
             try
             {
+
+                if (reportType == "GLDetails")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptGLDVM), (typeof(DataTable)));
+
+                }
+
                 if (reportType == "PropertyInventory")
                 {
 
@@ -214,6 +222,17 @@ namespace terminus_webapp.Pages
 
                //string path; 
                 DataTable table = new DataTable();
+
+
+                if (reportType == "GLDetails")
+                {
+                    rptGLDVM = await
+                        dapperManager.GetAllAsync<rptGLDetailViewModel>("ASRCReports", param);
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptGLDVM), (typeof(DataTable)));
+
+
+                }
 
 
                 if (reportType == "PropertyInventory")
