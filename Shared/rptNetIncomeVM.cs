@@ -11,7 +11,7 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string Revenue { get; set; }
-        public Nullable<decimal> YearToDate { get; set; }
+        public decimal YearToDate { get; set; }
 
     }
 }

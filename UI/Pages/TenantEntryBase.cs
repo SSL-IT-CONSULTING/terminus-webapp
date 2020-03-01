@@ -8,6 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using terminus.shared.models;
 using terminus_webapp.Data;
+using BlazorInputFile;
+using System.Collections.Generic;
+
 namespace terminus_webapp.Pages
 {
     public class TenantEntryBase : ComponentBase
@@ -25,6 +28,25 @@ namespace terminus_webapp.Pages
         public DapperManager dapperManager { get; set; }
 
         public TenantViewModel tenants { get; set; }
+        
+        public List<UploadFilesViewModal> uploadFilesViewModal { get; set; }
+
+        public string fileid { get; set; }
+        public string progressinfoid { get; set; }
+        public string progressbarid { get; set; }
+        public string filter { get; set; } 
+        public bool multiple { get; set; }
+
+        
+
+        [Parameter]
+        public string Name { get; set; } // optional - can be used for managing multiple file upload controls on a page
+
+        [Parameter]
+        public string Filter { get; set; } // optional - for restricting types of files that can be selected
+
+        [Parameter]
+        public string Multiple { get; set; } // optional - enable multiple file uploads
 
         [Parameter]
         public string id { get; set; }
@@ -53,33 +75,52 @@ namespace terminus_webapp.Pages
             NavigationManager.NavigateTo("tenantlist");
         }
 
-        [HttpPost]
-        //public IActionResult Upload(IFormFile[] files)
-        //{
-        //    // Iterate through uploaded files array
-        //    foreach (var file in files)
-        //    {
-        //        // Extract file name from whatever was posted by browser
-        //        var fileName = System.IO.Path.GetFileName(file.FileName);
 
-        //        // If file with same name exists delete it
-        //        if (System.IO.File.Exists(fileName))
-        //        {
-        //            System.IO.File.Delete(fileName);
-        //        }
 
-        //        // Create new local file and copy contents of uploaded file
-        //        using (var localFile = System.IO.File.OpenWrite(fileName))
-        //        using (var uploadedFile = file.OpenReadStream())
-        //        {
-        //            uploadedFile.CopyTo(localFile);
-        //        }
-        //    }
+        public int numLines;
+        public IFileListEntry file;
 
-        //    ViewBag.Message = "Files successfully uploaded";
+        public void HandleFileSelected(IFileListEntry[] files)
+        {
+            file = files.FirstOrDefault();
+        }
 
-        //    return View();
-        //}
+        protected async Task CountLines()
+        {
+            numLines = 0;
+            using (var reader = new System.IO.StreamReader(file.Data))
+            {
+
+
+                while (await reader.ReadLineAsync() != null)
+                {
+                    //uploadFilesViewModal = new UploadFilesViewModal();
+                    string uploadid = Guid.NewGuid().ToString();
+                    UploadFilesViewModal t = new UploadFilesViewModal()
+                    {
+                        //uploadedFile.CopyTo(localFile);
+
+                        id = uploadid,
+                        FileName = file.Name,
+                        fileSize = int.Parse(file.Size.ToString()),
+                        fileType = file.Type,
+                        
+                        //company = company,
+                        //updateDate = datetoday,
+                        //updatedBy = UserName,
+                        //lastName = tenants.lastName,
+                        //firstName = tenants.firstName,
+                        //middleName = tenants.middleName,
+                        //contactNumber = tenants.contactNumber,
+                        //emailAddress = tenants.emailAddress,
+
+                    };
+
+
+                    numLines++;
+                }
+            }
+        }
 
         protected async Task HandleValidSubmit()
         {
@@ -329,6 +370,10 @@ namespace terminus_webapp.Pages
 
                 }
                 tenants.properties = await appDBContext.Properties.ToListAsync();
+                
+
+
+
 
             }
             catch (Exception ex)

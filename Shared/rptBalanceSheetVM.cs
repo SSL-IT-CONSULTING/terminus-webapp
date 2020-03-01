@@ -12,6 +12,6 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string accountDesc { get; set; }
-        public Nullable<decimal> amount { get; set; }
+        public decimal amount { get; set; }
     }
 }

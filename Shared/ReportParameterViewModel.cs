@@ -12,8 +12,8 @@ namespace terminus.shared.models
         [Key, MaxLength(8)]
         public int Id { get; set; }
 
-        public DateTime AsOfDate { get; set; }
-
+        public DateTime dateFrom { get; set; }
+        public DateTime dateTo { get; set; }
 
         [MaxLength(1000)]
         public string ReportType { get; set; }

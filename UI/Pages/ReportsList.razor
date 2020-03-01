@@ -206,27 +206,28 @@ else
                 </tr>
             </thead>
             <tbody>
+                
                 @foreach (var pi in rptNetIncomeSummaryVM)
                 {
-                    <tr>
+                <tr>
+                    
+                    <td>@pi.rentalRevenue</td>
+                    <td> @pi.January.ToString("#,##0.00;(#,##0.00);''") </td>
+                    <td>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.March.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.April.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.May.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.June.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.July.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.August.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.September.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.October.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.November.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.December.ToString("#,##0.00;(#,##0.00);''")</td>
+                    <td>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</td>
 
-                        <td>@pi.rentalRevenue</td>
-                        <td>@pi.January</td>
-                        <td>@pi.Febuary</td>
-                        <td>@pi.March</td>
-                        <td>@pi.April</td>
-                        <td>@pi.May</td>
-                        <td>@pi.June</td>
-                        <td>@pi.July</td>
-                        <td>@pi.August</td>
-                        <td>@pi.September</td>
-                        <td>@pi.October</td>
-                        <td>@pi.November</td>
-                        <td>@pi.December</td>
-                        <td>@pi.Total</td>
 
-
-                    </tr>
+                </tr>
 
                 }
             </tbody>
@@ -257,12 +258,12 @@ else
                     @if (cnt == 48)
                     {
                         <td><b>@pi.accountDesc</b></td>
-                        <td><b>@pi.amount</b></td>
+                        <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</b></td>
                     }
                     else
                     {
                         <td>@pi.accountDesc</td>
-                        <td>@pi.amount</td>
+                        <td>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</td>
 
                     }
 
@@ -296,12 +297,12 @@ else
                     @if (cnt == 4 || cnt == 9 || cnt == 23 || cnt == 26 )
                     {
                         <td><b>@pi.Revenue</b></td>
-                        <td><b>@pi.YearToDate.ToString()</b></td>
+                        <td><b>@pi.YearToDate.ToString("#,##0.00;(#,##0.00);-")</b></td>
                     }
                     else
                     {
                         <td>@pi.Revenue </td>
-                        <td>@pi.YearToDate.ToString() </td>
+                        <td>@pi.YearToDate.ToString("#,##0.00;(#,##0.00);-") </td>
 
                     }
 
@@ -322,8 +323,8 @@ else
         <table class="table">
             <thead>
                 <tr>
-                    <th>Revenue</th>
-                    <th>As of @asOfDate.ToString("MM/dd/yyyy")</th>
+                    <th>Balance Sheet</th>
+                    <th>As of @dateTo.ToString("MM/dd/yyyy")</th>
                 </tr>
             </thead>
             <tbody>
@@ -337,12 +338,12 @@ else
                     {
 
                         <td><b>@pi.accountDesc</b></td>
-                        <td><b>@pi.amount </b></td>
+                        <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);-") </b></td>
                     }
                     else
                     {
                         <td>@pi.accountDesc </td>
-                        <td>@pi.amount </td>
+                        <td>@pi.amount.ToString("#,##0.00;(#,##0.00);-") </td>
 
 
                     }

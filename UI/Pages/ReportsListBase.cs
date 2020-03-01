@@ -63,7 +63,9 @@ namespace terminus_webapp.Pages
         public string reportParams { get; set; }
 
         //[Parameter]
-        public DateTime asOfDate { get; set; }
+        public DateTime dateFrom { get; set; }
+
+        public DateTime dateTo { get; set; }
         //[Parameter]
         public string reportType { get; set; }
 
@@ -106,8 +108,9 @@ namespace terminus_webapp.Pages
           
             var p = reportParams.Split("|");
 
-            asOfDate = DateTime.Parse(p[0]);
-            reportType = p[1];
+            dateFrom = DateTime.Parse(p[0]);
+            dateTo= DateTime.Parse(p[1]);
+            reportType = p[2];
 
             DataTable table = new DataTable();
 
@@ -196,13 +199,15 @@ namespace terminus_webapp.Pages
 
                 var p = reportParams.Split("|");
 
-                asOfDate = DateTime.Parse(p[0]);
-                reportType = p[1];
+                dateFrom = DateTime.Parse(p[0]);
+                dateTo = DateTime.Parse(p[1]);
+                reportType = p[2];
 
                 // var sqlcommand = $"exec ASRCReportsDtls '{companyId.Replace("'", "''")}'";
                 // var sqlcommand = $"exec ASRCReportsDtls '{companyId.Replace("'", "''")}'";
                 var param = new Dapper.DynamicParameters();
-                param.Add("AsofDate", asOfDate, System.Data.DbType.DateTime);
+                param.Add("dateFrom", dateFrom, System.Data.DbType.DateTime);
+                param.Add("dateTo", dateTo, System.Data.DbType.DateTime);
                 param.Add("ReportType", reportType, System.Data.DbType.String);
 
 
@@ -247,7 +252,7 @@ namespace terminus_webapp.Pages
                     rptExpensesVM = await
                         dapperManager.GetAllAsync<rptExpensesVM>("ASRCReports", param);
 
-
+                    
                     //path = @"d:\Expenses" + "_" + DateTime.Today.ToString() + ".xlsx";
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptExpensesVM), (typeof(DataTable)));
@@ -257,6 +262,7 @@ namespace terminus_webapp.Pages
                 {
                     rptNetIncomeSummaryVM = await
                         dapperManager.GetAllAsync<rptNetIncomeSummaryVM>("ASRCReports", param);
+
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeSummaryVM), (typeof(DataTable)));
                 }

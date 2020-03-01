@@ -40,13 +40,13 @@ namespace terminus_webapp.Pages
 
         protected void NavigateToList()
         {
-            NavigationManager.NavigateTo($"/reportslist/{reportParameterViewModel.AsOfDate.ToString("yyyy-MM-dd")}|{reportParameterViewModel.ReportType}");
+            NavigationManager.NavigateTo($"/reportslist/{reportParameterViewModel.dateFrom.ToString("yyyy-MM-dd")}|{reportParameterViewModel.dateTo.ToString("yyyy-MM-dd")}|{reportParameterViewModel.ReportType}");
         }
 
 
         protected void CreateArticle()
         {
-            NavigationManager.NavigateTo($"/reportslist/{reportParameterViewModel.AsOfDate.ToString("yyyy-MM-dd")}|{reportParameterViewModel.ReportType}");
+            NavigationManager.NavigateTo($"/reportslist/{reportParameterViewModel.dateFrom.ToString("yyyy-MM-dd")}|{reportParameterViewModel.dateTo.ToString("yyyy-MM-dd")}|{reportParameterViewModel.ReportType}");
         }
 
         //protected async Task HandleValidSubmit()
@@ -68,6 +68,8 @@ namespace terminus_webapp.Pages
                 //UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 //CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
+
+
                 CompanyId = "ASRC";
 
                 DataLoaded = false;
@@ -79,7 +81,8 @@ namespace terminus_webapp.Pages
                 param.Add("companyId", CompanyId, System.Data.DbType.String);
 
                 reportParameterViewModel = new ReportParameterViewModel();
-                reportParameterViewModel.AsOfDate = DateTime.Today;
+                reportParameterViewModel.dateFrom = DateTime.Parse("01/01/" + DateTime.Today.Year.ToString());
+                reportParameterViewModel.dateTo = DateTime.Today;
 
                 //reportParameterViewModel.ReferenceVM = await dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
                 reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ASRCReportsDtls", param);

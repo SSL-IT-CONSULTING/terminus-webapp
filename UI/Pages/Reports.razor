@@ -1,5 +1,4 @@
-﻿
-@page "/reports"
+﻿@page "/reports"
 @attribute [Authorize]
 @inherits ReportsBase
 @inject Microsoft.AspNetCore.Components.NavigationManager navigationManager
@@ -7,27 +6,36 @@
 
 <h1 class="page-title">Reports</h1>
 
-
-
-@*@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
-    {
-        <p><em>Loading...</em></p>
-    }
-    else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
-    {
-        <p><em>Error encountered while loading this page.</em></p>
-    }
-    else
-    {*@
 <hr />
+
+@if (!IsDataLoaded)
+{
+    <p><em>Loading...</em></p>
+}
+else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered, please report it to the system administrator</em></p>
+    <p><em>@ErrorMessage</em></p>
+}
+else
+
+{
 
 <EditForm Model="@reportParameterViewModel">
 
 
     <div class="form-group row">
-        <label for="AsOfDate" class="col-sm-2 col-form-label">As Of Date: </label>
+        <label for="dateFrom" class="col-sm-2 col-form-label">Date From: </label>
         <div class="col-sm-2">
-            <InputDate @bind-Value="@reportParameterViewModel.AsOfDate" class="form-control">
+            <InputDate @bind-Value="@reportParameterViewModel.dateFrom" class="form-control">
+            </InputDate>
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <label for="dateTo" class="col-sm-2 col-form-label">Date To: </label>
+        <div class="col-sm-2">
+            <InputDate @bind-Value="@reportParameterViewModel.dateTo" class="form-control">
             </InputDate>
         </div>
 
@@ -43,7 +51,6 @@
                     <option value="@rf.ReferenceCode">@rf.ReferenceValue</option>
                 }
 
-
             </InputSelect>
         </div>
 
@@ -52,3 +59,4 @@
     <button type="submit" class="btn btn-primary edit-btn" @onclick="@CreateArticle"> Submit </button>
 </EditForm>
 
+}
