@@ -1,0 +1,205 @@
+﻿
+@using terminus_webapp.Data
+
+@page "/billingentry"
+@page "/billingentry/{billingId}"
+@attribute [Authorize]
+
+@inherits BillingEntry2Base
+
+@if (IsDataLoaded)
+{
+    @if (!IsBillInitialized && billingViewModel!=null)
+    {
+    <div style="display:block">
+        <EditForm Model="@billingViewModel" OnValidSubmit="@HandleInitializeBill">
+            <DataAnnotationsValidator />
+            <ValidationSummary></ValidationSummary>
+            <div class="form-group row">
+                <label for="dateDue" class="col-sm-2 col-form-label">Bill Type: </label>
+                <div class="col-sm-2">
+                    <InputSelect @bind-Value="@billingViewModel.billType" class="form-control">
+                        <option value="MB">Monthly Bill</option>
+                        <option value="OTHERS">Other Bill</option>
+                    </InputSelect>
+                </div>
+                <ValidationMessage class="offset-sm-4 col-sm-8" For="@(() => billingViewModel.dateDue)" />
+            </div>
+            <div class="form-group row">
+                <label for="dateDue" class="col-sm-2 col-form-label">Due Date: </label>
+                <div class="col-sm-2">
+                    <InputDate @bind-Value="@billingViewModel.dateDue" class="form-control">
+                    </InputDate>
+                </div>
+                <ValidationMessage class="offset-sm-4 col-sm-8" For="@(() => billingViewModel.dateDue)" />
+            </div>
+
+            <div class="form-group row">
+                <label for="propertyId" class="col-sm-2 col-form-label">Property: </label>
+                <div class="col-sm-8">
+                   
+                        <select id="propertyId" name="propertyId" @bind="PropertyId" class="form-control">
+                            <option value=""></option>
+                            @foreach (var p in billingViewModel.properties)
+                            {
+                                <option value="@p.id">@p.description</option>
+                            }
+                        </select>
+                   
+
+                </div>
+                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => billingViewModel.propertyId)" />
+
+            </div>
+
+            <div class="form-group row">
+                <label for="tenantId" class="col-sm-2 col-form-label">Tenant: </label>
+                <div class="col-sm-8">
+                    <label>@billingViewModel.tenantName</label>
+                    <input type="hidden" id="tenantId" name="tenantId" @bind="@billingViewModel.tenantId" />
+                </div>
+                <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => billingViewModel.tenantId)" />
+            </div>
+
+
+            <button type="submit" class="btn btn-primary edit-btn">Create Bill</button>
+            <button type="button" class="btn btn-primary edit-btn" @onclick="NavigateToList">Cancel</button>
+
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <br />
+                <p style="color:red"><em>@ErrorMessage</em></p>
+                <br />
+            }
+        </EditForm>
+    </div>
+    }
+    else
+    {
+            <div>
+                <div style="display:block">
+
+                    <BillingLineItemDetail @ref="BillingLineItemDetail" SaveEventCallback="@BillingLineItemDetail_OnSave"
+                                           CancelEventCallback="@BillingLineItemDetail_OnCancel"></BillingLineItemDetail>
+                </div>
+                <br />
+                <div style="display:block">
+
+
+                    <EditForm Model="@billing" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+                        <DataAnnotationsValidator />
+                        <ValidationSummary></ValidationSummary>
+
+                        <div class="form-group row">
+                            <label for="documentId" class="col-sm-2 col-form-label">Document Id: </label>
+                            <div class="col-sm-8">
+                                <label>@billing.documentId</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="transactionDate" class="col-sm-2 col-form-label">Entry Date: </label>
+                            <div class="col-sm-4">
+                                @*@if (!IsViewOnly)
+                                {
+                                    <InputDate @bind-Value="@billing.transactionDate" class="form-control">
+                                    </InputDate>
+                                }
+                                else
+                                {*@
+                                    <label>@billing.transactionDate.ToString("yyyy-MM-dd")</label>
+                                @*}*@
+                            </div>
+
+                            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => billing.transactionDate)" />
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="dateDue" class="col-sm-2 col-form-label">Due Date: </label>
+                            <div class="col-sm-8">
+                                <label>@billing.dateDue.ToString("yyyy-MM-dd")</label>
+                            </div>
+                            <ValidationMessage class="offset-sm-4 col-sm-8" For="@(() => billing.dateDue)" />
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-2 col-form-label">Property: </label>
+                            <div class="col-sm-8">
+                                <label>@billing.propertyDirectory.property.description</label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="description" class="col-sm-2 col-form-label">Tenant: </label>
+                            <div class="col-sm-8">
+                                <label>@($"{billing.propertyDirectory.tenant.lastName} {billing.propertyDirectory.tenant.firstName}  {billing.propertyDirectory.tenant.middleName}")</label>
+                            </div>
+                        </div>
+
+                        <br />
+                        <button @onclick="@AddDetail" class="btn btn-dark table-btn quick-add-btn" type="button">Add</button>
+                        <br />
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (billing.billingLineItems != null)
+                                {
+                                    @foreach (var dtl in billing.billingLineItems)
+                                    {
+                                        <tr>
+
+                                            <td>@dtl.description</td>
+                                            <td>@dtl.amount.ToString("#,##0.00;(#,##0.00)")</td>
+                                            <td>
+                                                @if (!dtl.generated)
+                                                {
+                                                    <button type="button" class="btn btn-primary table-btn" @onclick="@(() => EditBillItem(dtl.Id))">
+                                                        <i class="fas fa-info-circle">Edit</i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary table-btn" @onclick="@(() => DeleteBillItem(dtl.Id))">
+                                                        <i class="fas fa-info-circle">Delete</i>
+                                                    </button>
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total:</td>
+                                    <td align="left" style="font-weight:bold">
+                                        @billing.totalAmount.ToString("#,##0.00;(#,##0.00)")
+                                    </td>
+                                </tr>
+
+                            </tfoot>
+                        </table>
+
+                        <button type="submit" class="btn btn-primary edit-btn">Save</button>
+                        <button type="button" class="btn btn-primary edit-btn" @onclick="NavigateToList">Cancel</button>
+                    </EditForm>
+
+                </div>
+                @if (!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <br />
+                    <p style="color:red"><em>@ErrorMessage</em></p>
+                    <br />
+                }
+
+
+            </div>
+            }
+            }

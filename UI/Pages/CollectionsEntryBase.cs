@@ -36,20 +36,12 @@ namespace terminus_webapp.Pages
         [Parameter]
         public string revenueId { get; set; }
 
+        [Parameter]
+        public string billId { get; set; }
+
         public RevenueViewModel revenue { get; set; }
 
-        //private string _VendorId;
-        //public string VendorId
-        //{
-        //    get { return _VendorId; }
-        //    set
-        //    {
-        //        _VendorId = value;
-        //        this.expense.vendorId = _VendorId;
-        //        VendorSelected(_VendorId);
-        //    }
-        //}
-
+      
         private string _PropertyId;
         public string PropertyId { get { return _PropertyId; } set { 
             _PropertyId = value;

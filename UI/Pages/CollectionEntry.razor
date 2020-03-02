@@ -1,5 +1,6 @@
 ﻿@page "/collectionentry"
 @page "/collectionentry/{revenueId}"
+@page "/collectbill/{billId}"
 @attribute [Authorize]
 @using terminus.shared.models
 
@@ -23,288 +24,288 @@ else if (DataSaved && !string.IsNullOrEmpty(ErrorMessage))
 }
 else
 {
-<EditForm Model="@revenue" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary></ValidationSummary>
-    <div class="form-group row">
-        <label for="documentId" class="col-sm-2 col-form-label">Document Id: </label>
-
-        <div class="col-sm-5">
-            <input type="hidden" name="documentId" id="documentId" @bind-value="@revenue.documentId" for="documentId" class="col-sm-2 col-form-label" />
-            <label> @revenue.documentId</label>
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.description)" />
-    </div>
-    <div class="form-group row">
-        <label for="description" class="col-sm-2 col-form-label">Description: </label>
-        <div class="col-sm-5">
-            @if (!IsViewonly)
-            {
-                <InputText @bind-Value="@revenue.description" class="form-control">
-                </InputText>
-            }
-            else
-            {
-                @revenue.description
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.description)" />
-    </div>
-
-    <div class="form-group row">
-        <label for="transactionDate" class="col-sm-2 col-form-label">Date: </label>
-        <div class="col-sm-2">
-            @if (!IsViewonly)
-            {
-                <InputDate @bind-Value="@revenue.transactionDate" class="form-control">
-                </InputDate>
-            }
-            else
-            {
-                <label>@revenue.transactionDate.ToString("yyyy-MM-dd")</label>
-            }
-        </div>
-
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.transactionDate)" />
-    </div>
-
-    <div class="form-group row">
-        <label for="propertyId" class="col-sm-2 col-form-label">Property: </label>
-        <div class="col-sm-5">
-            @if (!IsViewonly || revenue.collect)
-            {
-                <select id="propertyId" name="propertyId" @bind="PropertyId" class="form-control">
-                    <option value=""></option>
-                    @foreach (var p in revenue.properties)
-                    {
-                        <option value="@p.id">@p.description</option>
-                    }
-                </select>
-            }
-            else
-            {
-                <label>@revenue.propertyDescription</label>
-            }
-
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.propertyId)" />
-
-    </div>
-
-    <div class="form-group row">
-        <label for="tenantId" class="col-sm-2 col-form-label">Tenant: </label>
-        <div class="col-sm-5">
-            <label>@revenue.tenantName</label>
-            <input type="hidden" id="tenantId" name="tenantId" @bind="@revenue.tenantId" />
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.tenantId)" />
-    </div>
-    <div class="form-group row">
-        <label for="dueDate" class="col-sm-2 col-form-label">Due Date: </label>
-        <div class="col-sm-2">
-            @if (!IsViewonly || revenue.collect)
-            {
-                <InputDate @bind-Value="@revenue.dueDate" class="form-control">
-                </InputDate>
-            }
-            else
-            {
-                <label>@(revenue.dueDate.HasValue ? revenue.dueDate.Value.ToString("yyyy-MM-dd") : "")</label>
-            }
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <label for="dueDate" class="col-sm-2 col-form-label">Billing: </label>
-        <div class="col-sm-2">
-            @if (!IsViewonly)
-            {
-                <InputText @bind-Value="@revenue.billingDocumentId" class="form-control" readonly="true">
-                </InputText>
-            }
-            else
-            {
-                <label>@revenue.billingDocumentId</label>
-            }
-        </div>
-        <div class="col-sm-2">
-            @if (!IsViewonly && !revenue.collect)
-            {
-                <select id="BillingType" name="BillingType" @bind="BillingType" class="form-control">
-                    <option value="MB">Monthly Bill</option>
-                    <option value="OTHERS">Other Bill</option>
-                </select>
-            }
-            else
-            {
-                if (BillingType.Equals("MB"))
-                {
-                    <label>Monthly Bill</label>
-                }
-                else
-                {
-                    <label>Other Bill</label>
-                }
-            }
-
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-6" For="@(() => revenue.billingDocumentId)" />
-    </div>
-
-    <div class="form-group row">
-        <div class="col-sm-2">
-            @if (!IsViewonly && !revenue.collect)
-            {
-                <button @onclick="@CreateBillEntry" type="button" class="btn btn-primary">Find/Create bill</button>
-            }
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="reference" class="col-sm-2 col-form-label">Reference: </label>
-        <div class="col-sm-5">
-            @if (!IsViewonly)
-            {
-                <InputText @bind-Value="@revenue.reference" class="form-control">
-                </InputText>
-            }
-            else
-            {
-                @revenue.reference
-            }
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="receiptNo" class="col-sm-2 col-form-label">Issue receipt no: </label>
-        <div class="col-sm-5">
-            @if (!IsViewonly)
-            {
-                <InputText @bind-Value="@revenue.receiptNo" class="form-control">
-                </InputText>
-            }
-            else
-            {
-                <label>@revenue.receiptNo</label>
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.receiptNo)" />
-    </div>
-
-    <div class="form-group row">
-        <label for="cashOrCheck" class="col-sm-2 col-form-label">Cash or check: </label>
-        <div class="col-sm-5">
-            @if (!IsViewonly)
-            {<InputSelect @bind-Value="@revenue.cashOrCheck" class="form-control">
-                    <option value="0">Cash</option>
-                    <option value="1">Check</option>
-                </InputSelect>
-            }
-            else
-            {
-                if (revenue.cashOrCheck.Equals("1"))
-                {
-                    <label>Check</label>
-                }
-                else
-                {
-                    <label>Cash</label>
-                }
-
-            }
-        </div>
-    </div>
-
-    @if (!string.IsNullOrEmpty(revenue.cashOrCheck) && revenue.cashOrCheck.Equals("1"))
-    {
+    <EditForm Model="@revenue" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary></ValidationSummary>
         <div class="form-group row">
-            <label for="bankName" class="col-sm-2 col-form-label">Check No: </label>
+            <label for="documentId" class="col-sm-2 col-form-label">Document Id: </label>
+
+            <div class="col-sm-5">
+                <input type="hidden" name="documentId" id="documentId" @bind-value="@revenue.documentId" for="documentId" class="col-sm-2 col-form-label" />
+                <label> @revenue.documentId</label>
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.description)" />
+        </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description: </label>
             <div class="col-sm-5">
                 @if (!IsViewonly)
                 {
-                    <InputText @bind-Value="@revenue.checkNo" class="form-control" placeholder="Check No">
+                    <InputText @bind-Value="@revenue.description" class="form-control">
                     </InputText>
                 }
                 else
                 {
-                    <label>@revenue.checkNo</label>
+                    @revenue.description
                 }
             </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.description)" />
         </div>
 
         <div class="form-group row">
-            <label for="bankName" class="col-sm-2 col-form-label">Check Amount: </label>
-            <div class="col-sm-5">
+            <label for="transactionDate" class="col-sm-2 col-form-label">Date: </label>
+            <div class="col-sm-2">
                 @if (!IsViewonly)
                 {
-                    <InputNumber @bind-Value="@revenue.checkAmount" class="form-control" placeholder="Check Amount">
-                    </InputNumber>
-                }
-                else
-                {
-                    <label>@revenue.checkAmount.ToString("#,##0.00;(#,##0.00)")</label>
-                }
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="bankName" class="col-sm-2 col-form-label">Bank Name: </label>
-            <div class="col-sm-5">
-                @if (!IsViewonly)
-                {
-                    <InputText @bind-Value="@revenue.bankName" class="form-control" placeholder="Bank name">
-                    </InputText>
-                }
-                else
-                {
-                    <label>@revenue.bankName</label>
-                }
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="branch" class="col-sm-2 col-form-label">Branch: </label>
-            <div class="col-sm-5">
-                @if (!IsViewonly)
-                {
-                    <InputText @bind-Value="@revenue.branch" class="form-control" placeholder="Branch">
-                    </InputText>
-                }
-                else
-                {
-                    <label>@revenue.branch</label>
-                }
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="branch" class="col-sm-2 col-form-label">Check Date: </label>
-            <div class="col-sm-5">
-                @if (!IsViewonly)
-                {
-                    <InputDate @bind-Value="@revenue.checkDate" class="form-control" placeholder="Check Date">
+                    <InputDate @bind-Value="@revenue.transactionDate" class="form-control">
                     </InputDate>
                 }
                 else
                 {
-                    if (revenue.checkDate.HasValue)
-                    {
-                        <label>@revenue.checkDate.Value.ToString("yyyy-MM-dd")</label>
-                    }
+                    <label>@revenue.transactionDate.ToString("yyyy-MM-dd")</label>
+                }
+            </div>
+
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.transactionDate)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="propertyId" class="col-sm-2 col-form-label">Property: </label>
+            <div class="col-sm-5">
+                @if (!IsViewonly || revenue.collect)
+                {
+                    <select id="propertyId" name="propertyId" @bind="PropertyId" class="form-control">
+                        <option value=""></option>
+                        @foreach (var p in revenue.properties)
+                        {
+                            <option value="@p.id">@p.description</option>
+                        }
+                    </select>
+                }
+                else
+                {
+                    <label>@revenue.propertyDescription</label>
+                }
+
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.propertyId)" />
+
+        </div>
+
+        <div class="form-group row">
+            <label for="tenantId" class="col-sm-2 col-form-label">Tenant: </label>
+            <div class="col-sm-5">
+                <label>@revenue.tenantName</label>
+                <input type="hidden" id="tenantId" name="tenantId" @bind="@revenue.tenantId" />
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.tenantId)" />
+        </div>
+        <div class="form-group row">
+            <label for="dueDate" class="col-sm-2 col-form-label">Due Date: </label>
+            <div class="col-sm-2">
+                @if (!IsViewonly || revenue.collect)
+                {
+                    <InputDate @bind-Value="@revenue.dueDate" class="form-control">
+                    </InputDate>
+                }
+                else
+                {
+                    <label>@(revenue.dueDate.HasValue ? revenue.dueDate.Value.ToString("yyyy-MM-dd") : "")</label>
                 }
             </div>
         </div>
 
-    }
+        <div class="form-group row">
+            <label for="dueDate" class="col-sm-2 col-form-label">Billing: </label>
+            <div class="col-sm-2">
+                @if (!IsViewonly)
+                {
+                    <InputText @bind-Value="@revenue.billingDocumentId" class="form-control" readonly="true">
+                    </InputText>
+                }
+                else
+                {
+                    <label>@revenue.billingDocumentId</label>
+                }
+            </div>
+            <div class="col-sm-2">
+                @if (!IsViewonly && !revenue.collect)
+                {
+                    <select id="BillingType" name="BillingType" @bind="BillingType" class="form-control">
+                        <option value="MB">Monthly Bill</option>
+                        <option value="OTHERS">Other Bill</option>
+                    </select>
+                }
+                else
+                {
+                    if (BillingType.Equals("MB"))
+                    {
+                        <label>Monthly Bill</label>
+                    }
+                    else
+                    {
+                        <label>Other Bill</label>
+                    }
+                }
 
-    @if (!IsViewonly || revenue.collect)
-    {
-        <button type="submit" class="btn btn-primary edit-btn">Save</button>
-        @*<button type="button" class="btn btn-primary edit-btn" @onclick="@PayOutstanding">Pay outstanding</button>*@
-    }
-    <button type="button" class="btn btn-primary edit-btn" @onclick="@NavigateToList">Cancel</button>
-    @if (IsSaving)
-    {
-        <h5>Saving..</h5>
-    }
-</EditForm>
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-6" For="@(() => revenue.billingDocumentId)" />
+        </div>
+
+        <div class="form-group row">
+            <div class="col-sm-2">
+                @if (!IsViewonly && !revenue.collect)
+                {
+                    <button @onclick="@CreateBillEntry" type="button" class="btn btn-primary">Find/Create bill</button>
+                }
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="reference" class="col-sm-2 col-form-label">Reference: </label>
+            <div class="col-sm-5">
+                @if (!IsViewonly)
+                {
+                    <InputText @bind-Value="@revenue.reference" class="form-control">
+                    </InputText>
+                }
+                else
+                {
+                    @revenue.reference
+                }
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="receiptNo" class="col-sm-2 col-form-label">Issue receipt no: </label>
+            <div class="col-sm-5">
+                @if (!IsViewonly)
+                {
+                    <InputText @bind-Value="@revenue.receiptNo" class="form-control">
+                    </InputText>
+                }
+                else
+                {
+                    <label>@revenue.receiptNo</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.receiptNo)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="cashOrCheck" class="col-sm-2 col-form-label">Cash or check: </label>
+            <div class="col-sm-5">
+                @if (!IsViewonly)
+                {<InputSelect @bind-Value="@revenue.cashOrCheck" class="form-control">
+                        <option value="0">Cash</option>
+                        <option value="1">Check</option>
+                    </InputSelect>
+                }
+                else
+                {
+                    if (revenue.cashOrCheck.Equals("1"))
+                    {
+                        <label>Check</label>
+                    }
+                    else
+                    {
+                        <label>Cash</label>
+                    }
+
+                }
+            </div>
+        </div>
+
+        @if (!string.IsNullOrEmpty(revenue.cashOrCheck) && revenue.cashOrCheck.Equals("1"))
+        {
+            <div class="form-group row">
+                <label for="bankName" class="col-sm-2 col-form-label">Check No: </label>
+                <div class="col-sm-5">
+                    @if (!IsViewonly)
+                    {
+                        <InputText @bind-Value="@revenue.checkNo" class="form-control" placeholder="Check No">
+                        </InputText>
+                    }
+                    else
+                    {
+                        <label>@revenue.checkNo</label>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="bankName" class="col-sm-2 col-form-label">Check Amount: </label>
+                <div class="col-sm-5">
+                    @if (!IsViewonly)
+                    {
+                        <InputNumber @bind-Value="@revenue.checkAmount" class="form-control" placeholder="Check Amount">
+                        </InputNumber>
+                    }
+                    else
+                    {
+                        <label>@revenue.checkAmount.ToString("#,##0.00;(#,##0.00)")</label>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="bankName" class="col-sm-2 col-form-label">Bank Name: </label>
+                <div class="col-sm-5">
+                    @if (!IsViewonly)
+                    {
+                        <InputText @bind-Value="@revenue.bankName" class="form-control" placeholder="Bank name">
+                        </InputText>
+                    }
+                    else
+                    {
+                        <label>@revenue.bankName</label>
+                    }
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="branch" class="col-sm-2 col-form-label">Branch: </label>
+                <div class="col-sm-5">
+                    @if (!IsViewonly)
+                    {
+                        <InputText @bind-Value="@revenue.branch" class="form-control" placeholder="Branch">
+                        </InputText>
+                    }
+                    else
+                    {
+                        <label>@revenue.branch</label>
+                    }
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="branch" class="col-sm-2 col-form-label">Check Date: </label>
+                <div class="col-sm-5">
+                    @if (!IsViewonly)
+                    {
+                        <InputDate @bind-Value="@revenue.checkDate" class="form-control" placeholder="Check Date">
+                        </InputDate>
+                    }
+                    else
+                    {
+                        if (revenue.checkDate.HasValue)
+                        {
+                            <label>@revenue.checkDate.Value.ToString("yyyy-MM-dd")</label>
+                        }
+                    }
+                </div>
+            </div>
+
+        }
+
+        @if (!IsViewonly || revenue.collect)
+        {
+            <button type="submit" class="btn btn-primary edit-btn">Save</button>
+            @*<button type="button" class="btn btn-primary edit-btn" @onclick="@PayOutstanding">Pay outstanding</button>*@
+        }
+        <button type="button" class="btn btn-primary edit-btn" @onclick="@NavigateToList">Cancel</button>
+        @if (IsSaving)
+        {
+            <h5>Saving..</h5>
+        }
+    </EditForm>
 
     @if (revenue != null && revenue.revenueLineItems != null && IsDataLoaded)
     {
@@ -316,7 +317,7 @@ else
                         <th>Oustanding</th>
                         <th>Bill amount</th>
                         <th>Paid amount</th>
-                
+
                         <th>Debit</th>
                         <th>Credit</th>
                         <th>Action</th>
@@ -327,23 +328,23 @@ else
                     <tbody>
                         @foreach (var item in revenue.revenueLineItems)
                         {
-                        <tr>
-                            <td>@item.description</td>
-                            <td>@item.billBalance.ToString("#,##0.00;(#,##0.00)")</td>
-                            <td>@((item.amount).ToString("#,##0.00;(#,##0.00)"))</td>
-                          
-                            <td>@((item.amountApplied).ToString("#,##0.00;(#,##0.00)"))</td>
-                            <td>@string.Format("{0} - {1}", item.debitAccountCode, item.debitAccountName)</td>
-                            <td>@string.Format("{0} - {1}", item.creditAccountCode, item.creditAccountName)</td>
-                            <td>
-                                @if (!IsViewonly)
-                                {
-                                    <button type="button" class="btn btn-primary table-btn" @onclick="@(() => ApplyPaymentLineItem(item.Id))">
-                                        <i class="fas fa-info-circle">Apply Payment</i>
-                                    </button>
-                                }
-                            </td>
-                        </tr>
+                            <tr>
+                                <td>@item.description</td>
+                                <td>@item.billBalance.ToString("#,##0.00;(#,##0.00)")</td>
+                                <td>@((item.amount).ToString("#,##0.00;(#,##0.00)"))</td>
+
+                                <td>@((item.amountApplied).ToString("#,##0.00;(#,##0.00)"))</td>
+                                <td>@string.Format("{0} - {1}", item.debitAccountCode, item.debitAccountName)</td>
+                                <td>@string.Format("{0} - {1}", item.creditAccountCode, item.creditAccountName)</td>
+                                <td>
+                                    @if (!IsViewonly)
+                                    {
+                                        <button type="button" class="btn btn-primary table-btn" @onclick="@(() => ApplyPaymentLineItem(item.Id))">
+                                            <i class="fas fa-info-circle">Apply Payment</i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
                         }
 
                     </tbody>
@@ -352,7 +353,7 @@ else
                             <td>Total</td>
                             <td>@revenue.revenueLineItems.Sum(a => a.billBalance).ToString("#,##0.00;(#,##0.00)")</td>
                             <td>@revenue.revenueLineItems.Sum(a => a.amount).ToString("#,##0.00;(#,##0.00)")</td>
-                          
+
                             <td>@revenue.revenueLineItems.Sum(a => a.amountApplied).ToString("#,##0.00;(#,##0.00)")</td>
                             <td colspan="3">&nbsp;</td>
                         </tr>

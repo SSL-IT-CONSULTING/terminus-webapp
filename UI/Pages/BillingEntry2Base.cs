@@ -13,9 +13,9 @@ using terminus_webapp.Common;
 using terminus_webapp.Components;
 using terminus_webapp.Data;
 
-namespace terminus_webapp.Components
+namespace terminus_webapp.Pages
 {
-    public class BillingEntryBase:ComponentBase
+    public class BillingEntry2Base : ComponentBase
     {
         [Inject]
         public AppDBContext appDBContext { get; set; }
@@ -39,10 +39,11 @@ namespace terminus_webapp.Components
         public EventCallback<bool> CancelEventCallback { get; set; }
 
         public bool IsDataLoaded { get; set; }
+        public bool IsBillInitialized { get; set; }
         public string ErrorMessage { get; set; }
         public StringBuilder DeletedItems { get; set; }
         public bool ShowDialog { get; set; }
-
+        public bool IsViewOnly { get; set; }
         public void CloseDialog()
         {
             ShowDialog = false;
@@ -84,13 +85,67 @@ namespace terminus_webapp.Components
         [Parameter]
         public string billingType { get; set; }
 
+        private string _PropertyId;
+        public string PropertyId
+        {
+            get { return _PropertyId; }
+            set
+            {
+                _PropertyId = value;
+                this.billingViewModel.propertyId = value;
+                PopulateTenant();
+            }
+        }
+
+        private void PopulateTenant()
+        {
+            try
+            {
+                var dueDate = billingViewModel.dateDue;
+                var tenants = appDBContext.PropertyDirectory
+                                                .Include(a => a.tenant)
+                                                .Where(a => a.propertyId.Equals(PropertyId)
+                                                && dueDate >= a.dateFrom && dueDate <= a.dateTo
+                                                && a.companyId.Equals(CompanyId)
+                                                ).ToList();
+
+
+                if (!tenants.Any())
+                {
+                   
+                    billingViewModel.tenantId = string.Empty;
+                    billingViewModel.tenantName = string.Empty;
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(billingViewModel.tenantId) &&
+                        !tenants.Where(t => t.tenandId.Equals(billingViewModel.tenantId)).Any())
+                    {
+                        billingViewModel.tenantId = string.Empty;
+                        billingViewModel.tenantName = string.Empty;
+                    }
+
+                    billingViewModel.tenantId = tenants.First().tenandId;
+                    billingViewModel.tenantName = $"{tenants.First().tenant.lastName} {tenants.First().tenant.firstName}";
+
+                }
+                StateHasChanged();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         public Billing billing { get; set; }
+
+        public BillingViewModel billingViewModel { get; set; }
 
         protected BillingLineItemDetail BillingLineItemDetail { get; set; }
 
         public void BillingLineItemDetail_OnSave()
         {
-            if(string.IsNullOrEmpty(BillingLineItemDetail.model.Id))
+            if (string.IsNullOrEmpty(BillingLineItemDetail.model.Id))
             {
                 billing.billingLineItems.Add(new BillingLineItem()
                 {
@@ -123,9 +178,29 @@ namespace terminus_webapp.Components
         {
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
-            billing = new Billing();
-            billing.billingLineItems = new List<BillingLineItem>();
-            
+            IsDataLoaded = false;
+            if(string.IsNullOrEmpty(billingId))
+            {
+                IsBillInitialized = false;
+                billingViewModel = new BillingViewModel();
+                billingViewModel.dateDue = DateTime.Today;
+                billingViewModel.billType = "MB";
+
+                var pdlist = await appDBContext.PropertyDirectory.Include(a => a.property).ToListAsync();
+
+                billingViewModel.properties = pdlist.GroupBy(a => a.propertyId)
+    .Select(grp => grp.First().property).ToList();
+                IsDataLoaded = true;
+            }
+            else
+            {
+                IsBillInitialized = true;
+                await InitNewBilling();
+            }
+           
+            //billing = new Billing();
+            //billing.billingLineItems = new List<BillingLineItem>();
+
         }
 
         protected decimal CalculateBeforeVat(decimal amount)
@@ -156,6 +231,8 @@ namespace terminus_webapp.Components
         {
             try
             {
+                IsViewOnly = false;
+
                 DeletedItems = new StringBuilder();
 
                 IsDataLoaded = false;
@@ -203,7 +280,7 @@ namespace terminus_webapp.Components
                     billing.transactionDate = DateTime.Today;
                     billing.billType = this.billingType;
                     billing.MonthYear = dateDue.ToString("yyyyMM");
-   
+
                     billing.dateDue = dateDue;
                     billing.propertyDirectoryId = pd.id;
                     billing.propertyDirectory = pd;
@@ -221,7 +298,7 @@ namespace terminus_webapp.Components
 
                         decimal monthlyRentBalance = 0m;
                         decimal monthlyAssocDueBalance = 0m;
-                        
+
                         var balanceView = await dapperManager.GetAllAsync<PropertyBalanceViewModel>("spGetMonthlyBalance", parameters);
 
                         monthlyRentBalance = balanceView.Where(a => a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM, StringComparison.OrdinalIgnoreCase)
@@ -229,7 +306,7 @@ namespace terminus_webapp.Components
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEMPENALTY, StringComparison.OrdinalIgnoreCase)
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_VAT, StringComparison.OrdinalIgnoreCase)
                                                                  || a.billLineType.Equals(Constants.BillLineTypes.MONTHLYBILLITEM_WT, StringComparison.OrdinalIgnoreCase)
-                                                                
+
                                                                  )
                                                         .Sum(a => a.balance);
 
@@ -251,10 +328,10 @@ namespace terminus_webapp.Components
 
                         dueAmount = pd.monthlyRate;
                         var dueAmountVat = CalculateVat(dueAmount);
-                        var dueAmountBeforeVat = dueAmount- dueAmountVat;
+                        var dueAmountBeforeVat = dueAmount - dueAmountVat;
                         var wtAmt = 0m;
 
-                        if(dueAmountBeforeVat!=0m && pd.withWT)
+                        if (dueAmountBeforeVat != 0m && pd.withWT)
                         {
                             wtAmt = CalculateWT(dueAmountBeforeVat);
                             dueAmountBeforeVat = dueAmount - (dueAmountVat + wtAmt);
@@ -265,19 +342,19 @@ namespace terminus_webapp.Components
                             var penaltyPct = pd.penaltyPct == 0m ? 3m : pd.penaltyPct;
                             var penalty = monthlyRentBalance * (penaltyPct / 100m);
 
-                            if(penalty>0)
+                            if (penalty > 0)
                             {
                                 billItems.Add(new BillingLineItem()
                                 {
                                     Id = Guid.NewGuid(),
                                     description = $"Monthly rent penalty {penaltyPct.ToString("0.00")}%",
-                                    amount =penalty,
+                                    amount = penalty,
                                     lineNo = 0,
                                     generated = true,
                                     billLineType = Constants.BillLineTypes.MONTHLYBILLITEMPENALTY
                                 });
                             }
-                            
+
                             billItems.Add(new BillingLineItem()
                             {
                                 Id = Guid.NewGuid(),
@@ -289,7 +366,7 @@ namespace terminus_webapp.Components
                             });
                         }
 
-                       
+
                         billItems.Add(new BillingLineItem()
                         {
                             Id = Guid.NewGuid(),
@@ -312,7 +389,7 @@ namespace terminus_webapp.Components
                             billLineType = Constants.BillLineTypes.MONTHLYBILLITEM_VAT
                         });
 
-                        if(wtAmt!=0m)
+                        if (wtAmt != 0m)
                         {
                             billItems.Add(new BillingLineItem()
                             {
@@ -326,7 +403,7 @@ namespace terminus_webapp.Components
                             });
                         }
 
-                        if (monthlyAssocDueBalance>0)
+                        if (monthlyAssocDueBalance > 0)
                         {
                             billItems.Add(new BillingLineItem()
                             {
@@ -379,15 +456,16 @@ namespace terminus_webapp.Components
                         }
 
                         billing.totalAmount = billItems.Sum(a => a.amount);
-                        billing.balance = billItems.Sum(a => a.amount-a.amountPaid);
+                        billing.balance = billItems.Sum(a => a.amount - a.amountPaid);
                         billing.amountPaid = billItems.Sum(a => a.amountPaid);
 
-                        billing.billingLineItems = billItems;                   
+                        billing.billingLineItems = billItems;
                     }
                 }
                 else
                 {
                     this.billing = await appDBContext.Billings.Include(b => b.billingLineItems).Where(b => b.billId.Equals(Guid.Parse(this.billingId))).FirstOrDefaultAsync();
+                    IsViewOnly = true;
                 }
 
             }
@@ -401,20 +479,37 @@ namespace terminus_webapp.Components
             }
         }
 
+        protected async Task HandleInitializeBill()
+        {
+            IsBillInitialized = true;
+            IsDataLoaded = false;
+            billing = new Billing();
+            billing.transactionDate = DateTime.Today;
+            billing.billingLineItems = new List<BillingLineItem>();
+
+            InitParameters(billingViewModel.propertyId,
+                            billingViewModel.tenantId,
+                            billingViewModel.dateDue,
+                            billingViewModel.billType, 
+                            string.Empty);
+            await InitNewBilling();
+            IsDataLoaded = true;
+        }
+
         protected async Task HandleValidSubmit()
         {
             try
             {
                 IsDataLoaded = false;
-              
-                if(string.IsNullOrEmpty(billingId))
+
+                if (string.IsNullOrEmpty(billingId))
                 {
                     using (var dbConnection = dapperManager.GetConnection())
                     {
                         dbConnection.Open();
-                       
-                            using (var transaction = dbConnection.BeginTransaction())
-                            {
+
+                        using (var transaction = dbConnection.BeginTransaction())
+                        {
                             try
                             {
                                 var param = new Dapper.DynamicParameters();
@@ -447,11 +542,6 @@ namespace terminus_webapp.Components
                                     paramLine.Add("billLineType", item.billLineType, System.Data.DbType.String);
                                     await dapperManager.ExecuteAsync("spInsertBillingLineItem", transaction, dbConnection, paramLine);
                                 }
-                                param = null;
-                                param = new Dapper.DynamicParameters();
-                                param.Add("billId", billing.billId, System.Data.DbType.Guid);
-                                result = await dapperManager.ExecuteAsync("spClosePreviousBill", transaction, dbConnection, param);
-
                                 transaction.Commit();
                             }
                             catch (Exception ex)
@@ -468,7 +558,7 @@ namespace terminus_webapp.Components
                     }
 
 
-                }  
+                }
                 else
                 {
                     using (var dbConnection = dapperManager.GetConnection())
@@ -482,13 +572,13 @@ namespace terminus_webapp.Components
                                 var param = new Dapper.DynamicParameters();
                                 param.Add("billId", billing.billId, System.Data.DbType.Guid);
                                 param.Add("updatedBy", UserName, System.Data.DbType.String);
-                              
+
                                 param.Add("dateDue", billing.dateDue, System.Data.DbType.DateTime);
                                 param.Add("totalAmount", billing.totalAmount, System.Data.DbType.Decimal);
                                 param.Add("status", billing.status, System.Data.DbType.String);
                                 param.Add("amountPaid", billing.amountPaid, System.Data.DbType.Decimal);
                                 param.Add("balance", billing.balance, System.Data.DbType.Decimal);
-                                
+
                                 var result = await dapperManager.ExecuteAsync("spUpdateBillings", transaction, dbConnection, param);
 
                                 foreach (BillingLineItem item in billing.billingLineItems)
@@ -505,14 +595,14 @@ namespace terminus_webapp.Components
                                     await dapperManager.ExecuteAsync("spInsertOrUpdateBillingLineItem", transaction, dbConnection, paramLine);
                                 }
 
-                                if(!string.IsNullOrEmpty(DeletedItems.ToString()))
+                                if (!string.IsNullOrEmpty(DeletedItems.ToString()))
                                 {
                                     var itemsToDelete = DeletedItems.ToString().Split("|");
-                                    foreach(string item in itemsToDelete)
+                                    foreach (string item in itemsToDelete)
                                     {
                                         Guid id = Guid.Empty;
-                                        if(Guid.TryParse(item, out id))
-                                        { 
+                                        if (Guid.TryParse(item, out id))
+                                        {
                                             var paramLine = new Dapper.DynamicParameters();
                                             paramLine.Add("Id", id, System.Data.DbType.Guid);
                                             await dapperManager.ExecuteAsync("spDeleteBillingLineItem", transaction, dbConnection, paramLine);
@@ -537,16 +627,16 @@ namespace terminus_webapp.Components
                     }
 
                 }
-                
+
                 await SaveEventCallback.InvokeAsync(true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ErrorMessage = ex.ToString();
                 IsDataLoaded = true;
             }
-           
-            if(!string.IsNullOrEmpty(ErrorMessage))
+
+            if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ShowDialog = true;
                 StateHasChanged();
@@ -600,13 +690,16 @@ namespace terminus_webapp.Components
             BillingLineItemDetail.model = null;
             BillingLineItemDetail.model = new BillingLineItemViewModel();
 
-            BillingLineItemDetail.ShowDialog=true;
+            BillingLineItemDetail.ShowDialog = true;
             StateHasChange();
         }
 
-       
+        public void NavigateToList()
+        {
+            NavigationManager.NavigateTo("/billinglist");
+        }
 
-        
+
 
     }
 }

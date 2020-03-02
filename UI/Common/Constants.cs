@@ -21,6 +21,8 @@ namespace terminus_webapp.Common
             public const string MONTHLYASSOCDUEPENALTY = "MONTHLYASSOCDUEPENALTY";
             public const string MONTHLYASSOCDUE_VAT = "MONTHLYASSOCDUE_VAT";
 
+            public const string MONTHLYBILLITEMCLOSEBILL = "MONTHLYBILLITEMCLOSEBILL";
+
         }
     }
 }
