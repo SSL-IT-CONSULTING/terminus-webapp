@@ -43,7 +43,10 @@ namespace terminus_webapp.Data
         public DbSet<CompanyDefault> CompanyDefaults { get; set; }
 
         public DbSet<DocumentIdTable> DocumentIdTable { get; set; }
-        
+
+        public DbSet<TenantDocument> TenantDocuments { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

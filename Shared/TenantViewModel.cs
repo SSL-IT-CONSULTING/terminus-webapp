@@ -58,5 +58,7 @@ namespace terminus.shared.models
 
         public decimal ratePerSQMAssocDues { get; set; }
 
+        public List<TenantDocument> tenantDocument { get; set; }
+
     }
 }
