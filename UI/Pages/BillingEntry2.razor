@@ -9,7 +9,7 @@
 
 @if (IsDataLoaded)
 {
-    @if (!IsBillInitialized && billingViewModel!=null)
+    @if (!IsBillInitialized && billingViewModel != null)
     {
     <div style="display:block">
         <EditForm Model="@billingViewModel" OnValidSubmit="@HandleInitializeBill">
@@ -75,7 +75,7 @@
         </EditForm>
     </div>
     }
-    else
+    else if (billing != null && IsDataLoaded)
     {
             <div>
                 <div style="display:block">
@@ -126,7 +126,11 @@
                         <div class="form-group row">
                             <label for="description" class="col-sm-2 col-form-label">Property: </label>
                             <div class="col-sm-8">
+                                @if(billing.propertyDirectory!=null)
+                                { 
                                 <label>@billing.propertyDirectory.property.description</label>
+                                }
+
                             </div>
 
                         </div>
@@ -134,7 +138,11 @@
                         <div class="form-group row">
                             <label for="description" class="col-sm-2 col-form-label">Tenant: </label>
                             <div class="col-sm-8">
+                                @if(billing.propertyDirectory!=null)
+                                {          
                                 <label>@($"{billing.propertyDirectory.tenant.lastName} {billing.propertyDirectory.tenant.firstName}  {billing.propertyDirectory.tenant.middleName}")</label>
+
+                                }
                             </div>
                         </div>
 
@@ -152,7 +160,7 @@
                             <tbody>
                                 @if (billing.billingLineItems != null)
                                 {
-                                    @foreach (var dtl in billing.billingLineItems)
+                                    @foreach (var dtl in billing.billingLineItems.OrderBy(a=>a.lineNo))
                                     {
                                         <tr>
 

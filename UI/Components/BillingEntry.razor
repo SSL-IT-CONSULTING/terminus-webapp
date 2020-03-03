@@ -76,7 +76,7 @@
                             <tbody>
                                 @if (billing.billingLineItems != null)
                                 {
-                                    @foreach (var dtl in billing.billingLineItems)
+                                    @foreach (var dtl in billing.billingLineItems.OrderBy(a => a.lineNo))
                                     {
                                         <tr>
 

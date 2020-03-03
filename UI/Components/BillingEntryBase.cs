@@ -92,11 +92,17 @@ namespace terminus_webapp.Components
         {
             if(string.IsNullOrEmpty(BillingLineItemDetail.model.Id))
             {
+                var lineNo = 0;
+
+                if (billing.billingLineItems.Any())
+                    lineNo = billing.billingLineItems.Max(a => a.lineNo) + 1;
+
                 billing.billingLineItems.Add(new BillingLineItem()
                 {
                     Id = Guid.NewGuid(),
                     description = BillingLineItemDetail.model.description,
-                    amount = BillingLineItemDetail.model.amount
+                    amount = BillingLineItemDetail.model.amount,
+                    lineNo = lineNo
                 });
 
                 billing.totalAmount = billing.billingLineItems.Sum(a => a.amount);
@@ -387,7 +393,15 @@ namespace terminus_webapp.Components
                 }
                 else
                 {
-                    this.billing = await appDBContext.Billings.Include(b => b.billingLineItems).Where(b => b.billId.Equals(Guid.Parse(this.billingId))).FirstOrDefaultAsync();
+                    //this.billing = await appDBContext.Billings.Include(b => b.billingLineItems).Where(b => b.billId.Equals(Guid.Parse(this.billingId))).FirstOrDefaultAsync();
+                
+                this.billing=await appDBContext.Billings.AsNoTracking()
+                         .Include(b => b.propertyDirectory)
+                         .ThenInclude(a => a.property)
+                          .Include(b => b.propertyDirectory)
+                          .ThenInclude(a => a.tenant)
+                        .Include(b => b.billingLineItems)
+                        .Where(b => b.billId.Equals(Guid.Parse(this.billingId))).FirstOrDefaultAsync();
                 }
 
             }

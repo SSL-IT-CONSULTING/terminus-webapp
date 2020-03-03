@@ -249,6 +249,7 @@ namespace terminus_webapp.Pages
                                     .Include(a => a.RevenueMonthlyDueAccount)
                                     .Include(a => a.RevenueMonthlyDueDebitAccount)
                                     .Include(a => a.RevenueMonthlyDueVatAccount)
+                                    .Include(a => a.RevenueMonthlyDueWTAccount)
                                     .Where(a => a.companyId.Equals(CompanyId)).FirstOrDefault();
 
                 list.ForEach(a => { 
@@ -627,7 +628,6 @@ namespace terminus_webapp.Pages
 
                     jeHdr.JournalDetails = jeList.AsEnumerable();
                    
-
                     appDBContext.JournalEntriesHdr.Add(jeHdr);
                     await appDBContext.SaveChangesAsync();
 
@@ -635,7 +635,7 @@ namespace terminus_webapp.Pages
                     par.Add("billingId", Guid.Parse(revenue.billingId));
 
                     await dapperManager.ExecuteAsync("spUpdateBalance", par);
-
+                  
                     StateHasChanged();
 
                     NavigateToList();
@@ -671,24 +671,181 @@ namespace terminus_webapp.Pages
 
                 UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
                 CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
-                DynamicParameters dynamicParameters = new DynamicParameters();
-                var IdKey  = $"COLLECTION{DateTime.Today.ToString("yyyyMM")}";
-                dynamicParameters.Add("IdKey", IdKey);
-                dynamicParameters.Add("Format", "000000");
-                dynamicParameters.Add("CompanyId", CompanyId);
-
-                var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
-                var documentId = string.Empty;
-
-                if(documentIdTable.Any())
-                {
-                    documentId = $"COL{DateTime.Today.ToString("yyyyMM")}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
-                }
-
+               
                 if (string.IsNullOrEmpty(revenueId))
                 {
+                    DynamicParameters dynamicParameters = new DynamicParameters();
+                    var IdKey = $"COLLECTION{DateTime.Today.ToString("yyyyMM")}";
+                    dynamicParameters.Add("IdKey", IdKey);
+                    dynamicParameters.Add("Format", "000000");
+                    dynamicParameters.Add("CompanyId", CompanyId);
+
+                    var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                    var documentId = string.Empty;
+
+                    if (documentIdTable.Any())
+                    {
+                        documentId = $"COL{DateTime.Today.ToString("yyyyMM")}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
+                    }
+                    
                     revenue = new RevenueViewModel();
                     revenue.transactionDate = DateTime.Today;
+
+                    if (!string.IsNullOrEmpty(billId))
+                    {
+                        var bill = await appDBContext.Billings.AsNoTracking()
+                         .Include(b => b.propertyDirectory)
+                         .ThenInclude(a => a.property)
+                          .Include(b => b.propertyDirectory)
+                          .ThenInclude(a => a.tenant)
+                        .Include(b => b.billingLineItems)
+                        .Where(b => b.billId.Equals(Guid.Parse(billId))).FirstOrDefaultAsync();
+
+                        revenue.billingDocumentId = bill.documentId;
+                        revenue.billingId = bill.billId.ToString();
+                        revenue.collect = true;
+                        revenue.dueDate = bill.dateDue;
+                        revenue.tenantId = bill.propertyDirectory.tenandId;
+                        revenue.tenantName = $"{bill.propertyDirectory.tenant.lastName} {bill.propertyDirectory.tenant.firstName}";
+                        revenue.propertyId = bill.propertyDirectory.propertyId;
+                        revenue.propertyDescription = bill.propertyDirectory.property.description;
+                        revenue.propertyDirectoryId = bill.propertyDirectory.id.ToString();
+                        revenue.billingType = bill.billType;
+
+                        var param = new DynamicParameters();
+                        param.Add("billId", billId);
+
+                        var list = await dapperManager.GetAllAsync<RevenueLineItemViewModel>("spInitCollection", param);
+                        var companyDefault = appDBContext.CompanyDefaults
+                                            .Include(a => a.RevenueAssocDuesAccount)
+                                            .Include(a => a.RevenueAssocDuesDebitAccount)
+                                            .Include(a => a.RevenueAssocDuesVatAccount)
+                                            .Include(a => a.RevenueMonthlyDueAccount)
+                                            .Include(a => a.RevenueMonthlyDueDebitAccount)
+                                            .Include(a => a.RevenueMonthlyDueVatAccount)
+                                            .Include(a => a.RevenueMonthlyDueWTAccount)
+                                            
+                                            .Where(a => a.companyId.Equals(CompanyId)).FirstOrDefault();
+
+                        list.ForEach(a => {
+                            if (Guid.Empty.Equals(a.Id))
+                            {
+                                a.Id = Guid.NewGuid();
+                            }
+
+                            if (a.billBalance > 0)
+                                a.amountApplied = a.billBalance;
+
+                            if (companyDefault != null)
+                            {
+                                switch (a.billLineType)
+                                {
+                                    case Constants.BillLineTypes.MONTHLYBILLITEM_PREVBAL:
+                                    case Constants.BillLineTypes.MONTHLYBILLITEM:
+                                    case Constants.BillLineTypes.MONTHLYBILLITEMPENALTY:
+                                        if (companyDefault.RevenueMonthlyDueAccountId.HasValue)
+                                        {
+                                            a.creditAccountId = companyDefault.RevenueMonthlyDueAccountId.Value.ToString();
+                                            a.creditAccountCode = companyDefault.RevenueMonthlyDueAccount.accountCode;
+                                            a.creditAccountName = companyDefault.RevenueMonthlyDueAccount.accountDesc;
+                                        }
+                                        if (companyDefault.RevenueMonthlyDueDebitAccountId.HasValue)
+                                        {
+                                            a.debitAccountId = companyDefault.RevenueMonthlyDueDebitAccountId.Value.ToString();
+                                            a.debitAccountCode = companyDefault.RevenueMonthlyDueDebitAccount.accountCode;
+                                            a.debitAccountName = companyDefault.RevenueMonthlyDueDebitAccount.accountDesc;
+                                        }
+                                        break;
+                                    case Constants.BillLineTypes.MONTHLYBILLITEM_VAT:
+                                        if (companyDefault.RevenueMonthlyDueVatAccountId.HasValue)
+                                        {
+                                            a.creditAccountId = companyDefault.RevenueMonthlyDueVatAccountId.Value.ToString();
+                                            a.creditAccountCode = companyDefault.RevenueMonthlyDueVatAccount.accountCode;
+                                            a.creditAccountName = companyDefault.RevenueMonthlyDueVatAccount.accountDesc;
+                                        }
+                                        if (companyDefault.RevenueMonthlyDueDebitAccountId.HasValue)
+                                        {
+                                            a.debitAccountId = companyDefault.RevenueMonthlyDueDebitAccountId.Value.ToString();
+                                            a.debitAccountCode = companyDefault.RevenueMonthlyDueDebitAccount.accountCode;
+                                            a.debitAccountName = companyDefault.RevenueMonthlyDueDebitAccount.accountDesc;
+                                        }
+                                        break;
+
+                                    case Constants.BillLineTypes.MONTHLYBILLITEM_WT:
+                                        if (companyDefault.RevenueMonthlyDueWTAccountId.HasValue)
+                                        {
+                                            a.creditAccountId = companyDefault.RevenueMonthlyDueWTAccountId.Value.ToString();
+                                            a.creditAccountCode = companyDefault.RevenueMonthlyDueWTAccount.accountCode;
+                                            a.creditAccountName = companyDefault.RevenueMonthlyDueWTAccount.accountDesc;
+                                        }
+                                        if (companyDefault.RevenueMonthlyDueDebitAccountId.HasValue)
+                                        {
+                                            a.debitAccountId = companyDefault.RevenueMonthlyDueDebitAccountId.Value.ToString();
+                                            a.debitAccountCode = companyDefault.RevenueMonthlyDueDebitAccount.accountCode;
+                                            a.debitAccountName = companyDefault.RevenueMonthlyDueDebitAccount.accountDesc;
+                                        }
+                                        break;
+
+                                    case Constants.BillLineTypes.MONTHLYASSOCDUE_PREVBAL:
+                                    case Constants.BillLineTypes.MONTHLYASSOCDUE:
+                                    case Constants.BillLineTypes.MONTHLYASSOCDUEPENALTY:
+                                        if (companyDefault.RevenueAssocDuesAccountId.HasValue)
+                                        {
+                                            a.creditAccountId = companyDefault.RevenueAssocDuesAccountId.Value.ToString();
+                                            a.creditAccountCode = companyDefault.RevenueAssocDuesAccount.accountCode;
+                                            a.creditAccountName = companyDefault.RevenueAssocDuesAccount.accountDesc;
+                                        }
+                                        if (companyDefault.RevenueAssocDuesDebitAccountId.HasValue)
+                                        {
+                                            a.debitAccountId = companyDefault.RevenueAssocDuesDebitAccountId.Value.ToString();
+                                            a.debitAccountCode = companyDefault.RevenueAssocDuesDebitAccount.accountCode;
+                                            a.debitAccountName = companyDefault.RevenueAssocDuesDebitAccount.accountDesc;
+                                        }
+                                        break;
+                                    case Constants.BillLineTypes.MONTHLYASSOCDUE_VAT:
+                                        if (companyDefault.RevenueAssocDuesVatAccountId.HasValue)
+                                        {
+                                            a.creditAccountId = companyDefault.RevenueAssocDuesVatAccountId.Value.ToString();
+                                            a.creditAccountCode = companyDefault.RevenueAssocDuesVatAccount.accountCode;
+                                            a.creditAccountName = companyDefault.RevenueAssocDuesVatAccount.accountDesc;
+                                        }
+                                        if (companyDefault.RevenueAssocDuesDebitAccountId.HasValue)
+                                        {
+                                            a.debitAccountId = companyDefault.RevenueAssocDuesDebitAccountId.Value.ToString();
+                                            a.debitAccountCode = companyDefault.RevenueAssocDuesDebitAccount.accountCode;
+                                            a.debitAccountName = companyDefault.RevenueAssocDuesDebitAccount.accountDesc;
+                                        }
+                                        break;
+                                    default:
+                                        if (companyDefault.RevenueMonthlyDueAccountId.HasValue)
+                                        {
+                                            a.creditAccountId = companyDefault.RevenueMonthlyDueAccountId.Value.ToString();
+                                            a.creditAccountCode = companyDefault.RevenueMonthlyDueAccount.accountCode;
+                                            a.creditAccountName = companyDefault.RevenueMonthlyDueAccount.accountDesc;
+                                        }
+                                        if (companyDefault.RevenueMonthlyDueDebitAccountId.HasValue)
+                                        {
+                                            a.debitAccountId = companyDefault.RevenueMonthlyDueAccountId.Value.ToString();
+                                            a.debitAccountCode = companyDefault.RevenueMonthlyDueDebitAccount.accountCode;
+                                            a.debitAccountName = companyDefault.RevenueMonthlyDueDebitAccount.accountDesc;
+                                        }
+                                        break;
+                                }
+                            }
+
+                        });
+
+                        if (revenue.revenueLineItems == null)
+                            revenue.revenueLineItems = new List<RevenueLineItemViewModel>();
+                        else
+                            revenue.revenueLineItems.Clear();
+
+                        revenue.revenueLineItems.AddRange(list);
+
+
+                    }
+
+
                     revenue.dueDate = DateTime.Today;
                     revenue.cashOrCheck = "0";
                     IsViewonly = false;

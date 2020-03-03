@@ -147,11 +147,17 @@ namespace terminus_webapp.Pages
         {
             if (string.IsNullOrEmpty(BillingLineItemDetail.model.Id))
             {
+                var lineNo = 0;
+                
+                if(billing.billingLineItems.Any())
+                    lineNo = billing.billingLineItems.Max(a => a.lineNo)+1;
+
                 billing.billingLineItems.Add(new BillingLineItem()
                 {
                     Id = Guid.NewGuid(),
                     description = BillingLineItemDetail.model.description,
-                    amount = BillingLineItemDetail.model.amount
+                    amount = BillingLineItemDetail.model.amount,
+                    lineNo = lineNo
                 });
 
                 billing.totalAmount = billing.billingLineItems.Sum(a => a.amount);
@@ -464,7 +470,14 @@ namespace terminus_webapp.Pages
                 }
                 else
                 {
-                    this.billing = await appDBContext.Billings.Include(b => b.billingLineItems).Where(b => b.billId.Equals(Guid.Parse(this.billingId))).FirstOrDefaultAsync();
+                    billing = await appDBContext.Billings.AsNoTracking()
+                         .Include(b => b.propertyDirectory)
+                         .ThenInclude(a => a.property)
+                          .Include(b => b.propertyDirectory)
+                          .ThenInclude(a => a.tenant)
+                        .Include(b => b.billingLineItems)
+                        .Where(b => b.billId.Equals(Guid.Parse(this.billingId))).FirstOrDefaultAsync();
+
                     IsViewOnly = true;
                 }
 
@@ -479,6 +492,7 @@ namespace terminus_webapp.Pages
             }
         }
 
+      
         protected async Task HandleInitializeBill()
         {
             IsBillInitialized = true;
@@ -542,7 +556,14 @@ namespace terminus_webapp.Pages
                                     paramLine.Add("billLineType", item.billLineType, System.Data.DbType.String);
                                     await dapperManager.ExecuteAsync("spInsertBillingLineItem", transaction, dbConnection, paramLine);
                                 }
+
+                                param = null;
+                                param = new Dapper.DynamicParameters();
+                                param.Add("billId", billing.billId, System.Data.DbType.Guid);
+                                result = await dapperManager.ExecuteAsync("spClosePreviousBill", transaction, dbConnection, param);
+
                                 transaction.Commit();
+                                NavigateToList();
                             }
                             catch (Exception ex)
                             {
@@ -611,6 +632,7 @@ namespace terminus_webapp.Pages
                                 }
 
                                 transaction.Commit();
+                                NavigateToList();
 
                             }
                             catch (Exception ex)
@@ -627,7 +649,7 @@ namespace terminus_webapp.Pages
                     }
 
                 }
-
+                
                 await SaveEventCallback.InvokeAsync(true);
             }
             catch (Exception ex)
