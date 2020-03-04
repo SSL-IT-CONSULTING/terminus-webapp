@@ -1,20 +1,25 @@
 ﻿using Blazored.SessionStorage;
+using BlazorInputFile;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using terminus.shared.models;
 using terminus_webapp.Data;
-using BlazorInputFile;
-using System.Collections.Generic;
+
+
 
 namespace terminus_webapp.Pages
 {
     public class TenantEntryBase : ComponentBase
     {
+
+        [Inject]
+        public IWebHostEnvironment _env { get; set; }
 
         [Inject]
         public AppDBContext appDBContext { get; set; }
@@ -28,8 +33,9 @@ namespace terminus_webapp.Pages
         public DapperManager dapperManager { get; set; }
 
         public TenantViewModel tenants { get; set; }
-        
-        public List<UploadFilesViewModal> uploadFilesViewModal { get; set; }
+
+
+        public TenantDocument tenantDouments { get; set; }
 
         public string fileid { get; set; }
         public string progressinfoid { get; set; }
@@ -55,7 +61,7 @@ namespace terminus_webapp.Pages
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
 
-    public string CompanyId { get; set; }
+     public string CompanyId { get; set; }
         public string UserName { get; set; }
 
 
@@ -78,49 +84,69 @@ namespace terminus_webapp.Pages
 
 
         public int numLines;
-        public IFileListEntry file;
+        public IFileListEntry[] selectedFiles;
 
-        public void HandleFileSelected(IFileListEntry[] files)
+        public void HandleSelection(IFileListEntry[] files)
         {
-            file = files.FirstOrDefault();
+            selectedFiles = files;
         }
 
-        protected async Task CountLines()
-        {
-            numLines = 0;
-            using (var reader = new System.IO.StreamReader(file.Data))
-            {
+        //public async Task LoadFile(IFileListEntry[] files)
+        //{
+        //    // So the UI updates to show progress
+        //    //file.OnDataRead += (sender, eventArgs) => InvokeAsync(StateHasChanged);
+
+        //    // Just load into .NET memory to show it can be done
+        //    // Alternatively it could be saved to disk, or parsed in memory, or similar
+
+        //    DateTime datetoday = DateTime.Now;
+
+        //    foreach (var file in files)
+        //    {
 
 
-                while (await reader.ReadLineAsync() != null)
-                {
-                    //uploadFilesViewModal = new UploadFilesViewModal();
-                    string uploadid = Guid.NewGuid().ToString();
-                    UploadFilesViewModal t = new UploadFilesViewModal()
-                    {
-                        //uploadedFile.CopyTo(localFile);
+        //        var tmpPath = Path.Combine(_env.WebRootPath, "TenantDocument");
 
-                        id = uploadid,
-                        FileName = file.Name,
-                        fileSize = int.Parse(file.Size.ToString()),
-                        fileType = file.Type,
-                        
-                        //company = company,
-                        //updateDate = datetoday,
-                        //updatedBy = UserName,
-                        //lastName = tenants.lastName,
-                        //firstName = tenants.firstName,
-                        //middleName = tenants.middleName,
-                        //contactNumber = tenants.contactNumber,
-                        //emailAddress = tenants.emailAddress,
+        //        if (!Directory.Exists(tmpPath))
+        //        {
+        //            Directory.CreateDirectory(tmpPath);
+        //        }
 
-                    };
+        //        string fileId = Guid.NewGuid().ToString();
+
+        //        var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
 
 
-                    numLines++;
-                }
-            }
-        }
+        //        var _filename = file.Name.Split(".");
+
+        //        string outputfile = _filename[0].ToString();
+        //        string extname = "." + _filename[1].ToString();
+
+        //        var filedestination = tmpPath + "\\" + prefix + extname;
+
+
+
+        //        var td = new TenantDocument();
+
+        //        td.createDate = datetoday;
+        //        td.createdBy = UserName;
+        //        td.id = Guid.Parse(fileId);
+        //        td.fileName = _filename.ToString();
+        //        td.filePath = filedestination.ToString();
+        //        td.fileDesc = file.Name;
+        //        td.extName = extname;
+
+
+        //        using (FileStream DestinationStream = File.Create(filedestination))
+        //        {
+        //            await file.Data.CopyToAsync(DestinationStream);
+        //        }
+        //    }
+
+
+        //    //var ms = new MemoryStream();
+            
+        //}
 
         protected async Task HandleValidSubmit()
         {
@@ -129,7 +155,12 @@ namespace terminus_webapp.Pages
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
+            DateTime datetoday = DateTime.Now;
+
+
             string propertyid = tenants.propertyid.ToString();
+
+
 
             var company = await appDBContext.Companies.Where(a => a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
             var property = await appDBContext.Properties
@@ -166,15 +197,15 @@ namespace terminus_webapp.Pages
                 withWT_sw = true;
             }
 
-            DateTime datetoday = DateTime.Now;
+
+            
 
             if (string.IsNullOrEmpty(id))
             {
 
                 var tenantId = Guid.NewGuid();
+
                 var properDirectoryId = Guid.NewGuid().ToString();
-                
-                
 
                 Tenant t = new Tenant()
                 {
@@ -219,6 +250,55 @@ namespace terminus_webapp.Pages
 
                 appDBContext.PropertyDirectory.Add(pd);
                 await appDBContext.SaveChangesAsync();
+
+
+
+                foreach (var file in selectedFiles)
+                {
+
+
+                    var tmpPath = Path.Combine(_env.WebRootPath, "TenantDocument");
+
+                    if (!Directory.Exists(tmpPath))
+                    {
+                        Directory.CreateDirectory(tmpPath);
+                    }
+
+                    string fileId = Guid.NewGuid().ToString();
+
+                    var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
+
+
+                    var _filename = file.Name.Split(".");
+
+                    string outputfile = _filename[0].ToString();
+                    string extname = "." + _filename[1].ToString();
+
+                    var filedestination = tmpPath + "\\" + prefix + extname;
+
+
+
+                    var td = new TenantDocument();
+
+                    td.createDate = datetoday;
+                    td.createdBy = UserName;
+                    td.propertyDirectoryId = Guid.Parse(properDirectoryId);
+                    td.id = Guid.Parse(fileId);
+                    td.fileName = prefix.ToString();
+                    td.filePath = filedestination.ToString();
+                    td.fileDesc = file.Name;
+                    td.extName = extname;
+
+                    appDBContext.TenantDocuments.Add(td);
+                    await appDBContext.SaveChangesAsync();
+
+                    using (FileStream DestinationStream = File.Create(filedestination))
+                    {
+                        await file.Data.CopyToAsync(DestinationStream);
+                    }
+                }
+
+
 
 
             }
@@ -270,12 +350,61 @@ namespace terminus_webapp.Pages
                 pd.ratePerSQMAssocDues = tenants.ratePerSQMAssocDues;
 
 
+
+
+                foreach (var file in selectedFiles)
+                {
+
+
+                    var tmpPath = Path.Combine(_env.WebRootPath, "TenantDocument");
+
+                    if (!Directory.Exists(tmpPath))
+                    {
+                        Directory.CreateDirectory(tmpPath);
+                    }
+
+                    string fileId = Guid.NewGuid().ToString();
+
+                    var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
+
+
+                    var _filename = file.Name.Split(".");
+
+                    string outputfile = _filename[0].ToString();
+                    string extname = "." + _filename[1].ToString();
+
+                    var filedestination = tmpPath + "\\" + prefix + extname;
+
+
+
+                    var td = new TenantDocument();
+
+                    td.createDate = datetoday;
+                    td.createdBy = UserName;
+                    td.propertyDirectoryId = Guid.Parse(id);
+                    td.id = Guid.Parse(fileId);
+                    td.fileName = prefix.ToString();
+                    td.filePath = filedestination.ToString();
+                    td.fileDesc = file.Name;
+                    td.extName = extname;
+
+                    appDBContext.TenantDocuments.Add(td);
+                    await appDBContext.SaveChangesAsync();
+
+                    using (FileStream DestinationStream = File.Create(filedestination))
+                    {
+                        await file.Data.CopyToAsync(DestinationStream);
+                    }
+                }
+
                 appDBContext.PropertyDirectory.Update(pd);
                 await appDBContext.SaveChangesAsync();
             }
 
 
-            
+
+
+
             StateHasChanged();
 
             NavigateToList();
@@ -303,9 +432,6 @@ namespace terminus_webapp.Pages
                     //tenants.propertyDictory.id = Guid.NewGuid();
                     tenants.dateFrom = DateTime.Now;
                     tenants.dateTo = DateTime.Now;
-
-
-
 
                     
                 }
@@ -366,11 +492,13 @@ namespace terminus_webapp.Pages
                 };
 
 
-
-
+                    tenants.tenantDocument = await appDBContext.TenantDocuments
+                                                                        .Where(r => r.propertyDirectoryId.Equals(Guid.Parse(id)))
+                                                                        .ToListAsync();
+                    
                 }
                 tenants.properties = await appDBContext.Properties.ToListAsync();
-                
+
 
 
 

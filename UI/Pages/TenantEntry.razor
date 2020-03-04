@@ -128,9 +128,17 @@ else
                 <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
                     <option value=""></option>
                     @foreach (var p in tenants.properties)
-                    {
+                            {
                         <option value="@p.id">@p.description</option>
-                    }
+                            }
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                    /**/
+                    /**/
                     /**/
                     /**/
                     /**/
@@ -253,36 +261,118 @@ else
     </div>
     <hr />
     <br />
-    <InputFile multiple  OnChange="HandleFileSelected" />
-    @if (file != null)
-    {
-        <p>Name: @file.Name</p>
-        <p>Size in bytes: @file.Size</p>
-        <p>Last modified date: @file.LastModified.ToShortDateString()</p>
-        <p>Content type (not always supplied by the browser): @file.Type</p>
-    }
 
+
+    <InputFile multiple OnChange="HandleSelection" />
     <br />
-    @if (!IsViewOnly)
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th>File Size</th>
+                <th>File Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        @if (selectedFiles != null)
+        {
+
+            foreach (var file in selectedFiles)
+            {
+                var isLoading = file.Data.Position > 0;
+
+
+                <tbody>
+
+                    <tr>
+                        <td>@file.Name</td>
+                        <td>@file.Size bytes </td>
+                        <td>@file.Type</td>
+
+
+                    </tr>
+
+                </tbody>
+
+            }
+        }
+
+
+
+    </table>
+    <hr />
+    <h3>File Attachment</h3>
+    <hr />
+    @if (IsEditOnly)
     {
+        <table >
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    @*<th>File Size</th>*@
+                    <th></th>
+                </tr>
+            </thead>
 
-        @if (!IsEditOnly)
-        {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
+            <tbody>
+                @foreach (var td in tenants.tenantDocument)
+                {
+                    <tr>
 
-        }
-        else
-        {
-            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
-
-        }
+                        <td>@td.fileDesc </td>
+                        @*<td>@td.fi</td>*@
 
 
+                    <td>
+                        @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
+                        @{
+                            //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
+                            var _path = $"/TenantDocument/{td.fileName}{td.extName}";
+
+                            <a href="@_path"
+
+                                class="btn btn-primary table-btn" >
+                                <i class="fas fa-info-circle"> DOWNLOAD </i>
+                            </a>
+
+                            @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
+                        }
+
+                    </td>
+
+                    </tr>
+                }
+            </tbody>
+
+        </table>
     }
 
-    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
+        <br />
 
-</EditForm>
+
+        <br />
+
+        @if (!IsViewOnly)
+        {
+
+            @if (!IsEditOnly)
+            {
+                <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
+
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
+
+            }
+
+
+        }
+
+        <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
+
+    </EditForm>
 
 
 }
