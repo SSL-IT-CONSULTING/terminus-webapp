@@ -46,6 +46,8 @@ namespace terminus_webapp.Data
 
         public DbSet<TenantDocument> TenantDocuments { get; set; }
 
+        public DbSet<PropertyDocument> PropertyDocument { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -1,10 +1,16 @@
 ﻿using Blazored.SessionStorage;
+using Dapper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using terminus.shared.models;
+using terminus_webapp.Common;
+using terminus_webapp.Components;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Pages
@@ -61,9 +67,16 @@ namespace terminus_webapp.Pages
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
-            var vn = await appDBContext.Vendors.ToListAsync();
+            var vn = await appDBContext.Vendors
+                                        .Where(a => a.companyId.Equals(CompanyId))
+                                        .ToListAsync();
 
             int rowCount =  vn.Max(r => r.rowOrder);
+
+
+
+
+
 
 
             bool _vatregister;
@@ -109,14 +122,48 @@ namespace terminus_webapp.Pages
             if (string.IsNullOrEmpty(vendors.vendorId))
             {
 
-                var id = Guid.NewGuid();
+                //var id = Guid.NewGuid();
+
+                //DynamicParameters dynamicParameters = new DynamicParameters();
+
+                //var IdKey = $"VNDR{DateTime.Today.ToString("yyyyMM")}";
+                //dynamicParameters.Add("IdKey", IdKey);
+                //dynamicParameters.Add("Format", "000000");
+                //dynamicParameters.Add("CompanyId", CompanyId);
+
+
+
+                //var documentIdTable = await dapperManager.GetAllAsync<DocumentIdTable>("spGetNextId", dynamicParameters);
+                var vendorid = string.Empty;
+
+                //if (documentIdTable.Any())
+                //{
+                vendorid = $"VNDR{DateTime.Today.ToString("yyyyMMdd")}{_maxRow.ToString()}";
+                //}
+
+                string new_vendorid = string.Empty;
+
+                var chvendor =  await appDBContext.Vendors
+                                                .Where(a => a.companyId.Equals(CompanyId) && a.vendorId.Equals(vendorId))
+                                                .ToListAsync();
+
+                if (chvendor.Count > 0)
+                {
+
+                    new_vendorid = $"VNDR{DateTime.Today.ToString("yyyyMMdd")}{_maxRow.ToString()}{"_1"} ";
+                }
+                else
+                {
+                    new_vendorid = $"VNDR{DateTime.Today.ToString("yyyyMMdd")}{_maxRow.ToString()} ";
+                }
+                
 
                 Vendor v = new Vendor()
                 {
                     //var id = Guid.NewGuid(vendors.inputVatAccountid);
 
-                    vendorId = id.ToString(),
-                    companyId = vendors.companyId,
+                    vendorId = new_vendorid,
+                    companyId = CompanyId,
                     vendorName = vendors.vendorName,
                     rowOrder = _maxRow,
                     inputVatAccountId = new_accnt, //Guid.Parse(accnt),
@@ -133,6 +180,8 @@ namespace terminus_webapp.Pages
             }
             else
             {
+
+
 
                 var data = await appDBContext.Vendors
                         //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
@@ -193,7 +242,7 @@ namespace terminus_webapp.Pages
                         .Include(a => a.company)
                         .Include(a => a.inputVatAccount)
                         //.ThenInclude(v => v.accountId)
-                        .Where(r => r.vendorId.Equals(vendorId)).FirstOrDefaultAsync();
+                        .Where(r => r.vendorId.Equals(vendorId) && r.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
                     string strIVR;
                     if (data.isVatRegistered == true)
@@ -226,7 +275,7 @@ namespace terminus_webapp.Pages
                     };
                 }
 
-                vendors.inputVatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).ToListAsync();
+                vendors.inputVatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount && a.companyId.Equals(CompanyId)).ToListAsync();
 
             }
             catch (Exception ex)

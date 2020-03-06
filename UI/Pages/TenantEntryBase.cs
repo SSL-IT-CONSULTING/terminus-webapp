@@ -61,7 +61,10 @@ namespace terminus_webapp.Pages
         public bool DataLoaded { get; set; }
         public string ErrorMessage { get; set; }
 
-     public string CompanyId { get; set; }
+
+        public string errorMessagePropertyDateRange { get; set; }
+
+        public string CompanyId { get; set; }
         public string UserName { get; set; }
 
 
@@ -161,10 +164,12 @@ namespace terminus_webapp.Pages
             string propertyid = tenants.propertyid.ToString();
 
 
+            errorMessagePropertyDateRange = "";
+
 
             var company = await appDBContext.Companies.Where(a => a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
             var property = await appDBContext.Properties
-                                .Where(a => a.id.Equals(propertyid)).FirstOrDefaultAsync();
+                                .Where(a => a.id.Equals(propertyid) && a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
             
 
@@ -198,7 +203,15 @@ namespace terminus_webapp.Pages
             }
 
 
-            
+
+
+            var pdpropertyid = await appDBContext.PropertyDirectory.Where(a => a.propertyId.Equals(Guid.Parse(tenants.propertyid)) && a.companyId.Equals(CompanyId) && a.dateFrom <= tenants.dateTo && a.dateTo >= tenants.dateFrom).ToListAsync();
+
+            if (pdpropertyid.Count > 0)
+            {
+                errorMessagePropertyDateRange = "Invalid Date Range. The property is with other tenant.";
+                return;
+            }
 
             if (string.IsNullOrEmpty(id))
             {
@@ -306,10 +319,12 @@ namespace terminus_webapp.Pages
             {
 
 
+
+
                 var t = await appDBContext.Tenants
                                                 //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                                                 .Include(a => a.company)
-                                                .Where(r => r.id.Equals(tenandId)).FirstOrDefaultAsync();
+                                                .Where(r => r.id.Equals(tenandId) && r.company.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
 
 
@@ -330,7 +345,7 @@ namespace terminus_webapp.Pages
                                                 .Include(a => a.company)
                                                 .Include(a => a.property)
                                                 .Include(a => a.tenant)
-                                                .Where(r => r.id.Equals(Guid.Parse(id))).FirstOrDefaultAsync();
+                                                .Where(r => r.id.Equals(Guid.Parse(id)) && r.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
 
                 //id = properDirectoryId;
@@ -465,7 +480,7 @@ namespace terminus_webapp.Pages
                                                     .Include(a => a.company)
                                                     .Include(a => a.property)
                                                     .Include(a => a.tenant)
-                                                    .Where(r => r.id.Equals(Guid.Parse(id))).FirstOrDefaultAsync();
+                                                    .Where(r => r.id.Equals(Guid.Parse(id)) && r.companyId.Equals(CompanyId) ).FirstOrDefaultAsync();
                     //var data = await appDBContext.Tenants.Where(a => a.id.Equals(Guid.Parse(id))).ToListAsync();
 
                     tenants = new TenantViewModel()
@@ -497,7 +512,9 @@ namespace terminus_webapp.Pages
                                                                         .ToListAsync();
                     
                 }
-                tenants.properties = await appDBContext.Properties.ToListAsync();
+                tenants.properties = await appDBContext.Properties
+                                                            .Where(r => r.companyId.Equals(CompanyId))
+                                                            .ToListAsync();
 
 
 

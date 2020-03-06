@@ -1,17 +1,25 @@
 ﻿using Blazored.SessionStorage;
+using BlazorInputFile;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using terminus.shared.models;
 using terminus_webapp.Data;
+
 
 namespace terminus_webapp.Pages
 {
     public class PropertyEntryBase : ComponentBase
     {
 
+
+        [Inject]
+        public IWebHostEnvironment _env { get; set; }
 
         [Inject]
         public AppDBContext appDBContext { get; set; }
@@ -24,7 +32,9 @@ namespace terminus_webapp.Pages
 
         public DapperManager dapperManager { get; set; }
 
-        public Property properties { get; set; }
+        public PropertyViewModel properties { get; set; }
+
+        public PropertyDocument tenantDouments { get; set; }
 
         [Parameter]
         public string id { get; set; }
@@ -52,11 +62,27 @@ namespace terminus_webapp.Pages
             NavigationManager.NavigateTo("propertylist");
         }
 
+
+        public int numLines;
+        public IFileListEntry[] selectedFiles;
+
+        public void HandleSelection(IFileListEntry[] files)
+        {
+            selectedFiles = files;
+        }
+
+
+
+
         protected async Task HandleValidSubmit()
         {
 
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
+            DateTime datetoday = DateTime.Now;
+
+            string propertyid = Guid.NewGuid().ToString();
 
             if (string.IsNullOrEmpty(properties.id))
             {
@@ -67,7 +93,7 @@ namespace terminus_webapp.Pages
                 {
 
 
-                    id = Guid.NewGuid().ToString(),
+                    id = propertyid,
                     companyId = CompanyId,
                     createDate = DateTime.Now,
                     createdBy = UserName,
@@ -90,7 +116,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.Properties
                           //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                           .Include(a => a.company)
-                          .Where(r => r.id.Equals(id)).FirstOrDefaultAsync();
+                          .Where(r => r.id.Equals(id) &&  r.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
 
                 data.updateDate = DateTime.Now;
@@ -104,6 +130,51 @@ namespace terminus_webapp.Pages
                 appDBContext.Properties.Update(data);
                 await appDBContext.SaveChangesAsync();
 
+            }
+
+            foreach (var file in selectedFiles)
+            {
+
+
+                var tmpPath = Path.Combine(_env.WebRootPath, "PropertyDocument");
+
+                if (!Directory.Exists(tmpPath))
+                {
+                    Directory.CreateDirectory(tmpPath);
+                }
+
+                string fileId = Guid.NewGuid().ToString();
+
+                var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
+
+
+                var _filename = file.Name.Split(".");
+
+                string outputfile = _filename[0].ToString();
+                string extname = "." + _filename[1].ToString();
+
+                var filedestination = tmpPath + "\\" + prefix + extname;
+
+
+
+                var pd = new PropertyDocument();
+
+                pd.createDate = datetoday;
+                pd.createdBy = UserName;
+                pd.propertyId = Guid.Parse(propertyid);
+                pd.id = Guid.Parse(fileId);
+                pd.fileName = prefix.ToString();
+                pd.filePath = filedestination.ToString();
+                pd.fileDesc = file.Name;
+                pd.extName = extname;
+
+                appDBContext.PropertyDocument.Add(pd);
+                await appDBContext.SaveChangesAsync();
+
+                using (FileStream DestinationStream = File.Create(filedestination))
+                {
+                    await file.Data.CopyToAsync(DestinationStream);
+                }
             }
 
             StateHasChanged();
@@ -129,7 +200,7 @@ namespace terminus_webapp.Pages
                 if (string.IsNullOrEmpty(id))
                 {
                     IsEditOnly = false;
-                    properties = new Property();
+                    properties = new PropertyViewModel();
                     // glAccount.createDate = DateTime.Today;
                     
                     //properties.id = Guid.Parse(Id).ToString();
@@ -141,9 +212,9 @@ namespace terminus_webapp.Pages
                     IsViewOnly = false;
                     IsEditOnly = true;
 
-                    var data = await appDBContext.Properties.Where(a => a.id.Equals(id)).FirstOrDefaultAsync();
+                    var data = await appDBContext.Properties.Where(a => a.id.Equals(id) &&  a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
-                    properties = new Property()
+                    properties = new PropertyViewModel()
                     {
                         id = data.id,
                         description = data.description,
@@ -152,6 +223,10 @@ namespace terminus_webapp.Pages
                         areaInSqm = data.areaInSqm
 
                     };
+
+                    properties.propertyDocument = await appDBContext.PropertyDocument
+                                                                        .Where(r => r.propertyId.Equals(Guid.Parse(id)))
+                                                                        .ToListAsync();
                 }
                 //glAccount = await appDBContext.GLAccountsVM.ToList();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using OfficeOpenXml;
@@ -33,6 +34,10 @@ namespace terminus_webapp.Pages
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
+
+
+        [Inject]
+        public ISessionStorageService _sessionStorageService { get; set; }
 
         public List<ReferenceViewModal> ReferenceViewModal { get; set; }
 
@@ -83,7 +88,8 @@ namespace terminus_webapp.Pages
         //    _hostingEnvironment = hostingEnvironment;
         //}
 
-
+        public string CompanyId { get; set; }
+        public string UserName { get; set; }
 
 
 
@@ -205,6 +211,11 @@ namespace terminus_webapp.Pages
                 DataLoaded = false;
                 ErrorMessage = string.Empty;
 
+
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
+
                 var p = reportParams.Split("|");
 
                 dateFrom = DateTime.Parse(p[0]);
@@ -217,10 +228,11 @@ namespace terminus_webapp.Pages
                 param.Add("dateFrom", dateFrom, System.Data.DbType.DateTime);
                 param.Add("dateTo", dateTo, System.Data.DbType.DateTime);
                 param.Add("ReportType", reportType, System.Data.DbType.String);
+                param.Add("companyId", CompanyId, System.Data.DbType.String);
 
 
 
-               //string path; 
+                //string path; 
                 DataTable table = new DataTable();
 
 
