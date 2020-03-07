@@ -199,19 +199,19 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="ratePerSQM" class="col-sm-2 col-form-label">Rate Per SQM: </label>
+        <label for="monthlyRate" class="col-sm-2 col-form-label">Monthly Rate: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputNumber @bind-Value="@tenants.ratePerSQM" class="form-control">
+                <InputNumber @bind-Value="@tenants.monthlyRate" class="form-control">
                 </InputNumber>
             }
             else
             {
-                <label>@tenants.ratePerSQM</label>
+                <label>@tenants.monthlyRate</label>
             }
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.ratePerSQM)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.monthlyRate)" />
     </div>
 
     <div class="form-group row">

@@ -251,7 +251,7 @@ namespace terminus_webapp.Pages
                 pd.dateFrom = tenants.dateFrom;
                 pd.dateTo = tenants.dateTo;
                 pd.companyId = CompanyId;
-                pd.monthlyRate = _monthlyrate;
+                pd.monthlyRate = tenants.monthlyRate;
                 pd.tenandId = tenantId.ToString();
 
                 pd.associationDues = _assorate;
@@ -355,7 +355,7 @@ namespace terminus_webapp.Pages
 
                 pd.dateFrom = tenants.dateFrom;
                 pd.dateTo = tenants.dateTo;
-                pd.monthlyRate = _monthlyrate;
+                pd.monthlyRate = tenants.monthlyRate;
                     
                 pd.associationDues = _assorate;
                 pd.penaltyPct = tenants.penaltyPct;
