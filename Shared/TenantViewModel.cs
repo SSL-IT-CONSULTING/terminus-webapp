@@ -16,18 +16,24 @@ namespace terminus.shared.models
 
 
         public Company company { get; set; }
+        
+        [Required]
         [MaxLength(100)]
         public string lastName { get; set; }
 
+        [Required]
         [MaxLength(100)]
         public string firstName { get; set; }
+
 
         [MaxLength(100)]
         public string middleName { get; set; }
 
+        [Required]
         [MaxLength(20)]
         public string contactNumber { get; set; }
 
+        
         [MaxLength(300)]
         public string emailAddress { get; set; }
 
@@ -50,12 +56,14 @@ namespace terminus.shared.models
 
         public decimal penaltyPct { get; set; }
 
+        [Required]
         public decimal ratePerSQM { get; set; }
 
         public decimal totalBalance { get; set; }
 
         public string withWT { get; set; }
 
+        [Required]
         public decimal ratePerSQMAssocDues { get; set; }
 
         public List<TenantDocument> tenantDocument { get; set; }

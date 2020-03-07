@@ -57,6 +57,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\PropertyDocument\" />
     <Folder Include="wwwroot\Uploaded\" />
   </ItemGroup>
 

@@ -26,9 +26,12 @@ else
     <ValidationSummary></ValidationSummary>
 
 
+    <div class="form-group row">
+        <label for="errorMessagePropertyDateRange" class="offset-sm-2 col-sm-8" style="color: red;">@errorMessagePropertyDateRange</label>
+    </div>
 
     <div class="form-group row">
-        <label for="accountCode" class="col-sm-2 col-form-label">Last Name:</label>
+        <label for="accountCode" class="col-sm-2 col-form-label"  >Last Name:</label>
         <div class="col-sm-5">
 
             @if (!IsViewOnly)
@@ -41,7 +44,7 @@ else
                 <label>@tenants.lastName</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.lastName)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.lastName)" />
     </div>
 
 
@@ -60,7 +63,7 @@ else
                 <label>@tenants.firstName</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.firstName)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.firstName)" />
     </div>
 
 
@@ -79,7 +82,7 @@ else
                 <label>@tenants.middleName</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.middleName)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.middleName)" />
     </div>
 
     <div class="form-group row">
@@ -97,7 +100,7 @@ else
                 <label>@tenants.contactNumber</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.contactNumber)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.contactNumber)" />
     </div>
 
     <div class="form-group row">
@@ -115,7 +118,7 @@ else
                 <label>@tenants.emailAddress</label>
             }
         </div>
-        @*<ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emailAddress)" />*@
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emailAddress)" />
     </div>
 
     <hr />
@@ -131,22 +134,7 @@ else
                             {
                         <option value="@p.id">@p.description</option>
                             }
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
-                    /**/
+
 
                 </InputSelect>
             }
@@ -211,19 +199,19 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="ratePerSQM" class="col-sm-2 col-form-label">Rate Per SQM: </label>
+        <label for="monthlyRate" class="col-sm-2 col-form-label">Monthly Rate: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
-                <InputNumber @bind-Value="@tenants.ratePerSQM" class="form-control">
+                <InputNumber @bind-Value="@tenants.monthlyRate" class="form-control">
                 </InputNumber>
             }
             else
             {
-                <label>@tenants.ratePerSQM</label>
+                <label>@tenants.monthlyRate</label>
             }
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.ratePerSQM)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.monthlyRate)" />
     </div>
 
     <div class="form-group row">
@@ -306,7 +294,7 @@ else
     <hr />
     @if (IsEditOnly)
     {
-        <table >
+        <table>
             <thead>
                 <tr>
                     <th>File Name</th>
@@ -324,22 +312,21 @@ else
                         @*<td>@td.fi</td>*@
 
 
-                    <td>
-                        @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
-                        @{
-                            //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
-                            var _path = $"/TenantDocument/{td.fileName}{td.extName}";
+                        <td>
+                            @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
+                            @{
+                                //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
+                                var _path = $"/TenantDocument/{td.fileName}{td.extName}";
 
-                            <a href="@_path"
+                                <a href="@_path"
+                                   class="btn btn-primary table-btn">
+                                    <i class="fas fa-info-circle"> DOWNLOAD </i>
+                                </a>
 
-                                class="btn btn-primary table-btn" >
-                                <i class="fas fa-info-circle"> DOWNLOAD </i>
-                            </a>
+                                @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
+                            }
 
-                            @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
-                        }
-
-                    </td>
+                        </td>
 
                     </tr>
                 }
@@ -348,31 +335,31 @@ else
         </table>
     }
 
-        <br />
+    <br />
 
 
-        <br />
+    <br />
 
-        @if (!IsViewOnly)
+    @if (!IsViewOnly)
+    {
+
+        @if (!IsEditOnly)
         {
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
 
-            @if (!IsEditOnly)
-            {
-                <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
-
-            }
-            else
-            {
-                <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
-
-            }
-
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Tenant Entry?');"> Save </button>
 
         }
 
-        <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
 
-    </EditForm>
+    }
+
+    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
+
+</EditForm>
 
 
 }

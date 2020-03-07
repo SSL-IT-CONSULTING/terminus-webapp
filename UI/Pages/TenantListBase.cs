@@ -65,6 +65,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.PropertyDirectory   
                                              .Include(a => a.tenant)
                                              .Include(a => a.property)
+                                             .Where(a => a.companyId.Equals(CompanyId))
                                              .OrderByDescending(a => a.createDate)
                                              .ToListAsync();
 

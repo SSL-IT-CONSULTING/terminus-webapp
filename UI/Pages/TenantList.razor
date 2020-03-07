@@ -3,80 +3,117 @@
 @attribute [Authorize]
 @inherits TenantListBase
 
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div class="container-fluid">
+<head>
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
 
-        <ul class="nav navbar-nav">
-            @*<li class="active"><a href="setup">SET UP</a></li>*@
-            <li><a href="glaccountlist">&nbsp;&nbsp;&nbsp;&nbsp;General Ledger&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-            <li><a href="vendorlist">&nbsp;&nbsp;&nbsp;&nbsp;Vendors&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-            <li><a href="propertylist">&nbsp;&nbsp;&nbsp;&nbsp;Properties&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-            <li><a href="tenantlist">&nbsp;&nbsp;&nbsp;&nbsp;Tenants&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-            @*<li><a href="propertydirectorylist">PROPERTY DIRECTORY</a></li>*@
+        li {
+            float: left;
+        }
 
-        </ul>
-    </div>
-</nav>
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+                li a:hover {
+                    background-color: #111;
+                }
+    </style>
+</head>
+
+
+@*<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="setup">SET UP</a></li>
+                <li><a href="glaccountlist">&nbsp;&nbsp;&nbsp;&nbsp;General Ledger&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="vendorlist">&nbsp;&nbsp;&nbsp;&nbsp;Vendors&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="propertylist">&nbsp;&nbsp;&nbsp;&nbsp;Properties&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="tenantlist">&nbsp;&nbsp;&nbsp;&nbsp;Tenants&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+                <li><a href="propertydirectorylist">PROPERTY DIRECTORY</a></li>
+
+            </ul>
+        </div>
+    </nav>*@
+
+
+<ul>
+    <li><a class="active" href="glaccountlist">General Ledger</a></li>
+    <li><a href="vendorlist">Vendors</a></li>
+    <li><a href="propertylist">Properties</a></li>
+    <li><a href="tenantlist">Tenants</a></li>
+</ul>
 
 
 <h3>Tenant List</h3>
 
 @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
 {
-<p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
 }
 else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
 {
-<p><em>Error encountered while loading this page.</em></p>
+    <p><em>Error encountered while loading this page.</em></p>
 }
 else
 {
-<hr />
-<button type="submit" @onclick="@TenantAdd" class="btn btn-primary edit-btn"> Add Tenant </button>
-<br />
-<br />
-<table class="table">
-    <thead>
-        <tr>
-            <th>Property</th>
-            <th>Tenant Name</th>
-            <th>Date From</th>
-            <th>Date To</th>
-            <th>Monthly Rate</th>
-            <th>Association Dues</th>
-            <th>Penalty %</th>
-            <th>Rate Per SQM</th>
-            @*<th>Total Balance</th>*@
+    <hr />
+    <button type="submit" @onclick="@TenantAdd" class="btn btn-primary edit-btn"> Add Tenant </button>
+    <br />
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Property</th>
+                <th>Tenant Name</th>
+                <th>Date From</th>
+                <th>Date To</th>
+                <th>Monthly Rate</th>
+                <th>Association Dues</th>
+                <th>Penalty %</th>
+                <th>Rate Per SQM</th>
+                @*<th>Total Balance</th>*@
 
 
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var pi in propertyDirectories)
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pi in propertyDirectories)
             {
-        <tr>
-            <td>@pi.propertyDesc</td>
-            <td>@pi.tenantLastNName, @pi.tenantFirtsName </td>
-            <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-            <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                <tr>
+                    <td>@pi.propertyDesc</td>
+                    <td>@pi.tenantLastNName, @pi.tenantFirtsName </td>
+                    <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                    <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
 
-            <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
-            <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
-            <td>@pi.penaltyPct.ToString("##")</td>
-            <td>@pi.ratePerSQM.ToString("#,##0.00;(#,##0.00);-")</td>
-            @*<td>@pi.totalBalance.ToString("n2").Replace("01/01/0001", "")</td>*@
-        <td>
-            
-            <a href="@($"tenantentry/{pi.id}/{pi.tenandId}")" class="btn btn-primary table-btn">
-                <i class="fas fa-info-circle">EDIT</i>
-            </a>
-        </td>
+                    <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
+                    <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
+                    <td>@pi.penaltyPct.ToString("##")</td>
+                    <td>@pi.ratePerSQM.ToString("#,##0.00;(#,##0.00);-")</td>
+                    @*<td>@pi.totalBalance.ToString("n2").Replace("01/01/0001", "")</td>*@
+                    <td>
 
-        </tr>
+                        <a href="@($"tenantentry/{pi.id}/{pi.tenandId}")" class="btn btn-primary table-btn">
+                            <i class="fas fa-info-circle">EDIT</i>
+                        </a>
+                    </td>
+
+                </tr>
             }
-    </tbody>
-</table>
+        </tbody>
+    </table>
 
 
 

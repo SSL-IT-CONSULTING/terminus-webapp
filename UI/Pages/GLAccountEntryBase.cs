@@ -111,7 +111,9 @@ namespace terminus_webapp.Pages
                 //var data = await appDBContext.GLAccounts.ToListAsync();
                 //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
 
-                int maxRow = appDBContext.GLAccounts.Max(a => a.rowOrder);
+                int maxRow = appDBContext.GLAccounts
+                                                   .Where(a => a.companyId.Equals(CompanyId))
+                                                   .Max(a => a.rowOrder);
                 int _maxRow;
                 if (maxRow == null)
                 {
@@ -151,7 +153,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.GLAccounts
                                     //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                                     .Include(a => a.company)
-                                    .Where(r => r.accountId.Equals(Guid.Parse(accountId))).FirstOrDefaultAsync();
+                                    .Where(r => r.accountId.Equals(Guid.Parse(accountId)) && r.companyId.Equals(CompanyId) ).FirstOrDefaultAsync();
 
 
                 data.updateDate = DateTime.Now;
@@ -202,7 +204,7 @@ namespace terminus_webapp.Pages
                     IsEditOnly = true;
                     var id = Guid.Parse(accountId);
 
-                    var data = await appDBContext.GLAccounts.Where(a=>a.accountId.Equals(Guid.Parse(accountId))).FirstOrDefaultAsync();
+                    var data = await appDBContext.GLAccounts.Where(a=>a.accountId.Equals(Guid.Parse(accountId)) &&  a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
                     glAccountView = new GLAccountVM()
                     {
