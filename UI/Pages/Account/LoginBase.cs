@@ -55,11 +55,11 @@ namespace terminus_webapp.Pages.Account
             {
                 ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(login.userName, user.companyId);
 
-                NavigationManager.NavigateTo("/");
-
                 await sessionStorage.SetItemAsync("UserName", login.userName);
                 await sessionStorage.SetItemAsync("CompanyId", user.companyId);
-             
+
+                NavigationManager.NavigateTo("/");
+
                 return await Task.FromResult(true);
             }
             errorMessage = "Invalid user name or password.";

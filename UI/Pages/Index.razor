@@ -1,2 +1,12 @@
 ﻿@page "/"
 @attribute [Authorize]
+
+@inherits IndexBase
+
+@if (!string.IsNullOrEmpty(companyLogo) && !string.IsNullOrEmpty(CompanyId))
+{
+    <div class="h-100 w-100" style="text-align:center;">
+        <img src="@companyLogo" />
+    </div>
+}
+

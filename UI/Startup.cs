@@ -43,7 +43,9 @@ namespace terminus_webapp
                    options.UseSqlServer(
                       connectionString));
 
-            services.AddIdentity<AppUser, AppRole>(options => { options.SignIn.RequireConfirmedEmail = false; 
+            services.AddIdentity<AppUser, AppRole>(options => { 
+                options.SignIn.RequireConfirmedEmail = false;
+                options.User.AllowedUserNameCharacters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+\";
 
             })
                 .AddEntityFrameworkStores<AppDBContext>();

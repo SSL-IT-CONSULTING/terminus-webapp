@@ -37,7 +37,7 @@
                     </NavLink>
                 </li>
 
-                @if(@context.User.Claims.Where(a=>a.Type.Equals("CompanyId") && a.Value.Equals("APMI",StringComparison.OrdinalIgnoreCase)).Any())
+                @if (@context.User.Claims.Where(a => a.Type.Equals("CompanyId") && a.Value.Equals("APMI", StringComparison.OrdinalIgnoreCase)).Any())
                 {
                     <li class="nav-item px-3">
                         <NavLink class="nav-link" href="employeelist">
@@ -55,6 +55,12 @@
                 <li class="nav-item px-3">
                     <NavLink class="nav-link" href="setup">
                         <span class="oi oi-box" aria-hidden="true"></span> Setup
+                    </NavLink>
+                </li>
+
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="changepassword">
+                        <span class="oi oi-box" aria-hidden="true"></span> Change Password
                     </NavLink>
                 </li>
 
