@@ -1,0 +1,207 @@
+﻿@using terminus_webapp.Data
+
+@page "/employeeentry"
+@page "/employeeentry/{employeeId}"
+@attribute [Authorize]
+
+@inherits EmployeeEntryBase
+
+
+
+    @if (employee != null && IsDataLoaded)
+    {
+        <div> 
+            <div style="display:block">
+
+
+                <EditForm Model="@employee" OnValidSubmit="@HandleValidSubmit">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary></ValidationSummary>
+
+                    <div class="form-group row">
+                        <label for="Active" class="col-sm-2 col-form-label">Active: </label>
+                        <div class="col-sm-4">
+                            <InputCheckbox @bind-Value="employee.Active" class="form-control">
+                            </InputCheckbox>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Active)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="HireDate" class="col-sm-2 col-form-label">Hire Date: </label>
+                        <div class="col-sm-4">
+                            <InputDate @bind-Value="employee.HireDate" class="form-control">
+                            </InputDate>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.HireDate)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="LastName" class="col-sm-2 col-form-label">Last Name: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.LastName" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.LastName)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="FirstName" class="col-sm-2 col-form-label">First Name: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.FirstName" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.FirstName)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="MiddleName" class="col-sm-2 col-form-label">Middle Name: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.MiddleName" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.MiddleName)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Position" class="col-sm-2 col-form-label">Position: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.Position" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Position)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Address" class="col-sm-2 col-form-label">Address: </label>
+                        <div class="col-sm-8">
+                            <InputTextArea @bind-Value="employee.Address" class="form-control">
+                            </InputTextArea>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Address)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="ContactNo" class="col-sm-2 col-form-label">Contact No.: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.ContactNo" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.ContactNo)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Email" class="col-sm-2 col-form-label">Email: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.Email" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Email)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="SSS" class="col-sm-2 col-form-label">SSS: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.SSS" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.SSS)" />
+                    </div>
+
+
+                    <div class="form-group row">
+                        <label for="SSS" class="col-sm-2 col-form-label">Pagibig: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.PagIbig" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.PagIbig)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="TIN" class="col-sm-2 col-form-label">TIN: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.TIN" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.TIN)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="BirthDate" class="col-sm-2 col-form-label">Birthdate: </label>
+                        <div class="col-sm-4">
+                            <InputDate @bind-Value="employee.BirthDate" class="form-control">
+                            </InputDate>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.BirthDate)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Gender" class="col-sm-2 col-form-label">Gender: </label>
+                        <div class="col-sm-4">
+                            <InputSelect @bind-Value="employee.Gender" class="form-control">
+                                <option value="">
+                                </option>
+                                <option value="Male">
+                                    Male
+                                </option>
+                                <option value="Female">
+                                    Female
+                                </option>
+                            </InputSelect>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Gender)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="EndDate" class="col-sm-2 col-form-label">End Date: </label>
+                        <div class="col-sm-4">
+                            <InputDate @bind-Value="employee.EndDate" class="form-control">
+
+                            </InputDate>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.EndDate)" />
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="Remarks" class="col-sm-2 col-form-label">Remarks: </label>
+                        <div class="col-sm-8">
+                            <InputTextArea @bind-Value="employee.Remarks" class="form-control">
+                            </InputTextArea>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Remarks)" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary edit-btn">Save</button>
+                    <button type="button" class="btn btn-primary edit-btn" @onclick="NavigateToList">Cancel</button>
+                </EditForm>
+
+            </div>
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <br />
+                <p style="color:red"><em>@ErrorMessage</em></p>
+                <br />
+            }
+
+
+        </div>
+    }
+
+
