@@ -186,7 +186,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.Vendors
                         //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                         .Include(a => a.company)
-                        .Where(r => r.vendorId.Equals(vendorId)).FirstOrDefaultAsync();
+                        .Where(r => r.vendorId.Equals(vendorId) && r.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
                 //int max_row = await appDBContext.Vendors
                 //                                    .Select(a => new { companyId = a.companyId,rowOrder = a.rowOrder })
                 //                                   .Where(a => a.companyId.Equals(CompanyId)).Max(a => a.rowOrder);

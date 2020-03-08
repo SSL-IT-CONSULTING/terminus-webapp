@@ -371,7 +371,7 @@ namespace terminus_webapp.Pages
                 {
 
 
-                    var tmpPath = Path.Combine(_env.WebRootPath, "TenantDocument");
+                    var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/TenantDocument");
 
                     if (!Directory.Exists(tmpPath))
                     {

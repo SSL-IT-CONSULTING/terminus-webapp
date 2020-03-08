@@ -129,10 +129,10 @@ else
                     <th>Amount</th>
                     <th>Remarks</th>
 
-
                 </tr>
             </thead>
             <tbody>
+
                 @foreach (var pi in rptRentalIncomeVM)
                 {
                     <tr>
@@ -149,7 +149,24 @@ else
                         <td>@pi.remarks</td>
 
                     </tr>
+                    
+
                 }
+                
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Grand Total of Amount:</td>
+                    <td>@rptRentalIncomeVM.Sum(a => a.amount).ToString("n2")</td>
+                    <td></td>
+
+                </tr>
             </tbody>
         </table>
     }
@@ -174,15 +191,23 @@ else
             <tbody>
                 @foreach (var pi in rptOtherIncomeDetailVM)
                 {
-                <tr>
-                    <td>@pi.transactionDate.ToString("MM/dd/yyyy")</td>
-                    <td>@pi.gLAccount.ToString()</td>
-                    <td>@pi.amount.ToString("n2")</td>
-                    <td>@pi.description</td>
-                    <td>@pi.documentID</td>
-                    <td>@pi.comments</td>
-                </tr>
+                    <tr>
+                        <td>@pi.transactionDate.ToString("MM/dd/yyyy")</td>
+                        <td>@pi.gLAccount.ToString()</td>
+                        <td>@pi.amount.ToString("n2")</td>
+                        <td>@pi.description</td>
+                        <td>@pi.documentID</td>
+                        <td>@pi.comments</td>
+                    </tr>
                 }
+                <tr>
+                    <td></td>
+                    <td>Grand Total of Amount:</td>
+                    <td>@rptOtherIncomeDetailVM.Sum(a => a.amount).ToString("n2")</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
             </tbody>
 
         </table>
@@ -220,6 +245,15 @@ else
                     </tr>
 
                 }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Grand Total of Amount:</td>
+                    <td>@rptExpensesVM.Sum(a => a.amount).ToString("n2")</td>
+                    <td></td>
+
+                </tr>
             </tbody>
         </table>
     }

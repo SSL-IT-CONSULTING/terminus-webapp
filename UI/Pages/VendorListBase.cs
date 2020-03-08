@@ -72,6 +72,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.Vendors
                              //.OrderByDescending(a => a.createDate)
                              .Select(a => new { vendorId = a.vendorId, vendorName = a.vendorName, companyId = a.companyId, company = a.company, isVatRegistered = a.isVatRegistered, inputVatAccountId = a.inputVatAccountId, inputVatAccount = a.inputVatAccount, rowOrder = a.rowOrder })
+                             .Where(a => a.companyId.Equals(CompanyId))
                              .OrderBy(a => a.vendorName)
                              .ToListAsync();
 

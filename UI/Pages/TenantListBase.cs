@@ -65,6 +65,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.PropertyDirectory   
                                              .Include(a => a.tenant)
                                              .Include(a => a.property)
+                                             
                                              .Where(a => a.companyId.Equals(CompanyId))
                                              .OrderByDescending(a => a.createDate)
                                              .ToListAsync();
@@ -86,6 +87,7 @@ namespace terminus_webapp.Pages
                     id = a.id,
                     propertyId = a.property.id,
                     propertyDesc= a.property.description,
+                    propertyEntity = a.property,
                     tenandId = a.tenant.id,
                     tenantLastNName = a.tenant.lastName,
                     tenantFirtsName = a.tenant.firstName,
@@ -96,6 +98,7 @@ namespace terminus_webapp.Pages
                     totalBalance = a.totalBalance,
                     dateFrom = a.dateFrom,
                     dateTo = a.dateTo
+                    
                 }).ToList();
 
             }

@@ -316,7 +316,7 @@ else
                             @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
                             @{
                                 //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
-                                var _path = $"/TenantDocument/{td.fileName}{td.extName}";
+                                var _path = $"/Uploaded/TenantDocument/{td.fileName}{td.extName}";
 
                                 <a href="@_path"
                                    class="btn btn-primary table-btn">

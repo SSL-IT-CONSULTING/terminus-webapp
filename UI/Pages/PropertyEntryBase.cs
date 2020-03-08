@@ -132,11 +132,14 @@ namespace terminus_webapp.Pages
 
             }
 
+
+
+
             foreach (var file in selectedFiles)
             {
 
 
-                var tmpPath = Path.Combine(_env.WebRootPath, "PropertyDocument");
+                var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/PropertyDocument");
 
                 if (!Directory.Exists(tmpPath))
                 {
@@ -161,7 +164,7 @@ namespace terminus_webapp.Pages
 
                 pd.createDate = datetoday;
                 pd.createdBy = UserName;
-                pd.propertyId = Guid.Parse(propertyid);
+                pd.propertyId = Guid.Parse(id);
                 pd.id = Guid.Parse(fileId);
                 pd.fileName = prefix.ToString();
                 pd.filePath = filedestination.ToString();

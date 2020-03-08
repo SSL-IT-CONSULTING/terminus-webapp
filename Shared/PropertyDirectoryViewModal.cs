@@ -16,14 +16,15 @@ namespace terminus.shared.models
             
         [MaxLength(36)]
         public string propertyId { get; set; }
+        
+        public Property propertyEntity { get; set; }
+
         public List<Property> property { get; set; }
 
         [MaxLength(500)]
         public string propertyDesc { get; set; }
 
-
-        [MaxLength(36)]
-            
+        [MaxLength(36)]            
         public string tenandId { get; set; }
         public List<Tenant> tenant { get; set; }
 
@@ -57,7 +58,8 @@ namespace terminus.shared.models
 
         public decimal totalBalance { get; set; }
 
+        public bool withWT { get; set; }
 
-}
+    }
 }
 

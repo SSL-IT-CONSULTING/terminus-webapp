@@ -272,7 +272,7 @@ namespace terminus_webapp.Pages
                     rptOtherIncomeDetailVM = await
                         dapperManager.GetAllAsync<rptOtherIncomeDetailVM>("ASRCReports", param);
 
-                    
+
 
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptOtherIncomeDetailVM), (typeof(DataTable)));
