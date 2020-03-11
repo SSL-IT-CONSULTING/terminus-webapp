@@ -55,6 +55,9 @@ else
                             <a href="@($"collectbill/{bill.billId}")" class="btn btn-primary table-btn">
                                 <i class="fas fa-info-circle">Apply Payment</i>
                             </a>
+                            <button type="button" class="btn btn-primary table-btn" @onclick="@(() => SendBill(bill.billId))">
+                                <i class="fas fa-info-circle">Send Bill</i>
+                            </button>
                         </td>
                     </tr>
                 }

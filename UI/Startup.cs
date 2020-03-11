@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using terminus.shared.models;
 using terminus_webapp.Areas.Identity;
+using terminus_webapp.Common;
 using terminus_webapp.Data;
 
 namespace terminus_webapp
@@ -65,7 +66,7 @@ namespace terminus_webapp
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddScoped<DapperManager, DapperManager>();
             services.AddTransient<IdentitySeeder>();
-
+            services.AddTransient<EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

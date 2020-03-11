@@ -1,0 +1,204 @@
+<html>
+    <head>
+        <style>
+            html{
+                width:800px;
+            }
+    
+            body{
+                width:100%;
+            }
+            table,thead,tbody
+            {
+                font-size: 12px;
+                font: tahoma;
+    
+            }
+    
+        </style>
+    </head>
+    
+    <body>
+       <div style="width:100%; margin:20px;">
+        <table style="width :100%;">
+            <thead>
+                <tr>
+                    <td>
+                        <table style="width :100%;">
+                            <tr>
+                                <td style="width: 400px;">
+                                    <img src="https://terminusfiles.s3-ap-southeast-1.amazonaws.com/soa_logo_adbca.png" style="width: 300px;" />
+                                </td>
+                                <td colspan="2"><h1>Statement of Account</h1></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3">
+                                    AZOTEA DE BEL AIR CONDOMINIUM ASSOCIATION INC <br>
+                                    Admin Office, LG Floor, Azotea De Bel Air Condominium <br>
+                                    5786 Polaris cor Orion & Felipe Streets Poblacion, Makati City
+
+                                </td>
+                                <td style="font-weight: bold; width: 80px;">
+                                    DATE:
+                                </td>
+                                <td>[@TransactionDate]
+    
+                                </td>
+                            </tr>
+
+                            <tr>
+                                
+                                <td style="font-weight: bold;">
+                                    SOA#:
+                                </td>
+                                <td>
+                                    [@BillDocumentId]
+                                </td>
+                            </tr>
+
+                            <tr>
+                                
+                                <td style="font-weight: bold;">
+                                    DUE:
+                                </td>
+                                <td>
+                                    [@DueDate]
+                                </td>
+                            </tr>
+                            
+                           
+                        </table>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td style="width: 200px;">
+                                    <span style="font-weight: bold;">Bill To:</span>
+                                        
+                                </td>
+                                <td>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>Unit Owner:</span>
+                                        
+                                </td>
+                                <td>
+                                    [@Tenant]
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>Unit No.:</span>
+                                        
+                                </td>
+                                <td>
+                                    [@Unit]
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>Floor Area (sq mtr):</span>
+                                        
+                                </td>
+                                <td>
+                                    [@Area]
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>Rate per sq meter:</span>
+                                        
+                                </td>
+                                <td>
+                                    [@Rate]
+                                </td>
+                            </tr> 
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table style="width: 100%; border: 1px solid #000000; padding: 0; border-spacing: 0;" border="0" >
+                            <tr>
+                                <td style="border: 1px solid #000000;">
+                                   <span style="font-weight: bold;">DESCRIPTION</span> 
+                                </td>
+                                <td colspan="2" style="border: 1px solid #000000; text-align: center;"><span style="font-weight: bold;">AMOUNT</span></td>
+                            </tr>
+                            [@BillItems]
+                             <!--
+                            <tr>
+                                <td style="border: 1px solid #000000;">
+                                  &nbsp;
+                                </td>
+                                <td style="width: 50px; border: 1px solid #000000;text-align: center;">PHP</td>
+                                <td style="width: 200px;border: 1px solid #000000; text-align: right;" >XXX</td>
+                            </tr>
+                           
+                            <tr>
+                                <td style="border: 1px solid #000000;">
+                                  &nbsp;
+                                </td>
+                                <td style="border: 1px solid #000000; text-align: center;">PHP</td>
+                                <td style="border: 1px solid #000000; text-align: right;">XXX</td>
+                            </tr>-->
+
+                            <tr>
+                                <td style="border: 1px solid #000000; text-align: right;">
+                                  <span style="font-weight: bold;">TOTAL:</span>
+                                </td>
+                                <td style="border: 1px solid #000000; text-align: center;">PHP</td>
+                                <td style="border: 1px solid #000000; text-align: right;">[@TotalAmount]</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Reminders:
+<br><br>
+Please make check/s payable to <b>AZOTEA DE BEL-AIR CONDOMINIUM ASSOCIATION, INC.</b>
+<br>
+All payments must be received on or before the due date to avoid penalty of <b>3% per month.</b><br>
+Bank details for direct deposits<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Account Name: Azotea de Bel-Air Condominium Association Inc.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bank of the Philippine Island<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Account Number: 3071-0703-19<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please present deposit slip to the lobby office of Azotea de Bel-Air or email copy to azoteadebelaircondo@gmail.com<br><br>
+
+Payments should be received on or before the due date except if it fails on a holiday, in which case, due date will be 
+on the next working day.
+
+For inquiries regarding this billing, please contact 890-9033.
+
+This is a system generated statement of Account. No signature is required.
+
+
+                    </td>
+                </tr>
+
+              
+
+            </tbody>
+           
+        </table>
+       </div>
+      
+    </body>
+</html>

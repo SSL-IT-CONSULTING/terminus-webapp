@@ -192,7 +192,10 @@ namespace terminus_webapp.Pages
                 billingViewModel.dateDue = DateTime.Today;
                 billingViewModel.billType = "MB";
 
-                var pdlist = await appDBContext.PropertyDirectory.Include(a => a.property).ToListAsync();
+                var pdlist = await appDBContext.PropertyDirectory
+                    .Where(a=>a.companyId.Equals(CompanyId)).Include(a => a.property)
+                    .OrderBy(a=>a.property.description)
+                    .ToListAsync();
 
                 billingViewModel.properties = pdlist.GroupBy(a => a.propertyId)
     .Select(grp => grp.First().property).ToList();
@@ -327,11 +330,6 @@ namespace terminus_webapp.Pages
 
                         var dueAmount = 0m;
 
-                        //if (!string.IsNullOrEmpty(pd.property.propertyType) && pd.property.propertyType.Equals("PARKING"))
-                        //    dueAmount = pd.ratePerSQM * pd.property.areaInSqm;
-                        //else
-                        //    dueAmount = pd.monthlyRate;
-
                         dueAmount = pd.monthlyRate;
                         var dueAmountVat = CalculateVat(dueAmount);
                         var dueAmountBeforeVat = dueAmount - dueAmountVat;
@@ -372,28 +370,34 @@ namespace terminus_webapp.Pages
                             });
                         }
 
-
-                        billItems.Add(new BillingLineItem()
+                        if(dueAmountBeforeVat!=0m)
                         {
-                            Id = Guid.NewGuid(),
-                            description = "Monthly due",
-                            amount = dueAmountBeforeVat,
-                            amountPaid = 0,
-                            lineNo = 2,
-                            generated = true,
-                            billLineType = Constants.BillLineTypes.MONTHLYBILLITEM
-                        });
+                            billItems.Add(new BillingLineItem()
+                            {
+                                Id = Guid.NewGuid(),
+                                description = "Monthly due",
+                                amount = dueAmountBeforeVat,
+                                amountPaid = 0,
+                                lineNo = 2,
+                                generated = true,
+                                billLineType = Constants.BillLineTypes.MONTHLYBILLITEM
+                            });
+                        }
 
-                        billItems.Add(new BillingLineItem()
+                        if (dueAmountBeforeVat != 0m)
                         {
-                            Id = Guid.NewGuid(),
-                            description = "Monthly due (VAT)",
-                            amount = dueAmountVat,
-                            amountPaid = 0,
-                            lineNo = 2,
-                            generated = true,
-                            billLineType = Constants.BillLineTypes.MONTHLYBILLITEM_VAT
-                        });
+                            billItems.Add(new BillingLineItem()
+                            {
+                                Id = Guid.NewGuid(),
+                                description = "Monthly due (VAT)",
+                                amount = dueAmountVat,
+                                amountPaid = 0,
+                                lineNo = 2,
+                                generated = true,
+                                billLineType = Constants.BillLineTypes.MONTHLYBILLITEM_VAT
+                            });
+                        }
+                            
 
                         if (wtAmt != 0m)
                         {

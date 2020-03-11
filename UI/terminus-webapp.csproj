@@ -49,6 +49,9 @@
       <PrivateAssets>all</PrivateAssets>
 
     </PackageReference>
+
+
+    <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.0" />
     
   </ItemGroup>
 
@@ -59,7 +62,13 @@
   <ItemGroup>
     <Folder Include="wwwroot\Logos\" />
     <Folder Include="wwwroot\PropertyDocument\" />
-    <Folder Include="wwwroot\Uploaded\" />
+    <Folder Include="wwwroot\Uploaded\SOA\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\Templates\template_asrc.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,140 @@
+<html>
+    <head>
+        <style>
+            html{
+                width:800px;
+            }
+    
+            body{
+                width:100%;
+            }
+            table,thead,tbody
+            {
+                font-size: 12px;
+                font: tahoma;
+    
+            }
+    
+        </style>
+    </head>
+    
+    <body>
+       
+        <h1 style="text-align: center;">Statement of Account</h1>
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <th style="width: 80px;">&nbsp;</th>
+                    <th style="width: 100px;">&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th style="width: 80px;">&nbsp;</th>
+                    <th style="width: 100px;">&nbsp;</th>
+                </tr> 
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="font-weight: bold;">Tenant:</td>
+                    <td colspan="7">[@Tenant]</td>
+                    <td style="font-weight: bold;">SOA No.:</td>
+                    <td>[@BillDocumentId]</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Unit:</td>
+                    <td colspan="7">[@Unit]</td>
+                    <td style="font-weight: bold;">Date:</td>
+                    <td>[@TransactionDate]</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;">Rental Period:</td>
+                    <td colspan="2">[@RentalPeriod]</td>
+                    <td colspan="5"></td>
+                    <td style="font-weight: bold;">Due Date:</td>
+                    <td>[@DueDate]</td>
+                </tr>
+
+                <tr style="font-weight: bold;">
+                    <td>Particulars:</td>
+                    <td colspan="2">&nbsp;</td>
+                   
+                    <td>Unit #</td>
+                    <td>Area</td>
+                    <td>Rate/month</td>
+                    <td>VAT</td>
+                    <td>Add Penalty 3%</td>
+                    <td>Less 5% W/T</td>
+                    <td>Total</td> 
+                </tr>
+                [@BillItems]
+<!--
+                <tr>
+                    <td colspan="3">Rental Due payable to ASRC</td>
+                    
+                    <td>5k</td>
+                    <td>24</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td> 
+                </tr>
+
+                <tr>
+                    <td colspan="3">Assoc Due Payable to ADBCA (Jan 2020)</td>
+                    
+                    <td>5k</td>
+                    <td>24</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td>
+                    <td>xxx</td> 
+                </tr>
+-->
+                <tr style="font-weight: bold;">
+                    <td colspan="9">Total:</td> 
+                 
+                    <td>[@TotalAmount]</td> 
+                </tr>
+               
+                <tr>
+                    <td colspan="10">&nbsp;</td> 
+                 
+                   
+                </tr>
+                <tr>
+                    <td style="font-weight: bold;" >Prepared By:</td> 
+                 
+                    <td colspan="9">[@PreparedBy]</td> 
+                </tr>
+
+                <tr>
+                    <td colspan="10">&nbsp;</td> 
+                 
+                   
+                </tr>
+
+                <tr>
+                    <td colspan="10" style="font-weight: bold;">Notes:</td> 
+                 
+                   
+                </tr>
+                <tr>
+                    <td colspan="10" style="font-weight: bold;">1. For the Rental Payment make the check payable to Alfonso Saquitan Realty Corp. </td> 
+                 
+                   
+                </tr>
+                <tr>
+                    <td colspan="10" style="font-weight: bold;">2. For the Association Dues make a separate check payable to Azotea de Bel Air Condo Assoc Inc. </td> 
+                 
+                   
+                </tr>
+
+            </thead>
+        </table>
+    </body>
+</html>
