@@ -23,7 +23,7 @@ namespace terminus_webapp.Pages
 
         [Inject]
         public NavigationManager NavigationManager { get; set; }
-
+        [Inject]
         public ISessionStorageService _sessionStorageService { get; set; }
         public string accountId { get; set; }
 
@@ -65,12 +65,12 @@ namespace terminus_webapp.Pages
             try
             {
 
-                //UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
-                //CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
 
 
 
-                CompanyId = "ASRC";
+                //CompanyId = "ASRC";
 
                 DataLoaded = false;
                 ErrorMessage = string.Empty;

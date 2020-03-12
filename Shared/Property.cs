@@ -27,5 +27,28 @@ namespace terminus.shared.models
 
         public decimal areaInSqm { get; set; }
 
+        [MaxLength(50)]
+        public string ownerLastName { get; set; }
+
+        [MaxLength(50)]
+        public string ownerFirstName { get; set; }
+
+        [MaxLength(50)]
+        public string ownerMiddleName { get; set; }
+
+        [MaxLength(100)]
+        public string ownerFullName { get; set; }
+
+        [MaxLength(1000)]
+        public string ownerAddress { get; set; }
+
+        [MaxLength(100)]
+        public string ownerEmailAdd { get; set; }
+        
+        [MaxLength(100)]
+        public string ownerContactNo { get; set; }
+
+        [MaxLength(100)]
+        public string ownerRemarks { get; set; }
     }
 }
