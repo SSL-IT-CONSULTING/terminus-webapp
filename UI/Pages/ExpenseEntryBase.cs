@@ -317,8 +317,8 @@ namespace terminus_webapp.Pages
                     };
                 }
 
-                expense.expenseAccounts = await appDBContext.GLAccounts.Where(a => a.expense || a.cashAccount).ToListAsync();
-                expense.vendors = await appDBContext.Vendors
+                expense.expenseAccounts = await appDBContext.GLAccounts.Where(a => (a.expense || a.cashAccount) && a.companyId.Equals(CompanyId)).ToListAsync();
+                expense.vendors = await appDBContext.Vendors.Where(a=>a.companyId.Equals(CompanyId))
                                                     .Include(a=>a.inputVatAccount)
                                                     .OrderBy(a => a.rowOrder).ToListAsync();
 

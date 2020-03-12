@@ -916,15 +916,21 @@ namespace terminus_webapp.Pages
 
                 }
 
-                revenue.revenueAccounts = await appDBContext.GLAccounts.ToListAsync();
-                var pdlist = await appDBContext.PropertyDirectory.Include(a => a.property).ToListAsync();
+                revenue.revenueAccounts = await appDBContext
+                    .GLAccounts.Where(a=>a.companyId.Equals(CompanyId))
+                    .ToListAsync();
 
-                    revenue.properties = pdlist.GroupBy(a => a.propertyId)
+                var pdlist = await appDBContext.PropertyDirectory
+                                               .Where(a=>a.companyId.Equals(CompanyId))
+                                               .Include(a => a.property).ToListAsync();
+
+                revenue.properties = pdlist.GroupBy(a => a.propertyId)
       .Select(grp => grp.First().property).ToList();
 
                 revenue.tenants = new List<Tenant>();
 
-                var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount).FirstOrDefaultAsync();
+                var vatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount 
+                && a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
 
                 if (vatAccount != null)
                     revenue.outputVatAccount = $"{vatAccount.accountCode} - {vatAccount.accountDesc}";

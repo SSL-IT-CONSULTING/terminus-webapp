@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using terminus.shared.models;
 using terminus_webapp.Data;
 using Microsoft.EntityFrameworkCore;
+using Blazored.SessionStorage;
 
 namespace terminus_webapp.Components
 {
@@ -24,11 +25,16 @@ namespace terminus_webapp.Components
         [Parameter]
         public EventCallback<bool> CancelEventCallback { get; set; }
 
+        [Inject]
+        public ISessionStorageService _sessionStorageService { get; set; }
 
         public bool IsDataLoaded { get; set; }
         public string ErrorMessage { get; set; }
         public bool ShowDialog { get; set; }
 
+        public string CompanyId { get; set; }
+
+        public string UserName { get; set; }
         public void CloseDialog()
         {
             ShowDialog = false;
@@ -63,9 +69,12 @@ namespace terminus_webapp.Components
         {
             try
             {
+                UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
+                CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
+
                 IsDataLoaded = false;
                 JournalEntryDtl = new JournalEntryDtlViewModel();
-                GLAccounts = await appDBContext.GLAccounts.ToListAsync();
+                GLAccounts = await appDBContext.GLAccounts.Where(a=>a.companyId.Equals(CompanyId)).ToListAsync();
 
             }
             catch (Exception ex)
