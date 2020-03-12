@@ -100,8 +100,16 @@ namespace terminus_webapp.Pages
                     description = properties.description,
                     address = properties.address,
                     propertyType = properties.propertyType,
-                    areaInSqm = properties.areaInSqm
-
+                    areaInSqm = properties.areaInSqm,
+                    
+                    ownerLastName = properties.ownerLastName,
+                    ownerFirstName = properties.ownerFirstName,
+                    ownerMiddleName = properties.ownerMiddleName,
+                    ownerFullName = properties.ownerFullName,
+                    ownerAddress = properties.ownerAddress,
+                    ownerContactNo = properties.ownerContactNo,
+                    ownerEmailAdd = properties.ownerEmailAdd,
+                    ownerRemarks = properties.ownerRemarks
                 };
 
 
@@ -126,6 +134,14 @@ namespace terminus_webapp.Pages
                 data.propertyType = properties.propertyType;
                 data.areaInSqm = properties.areaInSqm;
 
+                data.ownerLastName = properties.ownerLastName;
+                data.ownerFirstName = properties.ownerFirstName;
+                data.ownerMiddleName = properties.ownerMiddleName;
+                data.ownerFullName = properties.ownerFullName;
+                data.ownerAddress = properties.ownerAddress;
+                data.ownerContactNo = properties.ownerContactNo;
+                data.ownerEmailAdd = properties.ownerEmailAdd;
+                data.ownerRemarks = properties.ownerRemarks;
 
                 appDBContext.Properties.Update(data);
                 await appDBContext.SaveChangesAsync();
@@ -134,52 +150,55 @@ namespace terminus_webapp.Pages
 
 
 
-
-            foreach (var file in selectedFiles)
-            {
-
-
-                var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/PropertyDocument");
-
-                if (!Directory.Exists(tmpPath))
+            if (selectedFiles != null)
+            { 
+            
+            
+                foreach (var file in selectedFiles)
                 {
-                    Directory.CreateDirectory(tmpPath);
-                }
-
-                string fileId = Guid.NewGuid().ToString();
-
-                var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
 
 
-                var _filename = file.Name.Split(".");
+                    var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/PropertyDocument");
 
-                string outputfile = _filename[0].ToString();
-                string extname = "." + _filename[1].ToString();
+                    if (!Directory.Exists(tmpPath))
+                    {
+                        Directory.CreateDirectory(tmpPath);
+                    }
 
-                var filedestination = tmpPath + "\\" + prefix + extname;
+                    string fileId = Guid.NewGuid().ToString();
+
+                    var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
+
+
+                    var _filename = file.Name.Split(".");
+
+                    string outputfile = _filename[0].ToString();
+                    string extname = "." + _filename[1].ToString();
+
+                    var filedestination = tmpPath + "\\" + prefix + extname;
 
 
 
-                var pd = new PropertyDocument();
+                    var pd = new PropertyDocument();
 
-                pd.createDate = datetoday;
-                pd.createdBy = UserName;
-                pd.propertyId = Guid.Parse(id);
-                pd.id = Guid.Parse(fileId);
-                pd.fileName = prefix.ToString();
-                pd.filePath = filedestination.ToString();
-                pd.fileDesc = file.Name;
-                pd.extName = extname;
+                    pd.createDate = datetoday;
+                    pd.createdBy = UserName;
+                    pd.propertyId = Guid.Parse(id);
+                    pd.id = Guid.Parse(fileId);
+                    pd.fileName = prefix.ToString();
+                    pd.filePath = filedestination.ToString();
+                    pd.fileDesc = file.Name;
+                    pd.extName = extname;
 
-                appDBContext.PropertyDocument.Add(pd);
-                await appDBContext.SaveChangesAsync();
+                    appDBContext.PropertyDocument.Add(pd);
+                    await appDBContext.SaveChangesAsync();
 
-                using (FileStream DestinationStream = File.Create(filedestination))
-                {
-                    await file.Data.CopyToAsync(DestinationStream);
+                    using (FileStream DestinationStream = File.Create(filedestination))
+                    {
+                        await file.Data.CopyToAsync(DestinationStream);
+                    }
                 }
             }
-
             StateHasChanged();
 
             NavigateToList();
@@ -223,9 +242,17 @@ namespace terminus_webapp.Pages
                         description = data.description,
                         address = data.address,
                         propertyType = data.propertyType,
-                        areaInSqm = data.areaInSqm
+                        areaInSqm = data.areaInSqm,
 
-                    };
+                        ownerLastName = data.ownerLastName,
+                        ownerFirstName = data.ownerFirstName,
+                        ownerMiddleName = data.ownerMiddleName,
+                        ownerFullName = data.ownerFullName,
+                        ownerAddress = data.ownerAddress,
+                        ownerContactNo = data.ownerContactNo,
+                        ownerEmailAdd = data.ownerEmailAdd,
+                        ownerRemarks = data.ownerRemarks
+                };
 
                     properties.propertyDocument = await appDBContext.PropertyDocument
                                                                         .Where(r => r.propertyId.Equals(Guid.Parse(id)))

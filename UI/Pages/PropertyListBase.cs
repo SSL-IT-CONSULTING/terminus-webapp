@@ -62,7 +62,7 @@ namespace terminus_webapp.Pages
 
                 var data = await appDBContext.Properties
                                              //.OrderByDescending(a => a.createDate)
-                                             .Select(a => new { id = a.id, company = a.company, description = a.description, address = a.address, propertyType=a.propertyType, areaInSqm = a.areaInSqm})
+                                             //.Select(a => new { id = a.id, company = a.company, description = a.description, address = a.address, propertyType=a.propertyType, areaInSqm = a.areaInSqm})
                                              .Where(a => a.company.companyId.Equals(CompanyId))
                                              .OrderBy(a => a.description)
                                              .ToListAsync();
@@ -81,7 +81,12 @@ namespace terminus_webapp.Pages
                     description = a.description.ToString(),
                     address = a.address.ToString(),
                     propertyType = a.propertyType.ToString().Replace("Resident","Residential"),
-                    areaInSqm = a.areaInSqm
+                    areaInSqm = a.areaInSqm,
+                    ownerFullName = a.ownerFullName,
+                    ownerAddress = a.ownerAddress,
+                    ownerContactNo = a.ownerContactNo,
+                    ownerEmailAdd = a.ownerEmailAdd,
+                    ownerRemarks = a.ownerRemarks
                 }).ToList();
 
             }

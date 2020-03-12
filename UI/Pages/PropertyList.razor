@@ -79,6 +79,11 @@ else
                 <th>Address</th>
                 <th>Property Type</th>
                 <th>Area In SQM</th>
+                <th>Unit Owner</th>
+                <th>Address</th>
+                <th>Contact No.</th>
+                <th>Email Address</th>
+                <th>Remarks</th>
                 <th></th>
 
             </tr>
@@ -86,17 +91,23 @@ else
         <tbody>
             @foreach (var p in properties)
             {
-                <tr>
-                    <td>@p.description.ToString()</td>
-                    <td>@p.address.ToString()</td>
-                    <td>@p.propertyType.ToString()</td>
-                    <td>@p.areaInSqm.ToString("#,##0.00;(#,##0.00);-")</td>
-                    <td>
-                        <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-info-circle">EDIT</i>
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@p.description.ToString()</td>
+                <td>@p.address.ToString()</td>
+                <td>@p.propertyType.ToString()</td>
+                <td>@p.areaInSqm.ToString("#,##0.00;(#,##0.00);-")</td>
+                <td>@p.ownerFullName</td>
+                <td>@p.ownerAddress</td>
+                <td>@p.ownerContactNo</td>
+                <td>@p.ownerEmailAdd</td>
+                <td>@p.ownerRemarks</td>
+
+                <td>
+                    <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
+                        <i class="fas fa-info-circle">EDIT</i>
+                    </a>
+                </td>
+            </tr>
 
             }
 
