@@ -74,15 +74,17 @@ namespace terminus_webapp.Pages
 
         public bool IsDataLoaded { get; set; }
 
-        public void AddGLAccount()
+        public void NavigateFiles()
         {
-            NavigationManager.NavigateTo("tenantentry");
+
         }
 
         public void NavigateToList()
         {
             NavigationManager.NavigateTo("tenantlist");
         }
+
+
 
 
 
@@ -205,7 +207,7 @@ namespace terminus_webapp.Pages
 
 
 
-            var pdpropertyid = await appDBContext.PropertyDirectory.Where(a => a.propertyId.Equals(Guid.Parse(tenants.propertyid)) && a.companyId.Equals(CompanyId) && a.dateFrom <= tenants.dateTo && a.dateTo >= tenants.dateFrom).ToListAsync();
+            var pdpropertyid = await appDBContext.PropertyDirectory.Where(a => a.propertyId.Equals(Guid.Parse(tenants.propertyid)) && a.companyId.Equals(CompanyId) && a.dateFrom <= tenants.dateTo && a.dateTo >= tenants.dateFrom && a.deleted.Equals(false)).ToListAsync();
 
             if (pdpropertyid.Count > 0)
             {
@@ -239,7 +241,8 @@ namespace terminus_webapp.Pages
                 await appDBContext.SaveChangesAsync();
 
                 //---------------------------------------------
-                
+
+
                 var pd = new PropertyDirectory();
 
                 //id = properDirectoryId;
@@ -248,8 +251,18 @@ namespace terminus_webapp.Pages
                 pd.createdBy = UserName;
                 pd.propertyId = tenants.propertyid;
                 //pd.property = tenants.properties.Where(a => a.id.Equals(Guid.Parse(tenants.propertyid))).FirstOrDefault();
-                pd.dateFrom = tenants.dateFrom;
-                pd.dateTo = tenants.dateTo;
+
+                if (CompanyId == "ADBCA")
+                {
+                    pd.dateFrom = DateTime.Parse("01/01/1900");
+                    pd.dateTo = DateTime.Parse("12/31/2099");
+                }
+                else
+                {
+                    pd.dateFrom = tenants.dateFrom;
+                    pd.dateTo = tenants.dateTo;
+                }
+
                 pd.companyId = CompanyId;
                 pd.monthlyRate = tenants.monthlyRate;
                 pd.tenandId = tenantId.ToString();
@@ -324,7 +337,7 @@ namespace terminus_webapp.Pages
                 var t = await appDBContext.Tenants
                                                 //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                                                 .Include(a => a.company)
-                                                .Where(r => r.id.Equals(tenandId) && r.company.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
+                                                .Where(r => r.id.Equals(tenandId) && r.company.companyId.Equals(CompanyId) && r.deleted.Equals(false)).FirstOrDefaultAsync();
 
 
 
@@ -345,7 +358,7 @@ namespace terminus_webapp.Pages
                                                 .Include(a => a.company)
                                                 .Include(a => a.property)
                                                 .Include(a => a.tenant)
-                                                .Where(r => r.id.Equals(Guid.Parse(id)) && r.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
+                                                .Where(r => r.id.Equals(Guid.Parse(id)) && r.companyId.Equals(CompanyId) && r.deleted.Equals(false)).FirstOrDefaultAsync();
 
 
                 //id = properDirectoryId;
@@ -353,8 +366,8 @@ namespace terminus_webapp.Pages
                 pd.updateDate = datetoday;
                 pd.updatedBy = UserName;
 
-                pd.dateFrom = tenants.dateFrom;
-                pd.dateTo = tenants.dateTo;
+                //pd.dateFrom = tenants.dateFrom;
+                //pd.dateTo = tenants.dateTo;
                 pd.monthlyRate = tenants.monthlyRate;
                     
                 pd.associationDues = _assorate;
@@ -480,7 +493,7 @@ namespace terminus_webapp.Pages
                                                     .Include(a => a.company)
                                                     .Include(a => a.property)
                                                     .Include(a => a.tenant)
-                                                    .Where(r => r.id.Equals(Guid.Parse(id)) && r.companyId.Equals(CompanyId) ).FirstOrDefaultAsync();
+                                                    .Where(r => r.id.Equals(Guid.Parse(id)) && r.companyId.Equals(CompanyId) && r.deleted.Equals(false)).FirstOrDefaultAsync();
                     //var data = await appDBContext.Tenants.Where(a => a.id.Equals(Guid.Parse(id))).ToListAsync();
 
                     tenants = new TenantViewModel()
@@ -495,6 +508,7 @@ namespace terminus_webapp.Pages
                         contactNumber = data.tenant.contactNumber,
                         emailAddress = data.tenant.emailAddress,
                         propertyid = data.propertyId,
+                        
                         dateFrom = data.dateFrom,
                         dateTo = data.dateTo,
                         monthlyRate = data.monthlyRate,
@@ -502,18 +516,18 @@ namespace terminus_webapp.Pages
                         penaltyPct = data.penaltyPct,
                         ratePerSQM = data.ratePerSQM,
                         totalBalance = data.totalBalance,
-                        withWT = data.withWT?"Yes":"No",
+                        withWT = data.withWT?"Y":"N",
                         ratePerSQMAssocDues = data.ratePerSQMAssocDues
                 };
 
 
                     tenants.tenantDocument = await appDBContext.TenantDocuments
-                                                                        .Where(r => r.propertyDirectoryId.Equals(Guid.Parse(id)))
+                                                                        .Where(r => r.propertyDirectoryId.Equals(Guid.Parse(id)) && r.deleted.Equals(false))
                                                                         .ToListAsync();
                     
                 }
                 tenants.properties = await appDBContext.Properties
-                                                            .Where(r => r.companyId.Equals(CompanyId))
+                                                            .Where(r => r.companyId.Equals(CompanyId) && r.deleted.Equals(false))
                                                             .ToListAsync();
 
 

@@ -50,6 +50,34 @@ namespace terminus_webapp.Pages
 
 
 
+        protected async Task DeleteArticle(string id)
+        {
+
+
+
+            var pd = await appDBContext.PropertyDirectory
+                                                .Include(a => a.company)
+                                                .Where(r => r.id.Equals(id) && r.deleted.Equals(false)).FirstOrDefaultAsync();
+
+
+            pd.deleted = true;            
+
+            appDBContext.PropertyDirectory.Update(pd);
+            await appDBContext.SaveChangesAsync();
+
+            var t = await appDBContext.Tenants
+                                                .Include(a => a.company)
+                                                .Where(r => r.id.Equals(id) && r.deleted.Equals(false)).FirstOrDefaultAsync();
+
+            t.deleted = true;
+
+            appDBContext.Tenants.Update(t);
+
+            await appDBContext.SaveChangesAsync();
+
+            StateHasChanged();
+        }
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -66,7 +94,7 @@ namespace terminus_webapp.Pages
                                              .Include(a => a.tenant)
                                              .Include(a => a.property)
                                              
-                                             .Where(a => a.companyId.Equals(CompanyId))
+                                             .Where(a => a.companyId.Equals(CompanyId) && a.deleted.Equals(false))
                                              .OrderByDescending(a => a.createDate)
                                              .ToListAsync();
 
@@ -97,8 +125,11 @@ namespace terminus_webapp.Pages
                     ratePerSQM = a.ratePerSQM,
                     totalBalance = a.totalBalance,
                     dateFrom = a.dateFrom,
+                    //withWT =  a.withWT.ToString() ? "Yes" : "No",
+                    withWT = a.withWT ? "Yes" : "No",
                     dateTo = a.dateTo
                     
+
                 }).ToList();
 
             }

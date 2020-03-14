@@ -47,6 +47,26 @@ namespace terminus_webapp.Pages
             NavigationManager.NavigateTo("propertylist");
 
         }
+        protected async Task DeleteArticle(string id)
+        {
+            var pd = await appDBContext.PropertyDirectory
+                                                .Include(a => a.company)
+                                                .Where(r => r.id.Equals(id) && r.deleted.Equals(false)).FirstOrDefaultAsync();
+            //pd.deleted = true;
+
+            var t = await appDBContext.Tenants
+                                                .Include(a => a.company)
+                                                .Where(r => r.id.Equals(id) && r.deleted.Equals(false)).FirstOrDefaultAsync();
+
+            appDBContext.PropertyDirectory.Remove(pd);
+
+            appDBContext.Tenants.Remove(t);
+
+            await appDBContext.SaveChangesAsync();
+
+            StateHasChanged();
+        }
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -63,7 +83,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.Properties
                                              //.OrderByDescending(a => a.createDate)
                                              //.Select(a => new { id = a.id, company = a.company, description = a.description, address = a.address, propertyType=a.propertyType, areaInSqm = a.areaInSqm})
-                                             .Where(a => a.company.companyId.Equals(CompanyId))
+                                             .Where(a => a.company.companyId.Equals(CompanyId) && a.deleted.Equals(false))
                                              .OrderBy(a => a.description)
                                              .ToListAsync();
 

@@ -43,7 +43,9 @@ namespace terminus_webapp.Pages
 
 
         public List<rptPropertypeInventoryMV> rptPropertypeInventoryMV { get; set; }
-        
+
+        public List<rptBuildingDirectoryVM> rptBuildingDirectoryVM { get; set; }
+
         public List<rptRentalIncomeVM> rptRentalIncomeVM { get; set; }
 
         public List<rptOtherIncomeDetailVM> rptOtherIncomeDetailVM { get; set; }
@@ -135,6 +137,13 @@ namespace terminus_webapp.Pages
                 {
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptPropertypeInventoryMV), (typeof(DataTable)));
+
+                }
+
+                if (reportType == "BuildingDirectory")
+                {
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptBuildingDirectoryVM), (typeof(DataTable)));
 
                 }
 
@@ -250,18 +259,25 @@ namespace terminus_webapp.Pages
                 if (reportType == "PropertyInventory")
                 {
                     rptPropertypeInventoryMV = await
-                        dapperManager.GetAllAsync<rptPropertypeInventoryMV>("ASRCReports", param);
-                    
+                        dapperManager.GetAllAsync<rptPropertypeInventoryMV>("terminusReports", param);
                     
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptPropertypeInventoryMV), (typeof(DataTable)));
-
-
                 }
+
+
+                if (reportType == "BuildingDirectory")
+                {
+                    rptBuildingDirectoryVM = await
+                        dapperManager.GetAllAsync<rptBuildingDirectoryVM>("terminusReports", param);
+
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptBuildingDirectoryVM), (typeof(DataTable)));
+                }
+
 
                 if (reportType == "RentalIncomeDetails")
                 {
                     rptRentalIncomeVM = await
-                        dapperManager.GetAllAsync<rptRentalIncomeVM>("ASRCReports", param);
+                        dapperManager.GetAllAsync<rptRentalIncomeVM>("terminusReports", param);
 
                     
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptRentalIncomeVM), (typeof(DataTable)));
@@ -270,7 +286,7 @@ namespace terminus_webapp.Pages
                 if (reportType == "OtherIncomeDetails")
                 {
                     rptOtherIncomeDetailVM = await
-                        dapperManager.GetAllAsync<rptOtherIncomeDetailVM>("ASRCReports", param);
+                        dapperManager.GetAllAsync<rptOtherIncomeDetailVM>("terminusReports", param);
 
 
 
@@ -281,7 +297,7 @@ namespace terminus_webapp.Pages
                 if (reportType == "Expenses")
                 {
                     rptExpensesVM = await
-                        dapperManager.GetAllAsync<rptExpensesVM>("ASRCReports", param);
+                        dapperManager.GetAllAsync<rptExpensesVM>("terminusReports", param);
 
                     
                     //path = @"d:\Expenses" + "_" + DateTime.Today.ToString() + ".xlsx";
@@ -292,7 +308,7 @@ namespace terminus_webapp.Pages
                 if (reportType == "NetIncomeSummary")
                 {
                     rptNetIncomeSummaryVM = await
-                        dapperManager.GetAllAsync<rptNetIncomeSummaryVM>("ASRCReports", param);
+                        dapperManager.GetAllAsync<rptNetIncomeSummaryVM>("terminusReports", param);
 
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeSummaryVM), (typeof(DataTable)));
@@ -301,7 +317,7 @@ namespace terminus_webapp.Pages
                 if (reportType == "TrialBalance")
                 {
                     rptTrialBalanceVM = await
-                        dapperManager.GetAllAsync<rptTrialBalanceVM>("ASRCReports", param);
+                        dapperManager.GetAllAsync<rptTrialBalanceVM>("terminusReports", param);
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptTrialBalanceVM), (typeof(DataTable)));
                 }
@@ -310,7 +326,7 @@ namespace terminus_webapp.Pages
                 if (reportType == "NetIncome")
                 {
                     rptNetIncomeVM = await
-                        dapperManager.GetAllAsync<rptNetIncomeVM>("ASRCReports", param);
+                        dapperManager.GetAllAsync<rptNetIncomeVM>("terminusReports", param);
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptNetIncomeVM), (typeof(DataTable)));
                 }
@@ -318,7 +334,7 @@ namespace terminus_webapp.Pages
                 if (reportType == "BalanceSheet")
                 {
                     rptbalanceSheetVM = await
-                        dapperManager.GetAllAsync<rptBalanceSheetVM>("ASRCReports", param);
+                        dapperManager.GetAllAsync<rptBalanceSheetVM>("terminusReports", param);
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptbalanceSheetVM), (typeof(DataTable)));
                 }

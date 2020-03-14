@@ -58,7 +58,7 @@ namespace terminus.shared.models
 
         public decimal totalBalance { get; set; }
 
-        public bool withWT { get; set; }
+        public string withWT { get; set; }
 
     }
 }

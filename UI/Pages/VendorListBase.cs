@@ -79,7 +79,7 @@ namespace terminus_webapp.Pages
 
 
 
-                var gla = await appDBContext.GLAccounts.Where(a => a.accountId.Equals(CompanyId)).FirstOrDefaultAsync();
+                var gla = await appDBContext.GLAccounts.Where(a => a.accountId.Equals(CompanyId) && a.deleted.Equals(false)).FirstOrDefaultAsync();
 
                 vendors = data.Select(a => new Vendor()
                 {

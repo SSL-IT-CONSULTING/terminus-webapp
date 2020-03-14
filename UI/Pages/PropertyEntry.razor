@@ -102,154 +102,155 @@ else
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.areaInSqm)" />
     </div>
+    @if (CompanyId.ToUpper() == "ADBCA")
+    {
+        <div class="form-group row">
+            <label for="ownerLastName" class="col-sm-2 col-form-label">Owner Last Name: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-    <div class="form-group row">
-        <label for="ownerLastName" class="col-sm-2 col-form-label">Owner Last Name: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+                    <InputText @bind-Value="@properties.ownerLastName" class="form-control">
 
-                <InputText @bind-Value="@properties.ownerLastName" class="form-control">
-
-                </InputText>
-            }
-            else
-            {
-                <label>@properties.ownerLastName</label>
-            }
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.ownerLastName</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerLastName)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerLastName)" />
-    </div>
 
-    <div class="form-group row">
-        <label for="ownerFirstName" class="col-sm-2 col-form-label">Owner First Name: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+        <div class="form-group row">
+            <label for="ownerFirstName" class="col-sm-2 col-form-label">Owner First Name: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-                <InputText @bind-Value="@properties.ownerFirstName" class="form-control">
+                    <InputText @bind-Value="@properties.ownerFirstName" class="form-control">
 
-                </InputText>
-            }
-            else
-            {
-                <label>@properties.ownerFirstName</label>
-            }
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.ownerFirstName</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerFirstName)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerFirstName)" />
-    </div>
 
 
 
-    <div class="form-group row">
-        <label for="ownerFirstName" class="col-sm-2 col-form-label">Owner Middle Name: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+        <div class="form-group row">
+            <label for="ownerFirstName" class="col-sm-2 col-form-label">Owner Middle Name: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-                <InputText @bind-Value="@properties.ownerMiddleName" class="form-control">
+                    <InputText @bind-Value="@properties.ownerMiddleName" class="form-control">
 
-                </InputText>
-            }
-            else
-            {
-                <label>@properties.ownerMiddleName</label>
-            }
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.ownerMiddleName</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerMiddleName)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerMiddleName)" />
-    </div>
 
-    <div class="form-group row">
-        <label for="ownerFullName" class="col-sm-2 col-form-label">Owner Full Name: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+        <div class="form-group row">
+            <label for="ownerFullName" class="col-sm-2 col-form-label">Owner Full Name: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-                <InputText @bind-Value="@properties.ownerFullName" class="form-control">
+                    <InputText @bind-Value="@properties.ownerFullName" class="form-control">
 
-                </InputText>
-            }
-            else
-            {
-                <label>@properties.ownerFullName</label>
-            }
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.ownerFullName</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerFullName)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerFullName)" />
-    </div>
 
-    <div class="form-group row">
-        <label for="ownerAddress" class="col-sm-2 col-form-label">Address: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+        <div class="form-group row">
+            <label for="ownerAddress" class="col-sm-2 col-form-label">Address: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-                <InputTextArea @bind-Value="@properties.ownerAddress" class="form-control">
+                    <InputTextArea @bind-Value="@properties.ownerAddress" class="form-control">
 
-                </InputTextArea>
-            }
-            else
-            {
-                <label>@properties.ownerAddress</label>
-            }
+                    </InputTextArea>
+                }
+                else
+                {
+                    <label>@properties.ownerAddress</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerAddress)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerAddress)" />
-    </div>
 
-    <div class="form-group row">
-        <label for="ownerContactNo" class="col-sm-2 col-form-label">Contact No.: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+        <div class="form-group row">
+            <label for="ownerContactNo" class="col-sm-2 col-form-label">Contact No.: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-                <InputText @bind-Value="@properties.ownerContactNo" class="form-control">
+                    <InputText @bind-Value="@properties.ownerContactNo" class="form-control">
 
-                </InputText>
-            }
-            else
-            {
-                <label>@properties.ownerContactNo</label>
-            }
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.ownerContactNo</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerContactNo)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerContactNo)" />
-    </div>
 
-    <div class="form-group row">
-        <label for="ownerEmailAdd" class="col-sm-2 col-form-label">Email Address: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+        <div class="form-group row">
+            <label for="ownerEmailAdd" class="col-sm-2 col-form-label">Email Address: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-                <InputText @bind-Value="@properties.ownerEmailAdd" class="form-control">
+                    <InputText @bind-Value="@properties.ownerEmailAdd" class="form-control">
 
-                </InputText>
-            }
-            else
-            {
-                <label>@properties.ownerEmailAdd</label>
-            }
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.ownerEmailAdd</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerEmailAdd)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerEmailAdd)" />
-    </div>
 
 
-    <div class="form-group row">
-        <label for="ownerRemarks" class="col-sm-2 col-form-label">Remarks: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
+        <div class="form-group row">
+            <label for="ownerRemarks" class="col-sm-2 col-form-label">Remarks: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
 
-                <InputTextArea @bind-Value="@properties.ownerRemarks" class="form-control">
+                    <InputTextArea @bind-Value="@properties.ownerRemarks" class="form-control">
 
-                </InputTextArea>
-            }
-            else
-            {
-                <label>@properties.ownerRemarks</label>
-            }
+                    </InputTextArea>
+                }
+                else
+                {
+                    <label>@properties.ownerRemarks</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerRemarks)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.ownerRemarks)" />
-    </div>
-
+    }
     <hr />
     <br />
 
@@ -340,16 +341,9 @@ else
 
     <br />
 
-
     <br />
-
-
-
-
-
-
-
-
+    <br />
+    <br />
 
     @if (!IsViewOnly)
     {

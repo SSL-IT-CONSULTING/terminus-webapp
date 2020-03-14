@@ -85,7 +85,20 @@ namespace terminus_webapp.Pages
                 reportParameterViewModel.dateTo = DateTime.Today;
 
                 //reportParameterViewModel.ReferenceVM = await dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
-                reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ASRCReportsDtls", param);
+                if (CompanyId == "ASRC")
+                {
+                    reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ASRCReportsDtls", param);
+                }
+
+                if (CompanyId == "ADBCA")
+                {
+                    reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ADBCAReportsDtls", param);
+                }
+
+                if (CompanyId == "APMI")
+                {
+                    reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ASRCReportsDtls", param);
+                }
                 //dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
 
                 //reportParameterViewModel.ReferenceVM = await

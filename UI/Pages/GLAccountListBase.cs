@@ -54,8 +54,8 @@ namespace terminus_webapp.Pages
 
                 var data = await appDBContext.GLAccounts
                                              .OrderByDescending(a => a.createDate)
-                                             .Select(a => new { accountId = a.accountId, accountCode = a.accountCode, accountDesc = a.accountDesc, balance = a.balance, companyId = a.companyId, revenue = a.revenue, expense = a.expense, cashAccount = a.cashAccount, outputVatAccount = a.outputVatAccount, rowOrder = a.rowOrder })
-                                             .Where(a => a.companyId.Equals(CompanyId))
+                                             .Select(a => new { accountId = a.accountId, accountCode = a.accountCode, accountDesc = a.accountDesc, balance = a.balance, companyId = a.companyId, revenue = a.revenue, expense = a.expense, cashAccount = a.cashAccount, outputVatAccount = a.outputVatAccount, rowOrder = a.rowOrder, deleted = a.deleted})
+                                             .Where(a => a.companyId.Equals(CompanyId) && a.deleted.Equals(false))
                                              .OrderBy(a => a.rowOrder)
                                              .ToListAsync();
 
