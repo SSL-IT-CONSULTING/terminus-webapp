@@ -22,7 +22,7 @@ else
     <hr />
 
     @*<button @onclick="@ExportToExcel" class="btn btn-dark table-btn quick-add-btn">Export To Excel</button>*@
-    <a href="@_path"  class="btn btn-dark table-btn quick-add-btn">Download Excel</a>
+    <a href="@_path" class="btn btn-dark table-btn quick-add-btn">Download Excel</a>
     <br />
 
     @if (reportType == "GLDetails")
@@ -48,19 +48,19 @@ else
             <tbody>
                 @foreach (var pi in rptGLDVM)
                 {
-                <tr>
-                    <td>@pi.glaccount</td>
-                    <td>@pi.documentId</td>
-                    <td>@pi.postingDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-                    <td>@pi.transactionDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-                    <td>@pi.DRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.CRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
-                    <td>@pi.description</td>
-                    <td>@pi.reference</td>
-                    <td>@pi.remarks</td>
-                    @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+                    <tr>
+                        <td>@pi.glaccount</td>
+                        <td>@pi.documentId</td>
+                        <td>@pi.postingDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        <td>@pi.transactionDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        <td>@pi.DRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.CRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.description</td>
+                        <td>@pi.reference</td>
+                        <td>@pi.remarks</td>
+                        @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
 
-                </tr>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -97,6 +97,43 @@ else
                         <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
 
                         <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
+
+    @if (reportType == "BuildingDirectory")
+    {
+        <h1 class="page-title">Building Directory Report</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+
+                    <th>Description</th>
+                    <th>Property Type</th>
+                    <th>Tenant Name</th>
+                    <th>Contact Number</th>
+                    <th>Email Address</th>
+                    @*<th>Date From</th>
+                        <th>Date To</th>*@
+                    @*<th>Due Date</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptBuildingDirectoryVM)
+                {
+                    <tr>
+                        <td>@pi.description</td>
+                        <td>@pi.propertyType</td>
+                        <td>@pi.TenantName</td>
+                        <td>@pi.contactNumber</td>
+                        <td>@pi.emailAddress</td>
                         @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
 
                     </tr>
@@ -149,10 +186,10 @@ else
                         <td>@pi.remarks</td>
 
                     </tr>
-                    
+
 
                 }
-                
+
                 <tr>
                     <td></td>
                     <td></td>
@@ -260,8 +297,15 @@ else
 
     @if (reportType == "NetIncomeSummary")
     {
+        @if (CompanyId != "ADBCA")
+        {
+            <h1 class="page-title">Net Income Summary Report</h1>
+        }
+        else
+        {
+            <h1 class="page-title">Collections Summary Report</h1>
+        }
 
-        <h1 class="page-title">Net Income Summary Report</h1>
 
         <table class="table">
             <thead>
@@ -288,46 +332,46 @@ else
 
                 @foreach (var pi in rptNetIncomeSummaryVM)
                 {
-                <tr>
-                    @if (pi.rentalRevenue == "TOTAL RENTAL INCOME" || pi.rentalRevenue == "TOTAL INCOME" || pi.rentalRevenue == "TOTAL" || pi.rentalRevenue == "EXPENSES" || pi.rentalRevenue == "OTHER EXPENSES" || pi.rentalRevenue == "NET INCOME")
+                    <tr>
+                        @if (pi.rentalRevenue == "TOTAL RENTAL INCOME" || pi.rentalRevenue == "TOTAL INCOME" || pi.rentalRevenue == "TOTAL" || pi.rentalRevenue == "EXPENSES" || pi.rentalRevenue == "OTHER EXPENSES" || pi.rentalRevenue == "NET INCOME")
 
-                    {
+                        {
 
-                        <td><b>@pi.rentalRevenue</b></td>
-                        <td><b>@pi.January.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.March.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.April.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.May.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.June.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.July.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.August.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.September.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.October.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.November.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.December.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                        <td><b>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.rentalRevenue</b></td>
+                            <td><b>@pi.January.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.March.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.April.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.May.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.June.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.July.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.August.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.September.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.October.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.November.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.December.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</b></td>
 
-                    }
-                    else
-                    {
-                        <td>@pi.rentalRevenue</td>
-                        <td> @pi.January.ToString("#,##0.00;(#,##0.00);''") </td>
-                        <td>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.March.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.April.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.May.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.June.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.July.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.August.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.September.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.October.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.November.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.December.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</td>
+                        }
+                        else
+                        {
+                            <td>@pi.rentalRevenue</td>
+                            <td> @pi.January.ToString("#,##0.00;(#,##0.00);''") </td>
+                            <td>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.March.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.April.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.May.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.June.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.July.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.August.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.September.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.October.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.November.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.December.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</td>
 
-                    }
-                </tr>
+                        }
+                    </tr>
 
                 }
             </tbody>
@@ -383,7 +427,18 @@ else
     @if (reportType == "NetIncome")
     {
 
-        <h1 class="page-title">Income Statement</h1>
+
+        @if (CompanyId != "ADBCA")
+        {
+            <h1 class="page-title">Income Statement</h1>
+        }
+        else
+        {
+            <h1 class="page-title">Receipts Over Expenses</h1>
+        }
+
+
+        
 
         <table class="table">
             <thead>

@@ -49,10 +49,31 @@
 
 
 <ul>
-    <li><a class="active" href="glaccountlist">General Ledger</a></li>
-    <li><a href="vendorlist">Vendors</a></li>
-    <li><a href="propertylist">Properties</a></li>
-    <li><a href="tenantlist">Tenants</a></li>
+    @if (CompanyId == "ASRC")
+    {
+        <li><a class="active" href="glaccountlist">General Ledger</a></li>
+        <li><a href="vendorlist">Vendors</a></li>
+        <li><a href="propertylist">Properties</a></li>
+        <li><a href="tenantlist">Tenants</a></li>
+    }
+
+    @if (CompanyId == "ADBCA")
+    {
+        <li><a class="active" href="glaccountlist">General Ledger</a></li>
+        <li><a href="vendorlist">Vendors</a></li>
+        <li><a href="propertylist">Properties</a></li>
+        <li><a href="tenantlist">Tenants</a></li>
+    }
+
+    @if (CompanyId == "APMI")
+    {
+        <li><a class="active" href="employeelist">Employee</a></li>
+        <li><a class="active" href="glaccountlist">General Ledger</a></li>
+        <li><a href="vendorlist">Vendors</a></li>
+        <li><a href="customerlist">Customers </a></li>
+
+    }
+
 </ul>
 <h3>Property List</h3>
 
@@ -79,6 +100,15 @@ else
                 <th>Address</th>
                 <th>Property Type</th>
                 <th>Area In SQM</th>
+                @if (CompanyId == "ADBCA")
+                {
+                    <th>Unit Owner</th>
+                    <th>Address</th>
+                    <th>Contact No.</th>
+                    <th>Email Address</th>
+                    <th>Remarks</th>
+                }
+                <th></th>
                 <th></th>
 
             </tr>
@@ -86,17 +116,31 @@ else
         <tbody>
             @foreach (var p in properties)
             {
-                <tr>
-                    <td>@p.description.ToString()</td>
-                    <td>@p.address.ToString()</td>
-                    <td>@p.propertyType.ToString()</td>
-                    <td>@p.areaInSqm.ToString("#,##0.00;(#,##0.00);-")</td>
-                    <td>
-                        <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-info-circle">EDIT</i>
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@p.description.ToString()</td>
+                <td>@p.address.ToString()</td>
+                <td>@p.propertyType.ToString()</td>
+                <td>@p.areaInSqm.ToString("#,##0.00;(#,##0.00);-")</td>
+                @if (CompanyId == "ADBCA")
+                {
+                    <td>@p.ownerFullName</td>
+                    <td>@p.ownerAddress</td>
+                    <td>@p.ownerContactNo</td>
+                    <td>@p.ownerEmailAdd</td>
+                    <td>@p.ownerRemarks</td>
+                }
+
+                <td>
+                    <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
+                        <i class="fas fa-info-circle">EDIT</i>
+                    </a>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger edit-btn" @onclick="@(() => DeleteArticle(p.id.ToString()))">DELETE</button>
+                    @*<button type="button" class="btn btn-danger edit-btn"> Delete </button>*@
+
+                </td>
+            </tr>
 
             }
 

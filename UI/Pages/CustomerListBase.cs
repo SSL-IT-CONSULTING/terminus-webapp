@@ -26,16 +26,25 @@ namespace terminus_webapp.Pages
 
         public void CustomerAdd()
         {
-            NavigationManager.NavigateTo("tenantentry");
+            NavigationManager.NavigateTo("customerentry");
         }
 
 
-        public void TenantList()
+        public void CustomerList()
         {
             NavigationManager.NavigateTo("customerlist");
 
         }
+        protected async Task DeleteArticle(string id)
+        {
+            var c = await appDBContext.Customers                                                
+                                                .Where(r => r.companyId.Equals(CompanyId) && r.id.Equals(id)).FirstOrDefaultAsync();
+            appDBContext.Customers.Update(c);
 
+            await appDBContext.SaveChangesAsync();
+
+            StateHasChanged();
+        }
 
 
 
@@ -57,14 +66,23 @@ namespace terminus_webapp.Pages
 
 
 
-                //customers = data.Select(a => new Customer()
-                //{
 
-                //    id = a.id,
-                //    companyId  = a.companyId,
-                //    lastName = a.lastName,
-                    
-                //}).ToList();
+
+                customers = data.Select(a => new CustomerViewModel()
+                {
+
+                    id = a.id,
+                    companyId = a.companyId,
+                    lastName = a.lastName,
+                    firstName = a.firstName,
+                    description = a.description,
+                    vatRegistered = a.vatRegistered?"Y":"N",
+                    address = a.address,
+                    contactNo1 = a.contactNo1,
+                    contactNo2 = a.contactNo2,
+                    contactNo3 = a.contactNo3
+                }).ToList();
+
 
             }
             catch (Exception ex)

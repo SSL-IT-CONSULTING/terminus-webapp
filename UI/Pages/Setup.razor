@@ -1,6 +1,6 @@
 ﻿@page "/setup"
 @attribute [Authorize]
-
+@inherits SetupBase
 
 <head>
     <style>
@@ -48,8 +48,29 @@
 
 
 <ul>
-    <li><a class="active" href="glaccountlist">General Ledger</a></li>
-    <li><a href="vendorlist">Vendors</a></li>
-    <li><a href="propertylist">Properties</a></li>
-    <li><a href="tenantlist">Tenants</a></li>
+    @if (CompanyId == "ASRC")
+    {
+        <li><a class="active" href="glaccountlist">General Ledger</a></li>
+        <li><a href="vendorlist">Vendors</a></li>
+        <li><a href="propertylist">Properties</a></li>
+        <li><a href="tenantlist">Tenants</a></li>
+    }
+
+    @if (CompanyId == "ADBCA")
+    {
+        <li><a class="active" href="glaccountlist">General Ledger</a></li>
+        <li><a href="vendorlist">Vendors</a></li>
+        <li><a href="propertylist">Properties</a></li>
+        <li><a href="tenantlist">Tenants</a></li>
+    }
+
+    @if (CompanyId == "APMI")
+    {
+        <li><a class="active" href="employeelist">Employee</a></li>
+        <li><a class="active" href="glaccountlist">General Ledger</a></li>
+        <li><a href="vendorlist">Vendors</a></li>
+        <li><a href="customerlist">Customers </a></li>
+
+    }
+
 </ul>

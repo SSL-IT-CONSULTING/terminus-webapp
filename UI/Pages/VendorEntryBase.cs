@@ -275,7 +275,7 @@ namespace terminus_webapp.Pages
                     };
                 }
 
-                vendors.inputVatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount && a.companyId.Equals(CompanyId)).ToListAsync();
+                vendors.inputVatAccount = await appDBContext.GLAccounts.Where(a => a.outputVatAccount && a.companyId.Equals(CompanyId) && a.deleted.Equals(false)).ToListAsync();
 
             }
             catch (Exception ex)

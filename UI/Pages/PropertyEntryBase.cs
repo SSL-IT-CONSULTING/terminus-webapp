@@ -89,25 +89,61 @@ namespace terminus_webapp.Pages
 
                 string _pro = properties.propertyType;
 
-                Property pr = new Property()
+                if (CompanyId == "ADBCA")
                 {
+                    Property pr = new Property()
+                    {
 
 
-                    id = propertyid,
-                    companyId = CompanyId,
-                    createDate = DateTime.Now,
-                    createdBy = UserName,
-                    description = properties.description,
-                    address = properties.address,
-                    propertyType = properties.propertyType,
-                    areaInSqm = properties.areaInSqm
+                        id = propertyid,
+                        companyId = CompanyId,
+                        createDate = DateTime.Now,
+                        createdBy = UserName,
+                        description = properties.description,
+                        address = properties.address,
+                        propertyType = properties.propertyType,
+                        areaInSqm = properties.areaInSqm,
 
-                };
 
+                        ownerLastName = properties.ownerLastName,
+                        ownerFirstName = properties.ownerFirstName,
+                        ownerMiddleName = properties.ownerMiddleName,
+                        ownerFullName = properties.ownerFullName,
+                        ownerAddress = properties.ownerAddress,
+                        ownerContactNo = properties.ownerContactNo,
+                        ownerEmailAdd = properties.ownerEmailAdd,
+                        ownerRemarks = properties.ownerRemarks
+                    };
 
                 appDBContext.Properties.Add(pr);
 
                 await appDBContext.SaveChangesAsync();
+                }
+                else
+                {
+
+                    Property pr = new Property()
+                    {
+
+                        id = propertyid,
+                        companyId = CompanyId,
+                        createDate = DateTime.Now,
+                        createdBy = UserName,
+                        description = properties.description,
+                        address = properties.address,
+                        propertyType = properties.propertyType,
+                        areaInSqm = properties.areaInSqm
+                    };
+
+                    appDBContext.Properties.Add(pr);
+
+                    await appDBContext.SaveChangesAsync();
+                }
+
+
+
+
+
 
 
             }
@@ -116,7 +152,7 @@ namespace terminus_webapp.Pages
                 var data = await appDBContext.Properties
                           //.Select(a => new { id = a.id, company = a.company, lastName = a.lastName, firstName = a.firstName, middleName = a.middleName, contactNumber = a.contactNumber, emailAddress = a.emailAddress })
                           .Include(a => a.company)
-                          .Where(r => r.id.Equals(id) &&  r.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
+                          .Where(r => r.id.Equals(id) &&  r.companyId.Equals(CompanyId) && r.deleted.Equals(false)).FirstOrDefaultAsync();
 
 
                 data.updateDate = DateTime.Now;
@@ -125,8 +161,17 @@ namespace terminus_webapp.Pages
                 data.address = properties.address;
                 data.propertyType = properties.propertyType;
                 data.areaInSqm = properties.areaInSqm;
-
-
+                if (CompanyId == "ADBCA")
+                {
+                    data.ownerLastName = properties.ownerLastName;
+                    data.ownerFirstName = properties.ownerFirstName;
+                    data.ownerMiddleName = properties.ownerMiddleName;
+                    data.ownerFullName = properties.ownerFullName;
+                    data.ownerAddress = properties.ownerAddress;
+                    data.ownerContactNo = properties.ownerContactNo;
+                    data.ownerEmailAdd = properties.ownerEmailAdd;
+                    data.ownerRemarks = properties.ownerRemarks;
+                }
                 appDBContext.Properties.Update(data);
                 await appDBContext.SaveChangesAsync();
 
@@ -134,52 +179,55 @@ namespace terminus_webapp.Pages
 
 
 
-
-            foreach (var file in selectedFiles)
-            {
-
-
-                var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/PropertyDocument");
-
-                if (!Directory.Exists(tmpPath))
+            if (selectedFiles != null)
+            { 
+            
+            
+                foreach (var file in selectedFiles)
                 {
-                    Directory.CreateDirectory(tmpPath);
-                }
-
-                string fileId = Guid.NewGuid().ToString();
-
-                var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
 
 
-                var _filename = file.Name.Split(".");
+                    var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/PropertyDocument");
 
-                string outputfile = _filename[0].ToString();
-                string extname = "." + _filename[1].ToString();
+                    if (!Directory.Exists(tmpPath))
+                    {
+                        Directory.CreateDirectory(tmpPath);
+                    }
 
-                var filedestination = tmpPath + "\\" + prefix + extname;
+                    string fileId = Guid.NewGuid().ToString();
+
+                    var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
+
+
+                    var _filename = file.Name.Split(".");
+
+                    string outputfile = _filename[0].ToString();
+                    string extname = "." + _filename[1].ToString();
+
+                    var filedestination = tmpPath + "\\" + prefix + extname;
 
 
 
-                var pd = new PropertyDocument();
+                    var pd = new PropertyDocument();
 
-                pd.createDate = datetoday;
-                pd.createdBy = UserName;
-                pd.propertyId = Guid.Parse(id);
-                pd.id = Guid.Parse(fileId);
-                pd.fileName = prefix.ToString();
-                pd.filePath = filedestination.ToString();
-                pd.fileDesc = file.Name;
-                pd.extName = extname;
+                    pd.createDate = datetoday;
+                    pd.createdBy = UserName;
+                    pd.propertyId = Guid.Parse(id);
+                    pd.id = Guid.Parse(fileId);
+                    pd.fileName = prefix.ToString();
+                    pd.filePath = filedestination.ToString();
+                    pd.fileDesc = file.Name;
+                    pd.extName = extname;
 
-                appDBContext.PropertyDocument.Add(pd);
-                await appDBContext.SaveChangesAsync();
+                    appDBContext.PropertyDocument.Add(pd);
+                    await appDBContext.SaveChangesAsync();
 
-                using (FileStream DestinationStream = File.Create(filedestination))
-                {
-                    await file.Data.CopyToAsync(DestinationStream);
+                    using (FileStream DestinationStream = File.Create(filedestination))
+                    {
+                        await file.Data.CopyToAsync(DestinationStream);
+                    }
                 }
             }
-
             StateHasChanged();
 
             NavigateToList();
@@ -215,7 +263,7 @@ namespace terminus_webapp.Pages
                     IsViewOnly = false;
                     IsEditOnly = true;
 
-                    var data = await appDBContext.Properties.Where(a => a.id.Equals(id) &&  a.companyId.Equals(CompanyId)).FirstOrDefaultAsync();
+                    var data = await appDBContext.Properties.Where(a => a.id.Equals(id) &&  a.companyId.Equals(CompanyId) && a.deleted.Equals(false)).FirstOrDefaultAsync();
 
                     properties = new PropertyViewModel()
                     {
@@ -223,12 +271,20 @@ namespace terminus_webapp.Pages
                         description = data.description,
                         address = data.address,
                         propertyType = data.propertyType,
-                        areaInSqm = data.areaInSqm
+                        areaInSqm = data.areaInSqm,
 
-                    };
+                        ownerLastName = data.ownerLastName,
+                        ownerFirstName = data.ownerFirstName,
+                        ownerMiddleName = data.ownerMiddleName,
+                        ownerFullName = data.ownerFullName,
+                        ownerAddress = data.ownerAddress,
+                        ownerContactNo = data.ownerContactNo,
+                        ownerEmailAdd = data.ownerEmailAdd,
+                        ownerRemarks = data.ownerRemarks
+                };
 
                     properties.propertyDocument = await appDBContext.PropertyDocument
-                                                                        .Where(r => r.propertyId.Equals(Guid.Parse(id)))
+                                                                        .Where(r => r.propertyId.Equals(Guid.Parse(id)) && r.deleted.Equals(false))
                                                                         .ToListAsync();
                 }
                 //glAccount = await appDBContext.GLAccountsVM.ToList();

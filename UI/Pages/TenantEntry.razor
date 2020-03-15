@@ -146,39 +146,41 @@ else
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.propertyid)" />
     </div>
 
-
-    <div class="form-group row">
-        <label for="dateFrom" class="col-sm-2 col-form-label">Date From: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
-                <InputDate @bind-Value="@tenants.dateFrom" class="form-control">
-                </InputDate>
-            }
-            else
-            {
-                <label>@tenants.dateFrom</label>
-            }
+      @if (CompanyId.ToUpper() != "ADBCA")
+      { 
+      
+        <div class="form-group row">
+            <label for="dateFrom" class="col-sm-2 col-form-label">Date From: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
+                    <InputDate @bind-Value="@tenants.dateFrom" class="form-control">
+                    </InputDate>
+                }
+                else
+                {
+                    <label>@tenants.dateFrom</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateFrom)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateFrom)" />
-    </div>
-    <div class="form-group row">
-        <label for="dateTo" class="col-sm-2 col-form-label">Date To: </label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
-                <InputDate @bind-Value="@tenants.dateTo" class="form-control">
-                </InputDate>
-            }
-            else
-            {
-                <label>@tenants.dateTo</label>
-            }
+        <div class="form-group row">
+            <label for="dateTo" class="col-sm-2 col-form-label">Date To: </label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
+                    <InputDate @bind-Value="@tenants.dateTo" class="form-control">
+                    </InputDate>
+                }
+                else
+                {
+                    <label>@tenants.dateTo</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateTo)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.dateTo)" />
-    </div>
 
-
+    }
 
 
 
