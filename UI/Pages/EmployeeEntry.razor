@@ -120,6 +120,17 @@
 
 
                     <div class="form-group row">
+                        <label for="PhilHealth" class="col-sm-2 col-form-label">PhilHealth: </label>
+                        <div class="col-sm-4">
+                            <InputText @bind-Value="employee.PhilHealth" class="form-control">
+                            </InputText>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.PhilHealth)" />
+                    </div>
+
+
+                    <div class="form-group row">
                         <label for="SSS" class="col-sm-2 col-form-label">Pagibig: </label>
                         <div class="col-sm-4">
                             <InputText @bind-Value="employee.PagIbig" class="form-control">

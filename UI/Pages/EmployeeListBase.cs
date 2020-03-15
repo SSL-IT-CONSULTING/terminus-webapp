@@ -15,6 +15,7 @@ namespace terminus_webapp.Pages
         [Inject]
         public AppDBContext appDBContext { get; set; }
 
+
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 

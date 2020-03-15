@@ -15,9 +15,18 @@ else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
 }
 else
 {
-
-    <button class="btn btn-dark table-btn quick-add-btn" @onclick="CreateBill">Create new</button>
-    <hr />
+<div>
+    @if (IsGenerating)
+    {
+        <p><em>Generating bills, please wait...</em></p>
+    }
+    else
+    {
+        <button class="btn btn-dark table-btn quick-add-btn" @onclick="GenerateBills">Generate Bills</button>
+        <button class="btn btn-dark table-btn quick-add-btn" @onclick="CreateBill">Create new</button>
+    }
+</div>
+      <hr />
     <table class="table">
         <thead>
             <tr>

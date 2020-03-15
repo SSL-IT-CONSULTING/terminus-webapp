@@ -343,8 +343,10 @@ namespace terminus_webapp.Pages
 
                         if (monthlyRentBalance > 0)
                         {
-                            var penaltyPct = pd.penaltyPct == 0m ? 3m : pd.penaltyPct;
-                            var penalty = monthlyRentBalance * (penaltyPct / 100m);
+                            var penaltyPct = pd.penaltyPct;
+                            var penalty = 0m;
+                            if(penaltyPct>0)
+                                penalty = monthlyRentBalance * (penaltyPct / 100m);
 
                             if (penalty > 0)
                             {
