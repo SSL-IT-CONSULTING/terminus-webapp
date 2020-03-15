@@ -1,0 +1,175 @@
+﻿@page "/customerentry"
+@page "/customerentry/{Id}"
+@attribute [Authorize]
+@inherits CustomerEntryBase
+
+<h3>Customer Entry</h3>
+
+<hr />
+@if (!IsDataLoaded)
+{
+    <p><em>Loading...</em></p>
+}
+else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+{
+    <p><em>Error encountered, please report it to the system administrator</em></p>
+    <p><em>@ErrorMessage</em></p>
+}
+else
+
+{
+    //OnValidSubmit="@HandleValidSubmit"
+<EditForm Model="@customers" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary></ValidationSummary>
+
+
+    <div class="form-group row">
+        <label for="lastName" class="col-sm-2 col-form-label">Last Name: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@customers.lastName" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@customers.lastName</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.lastName)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="firstName" class="col-sm-2 col-form-label">First Name: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@customers.firstName" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@customers.firstName</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.firstName)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="description" class="col-sm-2 col-form-label">Description: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@customers.description" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@customers.description</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.description)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="vatRegistered" class="col-sm-2 col-form-label">VAR Registered: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputSelect @bind-Value="@customers.vatRegistered" class="form-control">
+                    <option value="N">No</option>
+                    <option value="Y">Yes</option>
+                </InputSelect>
+            }
+            else
+            {
+                <label>@customers.vatRegistered</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.vatRegistered)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="address" class="col-sm-2 col-form-label">Address: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputTextArea @bind-Value="@customers.address" class="form-control">
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@customers.address</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.address)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="contactNo1" class="col-sm-2 col-form-label">Contact No. 1: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@customers.contactNo1" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@customers.contactNo1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.contactNo1)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="contactNo2" class="col-sm-2 col-form-label">Contact No. 2: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@customers.contactNo2" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@customers.contactNo2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.contactNo2)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="contactNo3" class="col-sm-2 col-form-label">Contact No. 3: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@customers.contactNo3" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@customers.contactNo3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => customers.contactNo3)" />
+    </div>
+    @if (!IsViewOnly)
+    {
+        @if (!@IsEditOnly)
+        {
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Customer Entry?');"> Save </button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary edit-btn" onclick="return confirm('Are you sure you want to post this Customer Entry?');"> Save </button>
+        }
+
+    }
+    <a class="btn btn-outline-primary edit-outline-btn" @onclick="@NavigateToList">Return</a>
+
+</EditForm>
+
+}
