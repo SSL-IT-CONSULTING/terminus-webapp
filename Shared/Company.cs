@@ -16,6 +16,9 @@ namespace terminus.shared.models
         public string companyName { get; set; }
 
 
+        [MaxLength(1000)]
+        public string address { get; set; }
+
     }
 
 }

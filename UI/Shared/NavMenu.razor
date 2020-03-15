@@ -15,58 +15,63 @@
                         <span class="oi oi-home" aria-hidden="true"></span> Home
                     </NavLink>
                 </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="billinglist">
-                        <span class="oi oi-document" aria-hidden="true"></span> Billing and Collections
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="collectionslist">
-                        <span class="oi oi-document" aria-hidden="true"></span> Collections Entry
-                    </NavLink>
-                </li>
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="expenselist">
-                        <span class="oi oi-document" aria-hidden="true"></span> Expenses Entry
-                    </NavLink>
-                </li>
 
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="journalentrylist">
-                        <span class="oi oi-document" aria-hidden="true"></span> Journal Entry
-                    </NavLink>
-                </li>
-
-                @if (@context.User.Claims.Where(a => a.Type.Equals("CompanyId") && a.Value.Equals("APMI", StringComparison.OrdinalIgnoreCase)).Any())
+                @if (!@context.User.Claims.Where(a => a.Type.Equals("CompanyId") && a.Value.Equals("APMI", StringComparison.OrdinalIgnoreCase)).Any())
                 {
                     <li class="nav-item px-3">
-                        <NavLink class="nav-link" href="employeelist">
-                            <span class="oi oi-document" aria-hidden="true"></span> Employees
+                        <NavLink class="nav-link" href="billinglist">
+                            <span class="oi oi-document" aria-hidden="true"></span> Billing and Collections
+                        </NavLink>
+                    </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="collectionslist">
+                            <span class="oi oi-document" aria-hidden="true"></span> Collections Entry
                         </NavLink>
                     </li>
                 }
 
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="reports">
-                        <span class="oi oi-list" aria-hidden="true"></span> Reports
-                    </NavLink>
-                </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="expenselist">
+                            <span class="oi oi-document" aria-hidden="true"></span> Expenses Entry
+                        </NavLink>
+                    </li>
 
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="setup">
-                        <span class="oi oi-box" aria-hidden="true"></span> Setup
-                    </NavLink>
-                </li>
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="journalentrylist">
+                            <span class="oi oi-document" aria-hidden="true"></span> Journal Entry
+                        </NavLink>
+                    </li>
 
-                <li class="nav-item px-3">
-                    <NavLink class="nav-link" href="changepassword">
-                        <span class="oi oi-box" aria-hidden="true"></span> Change Password
-                    </NavLink>
-                </li>
+                    @if (@context.User.Claims.Where(a => a.Type.Equals("CompanyId") && a.Value.Equals("APMI", StringComparison.OrdinalIgnoreCase)).Any())
+                    {
+                        <li class="nav-item px-3">
+                            <NavLink class="nav-link" href="employeelist">
+                                <span class="oi oi-document" aria-hidden="true"></span> Employees
+                            </NavLink>
+                        </li>
+                    }
+
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="reports">
+                            <span class="oi oi-list" aria-hidden="true"></span> Reports
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="setup">
+                            <span class="oi oi-box" aria-hidden="true"></span> Setup
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item px-3">
+                        <NavLink class="nav-link" href="changepassword">
+                            <span class="oi oi-box" aria-hidden="true"></span> Change Password
+                        </NavLink>
+                    </li>
 
 
 
-            </ul>
+                </ul>
         </div>
         </Authorized>
     </AuthorizeView>

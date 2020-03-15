@@ -28,7 +28,7 @@
                             <div class="col-sm-5">
                                 <InputSelect @bind-Value="@revenueLineItem.debitAccountId" class="form-control">
                                     <option value=""></option>
-                                    @foreach (var ga in GLAccounts)
+                                    @foreach (var ga in GLAccounts.OrderBy(a=>a.accountCode))
                                         {
                                         <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                                         }
@@ -47,7 +47,7 @@
                             <div class="col-sm-5">
                                 <InputSelect @bind-Value="@revenueLineItem.creditAccountId" class="form-control">
                                     <option value=""></option>
-                                    @foreach (var ga in GLAccounts)
+                                    @foreach (var ga in GLAccounts.OrderBy(a=>a.accountCode))
                                         {
                                         <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                                         }

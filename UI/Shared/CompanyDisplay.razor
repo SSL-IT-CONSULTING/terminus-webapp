@@ -1,0 +1,27 @@
+﻿
+
+<AuthorizeView>
+    <Authorized>
+
+        @if (@context.User.Claims.Where(a => a.Type.Equals("CompanyName")).Any())
+        {
+            <h3>
+                @context.User.Claims.Where(a => a.Type.Equals("CompanyName")).FirstOrDefault().Value
+            </h3>
+          
+        }
+
+        @if (@context.User.Claims.Where(a => a.Type.Equals("CompanyAddress")).Any())
+        {
+            <h6>
+                @context.User.Claims.Where(a => a.Type.Equals("CompanyAddress")).FirstOrDefault().Value
+            </h6>
+           
+        }
+
+
+    </Authorized>
+    <NotAuthorized>
+       
+    </NotAuthorized>
+</AuthorizeView>

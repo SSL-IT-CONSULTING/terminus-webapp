@@ -50,7 +50,7 @@ else
             {
             <InputSelect @bind-Value="@revenue.glAccountId" @onchange="@HandleAccountChange" class="form-control">
                 <option value=""></option>
-                @foreach (var ga in revenue.revenueAccounts.Where(a => a.revenue))
+                @foreach (var ga in revenue.revenueAccounts.OrderBy(a=>a.accountCode).Where(a => a.revenue))
                     {
                 <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                     }
@@ -245,7 +245,7 @@ else
             <InputSelect @bind-Value="@revenue.cashAccountId" class="form-control">
                 <option value=""></option>
 
-                @foreach (var ga in revenue.revenueAccounts.Where(a => a.revenue))
+                @foreach (var ga in revenue.revenueAccounts.OrderBy(a=>a.accountCode).Where(a => a.revenue))
                     {
                 <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                     }
