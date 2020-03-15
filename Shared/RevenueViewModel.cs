@@ -26,6 +26,9 @@ namespace terminus.shared.models
         [MaxLength(300)]
         public string tenantName { get; set; }
 
+        [MaxLength(300)]
+        public string ownerName { get; set; }
+
         [MaxLength(36)]
         public string propertyDirectoryId { get; set; }
 

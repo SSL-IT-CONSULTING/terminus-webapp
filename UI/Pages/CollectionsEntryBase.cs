@@ -707,6 +707,8 @@ namespace terminus_webapp.Pages
                         revenue.dueDate = bill.dateDue;
                         revenue.tenantId = bill.propertyDirectory.tenandId;
                         revenue.tenantName = $"{bill.propertyDirectory.tenant.lastName} {bill.propertyDirectory.tenant.firstName}";
+                        revenue.ownerName = bill.propertyDirectory.property.ownerFullName;
+
                         revenue.propertyId = bill.propertyDirectory.propertyId;
                         revenue.propertyDescription = bill.propertyDirectory.property.description;
                         revenue.propertyDirectoryId = bill.propertyDirectory.id.ToString();
@@ -885,8 +887,9 @@ namespace terminus_webapp.Pages
                         bankName = data.cashOrCheck.Equals("1")?data.checkDetails.bankName:string.Empty,
                         checkNo = data.cashOrCheck.Equals("1") ? data.checkDetails.checkNo : string.Empty,
                         checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0m,
-                        checkDate = data.cashOrCheck.Equals("1") ? data.checkDetails.checkDate : DateTime.Today
-                    };
+                        checkDate = data.cashOrCheck.Equals("1") ? data.checkDetails.checkDate : DateTime.Today,
+                        ownerName = data.propertyDirectory.property.ownerFullName
+                };
                     BillingType = revenue.billingType;
 
                     revenue.revenueLineItems = data.revenueLineItems.Select(a =>
