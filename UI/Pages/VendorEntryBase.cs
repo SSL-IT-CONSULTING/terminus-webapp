@@ -167,8 +167,10 @@ namespace terminus_webapp.Pages
                     vendorName = vendors.vendorName,
                     rowOrder = _maxRow,
                     inputVatAccountId = new_accnt, //Guid.Parse(accnt),
-                    isVatRegistered = _vatregister
-
+                    isVatRegistered = _vatregister,
+                    description = vendors.description,
+                    address = vendors.address
+                   
                 };
 
 
@@ -199,7 +201,8 @@ namespace terminus_webapp.Pages
                 //data.rowOrder = vendors.rowOrder;
                 data.inputVatAccountId = new_accnt;
                 data.isVatRegistered = _vatregister;
-
+                data.address = vendors.address;
+                data.description = vendors.description;
 
                 appDBContext.Vendors.Update(data);
                 await appDBContext.SaveChangesAsync();
@@ -269,7 +272,8 @@ namespace terminus_webapp.Pages
                         companyId  = CompanyId,
                         //rowOrder = data.rowOrder,
                         //inputVatAccountid = data.inputVatAccountId.ToString(),
-                        
+                        description = data.description,
+                        address = data.address,
                         isVatRegistered = strIVR
 
                     };

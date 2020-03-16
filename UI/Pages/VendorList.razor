@@ -100,11 +100,13 @@ else
 
                 @*<th>Vendor ID</th>*@
                 <th>Vendor Name</th>
+                <th>Description</th>
+                <th>Address</th>
                 <th>Is VAT Registered?</th>
                 @*<th>Input VAT Account</th>*@
                 @*<th>Row Order</th>*@
                 @*<th>Property Type</th>
-                    <th>Area</th>*@
+        <th>Area</th>*@
 
 
             </tr>
@@ -112,24 +114,26 @@ else
         <tbody>
             @foreach (var v in vendors)
             {
-                <tr>
-                    @*<td>@v.vendorId.ToString()</td>*@
-                    <td>@v.vendorName.ToString()</td>
-                    <td>@v.isVatRegistered.ToString()</td>
-                    @*<td>
-                            @if (@v.inputVatAccount != null)
-                            {
-                                @v.inputVatAccount.accountDesc.ToString()
-                            }
+            <tr>
+                @*<td>@v.vendorId.ToString()</td>*@
+                <td>@v.vendorName</td>
+                <td>@v.description</td>
+                <td>@v.address</td>
+                <td>@v.isVatRegistered</td>
+                @*<td>
+            @if (@v.inputVatAccount != null)
+            {
+                @v.inputVatAccount.accountDesc.ToString()
+            }
 
-                        </td>*@
-                    @*<td>@v.rowOrder.ToString()</td>*@
-                    <td>
-                        <a href="@($"vendorentry/{v.vendorId}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-info-circle">EDIT</i>
-                        </a>
-                    </td>
-                </tr>
+        </td>*@
+                @*<td>@v.rowOrder.ToString()</td>*@
+                <td>
+                    <a href="@($"vendorentry/{v.vendorId}")" class="btn btn-primary table-btn">
+                        <i class="fas fa-info-circle">EDIT</i>
+                    </a>
+                </td>
+            </tr>
             }
 
 

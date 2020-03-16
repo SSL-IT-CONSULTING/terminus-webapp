@@ -27,20 +27,20 @@ else
     <ValidationSummary></ValidationSummary>
 
     @*<div class="form-group row">
-        <label for="vendorId" class="col-sm-2 col-form-label">Vendor ID:</label>
-        <div class="col-sm-2">
-            @if (!IsViewOnly)
-            {
-                <InputText @bind-Value="@vendors.vendorId" class="form-control">
-                </InputText>
-            }
-            else
-            {
-                <label>@vendors.vendorId</label>
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.vendorId)" />
-    </div>*@
+            <label for="vendorId" class="col-sm-2 col-form-label">Vendor ID:</label>
+            <div class="col-sm-2">
+                @if (!IsViewOnly)
+                {
+                    <InputText @bind-Value="@vendors.vendorId" class="form-control">
+                    </InputText>
+                }
+                else
+                {
+                    <label>@vendors.vendorId</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.vendorId)" />
+        </div>*@
 
 
     <div class="form-group row">
@@ -60,48 +60,38 @@ else
     </div>
 
 
+    <div class="form-group row">
+        <label for="descriprion" class="col-sm-2 col-form-label">Description: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@vendors.description" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@vendors.description</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.description)" />
+    </div>
 
+    <div class="form-group row">
+        <label for="address" class="col-sm-2 col-form-label">Address: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputTextArea @bind-Value="@vendors.address" class="form-control">
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@vendors.address</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.address)" />
+    </div>
 
-    @*<div class="form-group row">
-            <label for="rowOrder" class="col-sm-2 col-form-label">Row Order: </label>
-            <div class="col-sm-2">
-                @if (!IsViewOnly)
-                {
-                    <InputNumber @bind-Value="@vendors.rowOrder" class="form-control">
-                    </InputNumber>
-                }
-                else
-                {
-                    <label>@vendors.rowOrder</label>
-                }
-            </div>
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.rowOrder)" />
-        </div>*@
-
-    @*<div class="form-group row">
-            <label for="vataccount" class="col-sm-2 col-form-label">VAT Account: </label>
-            <div class="col-sm-5">
-                @if (!IsViewOnly)
-                {
-
-                    <InputSelect @bind-Value="@vendors.inputVatAccountid" class="form-control">
-                        <option value="">--- select item ---</option>
-
-                        @foreach (var gl in vendors.inputVatAccount)
-                                {
-                            <option value="@gl.accountId">@gl.accountDesc</option>
-                                }
-                        /**/
-
-                    </InputSelect>
-                }
-                else
-                {
-                    <label>@vendors.inputVatAccountid.ToString()</label>
-                }
-            </div>
-            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => vendors.inputVatAccountid)" />
-        </div>*@
 
     <div class="form-group row">
         <label for="isVatRegistered" class="col-sm-2 col-form-label">is VAT Registered: </label>

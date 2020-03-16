@@ -24,5 +24,11 @@ namespace terminus.shared.models
         public List<GLAccount> inputVatAccount { get; set; }
 
         public int rowOrder { get; set; }
+
+        [MaxLength(1000)]
+        public string address { get; set; }
+
+        [MaxLength(100)]
+        public string description { get; set; }
     }
 }

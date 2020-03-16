@@ -147,8 +147,15 @@ else
 
     @if (reportType == "RentalIncomeDetails")
     {
+        @if (CompanyId == "APMI")
+        {
+            <h1 class="page-title">Revenue Report</h1>
+        }
+        else
+        {
+            <h1 class="page-title">Rental Income Report</h1>
+        }
 
-        <h1 class="page-title">Rental Income Report</h1>
 
         <table class="table">
             <thead>
@@ -438,7 +445,7 @@ else
         }
 
 
-        
+
 
         <table class="table">
             <thead>

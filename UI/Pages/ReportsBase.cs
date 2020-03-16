@@ -97,7 +97,7 @@ namespace terminus_webapp.Pages
 
                 if (CompanyId == "APMI")
                 {
-                    reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("ASRCReportsDtls", param);
+                    reportParameterViewModel.ReferenceVM = dapperManager.GetAll<ReferenceViewModal>("APMIReportsDtls", param);
                 }
                 //dapperManager.GetAllAsync<ReferenceViewModal>("ASRCReportsDtls", param);
 

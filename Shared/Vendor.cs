@@ -29,6 +29,10 @@ namespace terminus.shared.models
 
         public int rowOrder { get; set; }
 
+        [MaxLength(1000)]
+        public string address { get; set; }
 
+        [MaxLength(100)]
+        public string description { get; set; }
     }
 }
