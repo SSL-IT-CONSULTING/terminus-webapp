@@ -4,36 +4,11 @@
 
 @inherits EmployeeListBase
 
-    <head>
-        <style>
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
 
-            li {
-                float: left;
-            }
-
-                li a {
-                    display: block;
-                    color: white;
-                    text-align: center;
-                    padding: 14px 16px;
-                    text-decoration: none;
-                }
-
-                    li a:hover {
-                        background-color: #111;
-                    }
-        </style>
-    </head>
+<div id="DivSetupList">
 
     <ul>
-        @if (CompanyId == "ASRC")
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ASRC", StringComparison.OrdinalIgnoreCase))
         {
             <li><a class="active" href="glaccountlist">General Ledger</a></li>
             <li><a href="vendorlist">Vendors</a></li>
@@ -41,7 +16,7 @@
             <li><a href="tenantlist">Tenants</a></li>
         }
 
-        @if (CompanyId == "ADBCA")
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
         {
             <li><a class="active" href="glaccountlist">General Ledger</a></li>
             <li><a href="vendorlist">Vendors</a></li>
@@ -49,83 +24,85 @@
             <li><a href="tenantlist">Tenants</a></li>
         }
 
-        @if (CompanyId == "APMI")
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
         {
-            <li><a class="active" href="employeelist">Employee</a></li>
-            <li><a class="active" href="glaccountlist">General Ledger</a></li>
+            @*<li><a class="active" href="employeelist">Employee</a></li>*@
+            <li><a href="glaccountlist">General Ledger</a></li>
             <li><a href="vendorlist">Vendors</a></li>
             <li><a href="customerlist">Customers </a></li>
+            <li><a href="employeelist" class="active">Employees </a></li>
 
         }
 
     </ul>
 
-<h1 class="page-title">Employee List</h1>
+    <h1 class="page-title">Employee List</h1>
 
-@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Loading...</em></p>
-}
-else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Error encountered while loading this page.</em></p>
-}
-else
-{
-    <button class="btn btn-dark table-btn quick-add-btn" @onclick="AddEmployee">Add new employee</button>
-    <hr />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Active</th>
-                <th>HireDate</th>
-                <th>Last Name</th>
-                <th>First Name</th>
-                <th>Middle Name</th>
-                <th>Position</th>
-                <th>Address</th>
-                <th>Contact No.</th>
-                <th>Email</th>
-                <th>SSS</th>
-                <th>PhilHealth</th>
-                <th>PagIbig</th>
-                <th>TIN</th>
-                <th>Birth Date</th>
-                <th>Gender</th>
-                <th>EndDate</th>
-                <th>Remarks</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in Employees)
-            {
+    @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p><em>Error encountered while loading this page.</em></p>
+    }
+    else
+    {
+        <button class="btn btn-dark table-btn quick-add-btn" @onclick="AddEmployee">Add new employee</button>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Active</th>
+                    <th>HireDate</th>
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Middle Name</th>
+                    <th>Position</th>
+                    <th>Address</th>
+                    <th>Contact No.</th>
+                    <th>Email</th>
+                    <th>SSS</th>
+                    <th>PhilHealth</th>
+                    <th>PagIbig</th>
+                    <th>TIN</th>
+                    <th>Birth Date</th>
+                    <th>Gender</th>
+                    <th>EndDate</th>
+                    <th>Remarks</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Employees)
+                {
 
-            <tr>
-                <td>@(employee.Active ? "A" : "I")</td>
-                <td>@employee.HireDate.ToString("yyyy-MM-dd")</td>
-                <td>@employee.LastName</td>
-                <td>@employee.FirstName</td>
-                <td>@employee.MiddleName</td>
-                <td>@employee.Position</td>
-                <td>@employee.Address</td>
-                <td>@employee.ContactNo</td>
-                <td>@employee.Email</td>
-                <td>@employee.SSS</td>
-                <td>@employee.PhilHealth</td>
-                <td>@employee.PagIbig</td>
-                <td>@employee.TIN</td>
-                <td>@(employee.BirthDate.HasValue ? employee.BirthDate.Value.ToString("yyyy-MM-dd") : "")</td>
-                <td>@employee.Gender</td>
-                <td>@(employee.EndDate.HasValue ? employee.EndDate.Value.ToString("yyyy-MM-dd") : "")</td>
-                <td>@employee.Remarks</td>
-                <td>
-                    <a href="@($"employeeentry/{employee.EmployeeId}")" class="btn btn-primary table-btn">
-                        <i class="fas fa-info-circle">Edit</i>
-                    </a>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-}
+                    <tr>
+                        <td>@(employee.Active ? "A" : "I")</td>
+                        <td>@employee.HireDate.ToString("yyyy-MM-dd")</td>
+                        <td>@employee.LastName</td>
+                        <td>@employee.FirstName</td>
+                        <td>@employee.MiddleName</td>
+                        <td>@employee.Position</td>
+                        <td>@employee.Address</td>
+                        <td>@employee.ContactNo</td>
+                        <td>@employee.Email</td>
+                        <td>@employee.SSS</td>
+                        <td>@employee.PhilHealth</td>
+                        <td>@employee.PagIbig</td>
+                        <td>@employee.TIN</td>
+                        <td>@(employee.BirthDate.HasValue ? employee.BirthDate.Value.ToString("yyyy-MM-dd") : "")</td>
+                        <td>@employee.Gender</td>
+                        <td>@(employee.EndDate.HasValue ? employee.EndDate.Value.ToString("yyyy-MM-dd") : "")</td>
+                        <td>@employee.Remarks</td>
+                        <td>
+                            <a href="@($"employeeentry/{employee.EmployeeId}")" class="btn btn-primary table-btn">
+                                <i class="fas fa-info-circle">Edit</i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

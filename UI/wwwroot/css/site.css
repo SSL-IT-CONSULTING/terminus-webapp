@@ -182,3 +182,39 @@ app {
         display: block;
     }
 }
+
+
+#DivSetupList
+{
+    overflow:auto;
+}
+
+#DivSetupList ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+    #DivSetupList ul > li {
+        float: left;
+    }
+
+        #DivSetupList ul > li > a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        #DivSetupList ul > li a:hover {
+            background-color: #111;
+        }
+
+
+.sidebar
+{
+    min-width:160px;
+}

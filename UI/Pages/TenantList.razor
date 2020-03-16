@@ -3,34 +3,6 @@
 @attribute [Authorize]
 @inherits TenantListBase
 
-<head>
-    <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        li {
-            float: left;
-        }
-
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-                li a:hover {
-                    background-color: #111;
-                }
-    </style>
-</head>
-
 
 @*<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container-fluid">
@@ -46,114 +18,115 @@
             </ul>
         </div>
     </nav>*@
+<div id="DivSetupList">
+    <ul>
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ASRC", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist" class="active">Tenants</a></li>
+        }
+
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist" class="active">Tenants</a></li>
+        }
+
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="customerlist">Customers </a></li>
+            <li><a href="employeelist">Employees </a></li>
+
+        }
+
+    </ul>
 
 
-<ul>
-    @if (CompanyId == "ASRC")
+    <h3>Tenant List</h3>
+
+    @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
     {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
+        <p><em>Loading...</em></p>
     }
-
-    @if (CompanyId == "ADBCA")
+    else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
     {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
+        <p><em>Error encountered while loading this page.</em></p>
     }
-
-    @if (CompanyId == "APMI")
+    else
     {
-        <li><a class="active" href="employeelist">Employee</a></li>
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="customerlist">Customers </a></li>
+        <hr />
+        <button type="submit" @onclick="@TenantAdd" class="btn btn-primary edit-btn"> Add Tenant </button>
+        <br />
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Property</th>
+                    <th>Property Type</th>
+                    <th>Size</th>
+                    <th>Tenant</th>
+                    @if (CompanyId.ToUpper() != "ADBCA")
+                    {
+                        <th>Lease Start</th>
+                        <th>Lease End</th>
+                    }
 
-    }
+                    <th>Monthly Rate</th>
+                    <th>Association Rate</th>
+                    <th>Penalty %</th>
+                    <th>WTax {Y/N}</th>
+                    <th></th>
+                    <th></th>
+                    @*<th>Total Balance</th>*@
 
-</ul>
 
-<h3>Tenant List</h3>
 
-@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Loading...</em></p>
-}
-else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Error encountered while loading this page.</em></p>
-}
-else
-{
-    <hr />
-    <button type="submit" @onclick="@TenantAdd" class="btn btn-primary edit-btn"> Add Tenant </button>
-    <br />
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Property</th>
-                <th>Property Type</th>
-                <th>Size</th>
-                <th>Tenant</th>
-                @if (CompanyId.ToUpper() != "ADBCA")
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in propertyDirectories)
                 {
-                    <th>Lease Start</th>
-                    <th>Lease End</th>
+                    <tr>
+                        <td>@pi.propertyDesc</td>
+                        <td>@pi.propertyEntity.propertyType.ToString().Replace("Resident", "Residential")</td>
+                        <td>@pi.propertyEntity.areaInSqm.ToString("#,##0.00;(#,##0.00);")</td>
+                        <td>@pi.tenantLastNName, @pi.tenantFirtsName </td>
+                        @if (CompanyId.ToUpper() != "ADBCA")
+                        {
+                            <td> @pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/1900", "-") </td>
+                            <td> @pi.dateTo.ToString("MM/dd/yyyy").Replace("12/31/2099", "-").Replace("01/01/1900", "-") </td>
+                        }
+
+                        <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
+                        <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
+                        <td>@pi.penaltyPct.ToString("##")</td>
+                        <td>@pi.withWT</td>
+                        @*<td>@pi.totalBalance.ToString("n2").Replace("01/01/0001", "")</td>*@
+                        <td>
+                            <a href="@($"tenantentry/{pi.id}/{pi.tenandId}")" class="btn btn-primary table-btn">
+                                <i class="fas fa-info-circle">EDIT</i>
+                            </a>
+                        </td>
+                        @*<td>
+                                <button type="button" class="btn btn-danger edit-btn" @onclick="@(() => DeleteArticle(pi.id.ToString()))">DELETE</button>
+                                <button type="button" class="btn btn-danger edit-btn"> Delete </button>
+
+                            </td>*@
+
+
+
+                    </tr>
                 }
-
-                <th>Monthly Rate</th>
-                <th>Association Rate</th>
-                <th>Penalty %</th>
-                <th>WTax {Y/N}</th>
-                <th></th>
-                <th></th>
-                @*<th>Total Balance</th>*@
+            </tbody>
+        </table>
 
 
 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var pi in propertyDirectories)
-            {
-            <tr>
-                <td>@pi.propertyDesc</td>
-                <td>@pi.propertyEntity.propertyType.ToString().Replace("Resident", "Residential")</td>
-                <td>@pi.propertyEntity.areaInSqm.ToString("#,##0.00;(#,##0.00);")</td>
-                <td>@pi.tenantLastNName, @pi.tenantFirtsName </td>
-                @if (CompanyId.ToUpper() != "ADBCA")
-                {
-                    <td> @pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/1900", "-") </td>
-                    <td> @pi.dateTo.ToString("MM/dd/yyyy").Replace("12/31/2099", "-").Replace("01/01/1900","-") </td>
-                }
-
-                <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
-                <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
-                <td>@pi.penaltyPct.ToString("##")</td>
-                <td>@pi.withWT</td>
-                @*<td>@pi.totalBalance.ToString("n2").Replace("01/01/0001", "")</td>*@
-                <td>
-                    <a href="@($"tenantentry/{pi.id}/{pi.tenandId}")" class="btn btn-primary table-btn">
-                        <i class="fas fa-info-circle">EDIT</i>
-                    </a>
-                </td>
-                @*<td>
-                    <button type="button" class="btn btn-danger edit-btn" @onclick="@(() => DeleteArticle(pi.id.ToString()))">DELETE</button>
-                    <button type="button" class="btn btn-danger edit-btn"> Delete </button>
-                                                                    
-                </td>*@
-
-
-                
-            </tr>
-            }
-        </tbody>
-    </table>
-
-
-
-}
+    }
+    </div>

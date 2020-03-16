@@ -3,34 +3,6 @@
 @attribute [Authorize]
 @inherits VendorListBase
 
-<head>
-    <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        li {
-            float: left;
-        }
-
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-                li a:hover {
-                    background-color: #111;
-                }
-    </style>
-</head>
-
 
 @*<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container-fluid">
@@ -48,98 +20,103 @@
     </nav>*@
 
 
-<ul>
-    @if (CompanyId == "ASRC")
+<div id="DivSetupList">
+
+    <ul>
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ASRC", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist" class="active">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist">Tenants</a></li>
+        }
+
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist" class="active">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist">Tenants</a></li>
+        }
+
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist" class="active">Vendors</a></li>
+            <li><a href="customerlist">Customers </a></li>
+            <li><a href="employeelist">Employees </a></li>
+
+        }
+
+    </ul>
+
+
+
+    <h3>Vendor List</h3>
+
+
+    @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
     {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
+        <p><em>Loading...</em></p>
     }
-
-    @if (CompanyId == "ADBCA")
+    else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
     {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
+        <p><em>Error encountered while loading this page.</em></p>
     }
-
-    @if (CompanyId == "APMI")
+    else
     {
-        <li><a class="active" href="employeelist">Employee</a></li>
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="customerlist">Customers </a></li>
+        <hr />
+        <button type="submit" @onclick="@VendorEntry" class="btn btn-primary edit-btn"> Add Vendor </button>
+        <br />
+
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+
+                    @*<th>Vendor ID</th>*@
+                    <th>Vendor Name</th>
+                    <th>Description</th>
+                    <th>Address</th>
+                    <th>Is VAT Registered?</th>
+                    @*<th>Input VAT Account</th>*@
+                    @*<th>Row Order</th>*@
+                    @*<th>Property Type</th>
+                        <th>Area</th>*@
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in vendors)
+                {
+                    <tr>
+                        @*<td>@v.vendorId.ToString()</td>*@
+                        <td>@v.vendorName</td>
+                        <td>@v.description</td>
+                        <td>@v.address</td>
+                        <td>@v.isVatRegistered</td>
+                        @*<td>
+                                @if (@v.inputVatAccount != null)
+                                {
+                                    @v.inputVatAccount.accountDesc.ToString()
+                                }
+
+                            </td>*@
+                        @*<td>@v.rowOrder.ToString()</td>*@
+                        <td>
+                            <a href="@($"vendorentry/{v.vendorId}")" class="btn btn-primary table-btn">
+                                <i class="fas fa-info-circle">EDIT</i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+
+
 
     }
-
-</ul>
-
-<h3>Vendor List</h3>
-
-
-@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Loading...</em></p>
-}
-else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Error encountered while loading this page.</em></p>
-}
-else
-{
-    <hr />
-    <button type="submit" @onclick="@VendorEntry" class="btn btn-primary edit-btn"> Add Vendor </button>
-    <br />
-
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-
-                @*<th>Vendor ID</th>*@
-                <th>Vendor Name</th>
-                <th>Description</th>
-                <th>Address</th>
-                <th>Is VAT Registered?</th>
-                @*<th>Input VAT Account</th>*@
-                @*<th>Row Order</th>*@
-                @*<th>Property Type</th>
-        <th>Area</th>*@
-
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var v in vendors)
-            {
-            <tr>
-                @*<td>@v.vendorId.ToString()</td>*@
-                <td>@v.vendorName</td>
-                <td>@v.description</td>
-                <td>@v.address</td>
-                <td>@v.isVatRegistered</td>
-                @*<td>
-            @if (@v.inputVatAccount != null)
-            {
-                @v.inputVatAccount.accountDesc.ToString()
-            }
-
-        </td>*@
-                @*<td>@v.rowOrder.ToString()</td>*@
-                <td>
-                    <a href="@($"vendorentry/{v.vendorId}")" class="btn btn-primary table-btn">
-                        <i class="fas fa-info-circle">EDIT</i>
-                    </a>
-                </td>
-            </tr>
-            }
-
-
-        </tbody>
-    </table>
-
-
-
-}
+    </div>

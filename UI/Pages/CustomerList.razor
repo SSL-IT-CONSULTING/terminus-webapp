@@ -2,125 +2,100 @@
 @attribute [Authorize]
 @inherits CustomerListBase
 
-<head>
-    <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
+<div id="DivSetupList">
+
+
+    <ul>
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ASRC", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist">Tenants</a></li>
         }
 
-        li {
-            float: left;
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist">Tenants</a></li>
         }
 
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="customerlist" class="active">Customers </a></li>
+            <li><a href="employeelist">Employees </a></li>
+        }
 
-                li a:hover {
-                    background-color: #111;
+    </ul>
+    <h3>Customer List</h3>
+
+    @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p><em>Loading...</em></p>
+    }
+    else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+    {
+        <p><em>Error encountered while loading this page.</em></p>
+    }
+    else
+    {
+        <hr />
+        <button type="submit" @onclick="@CustomerAdd" class="btn btn-primary edit-btn"> Add Customer </button>
+        <br />
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Last Name</td>
+                    <td>First Name</td>
+                    <td>Description</td>
+                    <td>VAT Registered</td>
+                    <td>Address</td>
+                    <td>Contact No. 1</td>
+                    <td>Contact No. 2</td>
+                    <td>Contact No. 3</td>
+                    <th></th>
+                    <th></th>
+                    @*<th>Total Balance</th>*@
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in customers)
+                {
+                    <tr>
+                        <td>@c.lastName</td>
+                        <td>@c.firstName</td>
+                        <td>@c.description</td>
+                        <td>@c.vatRegistered</td>
+                        <td>@c.address</td>
+                        <td>@c.contactNo1</td>
+                        <td>@c.contactNo2</td>
+                        <td>@c.contactNo3</td>
+
+                        <td>
+                            <a href="@($"customerentry/{c.id}")" class="btn btn-primary table-btn">
+                                <i class="fas fa-info-circle">EDIT</i>
+                            </a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger edit-btn" @onclick="@(() => DeleteArticle(c.id.ToString()))">DELETE</button>
+                        </td>
+
+
+
+                    </tr>
                 }
-    </style>
-</head>
+            </tbody>
+        </table>
 
-<ul>
-    @if (CompanyId == "ASRC")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
 
-    @if (CompanyId == "ADBCA")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
-
-    @if (CompanyId == "APMI")
-    {
-        <li><a class="active" href="employeelist">Employee</a></li>
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="customerlist">Customers </a></li>
 
     }
-
-</ul>
-<h3>Customer List</h3>
-
-@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Loading...</em></p>
-}
-else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Error encountered while loading this page.</em></p>
-}
-else
-{
-    <hr />
-    <button type="submit" @onclick="@CustomerAdd" class="btn btn-primary edit-btn"> Add Customer </button>
-    <br />
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-                <td>Last Name</td>
-                <td>First Name</td>
-                <td>Description</td>
-                <td>VAT Registered</td>
-                <td>Address</td>
-                <td>Contact No. 1</td>
-                <td>Contact No. 2</td>
-                <td>Contact No. 3</td>
-                <th></th>
-                <th></th>
-                @*<th>Total Balance</th>*@
-
-
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var c in customers)
-            {
-            <tr>
-                <td>@c.lastName</td>
-                <td>@c.firstName</td>
-                <td>@c.description</td>
-                <td>@c.vatRegistered</td>
-                <td>@c.address</td>
-                <td>@c.contactNo1</td>
-                <td>@c.contactNo2</td>
-                <td>@c.contactNo3</td>
-
-                <td>
-                    <a href="@($"customerentry/{c.id}")" class="btn btn-primary table-btn">
-                        <i class="fas fa-info-circle">EDIT</i>
-                    </a>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger edit-btn" @onclick="@(() => DeleteArticle(c.id.ToString()))">DELETE</button>
-                </td>
-
-
-
-            </tr>
-            }
-        </tbody>
-    </table>
-
-
-
-}
+    </div>

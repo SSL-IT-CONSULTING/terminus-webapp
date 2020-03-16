@@ -3,33 +3,6 @@
 @attribute [Authorize]
 @inherits GLAccountListBase
 
-    <head>
-        <style>
-            ul {
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                overflow: hidden;
-                background-color: #333;
-            }
-
-            li {
-                float: left;
-            }
-
-                li a {
-                    display: block;
-                    color: white;
-                    text-align: center;
-                    padding: 14px 16px;
-                    text-decoration: none;
-                }
-
-                    li a:hover {
-                        background-color: #111;
-                    }
-        </style>
-    </head>
 
 
 @*<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -47,92 +20,97 @@
     </div>
 </nav>*@
 
+    <div id="DivSetupList">
 
-<ul>
-    @if (CompanyId == "ASRC")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
-
-    @if (CompanyId == "ADBCA")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
-
-    @if (CompanyId == "APMI")
-    {
-        <li><a class="active" href="employeelist">Employee</a></li>
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="customerlist">Customers </a></li>
-
-    }
-
-</ul>
-
-<h3>GL Account List</h3>
-
-@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Loading...</em></p>
-}
-else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Error encountered while loading this page.</em></p>
-}
-else
-{
-    <hr />
-    <button type="submit" @onclick="@AddGLAccount" class="btn btn-primary edit-btn"> Add GL Account </button>
-    <br />
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-
-                <th>GL Code</th>
-                <th>GL Description</th>
-                @*<th>Balance</th>*@
-                <th>Revenue</th>
-                <th>Expense</th>
-                @*<th>Cash Account</th>*@
-                @*<th>Output Vat Account</th>*@
-                @*<th>Row Order</th>*@
-                <th></th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var glAccount in glAccount)
+        <ul>
+            @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ASRC", StringComparison.OrdinalIgnoreCase))
             {
-                <tr>
-                    <td>@glAccount.accountCode.ToString()</td>
-                    <td>@glAccount.accountDesc.ToString()</td>
-                    @*<td>@glAccount.balance.ToString()</td>*@
-                    <td>@glAccount.revenue.ToString()</td>
-                    <td>@glAccount.expense.ToString()</td>
-                    @*<td>@glAccount.cashAccount.ToString()</td>*@
-                    @*<td>@glAccount.outputVatAccount.ToString()</td>*@
-                    @*<td>@glAccount.rowOrder.ToString()</td>*@
-                    <td>
-                        <a href="@($"glAccountentry/{glAccount.accountId}")" class="btn btn-primary table-btn">
-                            <i class="fas fa-info-circle">EDIT</i>
-                        </a>
-                    </td>
-                </tr>
+                <li><a class="active" href="glaccountlist">General Ledger</a></li>
+                <li><a href="vendorlist">Vendors</a></li>
+                <li><a href="propertylist">Properties</a></li>
+                <li><a href="tenantlist">Tenants</a></li>
+            }
+
+            @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
+            {
+                <li><a class="active" href="glaccountlist">General Ledger</a></li>
+                <li><a href="vendorlist">Vendors</a></li>
+                <li><a href="propertylist">Properties</a></li>
+                <li><a href="tenantlist">Tenants</a></li>
+            }
+
+            @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
+            {
+                @*<li><a class="active" href="employeelist">Employee</a></li>*@
+                <li><a href="glaccountlist" class="active">General Ledger</a></li>
+                <li><a href="vendorlist">Vendors</a></li>
+                <li><a href="customerlist">Customers </a></li>
+                <li><a href="employeelist">Employees </a></li>
 
             }
 
-
-        </tbody>
-    </table>
+        </ul>
 
 
 
-}
+        <h3>GL Account List</h3>
+
+        @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p><em>Error encountered while loading this page.</em></p>
+        }
+        else
+        {
+            <hr />
+            <button type="submit" @onclick="@AddGLAccount" class="btn btn-primary edit-btn"> Add GL Account </button>
+            <br />
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th>GL Code</th>
+                        <th>GL Description</th>
+                        @*<th>Balance</th>*@
+                        <th>Revenue</th>
+                        <th>Expense</th>
+                        @*<th>Cash Account</th>*@
+                        @*<th>Output Vat Account</th>*@
+                        @*<th>Row Order</th>*@
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var glAccount in glAccount)
+                    {
+                        <tr>
+                            <td>@glAccount.accountCode.ToString()</td>
+                            <td>@glAccount.accountDesc.ToString()</td>
+                            @*<td>@glAccount.balance.ToString()</td>*@
+                            <td>@glAccount.revenue.ToString()</td>
+                            <td>@glAccount.expense.ToString()</td>
+                            @*<td>@glAccount.cashAccount.ToString()</td>*@
+                            @*<td>@glAccount.outputVatAccount.ToString()</td>*@
+                            @*<td>@glAccount.rowOrder.ToString()</td>*@
+                            <td>
+                                <a href="@($"glAccountentry/{glAccount.accountId}")" class="btn btn-primary table-btn">
+                                    <i class="fas fa-info-circle">EDIT</i>
+                                </a>
+                            </td>
+                        </tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+
+
+
+        }
+        </div>
