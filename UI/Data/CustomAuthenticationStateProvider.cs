@@ -45,12 +45,14 @@ namespace terminus_webapp.Data
             return await Task.FromResult(new AuthenticationState(user));
         }
 
-        public void MarkUserAsAuthenticated(string userName, string companyId)
+        public void MarkUserAsAuthenticated(string userName, string companyId, string companyName, string companyAddress)
         {
             var identity = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.Name, userName),
                 new Claim("CompanyId", companyId),
+                 new Claim("CompanyName", companyName),
+                  new Claim("CompanyAddress", companyAddress),
             }, "apiauth_type");
 
             var user = new ClaimsPrincipal(identity);

@@ -40,7 +40,7 @@
                    
                         <select id="propertyId" name="propertyId" @bind="PropertyId" class="form-control">
                             <option value=""></option>
-                            @foreach (var p in billingViewModel.properties)
+                            @foreach (var p in billingViewModel.properties.OrderBy(a=>a.description))
                             {
                                 <option value="@p.id">@p.description</option>
                             }

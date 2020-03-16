@@ -8,6 +8,7 @@ using terminus_webapp.Data;
 using terminus.shared.models;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace terminus_webapp.Pages.Account
 {
@@ -47,13 +48,13 @@ namespace terminus_webapp.Pages.Account
             //assume that user is valid
             //call an API
             errorMessage = "";
-            var user = await UserManager.FindByNameAsync(login.userName);
+            var user = await UserManager.Users.Include(a=>a.company).Where(a=>a.UserName.Equals(login.userName)).FirstOrDefaultAsync();
 
 
             if (user!=null && (PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, login.password) ==
                 PasswordVerificationResult.Success))
             {
-                ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(login.userName, user.companyId);
+                ((CustomAuthenticationStateProvider)AuthenticationStateProvider).MarkUserAsAuthenticated(login.userName, user.companyId, user.company.companyName, user.company.address);
 
                 await sessionStorage.SetItemAsync("UserName", login.userName);
                 await sessionStorage.SetItemAsync("CompanyId", user.companyId);

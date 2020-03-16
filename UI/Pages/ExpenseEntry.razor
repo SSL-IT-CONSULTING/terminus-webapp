@@ -54,7 +54,7 @@ else
             {
                 <InputSelect @bind-Value="@expense.glAccountId" class="form-control">
                     <option value=""></option>
-                    @foreach (var ga in expense.expenseAccounts.Where(a => a.expense))
+                    @foreach (var ga in expense.expenseAccounts.OrderBy(a=>a.accountCode).Where(a => a.expense))
                             {
                         <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                             }
@@ -79,7 +79,7 @@ else
             {
                 <select id="vendorId" name="vendorId" @bind="VendorId" class="form-control">
                     <option value=""></option>
-                    @foreach (var p in expense.vendors)
+                    @foreach (var p in expense.vendors.OrderBy(a=>a.vendorName))
                     {
                         <option value="@p.vendorId">@p.vendorName</option>
                     }
@@ -257,7 +257,7 @@ else
                 <InputSelect @bind-Value="@expense.cashAccountId" class="form-control">
                     <option value=""></option>
 
-                    @foreach (var ga in expense.expenseAccounts.Where(a => a.expense))
+                    @foreach (var ga in expense.expenseAccounts.OrderBy(a=>a.accountCode).Where(a => a.expense))
                             {
                         <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                             }
