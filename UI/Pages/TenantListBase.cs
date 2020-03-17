@@ -95,7 +95,7 @@ namespace terminus_webapp.Pages
                                              .Include(a => a.property)
                                              
                                              .Where(a => a.companyId.Equals(CompanyId) && a.deleted.Equals(false))
-                                             .OrderByDescending(a => a.createDate)
+                                             .OrderBy(a => a.property.description)
                                              .ToListAsync();
 
 

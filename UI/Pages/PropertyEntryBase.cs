@@ -263,7 +263,10 @@ namespace terminus_webapp.Pages
                     IsViewOnly = false;
                     IsEditOnly = true;
 
-                    var data = await appDBContext.Properties.Where(a => a.id.Equals(id) &&  a.companyId.Equals(CompanyId) && a.deleted.Equals(false)).FirstOrDefaultAsync();
+                    var data = await appDBContext.Properties
+                                                    .Where(a => a.id.Equals(id) &&  a.companyId.Equals(CompanyId) && a.deleted.Equals(false))
+                                                    .OrderBy(a => a.description)
+                                                    .FirstOrDefaultAsync();
 
                     properties = new PropertyViewModel()
                     {

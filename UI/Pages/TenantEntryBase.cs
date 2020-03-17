@@ -195,6 +195,18 @@ namespace terminus_webapp.Pages
             bool withWT_sw;
 
 
+            decimal new_monthly_rate = 0;
+            if (CompanyId == "ADBCA")
+            {
+                new_monthly_rate = 0;
+            }
+            else
+            {
+                new_monthly_rate = tenants.monthlyRate;
+            }
+
+
+
             if (tenants.withWT == "N")
             {
                 withWT_sw = false;
@@ -264,7 +276,7 @@ namespace terminus_webapp.Pages
                 }
 
                 pd.companyId = CompanyId;
-                pd.monthlyRate = tenants.monthlyRate;
+                pd.monthlyRate = new_monthly_rate;
                 pd.tenandId = tenantId.ToString();
 
                 pd.associationDues = _assorate;
@@ -368,8 +380,8 @@ namespace terminus_webapp.Pages
 
                 //pd.dateFrom = tenants.dateFrom;
                 //pd.dateTo = tenants.dateTo;
-                pd.monthlyRate = tenants.monthlyRate;
-                    
+                //pd.monthlyRate = tenants.monthlyRate;
+                pd.monthlyRate = new_monthly_rate;
                 pd.associationDues = _assorate;
                 pd.penaltyPct = tenants.penaltyPct;
                 pd.ratePerSQM = tenants.ratePerSQM;

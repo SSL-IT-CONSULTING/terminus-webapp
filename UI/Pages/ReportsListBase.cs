@@ -64,6 +64,8 @@ namespace terminus_webapp.Pages
 
         public List<rptGLDetailViewModel> rptGLDVM { get; set; }
 
+        public List<rptEmployee> rptEmployees { get; set; }
+
 
 
         [Parameter]
@@ -126,11 +128,14 @@ namespace terminus_webapp.Pages
             try
             {
 
+                if (reportType == "Employees")
+                {
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptEmployees), (typeof(DataTable)));
+                }
+
                 if (reportType == "GLDetails")
                 {
-
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptGLDVM), (typeof(DataTable)));
-
                 }
 
                 if (reportType == "PropertyInventory")
@@ -244,23 +249,25 @@ namespace terminus_webapp.Pages
                 //string path; 
                 DataTable table = new DataTable();
 
+                if (reportType == "Employees")
+                {
+                    rptEmployees = await
+                        dapperManager.GetAllAsync<rptEmployee>("terminusReports", param);
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptEmployees), (typeof(DataTable)));
+                }
 
                 if (reportType == "GLDetails")
                 {
                     rptGLDVM = await
-                        dapperManager.GetAllAsync<rptGLDetailViewModel>("ASRCReports", param);
-
+                        dapperManager.GetAllAsync<rptGLDetailViewModel>("terminusReports", param);
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptGLDVM), (typeof(DataTable)));
-
-
                 }
 
 
                 if (reportType == "PropertyInventory")
                 {
                     rptPropertypeInventoryMV = await
-                        dapperManager.GetAllAsync<rptPropertypeInventoryMV>("terminusReports", param);
-                    
+                        dapperManager.GetAllAsync<rptPropertypeInventoryMV>("terminusReports", param);    
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptPropertypeInventoryMV), (typeof(DataTable)));
                 }
 

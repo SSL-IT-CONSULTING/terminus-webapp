@@ -25,6 +25,63 @@ else
     <a href="@_path" class="btn btn-dark table-btn quick-add-btn">Download Excel</a>
     <br />
 
+    @if (reportType == "Employees")
+    {
+        <h1 class="page-title">Employees Reports</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    @*<th>Active</th>*@
+                    <th>Hire Date</th>
+                    <th>LastName</th>
+                    <th>FirstName</th>
+                    <th>MiddleName</th>
+                    <th>Position</th>
+                    <th>Address</th>
+                    <th>ContactNo</th>
+                    <th>Email</th>
+                    <th>SSS</th>
+                    <th>PhilHealth</th>
+                    <th>PagIbig</th>
+                    <th>BirthDate</th>
+                    <th>Gender</th>
+                    <th>EndDate</th>
+                    <th>Remarks</th>
+                    @*<th>Due Date</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var pi in rptEmployees)
+                {
+                <tr>
+                    @*<td>@pi.Active</td>*@
+                    <td>@pi.HireDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                    <td>@pi.LastName</td>
+                    <td>@pi.FirstName</td>
+                    <td>@pi.MiddleName</td>
+                    <td>@pi.Position</td>
+                    <td>@pi.Address</td>
+                    <td>@pi.ContactNo</td>
+                    <td>@pi.Email</td>
+
+                    <td>@pi.SSS</td>
+                    <td>@pi.PhilHealth</td>
+                    <td>@pi.PagIbig</td>
+                    <td>@pi.BirthDate</td>
+                    <td>@pi.Gender</td>
+                    <td>@pi.EndDate</td>
+                    <td>@pi.Remarks</td>
+  
+                    @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+
     @if (reportType == "GLDetails")
     {
         <h1 class="page-title">General Ledger Details</h1>

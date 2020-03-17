@@ -103,7 +103,7 @@ else
 
             <tr>
                 <td>@(employee.Active ? "A" : "I")</td>
-                <td>@employee.HireDate.ToString("yyyy-MM-dd")</td>
+                <td>@employee.HireDate.ToString("yyyy-MM-dd").Replace("1900-01-01","")</td>
                 <td>@employee.LastName</td>
                 <td>@employee.FirstName</td>
                 <td>@employee.MiddleName</td>
