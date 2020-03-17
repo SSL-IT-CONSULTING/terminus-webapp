@@ -3,34 +3,6 @@
 @attribute [Authorize]
 @inherits TenantListBase
 
-<head>
-    <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        li {
-            float: left;
-        }
-
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-                li a:hover {
-                    background-color: #111;
-                }
-    </style>
-</head>
-
 
 @*<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container-fluid">
@@ -46,37 +18,37 @@
             </ul>
         </div>
     </nav>*@
+<div id="DivSetupList">
+    <ul>
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ASRC", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist" class="active">Tenants</a></li>
+        }
+
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="propertylist">Properties</a></li>
+            <li><a href="tenantlist" class="active">Tenants</a></li>
+        }
+
+        @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
+        {
+            <li><a href="glaccountlist">General Ledger</a></li>
+            <li><a href="vendorlist">Vendors</a></li>
+            <li><a href="customerlist">Customers </a></li>
+            <li><a href="employeelist">Employees </a></li>
+
+        }
+
+    </ul>
 
 
-<ul>
-    @if (CompanyId == "ASRC")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
-
-    @if (CompanyId == "ADBCA")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
-
-    @if (CompanyId == "APMI")
-    {
-        <li><a class="active" href="employeelist">Employee</a></li>
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="customerlist">Customers </a></li>
-
-    }
-
-</ul>
-
-<h3>Tenant List</h3>
+    <h3>Tenant List</h3>
 
 @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
 {
@@ -103,10 +75,9 @@ else
                 {
                     <th>Lease Start</th>
                     <th>Lease End</th>
-                    <th>Monthly Rate</th>
                 }
 
-
+                <th>Monthly Rate</th>
                 <th>Association Rate</th>
                 <th>Penalty %</th>
                 <th>WTax {Y/N}</th>
@@ -130,9 +101,9 @@ else
                 {
                     <td> @pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/1900", "-") </td>
                     <td> @pi.dateTo.ToString("MM/dd/yyyy").Replace("12/31/2099", "-").Replace("01/01/1900","-") </td>
-                    <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
                 }
 
+                <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
                 <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
                 <td>@pi.penaltyPct.ToString("##")</td>
                 <td>@pi.withWT</td>
@@ -149,12 +120,13 @@ else
                 </td>*@
 
 
-                
-            </tr>
-            }
-        </tbody>
-    </table>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
 
 
 
-}
+    }
+    </div>

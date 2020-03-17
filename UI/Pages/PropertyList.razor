@@ -3,34 +3,6 @@
 @inherits PropertyListBase
 
 
-<head>
-    <style>
-        ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        li {
-            float: left;
-        }
-
-            li a {
-                display: block;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
-            }
-
-                li a:hover {
-                    background-color: #111;
-                }
-    </style>
-</head>
-
 
 @*<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
         <div class="container-fluid">
@@ -46,64 +18,63 @@
             </ul>
         </div>
     </nav>*@
+    <div id="DivSetupList">
+        <ul>
+            @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ASRC", StringComparison.OrdinalIgnoreCase))
+            {
+                <li><a href="glaccountlist">General Ledger</a></li>
+                <li><a href="vendorlist">Vendors</a></li>
+                <li><a href="propertylist" class="active">Properties</a></li>
+                <li><a href="tenantlist">Tenants</a></li>
+            }
 
+            @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
+            {
+                <li><a href="glaccountlist">General Ledger</a></li>
+                <li><a href="vendorlist">Vendors</a></li>
+                <li><a href="propertylist" class="active">Properties</a></li>
+                <li><a href="tenantlist">Tenants</a></li>
+            }
 
-<ul>
-    @if (CompanyId == "ASRC")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
+            @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
+            {
+                <li><a href="glaccountlist">General Ledger</a></li>
+                <li><a href="vendorlist">Vendors</a></li>
+                <li><a href="customerlist">Customers </a></li>
+                <li><a href="employeelist">Employees </a></li>
 
-    @if (CompanyId == "ADBCA")
-    {
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="propertylist">Properties</a></li>
-        <li><a href="tenantlist">Tenants</a></li>
-    }
+            }
 
-    @if (CompanyId == "APMI")
-    {
-        <li><a class="active" href="employeelist">Employee</a></li>
-        <li><a class="active" href="glaccountlist">General Ledger</a></li>
-        <li><a href="vendorlist">Vendors</a></li>
-        <li><a href="customerlist">Customers </a></li>
+        </ul>
+        <h3>Property List</h3>
 
-    }
+        @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p><em>Loading...</em></p>
+        }
+        else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
+        {
+            <p><em>Error encountered while loading this page.</em></p>
+        }
+        else
+        {
+            <hr />
+            <button type="submit" @onclick="@PropertyEntry" class="btn btn-primary edit-btn"> Add Property </button>
+            <br />
 
-</ul>
-<h3>Property List</h3>
-
-@if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Loading...</em></p>
-}
-else if (DataLoaded && !string.IsNullOrEmpty(ErrorMessage))
-{
-    <p><em>Error encountered while loading this page.</em></p>
-}
-else
-{
-    <hr />
-    <button type="submit" @onclick="@PropertyEntry" class="btn btn-primary edit-btn"> Add Property </button>
-    <br />
-
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
+            <br />
+            <table class="table">
+                <thead>
+                    <tr>
 
                 <th>Property Description</th>
-                <th>Property Address</th>
+                <th>Address</th>
                 <th>Property Type</th>
                 <th>Area In SQM</th>
                 @if (CompanyId == "ADBCA")
                 {
                     <th>Unit Owner</th>
-                    <th>Owner Address</th>
+                    <th>Address</th>
                     <th>Contact No.</th>
                     <th>Email Address</th>
                     <th>Remarks</th>
@@ -111,42 +82,43 @@ else
                 <th></th>
                 <th></th>
 
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in properties)
-            {
-            <tr>
-                <td>@p.description.ToString()</td>
-                <td>@p.address.ToString()</td>
-                <td>@p.propertyType.ToString()</td>
-                <td>@p.areaInSqm.ToString("#,##0.00;(#,##0.00);-")</td>
-                @if (CompanyId == "ADBCA")
-                {
-                    <td>@p.ownerFullName</td>
-                    <td>@p.ownerAddress</td>
-                    <td>@p.ownerContactNo</td>
-                    <td>@p.ownerEmailAdd</td>
-                    <td>@p.ownerRemarks</td>
-                }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in properties)
+                    {
+                        <tr>
+                            <td>@p.description.ToString()</td>
+                            <td>@p.address.ToString()</td>
+                            <td>@p.propertyType.ToString()</td>
+                            <td>@p.areaInSqm.ToString("#,##0.00;(#,##0.00);-")</td>
+                            @if (CompanyId == "ADBCA")
+                            {
+                                <td>@p.ownerFullName</td>
+                                <td>@p.ownerAddress</td>
+                                <td>@p.ownerContactNo</td>
+                                <td>@p.ownerEmailAdd</td>
+                                <td>@p.ownerRemarks</td>
+                            }
 
-                <td>
-                    <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
-                        <i class="fas fa-info-circle">EDIT</i>
-                    </a>
-                </td>
-                @*<td>
-                    <button type="button" class="btn btn-danger edit-btn" @onclick="@(() => DeleteArticle(p.id.ToString()))">DELETE</button>
-                    <button type="button" class="btn btn-danger edit-btn"> Delete </button>
-                </td>*@
-            </tr>
+                            <td>
+                                <a href="@($"propertyentry/{p.id}")" class="btn btn-primary table-btn">
+                                    <i class="fas fa-info-circle">EDIT</i>
+                                </a>
+                            </td>
+                            @*<td>
+                                <button type="button" class="btn btn-danger edit-btn" @onclick="@(() => DeleteArticle(p.id.ToString()))">DELETE</button>
+                                <button type="button" class="btn btn-danger edit-btn"> Delete </button>
+                            </td>*@
+                        </tr>
 
-            }
-
-
-        </tbody>
-    </table>
+                    }
 
 
+                </tbody>
+            </table>
 
-}
+
+
+        }
+        </div>
