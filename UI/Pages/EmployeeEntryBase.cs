@@ -133,7 +133,7 @@ namespace terminus_webapp.Pages
                 {
                     var data = await appDBContext.Employees
                                             .Where(a => a.EmployeeId.Equals(employeeId))
-                                            .OrderByDescending(a => a.LastName).ThenBy(a => a.FirstName)
+                                            .OrderBy(a => a.LastName).ThenBy(a => a.FirstName).ThenBy(a => a.MiddleName)
                                             .ToListAsync();
 
                     employee = data.Select(a => new EmployeeViewModel()

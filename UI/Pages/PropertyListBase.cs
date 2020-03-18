@@ -52,6 +52,7 @@ namespace terminus_webapp.Pages
             var pd = await appDBContext.PropertyDirectory
                                                 .Include(a => a.company)
                                                 .Where(r => r.id.Equals(id) && r.deleted.Equals(false)).FirstOrDefaultAsync();
+                                        
             //pd.deleted = true;
 
             var t = await appDBContext.Tenants
