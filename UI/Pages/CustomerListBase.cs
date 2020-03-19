@@ -61,7 +61,7 @@ namespace terminus_webapp.Pages
 
                 var data = await appDBContext.Customers
                                              .Where(a => a.companyId.Equals(CompanyId))
-                                             .OrderByDescending(a => a.description)
+                                             .OrderByDescending(a => a.lastName).ThenBy(a => a.firstName)
                                              .ToListAsync();
 
 

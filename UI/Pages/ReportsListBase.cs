@@ -251,8 +251,15 @@ namespace terminus_webapp.Pages
 
                 if (reportType == "Employees")
                 {
-                    rptEmployees = await
+                    var emp = await
                         dapperManager.GetAllAsync<rptEmployee>("terminusReports", param);
+
+
+                    
+                    rptEmployees = emp.OrderBy(a => a.LastName).ThenBy(a => a.FirstName).ThenBy(a => a.MiddleName).ToList();
+
+                    //rptEmployees.OrderBy(a => a.LastName).ThenBy(a => a.FirstName).ThenBy(a => a.MiddleName);
+
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptEmployees), (typeof(DataTable)));
                 }
 

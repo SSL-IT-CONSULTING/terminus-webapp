@@ -75,9 +75,10 @@ else
                 {
                     <th>Lease Start</th>
                     <th>Lease End</th>
+                    <th>Monthly Rate</th>
                 }
 
-                <th>Monthly Rate</th>
+
                 <th>Association Rate</th>
                 <th>Penalty %</th>
                 <th>WTax {Y/N}</th>
@@ -101,9 +102,10 @@ else
                 {
                     <td> @pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/1900", "-") </td>
                     <td> @pi.dateTo.ToString("MM/dd/yyyy").Replace("12/31/2099", "-").Replace("01/01/1900","-") </td>
+                    <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
                 }
 
-                <td>@pi.monthlyRate.ToString("n2").Replace("01/01/0001", "")</td>
+                
                 <td>@pi.associationDues.ToString("n2").Replace("01/01/0001", "")</td>
                 <td>@pi.penaltyPct.ToString("##")</td>
                 <td>@pi.withWT</td>
