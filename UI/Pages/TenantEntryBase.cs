@@ -390,55 +390,58 @@ namespace terminus_webapp.Pages
                 pd.ratePerSQMAssocDues = tenants.ratePerSQMAssocDues;
 
 
+                appDBContext.PropertyDirectory.Update(pd);
+                await appDBContext.SaveChangesAsync();
 
 
-                foreach (var file in selectedFiles)
+                if (selectedFiles != null)
                 {
-
-
-                    var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/TenantDocument");
-
-                    if (!Directory.Exists(tmpPath))
+                    foreach (var file in selectedFiles)
                     {
-                        Directory.CreateDirectory(tmpPath);
-                    }
-
-                    string fileId = Guid.NewGuid().ToString();
-
-                    var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
 
 
-                    var _filename = file.Name.Split(".");
+                        var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/TenantDocument");
 
-                    string outputfile = _filename[0].ToString();
-                    string extname = "." + _filename[1].ToString();
+                        if (!Directory.Exists(tmpPath))
+                        {
+                            Directory.CreateDirectory(tmpPath);
+                        }
 
-                    var filedestination = tmpPath + "\\" + prefix + extname;
+                        string fileId = Guid.NewGuid().ToString();
+
+                        var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
+
+
+                        var _filename = file.Name.Split(".");
+
+                        string outputfile = _filename[0].ToString();
+                        string extname = "." + _filename[1].ToString();
+
+                        var filedestination = tmpPath + "\\" + prefix + extname;
 
 
 
-                    var td = new TenantDocument();
+                        var td = new TenantDocument();
 
-                    td.createDate = datetoday;
-                    td.createdBy = UserName;
-                    td.propertyDirectoryId = Guid.Parse(id);
-                    td.id = Guid.Parse(fileId);
-                    td.fileName = prefix.ToString();
-                    td.filePath = filedestination.ToString();
-                    td.fileDesc = file.Name;
-                    td.extName = extname;
+                        td.createDate = datetoday;
+                        td.createdBy = UserName;
+                        td.propertyDirectoryId = Guid.Parse(id);
+                        td.id = Guid.Parse(fileId);
+                        td.fileName = prefix.ToString();
+                        td.filePath = filedestination.ToString();
+                        td.fileDesc = file.Name;
+                        td.extName = extname;
 
-                    appDBContext.TenantDocuments.Add(td);
-                    await appDBContext.SaveChangesAsync();
+                        appDBContext.TenantDocuments.Add(td);
+                        await appDBContext.SaveChangesAsync();
 
-                    using (FileStream DestinationStream = File.Create(filedestination))
-                    {
-                        await file.Data.CopyToAsync(DestinationStream);
+                        using (FileStream DestinationStream = File.Create(filedestination))
+                        {
+                            await file.Data.CopyToAsync(DestinationStream);
+                        }
                     }
                 }
 
-                appDBContext.PropertyDirectory.Update(pd);
-                await appDBContext.SaveChangesAsync();
             }
 
 

@@ -253,8 +253,6 @@ namespace terminus_webapp.Pages
                 {
                     var emp = await
                         dapperManager.GetAllAsync<rptEmployee>("terminusReports", param);
-
-
                     
                     rptEmployees = emp.OrderBy(a => a.LastName).ThenBy(a => a.FirstName).ThenBy(a => a.MiddleName).ToList();
 
@@ -267,14 +265,21 @@ namespace terminus_webapp.Pages
                 {
                     rptGLDVM = await
                         dapperManager.GetAllAsync<rptGLDetailViewModel>("terminusReports", param);
+
+                    
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptGLDVM), (typeof(DataTable)));
                 }
 
 
                 if (reportType == "PropertyInventory")
                 {
-                    rptPropertypeInventoryMV = await
-                        dapperManager.GetAllAsync<rptPropertypeInventoryMV>("terminusReports", param);    
+
+                    //rptPropertypeInventoryMV = await
+                    //    dapperManager.GetAllAsync<rptPropertypeInventoryMV>("terminusReports", param);
+
+                    var pti = await dapperManager.GetAllAsync<rptPropertypeInventoryMV>("terminusReports", param);
+                    rptPropertypeInventoryMV = pti.OrderBy(a => a.description).ToList();
+
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptPropertypeInventoryMV), (typeof(DataTable)));
                 }
 
