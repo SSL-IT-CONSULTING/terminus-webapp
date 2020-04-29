@@ -54,28 +54,28 @@ else
             <tbody>
                 @foreach (var pi in rptEmployees)
                 {
-                <tr>
-                    @*<td>@pi.Active</td>*@
-                    <td>@pi.HireDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-                    <td>@pi.LastName</td>
-                    <td>@pi.FirstName</td>
-                    <td>@pi.MiddleName</td>
-                    <td>@pi.Position</td>
-                    <td>@pi.Address</td>
-                    <td>@pi.ContactNo</td>
-                    <td>@pi.Email</td>
+                    <tr>
+                        @*<td>@pi.Active</td>*@
+                        <td>@pi.HireDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                        <td>@pi.LastName</td>
+                        <td>@pi.FirstName</td>
+                        <td>@pi.MiddleName</td>
+                        <td>@pi.Position</td>
+                        <td>@pi.Address</td>
+                        <td>@pi.ContactNo</td>
+                        <td>@pi.Email</td>
 
-                    <td>@pi.SSS</td>
-                    <td>@pi.PhilHealth</td>
-                    <td>@pi.PagIbig</td>
-                    <td>@pi.BirthDate</td>
-                    <td>@pi.Gender</td>
-                    <td>@pi.EndDate</td>
-                    <td>@pi.Remarks</td>
-  
-                    @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+                        <td>@pi.SSS</td>
+                        <td>@pi.PhilHealth</td>
+                        <td>@pi.PagIbig</td>
+                        <td>@pi.BirthDate</td>
+                        <td>@pi.Gender</td>
+                        <td>@pi.EndDate</td>
+                        <td>@pi.Remarks</td>
 
-                </tr>
+                        @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+
+                    </tr>
                 }
             </tbody>
         </table>
@@ -110,8 +110,8 @@ else
                         <td>@pi.documentId</td>
                         <td>@pi.postingDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
                         <td>@pi.transactionDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-                        <td>@pi.DRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
-                        <td>@pi.CRAmount.ToString("#,##0.00;(#,##0.00);''")</td>
+                        <td>@pi.DRAmount.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                        <td>@pi.CRAmount.ToString("#,##0.00;(#,##0.00);'-'")</td>
                         <td>@pi.description</td>
                         <td>@pi.reference</td>
                         <td>@pi.remarks</td>
@@ -402,37 +402,37 @@ else
                         {
 
                             <td><b>@pi.rentalRevenue</b></td>
-                            <td><b>@pi.January.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.March.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.April.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.May.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.June.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.July.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.August.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.September.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.October.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.November.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.December.ToString("#,##0.00;(#,##0.00);''")</b></td>
-                            <td><b>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                            <td><b>@pi.January.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.Febuary.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.March.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.April.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.May.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.June.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.July.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.August.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.September.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.October.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.November.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.December.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            <td><b>@pi.Total.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
 
                         }
                         else
                         {
                             <td>@pi.rentalRevenue</td>
-                            <td> @pi.January.ToString("#,##0.00;(#,##0.00);''") </td>
-                            <td>@pi.Febuary.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.March.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.April.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.May.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.June.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.July.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.August.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.September.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.October.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.November.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.December.ToString("#,##0.00;(#,##0.00);''")</td>
-                            <td>@pi.Total.ToString("#,##0.00;(#,##0.00);''")</td>
+                            <td> @pi.January.ToString("#,##0.00;(#,##0.00);'-'") </td>
+                            <td>@pi.Febuary.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.March.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.April.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.May.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.June.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.July.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.August.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.September.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.October.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.November.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.December.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@pi.Total.ToString("#,##0.00;(#,##0.00);'-'")</td>
 
                         }
                     </tr>
@@ -470,12 +470,12 @@ else
                             @if (cnt == rowcount - 1)
                             {
                                 <td><b>@pi.accountDesc</b></td>
-                                <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</b></td>
+                                <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
                             }
                             else
                             {
                                 <td>@pi.accountDesc</td>
-                                <td>@pi.amount.ToString("#,##0.00;(#,##0.00);''")</td>
+                                <td>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</td>
 
                             }
 
@@ -574,6 +574,51 @@ else
 
                         cnt = cnt + 1;
 
+                    }
+                }
+            </tbody>
+        </table>
+    }
+
+    @if (reportType == "ReceiptsOverExpenses")
+    {
+
+        <h1 class="page-title">Receipts Over Expenses</h1>
+
+        <table class="table">
+            @*<thead>
+                <tr>
+
+                    <th>Description</th>
+                    <th>Amount</th>
+
+                </tr>
+            </thead>*@
+            <tbody>
+                @{
+                    int cnt = 0;
+
+                    int rowcount = rptReceiptsOverExpensesVM.Count;
+
+
+                    @foreach (var pi in rptReceiptsOverExpensesVM)
+                    {
+                        <tr>
+                            @if (cnt == rowcount - 1)
+                            {
+                                <td><b>@pi.accountDesc</b></td>
+                                <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                            }
+                            else
+                            {
+                                <td>@pi.accountDesc</td>
+                                <td>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                            }
+
+
+                        </tr>
+                        cnt = cnt + 1;
                     }
                 }
             </tbody>

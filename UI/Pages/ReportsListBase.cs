@@ -66,7 +66,7 @@ namespace terminus_webapp.Pages
 
         public List<rptEmployee> rptEmployees { get; set; }
 
-
+        public List<rptReceiptsOverExpensesVM> rptReceiptsOverExpensesVM { get; set; }
 
         [Parameter]
         public string reportParams { get; set; }
@@ -194,6 +194,11 @@ namespace terminus_webapp.Pages
                 {
 
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptbalanceSheetVM), (typeof(DataTable)));
+                }
+
+                if (reportType == "ReceiptsOverExpenses")
+                {
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptReceiptsOverExpensesVM), (typeof(DataTable)));
                 }
 
 
@@ -358,7 +363,13 @@ namespace terminus_webapp.Pages
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptbalanceSheetVM), (typeof(DataTable)));
                 }
 
+                if (reportType == "ReceiptsOverExpenses")
+                {
+                    rptReceiptsOverExpensesVM = await
+                        dapperManager.GetAllAsync<rptReceiptsOverExpensesVM>("terminusReports", param);
 
+                    table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptReceiptsOverExpensesVM), (typeof(DataTable)));
+                }
                 //var newpath = @"d:\"+ reportType +"" + "_" + DateTime.Today.ToString("MM/dd/yyyy").Replace("/","").Replace(" ","").Replace(":","") + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + ".xlsx";
 
                 //string sFileName = @"" + reportType + ".xlsx";
