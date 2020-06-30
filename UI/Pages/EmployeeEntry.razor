@@ -199,6 +199,27 @@
                         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Remarks)" />
                     </div>
 
+                    <div class="form-group row">
+                        <label for="Remarks" class="col-sm-2 col-form-label">Attachments: </label>
+                        <div class="col-sm-8">
+                            <ul style="list-style:none">
+                                @foreach (var item in employee.attachments.Where(a=>!a.isDeleted).ToList())
+                                {
+                                <li>
+                                    <a href="@item.url" target="_blank">@item.displayName</a>
+                                    <button type="button" class="btn btn-primary table-btn" @onclick="@(() => HandleDeleteAttachment(item.id))">
+                                        <i class="fas fa-info-circle">Delete</i>
+                                    </button>
+                                </li>
+                                }
+                            </ul>
+                            <InputFile multiple OnChange="HandleFileSelected">
+                            </InputFile>
+                        </div>
+
+                        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => employee.Remarks)" />
+                    </div>
+
                     <button type="submit" class="btn btn-primary edit-btn">Save</button>
                     <button type="button" class="btn btn-primary edit-btn" @onclick="NavigateToList">Cancel</button>
                 </EditForm>

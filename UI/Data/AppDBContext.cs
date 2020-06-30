@@ -51,6 +51,8 @@ namespace terminus_webapp.Data
         public DbSet<Employee> Employees { get; set; }
 
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -135,6 +137,9 @@ namespace terminus_webapp.Data
 
             builder.Entity<Billing>()
             .HasIndex(a=>a.MonthYear);
+
+            builder.Entity<Attachment>()
+            .HasIndex("documentType","refKey").IsUnique(true);
 
             builder.Entity<DocumentIdTable>()
           .HasKey("IdKey", "CompanyId");

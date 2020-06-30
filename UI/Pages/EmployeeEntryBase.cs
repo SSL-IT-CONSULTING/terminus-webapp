@@ -1,8 +1,11 @@
 ﻿using Blazored.SessionStorage;
+using BlazorInputFile;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using terminus.shared.models;
@@ -23,6 +26,9 @@ namespace terminus_webapp.Pages
 
         [Inject]
         public ISessionStorageService _sessionStorageService { get; set; }
+
+        [Inject]
+        protected IWebHostEnvironment env { get; set; }
 
         public bool IsDataLoaded { get; set; }
 
@@ -64,10 +70,32 @@ namespace terminus_webapp.Pages
                         Gender = employee.Gender,
                         EndDate = employee.EndDate,
                         Remarks = employee.Remarks,
-                        CompanyId = CompanyId,
+                        attachmentRefKey = employee.attachmentRefKey,
+                    CompanyId = CompanyId,
                         createDate = DateTime.Now,
                         createdBy = UserName
                     };
+
+                    foreach (var item in employee.attachments)
+                    {
+                        Dapper.DynamicParameters dynamicParameters = new Dapper.DynamicParameters();
+                        if (!item.isDeleted)
+                        {
+
+                            dynamicParameters.Add("id", item.id);
+                            dynamicParameters.Add("displayName", item.displayName);
+                            dynamicParameters.Add("fileName", item.fileName);
+                            dynamicParameters.Add("documentType", item.documentType);
+                            dynamicParameters.Add("refKey", employee.attachmentRefKey);
+
+                            await dapperManager.ExecuteAsync("spInsertAttachment", dynamicParameters);
+                        }
+                        else
+                        {
+                            dynamicParameters.Add("id", item.id);
+                            await dapperManager.ExecuteAsync("spDeleteAttachment", dynamicParameters);
+                        }
+                    }
 
                     appDBContext.Employees.Add(entity);
                     await appDBContext.SaveChangesAsync();
@@ -98,7 +126,29 @@ namespace terminus_webapp.Pages
                    
                     entity.updateDate = DateTime.Now;
                     entity.updatedBy = UserName;
-                    
+                    entity.attachmentRefKey = employee.attachmentRefKey;
+
+                    foreach(var item in employee.attachments)
+                    {
+                        Dapper.DynamicParameters dynamicParameters = new Dapper.DynamicParameters();
+                        if (!item.isDeleted)
+                        {
+
+                            dynamicParameters.Add("id", item.id);
+                            dynamicParameters.Add("displayName", item.displayName);
+                            dynamicParameters.Add("fileName", item.fileName);
+                            dynamicParameters.Add("documentType", item.documentType);
+                            dynamicParameters.Add("refKey", employee.attachmentRefKey);
+
+                            await dapperManager.ExecuteAsync("spInsertAttachment", dynamicParameters);
+                        }
+                        else
+                        {
+                            dynamicParameters.Add("id", item.id);
+                            await dapperManager.ExecuteAsync("spDeleteAttachment", dynamicParameters);
+                        }
+                    }
+
                     appDBContext.Employees.Update(entity);
                     await appDBContext.SaveChangesAsync();
 
@@ -110,6 +160,14 @@ namespace terminus_webapp.Pages
                 ErrorMessage = ex.ToString();
                 
             }
+        }
+
+        protected void HandleDeleteAttachment(string id)
+        {
+            var item = employee.attachments.FirstOrDefault(a => a.id.Equals(id));
+            if (item != null)
+                item.isDeleted = true;
+            //StateHasChanged();
         }
 
         protected override async Task OnInitializedAsync()
@@ -126,8 +184,11 @@ namespace terminus_webapp.Pages
                 if(string.IsNullOrEmpty(employeeId))
                 {
                     employee = new EmployeeViewModel();
+                    employee.attachmentRefKey = Guid.NewGuid().ToString();
+
                     employee.Active = true;
                     employee.HireDate = DateTime.Today;
+                    employee.attachments = new List<AttachmentViewModel>();
                 }
                 else
                 {
@@ -155,11 +216,18 @@ namespace terminus_webapp.Pages
                         BirthDate = a.BirthDate,
                         Gender = a.Gender,
                         EndDate = a.EndDate,
-                        Remarks = a.Remarks
+                        Remarks = a.Remarks,
+                        attachmentRefKey = string.IsNullOrEmpty(a.attachmentRefKey)?Guid.NewGuid().ToString():a.attachmentRefKey
                     }).FirstOrDefault();
-                }
 
-               
+
+                    var attachments = await appDBContext.Attachments
+                                            .Where(a => a.refKey.Equals(employee.attachmentRefKey))
+                                            .ToListAsync();
+
+                    employee.attachments = attachments.Select(a => new AttachmentViewModel() { id=a.id, displayName=a.displayName, documentType=a.documentType, fileName=a.fileName, url = $"Uploaded/Attachments/{a.fileName}" }).ToList();
+
+                }
 
             }
             catch (Exception ex)
@@ -169,6 +237,32 @@ namespace terminus_webapp.Pages
             finally
             {
                 IsDataLoaded = true;
+            }
+        }
+
+        public async Task  HandleFileSelected(IFileListEntry[] files)
+        {
+            var uploadPath = Path.Combine(env.WebRootPath,"Uploaded", "Attachments");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            foreach(var file in files)
+            {
+                var ext = string.Empty;
+                if(file.Name.LastIndexOf(".")>0)
+                {
+                    ext = file.Name.Substring(file.Name.LastIndexOf("."));
+                }
+
+                var fileName = $"{Guid.NewGuid().ToString()}.{ext.TrimStart('.')}";
+
+                using (var fs = new FileStream(Path.Combine(uploadPath, fileName), FileMode.Create))
+                {
+                    await file.Data.CopyToAsync(fs);
+
+                    this.employee.attachments.Add(new AttachmentViewModel() { displayName = file.Name, fileName = fileName, id = Guid.NewGuid().ToString(), documentType = "EmployeeFile", url = $"Uploaded/Attachments/{fileName}" });
+
+                }
             }
         }
 

@@ -56,6 +56,9 @@ namespace terminus.shared.models
 
         [MaxLength(500)]
         public string Remarks { get; set; }
+
+        [MaxLength(36)]
+        public string attachmentRefKey { get; set; }
        
     }
 }

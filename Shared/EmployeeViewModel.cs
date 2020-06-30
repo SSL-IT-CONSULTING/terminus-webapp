@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 using System.Text;
 
 namespace terminus.shared.models
@@ -28,6 +29,9 @@ namespace terminus.shared.models
         public string Gender { get; set; }
         public DateTime? EndDate { get; set; }
         public string Remarks { get; set; }
+
+        public string attachmentRefKey { get; set; }
+        public List<AttachmentViewModel> attachments { get; set; }
 
     }
 }

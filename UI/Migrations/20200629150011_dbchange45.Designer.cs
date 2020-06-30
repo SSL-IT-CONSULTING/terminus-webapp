@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus_webapp.Data;
 
 namespace terminus_webapp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200629150011_dbchange45")]
+    partial class dbchange45
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -614,10 +616,6 @@ namespace terminus_webapp.Migrations
                     b.Property<string>("TIN")
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
-
-                    b.Property<string>("attachmentRefKey")
-                        .HasColumnType("nvarchar(36)")
-                        .HasMaxLength(36);
 
                     b.Property<DateTime>("createDate")
                         .HasColumnType("datetime2");

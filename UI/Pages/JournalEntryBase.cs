@@ -240,6 +240,10 @@ namespace terminus_webapp.Pages
                     type = a.type
                     }).ToList();
 
+                    TotalDR = journalEntry.journalEntryDtls.Where(a => a.type.Equals("D", StringComparison.OrdinalIgnoreCase)).Sum(a => a.amount);
+                    TotalCR = journalEntry.journalEntryDtls.Where(a => a.type.Equals("C", StringComparison.OrdinalIgnoreCase)).Sum(a => a.amount);
+                    TotalBalance = TotalDR - TotalCR;
+
                 }
 
             }
