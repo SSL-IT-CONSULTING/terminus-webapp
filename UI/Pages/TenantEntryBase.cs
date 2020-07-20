@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using terminus.dataaccess;
 using terminus.shared.models;
-using terminus_webapp.Data;
-
+using System.Collections.Generic;
 
 
 namespace terminus_webapp.Pages
@@ -221,6 +220,7 @@ namespace terminus_webapp.Pages
 
             var pdpropertyid = await appDBContext.PropertyDirectory.Where(a => a.propertyId.Equals(Guid.Parse(tenants.propertyid)) && a.companyId.Equals(CompanyId) && a.dateFrom <= tenants.dateTo && a.dateTo >= tenants.dateFrom && a.deleted.Equals(false)).ToListAsync();
 
+         
             if (pdpropertyid.Count > 0)
             {
                 errorMessagePropertyDateRange = "Invalid Date Range. The property is with other tenant.";

@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using terminus.dataaccess;
 using terminus.shared.models;
 using terminus_webapp.Areas.Identity;
 using terminus_webapp.Common;

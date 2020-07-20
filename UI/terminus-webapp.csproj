@@ -7,52 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200202144207_dbchange17.cs" />
-    <Compile Remove="Migrations\20200202144207_dbchange17.Designer.cs" />
-    <Compile Remove="Migrations\20200211042740_dbchange17.cs" />
-    <Compile Remove="Migrations\20200211042740_dbchange17.Designer.cs" />
-    <Compile Remove="Migrations\20200211114029_dbchange19.cs" />
-    <Compile Remove="Migrations\20200211114029_dbchange19.Designer.cs" />
-    <Compile Remove="Migrations\20200211160703_dbchange20.cs" />
-    <Compile Remove="Migrations\20200211160703_dbchange20.Designer.cs" />
-    <Compile Remove="Migrations\20200216115413_dbchange21.cs" />
-    <Compile Remove="Migrations\20200216115413_dbchange21.Designer.cs" />
-    <Compile Remove="Migrations\20200220035507_dbchange28.cs" />
-    <Compile Remove="Migrations\20200220035507_dbchange28.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="wwwroot\Uploaded\Attachments\5021c513-5ea1-4d44-9e6e-f01f3ce718b6.png" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Blazored.SessionStorage" Version="1.0.11" />
-    <PackageReference Include="Dapper" Version="2.0.30" />
+    <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="EPPlus" Version="4.5.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="0.7.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.0" />
-    
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0-preview1.19506.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
-
-
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
-
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-
-      <PrivateAssets>all</PrivateAssets>
-
-    </PackageReference>
 
 
     <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.0" />
@@ -61,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\terminus.shared.models.csproj" />
+    <ProjectReference Include="..\terminus.dataaccess\terminus.dataaccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>

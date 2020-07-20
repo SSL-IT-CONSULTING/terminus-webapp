@@ -28,3 +28,5 @@
 UI/.DS_Store
 .DS_Store
 /.vs/terminus-webapp/DesignTimeBuild
+/terminus.dataaccess/obj
+/terminus.dataaccess/bin/Debug/netcoreapp3.1

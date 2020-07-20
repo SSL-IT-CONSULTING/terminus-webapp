@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Components;
-using Blazored.SessionStorage;
+﻿using Blazored.SessionStorage;
+using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using terminus.dataaccess;
 using terminus.shared.models;
-using terminus_webapp.Data;
+
 namespace terminus_webapp.Pages
 {
     public class CustomerListBase : ComponentBase

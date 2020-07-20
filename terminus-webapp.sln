@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "terminus-webapp", "UI\termi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "terminus.shared.models", "Shared\terminus.shared.models.csproj", "{907263B1-769B-48FE-BB50-719748C7266B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "terminus.dataaccess", "terminus.dataaccess\terminus.dataaccess.csproj", "{99A9F6CF-A1EE-4308-94C8-D37CFF1C1721}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{907263B1-769B-48FE-BB50-719748C7266B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{907263B1-769B-48FE-BB50-719748C7266B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{907263B1-769B-48FE-BB50-719748C7266B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99A9F6CF-A1EE-4308-94C8-D37CFF1C1721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A9F6CF-A1EE-4308-94C8-D37CFF1C1721}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99A9F6CF-A1EE-4308-94C8-D37CFF1C1721}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99A9F6CF-A1EE-4308-94C8-D37CFF1C1721}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

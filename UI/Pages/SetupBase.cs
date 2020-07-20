@@ -1,12 +1,8 @@
 ﻿using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Components;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using terminus.shared.models;
-using terminus_webapp.Data;
+using terminus.dataaccess;
 
 
 namespace terminus_webapp.Pages
