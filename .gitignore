@@ -27,6 +27,10 @@
 .vs/terminus-webapp/xs/sqlite3/storage.ide-wal
 UI/.DS_Store
 .DS_Store
-/.vs/terminus-webapp/DesignTimeBuild
 /terminus.dataaccess/obj
-/terminus.dataaccess/bin/Debug/netcoreapp3.1
+/terminus.dataaccess/bin
+*.v2
+*.config
+.vs
+/terminus.webapi/obj
+/terminus.webapi/bin
