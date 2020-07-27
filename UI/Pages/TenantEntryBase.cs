@@ -149,8 +149,19 @@ namespace terminus_webapp.Pages
 
 
         //    //var ms = new MemoryStream();
-            
+
         //}
+
+        protected void HandleDeleteAttachment(string id)
+         {
+            var item = tenants.tenantDocument.FirstOrDefault(a => a.id.Equals(Guid.Parse(id)));
+            if (item != null)
+            {
+                item.deleted = true;
+ 
+            }
+            //StateHasChanged();
+        }
 
         protected async Task HandleValidSubmit()
         {
@@ -247,6 +258,56 @@ namespace terminus_webapp.Pages
                     contactNumber = tenants.contactNumber,
                     emailAddress = tenants.emailAddress,
 
+
+                    Owned_Mgd = tenants.Owned_Mgd,
+                    MgtFeePct = tenants.MgtFeePct,
+                    CCTNumber = tenants.CCTNumber,
+
+
+                    contactNo2 = tenants.contactNo2,
+                    contactNo3 = tenants.contactNo3,
+                    workAddress = tenants.workAddress,
+                    emergy_FullName = tenants.emergyFullName,
+                    emergyContactNo = tenants.emergyContactNo,
+                    emergyAdrress = tenants.emergyAdrress,
+                    emergyRelationshipOwner = tenants.emergyRelationshipOwner,
+                    otherRestenanted1 = tenants.otherRestenanted1,
+                    otherResResiding1 = tenants.otherResResiding1,
+                    otherResFullName1 = tenants.otherResFullName1,
+                    otherResRelationshipToOwner1 = tenants.otherResRelationshipToOwner1,
+                    otherRestenanted2 = tenants.otherRestenanted2,
+                    otherResResiding2 = tenants.otherResResiding2,
+                    otherResFullName2 = tenants.otherResFullName2,
+                    otherResRelationshipToOwner2 = tenants.otherResRelationshipToOwner2,
+                    otherRestenanted3 = tenants.otherRestenanted3,
+                    otherResResiding3 = tenants.otherResResiding3,
+                    otherResFullName3 = tenants.otherResFullName3,
+                    otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3,
+
+                    subTenantFullName1 = tenants.subTenantFullName1,
+                    subTenantID1 = tenants.subTenantID1,
+                    subTenantHomeAddress1 = tenants.subTenantHomeAddress1,
+                    subTenantWorkAddress1 = tenants.subTenantWorkAddress1,
+                    subTenantContactNo1 = tenants.subTenantContactNo1,
+                    subTenantEmailAdd1 = tenants.subTenantEmailAdd1,
+                    RelToPrimary1 = tenants.RelToPrimary1,
+
+                    subTenantFullName2 = tenants.subTenantFullName2,
+                    subTenantID2 = tenants.subTenantID2,
+                    subTenantHomeAddress2 = tenants.subTenantHomeAddress2,
+                    subTenantWorkAddress2 = tenants.subTenantWorkAddress2,
+                    subTenantContactNo2 = tenants.subTenantContactNo2,
+                    subTenantEmailAdd2 = tenants.subTenantEmailAdd2,
+                    RelToPrimary2 = tenants.RelToPrimary2,
+
+                    subTenantFullName3 = tenants.subTenantFullName1,
+                    subTenantID3 = tenants.subTenantID1,
+                    subTenantHomeAddress3 = tenants.subTenantHomeAddress3,
+                    subTenantWorkAddress3 = tenants.subTenantWorkAddress3,
+                    subTenantContactNo3 = tenants.subTenantContactNo3,
+                    subTenantEmailAdd3 = tenants.subTenantEmailAdd3,
+                    RelToPrimary3 = tenants.RelToPrimary3
+
                 };
 
                 appDBContext.Tenants.Add(t);
@@ -294,8 +355,9 @@ namespace terminus_webapp.Pages
                 foreach (var file in selectedFiles)
                 {
 
-
-                    var tmpPath = Path.Combine(_env.WebRootPath, "TenantDocument");
+                    
+                    var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded", "Attachments");
+                    //var uploadPath = Path.Combine(env.WebRootPath, "Uploaded", "Attachments");
 
                     if (!Directory.Exists(tmpPath))
                     {
@@ -359,6 +421,55 @@ namespace terminus_webapp.Pages
                 t.contactNumber = tenants.contactNumber;
                 t.emailAddress = tenants.emailAddress;
 
+                t.Owned_Mgd = tenants.Owned_Mgd;
+                t.MgtFeePct = tenants.MgtFeePct;
+                t.CCTNumber = tenants.CCTNumber;
+
+
+                t.contactNo2 = tenants.contactNo2;
+                t.contactNo3 = tenants.contactNo3;
+                t.workAddress = tenants.workAddress;
+                t.emergy_FullName = tenants.emergyFullName;
+                t.emergyContactNo = tenants.emergyContactNo;
+                t.emergyAdrress = tenants.emergyAdrress;
+                t.emergyRelationshipOwner = tenants.emergyRelationshipOwner;
+                t.otherRestenanted1 = tenants.otherRestenanted1;
+                t.otherResResiding1 = tenants.otherResResiding1;
+                t.otherResFullName1 = tenants.otherResFullName1;
+                t.otherResRelationshipToOwner1 = tenants.otherResRelationshipToOwner1;
+                t.otherRestenanted2 = tenants.otherRestenanted2;
+                t.otherResResiding2 = tenants.otherResResiding2;
+                t.otherResFullName2 = tenants.otherResFullName2;
+                t.otherResRelationshipToOwner2 = tenants.otherResRelationshipToOwner2;
+                t.otherRestenanted3 = tenants.otherRestenanted3;
+                t.otherResResiding3 = tenants.otherResResiding3;
+                t.otherResFullName3 = tenants.otherResFullName3;
+                t.otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3;
+
+                t.subTenantFullName1 = tenants.subTenantFullName1;
+                t.subTenantID1 = tenants.subTenantID1;
+                t.subTenantHomeAddress1 = tenants.subTenantHomeAddress1;
+                t.subTenantWorkAddress1 = tenants.subTenantWorkAddress1;
+                t.subTenantContactNo1 = tenants.subTenantContactNo1;
+                t.subTenantEmailAdd1 = tenants.subTenantEmailAdd1;
+                t.RelToPrimary1 = tenants.RelToPrimary1;
+
+                t.subTenantFullName2 = tenants.subTenantFullName2;
+                t.subTenantID2 = tenants.subTenantID2;
+                t.subTenantHomeAddress2 = tenants.subTenantHomeAddress2;
+                t.subTenantWorkAddress2 = tenants.subTenantWorkAddress2;
+                t.subTenantContactNo2 = tenants.subTenantContactNo2;
+                t.subTenantEmailAdd2 = tenants.subTenantEmailAdd2;
+                t.RelToPrimary2 = tenants.RelToPrimary2;
+
+                t.subTenantFullName3 = tenants.subTenantFullName1;
+                t.subTenantID3 = tenants.subTenantID1;
+                t.subTenantHomeAddress3 = tenants.subTenantHomeAddress3;
+                t.subTenantWorkAddress3 = tenants.subTenantWorkAddress3;
+                t.subTenantContactNo3 = tenants.subTenantContactNo3;
+                t.subTenantEmailAdd3 = tenants.subTenantEmailAdd3;
+                t.RelToPrimary3 = tenants.RelToPrimary3;
+
 
                 appDBContext.Tenants.Update(t);
                 await appDBContext.SaveChangesAsync();
@@ -400,8 +511,8 @@ namespace terminus_webapp.Pages
                     {
 
 
-                        var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/TenantDocument");
-
+                        //var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/TenantDocument");
+                        var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded", "Attachments");
                         if (!Directory.Exists(tmpPath))
                         {
                             Directory.CreateDirectory(tmpPath);
@@ -532,8 +643,57 @@ namespace terminus_webapp.Pages
                         ratePerSQM = data.ratePerSQM,
                         totalBalance = data.totalBalance,
                         withWT = data.withWT?"Y":"N",
-                        ratePerSQMAssocDues = data.ratePerSQMAssocDues
-                };
+                        ratePerSQMAssocDues = data.ratePerSQMAssocDues,
+
+                        Owned_Mgd = data.tenant.Owned_Mgd,
+                        MgtFeePct = data.tenant.MgtFeePct,
+                        CCTNumber = data.tenant.CCTNumber,
+
+
+                        contactNo2 = data.tenant.contactNo2,
+                        contactNo3 = data.tenant.contactNo3,
+                        workAddress = data.tenant.workAddress,
+                        emergyFullName = data.tenant.emergy_FullName,
+                        emergyContactNo = data.tenant.emergyContactNo,
+                        emergyAdrress = data.tenant.emergyAdrress,
+                        emergyRelationshipOwner = data.tenant.emergyRelationshipOwner,
+                        otherRestenanted1 = data.tenant.otherRestenanted1,
+                        otherResResiding1 = data.tenant.otherResResiding1,
+                        otherResFullName1 = data.tenant.otherResFullName1,
+                        otherResRelationshipToOwner1 = data.tenant.otherResRelationshipToOwner1,
+                        otherRestenanted2 = data.tenant.otherRestenanted2,
+                        otherResResiding2 = data.tenant.otherResResiding2,
+                        otherResFullName2 = data.tenant.otherResFullName2,
+                        otherResRelationshipToOwner2 = data.tenant.otherResRelationshipToOwner2,
+                        otherRestenanted3 = data.tenant.otherRestenanted3,
+                        otherResResiding3 = data.tenant.otherResResiding3,
+                        otherResFullName3 = data.tenant.otherResFullName3,
+                        otherResRelationshipToOwner3 = data.tenant.otherResRelationshipToOwner3,
+
+                        subTenantFullName1 = data.tenant.subTenantFullName1,
+                        subTenantID1 = data.tenant.subTenantID1,
+                        subTenantHomeAddress1 = data.tenant.subTenantHomeAddress1,
+                        subTenantWorkAddress1 = data.tenant.subTenantWorkAddress1,
+                        subTenantContactNo1 = data.tenant.subTenantContactNo1,
+                        subTenantEmailAdd1 = data.tenant.subTenantEmailAdd1,
+                        RelToPrimary1 = data.tenant.RelToPrimary1,
+
+                        subTenantFullName2 = data.tenant.subTenantFullName2,
+                        subTenantID2 = data.tenant.subTenantID2,
+                        subTenantHomeAddress2 = data.tenant.subTenantHomeAddress2,
+                        subTenantWorkAddress2 = data.tenant.subTenantWorkAddress2,
+                        subTenantContactNo2 = data.tenant.subTenantContactNo2,
+                        subTenantEmailAdd2 = data.tenant.subTenantEmailAdd2,
+                        RelToPrimary2 = data.tenant.RelToPrimary2,
+
+                        subTenantFullName3 = data.tenant.subTenantFullName1,
+                        subTenantID3 = data.tenant.subTenantID1,
+                        subTenantHomeAddress3 = data.tenant.subTenantHomeAddress3,
+                        subTenantWorkAddress3 = data.tenant.subTenantWorkAddress3,
+                        subTenantContactNo3 = data.tenant.subTenantContactNo3,
+                        subTenantEmailAdd3 = data.tenant.subTenantEmailAdd3,
+                        RelToPrimary3 = data.tenant.RelToPrimary3
+                    };
 
 
                     tenants.tenantDocument = await appDBContext.TenantDocuments

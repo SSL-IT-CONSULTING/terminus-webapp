@@ -86,14 +86,14 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Revenue" class="col-sm-2 col-form-label">Contact Number: </label>
+        <label for="Revenue" class="col-sm-2 col-form-label">Contact Number 1: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
             {
 
-                <InputTextArea rows="4" @bind-Value="@tenants.contactNumber" class="form-control">
+                <InputText @bind-Value="@tenants.contactNumber" class="form-control">
 
-                </InputTextArea>
+                </InputText>
             }
             else
             {
@@ -101,6 +101,44 @@ else
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.contactNumber)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="Revenue" class="col-sm-2 col-form-label">Contact Number 2: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.contactNo2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.contactNo2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.contactNo2)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="Revenue" class="col-sm-2 col-form-label">Contact Number 3: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.contactNo3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.contactNo3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.contactNo3)" />
     </div>
 
     <div class="form-group row">
@@ -120,8 +158,640 @@ else
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emailAddress)" />
     </div>
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Owned/Managed: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputSelect @bind-Value="@tenants.Owned_Mgd" class="form-control">
+
+                    <option value="O">Owned</option>
+                    <option value="M">Managed</option>
+
+                </InputSelect>
+            }
+            else
+            {
+                <label>@tenants.Owned_Mgd</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.Owned_Mgd)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Manage Fee Percent: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@tenants.MgtFeePct" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.MgtFeePct</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.MgtFeePct)" />
+    </div>
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">CCT Number: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@tenants.CCTNumber" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.CCTNumber</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.CCTNumber )" />
+    </div>
+    <hr />
+    <h4>Emergency Contact Details</h4>
+    <div class="form-group row">
+
+        <label for="Expense" class="col-sm-2 col-form-label">Full Name: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.emergyFullName" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.emergyFullName</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emergyFullName)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Contact No.: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.emergyContactNo" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.emergyContactNo</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emergyContactNo)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Address: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea rows="4" @bind-Value="@tenants.emergyAdrress" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.emergyAdrress</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emergyAdrress)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship To Owner: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.emergyRelationshipOwner" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.emergyRelationshipOwner</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emergyRelationshipOwner)" />
+    </div>
+    <hr />
+    <h4>Other Resident</h4>
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Resident Full Name 1 : </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.otherResFullName1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.otherResFullName1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.otherResFullName1)" />
+    </div>
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship to the Owner 1 : </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.otherResRelationshipToOwner1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.otherResRelationshipToOwner1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.otherResRelationshipToOwner1)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Resident Full Name 2 : </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.otherResFullName2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.otherResFullName2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.otherResFullName2)" />
+    </div>
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship to the Owner 2 : </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.otherResRelationshipToOwner2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.otherResRelationshipToOwner2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.otherResRelationshipToOwner2)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Resident Full Name 3 : </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.otherResFullName3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.otherResFullName3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.otherResFullName3)" />
+    </div>
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship to the Owner 3 : </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.otherResRelationshipToOwner3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.otherResRelationshipToOwner3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.otherResRelationshipToOwner3)" />
+    </div>
+
 
     <hr />
+
+    <h4>Sub-Tenants</h4>
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Full Name 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantFullName1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantFullName1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantFullName1)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">ID's 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantID1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantID1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantID1)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Home Address 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea row="4" @bind-Value="@tenants.subTenantHomeAddress1" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.subTenantHomeAddress1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantHomeAddress1)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Work Address 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea row="4" @bind-Value="@tenants.subTenantWorkAddress1" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.subTenantWorkAddress1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantWorkAddress1)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Contact No. 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantContactNo1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantContactNo1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantContactNo1)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Email Address 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantEmailAdd1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantEmailAdd1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantEmailAdd1)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship To Primary 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.RelToPrimary1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.RelToPrimary1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.RelToPrimary1)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Full Name 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantFullName2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantFullName2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantFullName2)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">ID's 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantID2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantID2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantID2)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Home Address 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea row="4" @bind-Value="@tenants.subTenantHomeAddress2" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.subTenantHomeAddress2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantHomeAddress2)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Work Address 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea row="4" @bind-Value="@tenants.subTenantWorkAddress2" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.subTenantWorkAddress2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantWorkAddress2)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Contact No. 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantContactNo2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantContactNo2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantContactNo2)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Email Address 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantEmailAdd2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantEmailAdd2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantEmailAdd2)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship To Primary 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.RelToPrimary2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.RelToPrimary2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.RelToPrimary2)" />
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Full Name 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantFullName3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantFullName3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantFullName3)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">ID's 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantID3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantID3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantID3)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Home Address 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea row="4" @bind-Value="@tenants.subTenantHomeAddress3" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.subTenantHomeAddress3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantHomeAddress3)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Work Address 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea row="4" @bind-Value="@tenants.subTenantWorkAddress3" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.subTenantWorkAddress3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantWorkAddress3)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Contact No. 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantContactNo3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantContactNo3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantContactNo3)" />
+    </div>
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Email Address 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantEmailAdd3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantEmailAdd3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantEmailAdd3)" />
+    </div>
+
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship To Primary 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.RelToPrimary3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.RelToPrimary3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.RelToPrimary3)" />
+    </div>
+
+    <hr />
+
 
     <div class="form-group row">
         <label for="properties" class="col-sm-2 col-form-label">Property: </label>
@@ -146,6 +816,8 @@ else
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.propertyid)" />
     </div>
+
+
 
     @if (CompanyId.ToUpper() != "ADBCA")
     {
@@ -299,45 +971,50 @@ else
     <hr />
     @if (IsEditOnly)
     {
-        <table>
-            <thead>
+<table>
+    <thead>
+        <tr>
+            <th>File Name</th>
+            @*<th>File Size</th>*@
+            <th></th>
+        </tr>
+    </thead>
+    
+    
+        <tbody>
+            @foreach (var td in tenants.tenantDocument.Where(a => !a.deleted).ToList())
+            {
                 <tr>
-                    <th>File Name</th>
-                    @*<th>File Size</th>*@
-                    <th></th>
+
+                    <td>@td.fileDesc </td>
+                    @*<td>@td.fi</td>*@
+
+
+                    <td>
+                        @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
+                        @{
+                            //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
+                            var _path = $"Uploaded/Attachments/{td.fileName}{td.extName}";
+                            //var _path = td.filePath;
+
+                            <a href="@_path"
+                               class="btn btn-primary table-btn">
+                                <i class="fas fa-info-circle"> DOWNLOAD </i>
+                            </a>
+                            <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(td.id.ToString()))">
+                                <i class="fas fa-info-circle">Delete</i>
+                            </button>
+                            @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
+
+                        }
+
+                    </td>
+
                 </tr>
-            </thead>
+            }
+        </tbody>
 
-            <tbody>
-                @foreach (var td in tenants.tenantDocument)
-                {
-                    <tr>
-
-                        <td>@td.fileDesc </td>
-                        @*<td>@td.fi</td>*@
-
-
-                        <td>
-                            @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
-                            @{
-                                //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
-                                var _path = $"/Uploaded/TenantDocument/{td.fileName}{td.extName}";
-
-                                <a href="@_path"
-                                   class="btn btn-primary table-btn">
-                                    <i class="fas fa-info-circle"> DOWNLOAD </i>
-                                </a>
-
-                                @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
-                            }
-
-                        </td>
-
-                    </tr>
-                }
-            </tbody>
-
-        </table>
+    </table>
     }
 
     <br />
