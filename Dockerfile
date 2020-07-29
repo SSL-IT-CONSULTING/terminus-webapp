@@ -3,9 +3,10 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /source
 
 # copy csproj and restore as distinct layers
-COPY *.sln .
+COPY terminus-webapp.sln .
 COPY UI/*.csproj ./UI/
 COPY Shared/terminus.shared.models.csproj ./Shared/
+COPY terminus.dataaccess/terminus.dataaccess.csproj ./terminus.dataaccess/
 
 RUN dotnet restore
 
