@@ -16,7 +16,6 @@
 /UI/Properties/PublishProfiles/FolderProfile.pubxml
 /Shared/libman.json
 /UI/libman.json
-/UI/wwwroot/Uploaded/20200203a7d7aaba-c165-4009-9696-6904cab21b71.xlsx
 *.xlsx
 .vs/terminus-webapp/xs/project-cache/terminus-webapp-Debug.json
 .vs/terminus-webapp/xs/project-cache/terminus.shared.models-Debug.json
@@ -25,6 +24,7 @@
 .vs/terminus-webapp/xs/UserPrefs.xml
 .vs/terminus-webapp/xs/sqlite3/storage.ide-shm
 .vs/terminus-webapp/xs/sqlite3/storage.ide-wal
+.vs/*.*
 UI/.DS_Store
 .DS_Store
 /terminus.dataaccess/obj
@@ -34,3 +34,5 @@ UI/.DS_Store
 .vs
 /terminus.webapi/obj
 /terminus.webapi/bin
+UI/wwwroot/Uploaded
+UI/wwwroot/Uploaded/Attachments/*.*

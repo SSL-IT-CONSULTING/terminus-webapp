@@ -536,7 +536,7 @@ else
 
 
     <InputFile multiple OnChange="HandleSelection" />
-    <br />
+    @*<br />
     <br />
     <table class="table">
         <thead>
@@ -572,11 +572,11 @@ else
 
 
 
-    </table>
+    </table>*@
     <hr />
     <h3>File Attachment</h3>
     <hr />
-    @if (IsEditOnly)
+    @if (properties!=null && properties.propertyDocument!=null)
     {
         <table>
             <thead>
@@ -588,7 +588,7 @@ else
             </thead>
 
             <tbody>
-                @foreach (var pd in properties.propertyDocument)
+                @foreach (var pd in properties.propertyDocument.Where(a=>!a.deleted))
                 {
                     <tr>
 
@@ -596,21 +596,23 @@ else
                         @*<td>@td.fi</td>*@
 
 
-                        <td>
+                    <td>
 
-                            @{
+                        @{
+                            var _path = $"Uploaded/Attachments/{pd.fileName}{pd.extName}";
+                            //var _path = $"/Uploaded/PropertDocument/{pd.fileName}{pd.extName}";
 
-                                var _path = $"/Uploaded/PropertDocument/{pd.fileName}{pd.extName}";
+                            <a href="@_path"
+                               class="btn btn-primary table-btn" target="_blank">
+                                <i class="fas fa-info-circle"> DOWNLOAD </i>
+                            </a>
+                            <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(pd.id.ToString()))">
+                                <i class="fas fa-info-circle">Delete</i>
+                            </button>
 
-                                <a href="@_path"
-                                   class="btn btn-primary table-btn">
-                                    <i class="fas fa-info-circle"> DOWNLOAD </i>
-                                </a>
+                        }
 
-
-                            }
-
-                        </td>
+                    </td>
 
                     </tr>
                 }

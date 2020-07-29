@@ -3,7 +3,9 @@ using BlazorInputFile;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,13 +67,54 @@ namespace terminus_webapp.Pages
         public int numLines;
         public IFileListEntry[] selectedFiles;
 
-        public void HandleSelection(IFileListEntry[] files)
+        public async Task HandleSelection(IFileListEntry[] files)
         {
-            selectedFiles = files;
+            if (this.properties.propertyDocument == null)
+                this.properties.propertyDocument = new List<PropertyDocument>();
+
+            var uploadPath = Path.Combine(_env.WebRootPath, "Uploaded", "Attachments");
+            if (!Directory.Exists(uploadPath))
+                Directory.CreateDirectory(uploadPath);
+
+            foreach (var file in files)
+            {
+                var ext = string.Empty;
+                if (file.Name.LastIndexOf(".") > 0)
+                {
+                    ext = file.Name.Substring(file.Name.LastIndexOf("."));
+                }
+
+                var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
+                var fileName = $"{prefix}.{ext.TrimStart('.')}";
+
+                using (var fs = new FileStream(Path.Combine(uploadPath, fileName), FileMode.Create))
+                {
+                    await file.Data.CopyToAsync(fs);
+                    var pd = new PropertyDocument();
+                  
+                    pd.createDate = DateTime.Now;
+                    pd.createdBy = UserName;
+                    pd.id = Guid.NewGuid();
+                    pd.fileName = prefix.ToString();
+                    pd.filePath = Path.Combine(uploadPath, $"{prefix}{ext}");
+                    pd.fileDesc = file.Name;
+                    pd.extName = ext;
+
+                    properties.propertyDocument.Add(pd);
+                }
+            }
         }
 
 
+        protected void HandleDeleteAttachment(string id)
+        {
+            var item = properties.propertyDocument.FirstOrDefault(a => a.id.Equals(Guid.Parse(id)));
+            if (item != null)
+            {
+                item.deleted = true;
 
+            }
+        }
 
         protected async Task HandleValidSubmit()
         {
@@ -118,7 +161,7 @@ namespace terminus_webapp.Pages
 
                 appDBContext.Properties.Add(pr);
 
-                await appDBContext.SaveChangesAsync();
+               // await appDBContext.SaveChangesAsync();
                 }
                 else
                 {
@@ -155,13 +198,30 @@ namespace terminus_webapp.Pages
 
                     appDBContext.Properties.Add(pr);
 
-                    await appDBContext.SaveChangesAsync();
+                   // await appDBContext.SaveChangesAsync();
                 }
 
 
+                if (properties.propertyDocument != null && properties.propertyDocument.Any())
+                {
+                    foreach (var td in properties.propertyDocument)
+                    {
+                        appDBContext.PropertyDocument.Add(new PropertyDocument()
+                        {
+                            id = td.id,
+                            propertyId = Guid.Parse(propertyid),
+                            createDate = td.createDate,
+                            createdBy = td.createdBy,
+                            fileName = td.fileName,
+                            fileDesc = td.fileDesc,
+                            extName = td.extName,
+                            filePath = td.filePath
+                        });
+                    }
+                }
 
 
-
+                await appDBContext.SaveChangesAsync();
 
 
             }
@@ -206,61 +266,96 @@ namespace terminus_webapp.Pages
                     data.otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3;
                 }
                 appDBContext.Properties.Update(data);
+
+
+                var propertyDocs = await appDBContext.PropertyDocument.Where(td => td.propertyId.Equals(Guid.Parse(data.id))).ToListAsync();
+
+
+                if (properties.propertyDocument != null && properties.propertyDocument.Any())
+                {
+                    foreach (var pd in properties.propertyDocument)
+                    {
+                        var propertyDoc = propertyDocs.Where(d => d.id.Equals(pd.id)).FirstOrDefault();
+                        if (propertyDoc == null)
+                        {
+
+                            appDBContext.PropertyDocument.Add(new PropertyDocument()
+                            {
+                                id = pd.id,
+                                propertyId = Guid.Parse(data.id),
+                                createDate = pd.createDate,
+                                createdBy = pd.createdBy,
+                                fileName = pd.fileName,
+                                fileDesc = pd.fileDesc,
+                                extName = pd.extName,
+                                filePath = pd.filePath
+                            });
+                        }
+                        else
+                        {
+                            propertyDoc.deleted = propertyDoc.deleted;
+                            appDBContext.PropertyDocument.Update(propertyDoc);
+                        }
+                    }
+                }
+
                 await appDBContext.SaveChangesAsync();
 
             }
 
 
 
-            if (selectedFiles != null)
-            { 
+            //if (selectedFiles != null)
+            //{ 
             
             
-                foreach (var file in selectedFiles)
-                {
+            //    foreach (var file in selectedFiles)
+            //    {
 
 
-                    var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/PropertyDocument");
+            //        var tmpPath = Path.Combine(_env.WebRootPath, "Uploaded/PropertyDocument");
 
-                    if (!Directory.Exists(tmpPath))
-                    {
-                        Directory.CreateDirectory(tmpPath);
-                    }
+            //        if (!Directory.Exists(tmpPath))
+            //        {
+            //            Directory.CreateDirectory(tmpPath);
+            //        }
 
-                    string fileId = Guid.NewGuid().ToString();
+            //        string fileId = Guid.NewGuid().ToString();
 
-                    var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
-
-
-                    var _filename = file.Name.Split(".");
-
-                    string outputfile = _filename[0].ToString();
-                    string extname = "." + _filename[1].ToString();
-
-                    var filedestination = tmpPath + "\\" + prefix + extname;
+            //        var prefix = $"{DateTime.Today.ToString("yyyyMMdd")}{Guid.NewGuid().ToString()}";
 
 
+            //        var _filename = file.Name.Split(".");
 
-                    var pd = new PropertyDocument();
+            //        string outputfile = _filename[0].ToString();
+            //        string extname = "." + _filename[1].ToString();
 
-                    pd.createDate = datetoday;
-                    pd.createdBy = UserName;
-                    pd.propertyId = Guid.Parse(id);
-                    pd.id = Guid.Parse(fileId);
-                    pd.fileName = prefix.ToString();
-                    pd.filePath = filedestination.ToString();
-                    pd.fileDesc = file.Name;
-                    pd.extName = extname;
+            //        var filedestination = tmpPath + "\\" + prefix + extname;
 
-                    appDBContext.PropertyDocument.Add(pd);
-                    await appDBContext.SaveChangesAsync();
 
-                    using (FileStream DestinationStream = File.Create(filedestination))
-                    {
-                        await file.Data.CopyToAsync(DestinationStream);
-                    }
-                }
-            }
+
+            //        var pd = new PropertyDocument();
+
+            //        pd.createDate = datetoday;
+            //        pd.createdBy = UserName;
+            //        pd.propertyId = Guid.Parse(id);
+            //        pd.id = Guid.Parse(fileId);
+            //        pd.fileName = prefix.ToString();
+            //        pd.filePath = filedestination.ToString();
+            //        pd.fileDesc = file.Name;
+            //        pd.extName = extname;
+
+            //        appDBContext.PropertyDocument.Add(pd);
+            //        await appDBContext.SaveChangesAsync();
+
+            //        using (FileStream DestinationStream = File.Create(filedestination))
+            //        {
+            //            await file.Data.CopyToAsync(DestinationStream);
+            //        }
+            //    }
+            //}
+
+
             StateHasChanged();
 
             NavigateToList();

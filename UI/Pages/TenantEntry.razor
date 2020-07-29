@@ -772,8 +772,9 @@ else
 
 
     <InputFile multiple OnChange="HandleSelection" />
+    @*<br />
     <br />
-    <br />
+
     <table class="table">
         <thead>
             <tr>
@@ -808,12 +809,12 @@ else
 
 
 
-    </table>
+    </table>*@
+
     <hr />
     <h3>File Attachment</h3>
     <hr />
-    @if (IsEditOnly)
-    {
+  
 <table>
     <thead>
         <tr>
@@ -825,8 +826,11 @@ else
     
     
         <tbody>
-            @foreach (var td in tenants.tenantDocument.Where(a => !a.deleted).ToList())
+
+            @if (tenants != null && tenants.tenantDocument != null)
             {
+                foreach (var td in tenants.tenantDocument.Where(a => !a.deleted).ToList())
+                {
                 <tr>
 
                     <td>@td.fileDesc </td>
@@ -841,7 +845,7 @@ else
                             //var _path = td.filePath;
 
                             <a href="@_path"
-                               class="btn btn-primary table-btn">
+                               class="btn btn-primary table-btn" target="_blank">
                                 <i class="fas fa-info-circle"> DOWNLOAD </i>
                             </a>
                             <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(td.id.ToString()))">
@@ -854,11 +858,12 @@ else
                     </td>
 
                 </tr>
-            }
+                }
+             }
         </tbody>
 
     </table>
-    }
+    
 
     <br />
 
