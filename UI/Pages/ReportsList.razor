@@ -133,78 +133,41 @@ else
                 <tr>
 
                     @*<th>Description</th>
-                    <th>Property Type</th>
-                    <th>Tenant Name</th>
-                    <th>Contact Number 1</th>
-                    <th>Contact Number 2</th>
-                    <th>Contact Number 3</th>
-                    <th>Email Address</th>
-                    <th>Date From</th>
-                    <th>Date To</th>*@
+        <th>Property Type</th>
+        <th>Tenant Name</th>
+        <th>Contact Number 1</th>
+        <th>Contact Number 2</th>
+        <th>Contact Number 3</th>
+        <th>Email Address</th>
+        <th>Date From</th>
+        <th>Date To</th>*@
                     @*<th>Due Date</th>*@
 
-                    <th>Description</th>
-                    <th>Property Type</th>
-                    <th>Tenant Name</th>
-                    <th>Contact Number 1</th>
-                    <th>Contact No 2</th>
-                    <th>Contact No 3</th>
-                    <th>Email Address</th>
+                    <th>Property</th>
+                    <th>CCTNumber</th>
+                    <th>Owned/ Managed</th>
+                    <th>Type</th>
+                    <th>areaInSqm</th>
+                    <th>Total Monthly Rate</th>
+                    <th>Monthly Rental</th>
+                    <th>Monthly Association</th>
+                    <th>Lease Start</th>
+                    <th>End</th>
+                    <th>Tenant FULL Name</th>
+                    <th>contactNumbers</th>
+                    <th>emailAddress</th>
+                    <th>Tenant Address</th>
                     <th>Work Address</th>
-                    <th>Area In SQM</th>
-                    <th>CCT Number</th>
-                    <th>Management Fee Pct</th>
-                    <th>Owned or Managed</th>
-                    <th>Owner Address</th>
-                    <th>Owner Contact No</th>
-                    <th>Owner Email Address</th>
-                    <th>Owner First Name</th>
-                    <th>Owner Middle Name</th>
-                    <th>Owner Remarks</th>
-                    <th>Owner Full Name</th>
-                    <th>Date From</th>
-                    <th>Date To</th>
-                    <th>Monthly Rate</th>
-                    <th>Due Date</th>
-                    <th>Penalty Percentage</th>
-                    <th>Rate Per SQM</th>
-                    <th>totalBalance</th>
-                    <th>With WT</th>
-                    <th>Rate Per SQM Assoc. Dues</th>
-                    <th>Emergency Contact Details Full Name</th>
-                    <th>Emergency Contact Details Adrress</th>
-                    <th>Emergency Contact Details Contact No</th>
-                    <th>Emergency Contact Details Relationship To Owner</th>
-                    <th>Other Resident Residing 1</th>
-                    <th>Other Resident Tenanted 1</th>
-                    <th>Other Resident Full Name 1</th>
-                    <th>Other Resident Relationship To Owner 1</th>
-                    <th>Other Resident Residing 2</th>
-                    <th>Other Resident Tenanted 2</th>
-                    <th>Other Resident Full Name 2</th>
-                    <th>Other Resident Relationship To Owner 2</th>
-                    <th>Other Resident Residing 3</th>
-                    <th>Other Resident Tenanted 3</th>
-                    <th>Other Resident Full Name 3</th>
-                    <th>Other Resident Relationship To Owner 3</th>
-                    <th>Sub Tenant Full Name 1</th>
-                    <th>Sub Tenant IDs 1</th>
-                    <th>Sub Tenant Contact No. 1</th>
-                    <th>Sub Tenant Home Address 1</th>
-                    <th>Sub Tenant Work Address 1</th>
-                    <th>Sub Tenant  Relationship To Primary 1</th>
-                    <th>Sub Tenant Full Name 2</th>
-                    <th>Sub Tenant IDs 2</th>
-                    <th>Sub Tenant Contact No. 2</th>
-                    <th>Sub Tenant Home Address 2</th>
-                    <th>Sub Tenant Work Address 2</th>
-                    <th>Sub Tenant  Relationship To Primary 2</th>
-                    <th>Sub Tenant Full Name 3</th>
-                    <th>Sub Tenant IDs 3</th>
-                    <th>Sub Tenant Contact No. 3</th>
-                    <th>Sub Tenant Home Address 3</th>
-                    <th>Sub Tenant Work Address 3</th>
-                    <th>Sub Tenant  Relationship To Primary 3</th>
+                    <th>Count</th>
+                    <th>Registered Sub-Tenants</th>
+                    @*<th>Registered SubTenants IDs</th>*@
+                    <th>Count</th>
+                    <th>Registered  Residents</th>
+                    <th>Emergency Contact Name</th>
+                    <th>Emergency Contacts</th>
+                    <th>Emergency Contact Address</th>
+                    <th>Emergency Contact Relationship</th>
+
 
                 </tr>
             </thead>
@@ -222,67 +185,30 @@ else
         <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
                     @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
                     <td>@pi.description</td>
-                    <td>@pi.propertyType</td>
-                    <td>@pi.TenantName</td>
-                    <td>@pi.contactNumber</td>
-                    <td>@pi.contactNo2</td>
-                    <td>@pi.contactNo3</td>
-                    <td>@pi.emailAddress</td>
-                    <td>@pi.workAddress</td>
-                    <td>@pi.areaInSqm</td>
                     <td>@pi.CCTNumber</td>
-                    <td>@pi.MgtFeePct</td>
                     <td>@pi.Owned_Mgd</td>
-                    <td>@pi.ownerAddress</td>
-                    <td>@pi.ownerContactNo</td>
-                    <td>@pi.ownerEmailAdd</td>
-                    <td>@pi.ownerFirstName</td>
-                    <td>@pi.ownerMiddleName</td>
-                    <td>@pi.ownerRemarks</td>
-                    <td>@pi.ownerFullName</td>
-                    <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-                    <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
-                    <td>@pi.monthlyRate</td>
-                    <td>@pi.dueDate</td>
-                    <td>@pi.penaltyPct</td>
-                    <td>@pi.ratePerSQM</td>
+                    <td>@pi.propertyType</td>
+                    <td>@pi.areaInSqm</td>
                     <td>@pi.totalBalance</td>
-                    <td>@pi.withWT</td>
-                    <td>@pi.ratePerSQMAssocDues</td>
+                    <td>@pi.monthlyRate</td>
+                    <td>@pi.associationDues</td>
+                    <td>@pi.dateFrom</td>
+                    <td>@pi.dateTo</td>
+                    <td>@pi.TenantName</td>
+                    <td>@pi.Contacts</td>
+                    <td>@pi.emailAddress</td>
+                    <td>@pi.address</td>
+                    <td>@pi.workAddress</td>
+                    <td>@pi.Resident_Count</td>
+                    <td>@pi.SubTenants</td>
+                    @*<td>@pi.subTenantIDs</td>*@
+                    <td>@pi.SubTenant_Count</td>
+                    <td>@pi.OtherResidents</td>
                     <td>@pi.emergy_FullName</td>
-                    <td>@pi.emergyAdrress</td>
                     <td>@pi.emergyContactNo</td>
+                    <td>@pi.emergyAdrress</td>
                     <td>@pi.emergyRelationshipOwner</td>
-                    <td>@pi.otherResResiding1</td>
-                    <td>@pi.otherRestenanted1</td>
-                    <td>@pi.otherResFullName1</td>
-                    <td>@pi.otherResRelationshipToOwner1</td>
-                    <td>@pi.otherRestenanted2</td>
-                    <td>@pi.otherResResiding2</td>
-                    <td>@pi.otherResFullName2</td>
-                    <td>@pi.otherResRelationshipToOwner2</td>
-                    <td>@pi.otherRestenanted3</td>
-                    <td>@pi.otherResResiding3</td>
-                    <td>@pi.otherResFullName3</td>
-                    <td>@pi.otherResRelationshipToOwner3</td>
-                    <td>@pi.subTenantFullName1</td>
-                    <td>@pi.subTenantID1</td>
-                    <td>@pi.subTenantContactNo1</td>
-                    <td>@pi.subTenantHomeAddress1</td>
-                    <td>@pi.subTenantWorkAddress1</td>
-                    <td>@pi.RelToPrimary1</td>
-                    <td>@pi.subTenantFullName2</td>
-                    <td>@pi.subTenantID2</td>
-                    <td>@pi.subTenantContactNo2</td>
-                    <td>@pi.subTenantHomeAddress2</td>
-                    <td>@pi.subTenantWorkAddress2</td>
-                    <td>@pi.RelToPrimary2</td>
-                    <td>@pi.subTenantFullName3</td>
-                    <td>@pi.subTenantID3</td>
-                    <td>@pi.subTenantContactNo3</td>
-                    <td>@pi.subTenantHomeAddress3</td>
-                    <td>@pi.subTenantWorkAddress3</td>
-                    <td>@pi.RelToPrimary3</td>
+
 
                 </tr>
                 }

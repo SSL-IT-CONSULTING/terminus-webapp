@@ -112,6 +112,8 @@ namespace terminus_webapp.Pages
                         ownerContactNo = properties.ownerContactNo,
                         ownerEmailAdd = properties.ownerEmailAdd,
                         ownerRemarks = properties.ownerRemarks
+
+
                     };
 
                 appDBContext.Properties.Add(pr);
@@ -131,7 +133,24 @@ namespace terminus_webapp.Pages
                         description = properties.description,
                         address = properties.address,
                         propertyType = properties.propertyType,
-                        areaInSqm = properties.areaInSqm
+                        areaInSqm = properties.areaInSqm,
+
+
+                        Owned_Mgd = properties.Owned_Mgd,
+                        MgtFeePct = properties.MgtFeePct,
+                        CCTNumber = properties.CCTNumber,
+                        emergyFullName = properties.emergyFullName,
+                        emergyContactNo = properties.emergyContactNo,
+                        emergyAdrress = properties.emergyAdrress,
+                        emergyRelationshipOwner = properties.emergyRelationshipOwner,
+                        otherRestenanted = properties.otherRestenanted,
+                        otherResResiding = properties.otherResResiding,
+                        otherResFullName1 = properties.otherResFullName1,
+                        otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1,
+                        otherResFullName2 = properties.otherResFullName2,
+                        otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2,
+                        otherResFullName3 = properties.otherResFullName3,
+                        otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3
                     };
 
                     appDBContext.Properties.Add(pr);
@@ -170,6 +189,21 @@ namespace terminus_webapp.Pages
                     data.ownerContactNo = properties.ownerContactNo;
                     data.ownerEmailAdd = properties.ownerEmailAdd;
                     data.ownerRemarks = properties.ownerRemarks;
+                    data.Owned_Mgd = properties.Owned_Mgd;
+                    data.MgtFeePct = properties.MgtFeePct;
+                    data.CCTNumber = properties.CCTNumber;
+                    data.emergyFullName = properties.emergyFullName;
+                    data.emergyContactNo = properties.emergyContactNo;
+                    data.emergyAdrress = properties.emergyAdrress;
+                    data.emergyRelationshipOwner = properties.emergyRelationshipOwner;
+                    data.otherRestenanted = properties.otherRestenanted;
+                    data.otherResResiding = properties.otherResResiding;
+                    data.otherResFullName1 = properties.otherResFullName1;
+                    data.otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1;
+                    data.otherResFullName2 = properties.otherResFullName2;
+                    data.otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2;
+                    data.otherResFullName3 = properties.otherResFullName3;
+                    data.otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3;
                 }
                 appDBContext.Properties.Update(data);
                 await appDBContext.SaveChangesAsync();
@@ -282,8 +316,25 @@ namespace terminus_webapp.Pages
                         ownerAddress = data.ownerAddress,
                         ownerContactNo = data.ownerContactNo,
                         ownerEmailAdd = data.ownerEmailAdd,
-                        ownerRemarks = data.ownerRemarks
-                };
+                        ownerRemarks = data.ownerRemarks,
+
+                        Owned_Mgd = data.Owned_Mgd,
+                        MgtFeePct = data.MgtFeePct,
+                        CCTNumber = data.CCTNumber,
+                        emergyFullName = data.emergyFullName,
+                        emergyContactNo = data.emergyContactNo,
+                        emergyAdrress = data.emergyAdrress,
+                        emergyRelationshipOwner = data.emergyRelationshipOwner,
+                        otherRestenanted = data.otherRestenanted,
+                        otherResResiding = data.otherResResiding,
+                        otherResFullName1 = data.otherResFullName1,
+                        otherResRelationshipToOwner1 = data.otherResRelationshipToOwner1,
+                        otherResFullName2 = data.otherResFullName2,
+                        otherResRelationshipToOwner2 = data.otherResRelationshipToOwner2,
+                        otherResFullName3 = data.otherResFullName3,
+                        otherResRelationshipToOwner3 = data.otherResRelationshipToOwner3
+
+                    };
 
                     properties.propertyDocument = await appDBContext.PropertyDocument
                                                                         .Where(r => r.propertyId.Equals(Guid.Parse(id)) && r.deleted.Equals(false))

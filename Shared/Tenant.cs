@@ -8,14 +8,6 @@ namespace terminus.shared.models
     public class Tenant:TPersonBase
     {
 
-        public string Owned_Mgd { get; set; }
-
-        [MaxLength(100)]
-        public string MgtFeePct { get; set; }
-
-
-        [MaxLength(100)]
-        public string CCTNumber { get; set; }
 
         [MaxLength(50)]
         public string contactNo2 { get; set; }
@@ -26,8 +18,11 @@ namespace terminus.shared.models
         [MaxLength(1000)]
         public string workAddress { get; set; }
 
+        [MaxLength(1000)]
+        public string homeAddress { get; set; }
+
         [MaxLength(100)]
-        public string emergy_FullName { get; set; }
+        public string emergyFullName { get; set; }
 
         [MaxLength(50)]
         public string emergyContactNo { get; set; }
@@ -38,37 +33,7 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string emergyRelationshipOwner { get; set; }
 
-        public bool otherRestenanted1 { get; set; }
-
-        public bool otherResResiding1 { get; set; }
-
-        [MaxLength(100)]
-        public string otherResFullName1 { get; set; }
-
-        [MaxLength(100)]
-        public string otherResRelationshipToOwner1 { get; set; }
-
-
-        public bool otherRestenanted2 { get; set; }
-
-        public bool otherResResiding2 { get; set; }
-
-        [MaxLength(100)]
-        public string otherResFullName2 { get; set; }
-
-        [MaxLength(100)]
-        public string otherResRelationshipToOwner2 { get; set; }
-
-
-        public bool otherRestenanted3 { get; set; }
-
-        public bool otherResResiding3 { get; set; }
-
-        [MaxLength(100)]
-        public string otherResFullName3 { get; set; }
-
-        [MaxLength(100)]
-        public string otherResRelationshipToOwner3 { get; set; }
+  
 
 
 

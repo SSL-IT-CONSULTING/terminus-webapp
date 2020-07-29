@@ -50,5 +50,56 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string ownerRemarks { get; set; }
+
+
+
+        [MaxLength(1)]
+        public string Owned_Mgd { get; set; }
+
+        [MaxLength(100)]
+        public string MgtFeePct { get; set; }
+
+
+        [MaxLength(100)]
+        public string CCTNumber { get; set; }
+
+
+        [MaxLength(100)]
+        public string emergyFullName { get; set; }
+
+        [MaxLength(50)]
+        public string emergyContactNo { get; set; }
+
+        [MaxLength(1000)]
+        public string emergyAdrress { get; set; }
+
+        [MaxLength(100)]
+        public string emergyRelationshipOwner { get; set; }
+
+
+        public string otherRestenanted { get; set; }
+
+        public string otherResResiding { get; set; }
+
+        [MaxLength(100)]
+        public string otherResFullName1 { get; set; }
+
+        [MaxLength(100)]
+        public string otherResRelationshipToOwner1 { get; set; }
+
+        [MaxLength(100)]
+        public string otherResFullName2 { get; set; }
+
+        [MaxLength(100)]
+        public string otherResRelationshipToOwner2 { get; set; }
+
+
+
+
+        [MaxLength(100)]
+        public string otherResFullName3 { get; set; }
+
+        [MaxLength(100)]
+        public string otherResRelationshipToOwner3 { get; set; }
     }
 }

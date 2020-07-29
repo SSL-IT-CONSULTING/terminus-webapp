@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace terminus.shared.models
 {
@@ -204,5 +205,28 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string RelToPrimary3 { get; set; }
+
+
+
+        [MaxLength(1000)]
+        public string SubTenants { get; set; }
+
+        [MaxLength(1000)]
+        public string OtherResidents { get; set; }
+
+        public int SubTenant_Count { get; set; }
+
+        public int Resident_Count { get; set; }
+
+        [MaxLength(200)]
+        public string Contacts { get; set; }
+
+
+        [MaxLength(1000)]
+        public string address { get; set; }
+
+
+        [MaxLength(100)]
+        public string subTenantIDs { get; set; }
     } 
 }

@@ -259,30 +259,30 @@ namespace terminus_webapp.Pages
                     emailAddress = tenants.emailAddress,
 
 
-                    Owned_Mgd = tenants.Owned_Mgd,
-                    MgtFeePct = tenants.MgtFeePct,
-                    CCTNumber = tenants.CCTNumber,
+                    //Owned_Mgd = tenants.Owned_Mgd,
+                    //MgtFeePct = tenants.MgtFeePct,
+                    //CCTNumber = tenants.CCTNumber,
 
 
                     contactNo2 = tenants.contactNo2,
                     contactNo3 = tenants.contactNo3,
                     workAddress = tenants.workAddress,
-                    emergy_FullName = tenants.emergyFullName,
+                    emergyFullName = tenants.emergyFullName,
                     emergyContactNo = tenants.emergyContactNo,
                     emergyAdrress = tenants.emergyAdrress,
                     emergyRelationshipOwner = tenants.emergyRelationshipOwner,
-                    otherRestenanted1 = tenants.otherRestenanted1,
-                    otherResResiding1 = tenants.otherResResiding1,
-                    otherResFullName1 = tenants.otherResFullName1,
-                    otherResRelationshipToOwner1 = tenants.otherResRelationshipToOwner1,
-                    otherRestenanted2 = tenants.otherRestenanted2,
-                    otherResResiding2 = tenants.otherResResiding2,
-                    otherResFullName2 = tenants.otherResFullName2,
-                    otherResRelationshipToOwner2 = tenants.otherResRelationshipToOwner2,
-                    otherRestenanted3 = tenants.otherRestenanted3,
-                    otherResResiding3 = tenants.otherResResiding3,
-                    otherResFullName3 = tenants.otherResFullName3,
-                    otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3,
+                    //otherRestenanted1 = tenants.otherRestenanted1,
+                    //otherResResiding1 = tenants.otherResResiding1,
+                    //otherResFullName1 = tenants.otherResFullName1,
+                    //otherResRelationshipToOwner1 = tenants.otherResRelationshipToOwner1,
+                    //otherRestenanted2 = tenants.otherRestenanted2,
+                    //otherResResiding2 = tenants.otherResResiding2,
+                    //otherResFullName2 = tenants.otherResFullName2,
+                    //otherResRelationshipToOwner2 = tenants.otherResRelationshipToOwner2,
+                    //otherRestenanted3 = tenants.otherRestenanted3,
+                    //otherResResiding3 = tenants.otherResResiding3,
+                    //otherResFullName3 = tenants.otherResFullName3,
+                    //otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3,
 
                     subTenantFullName1 = tenants.subTenantFullName1,
                     subTenantID1 = tenants.subTenantID1,
@@ -421,30 +421,30 @@ namespace terminus_webapp.Pages
                 t.contactNumber = tenants.contactNumber;
                 t.emailAddress = tenants.emailAddress;
 
-                t.Owned_Mgd = tenants.Owned_Mgd;
-                t.MgtFeePct = tenants.MgtFeePct;
-                t.CCTNumber = tenants.CCTNumber;
+                //t.Owned_Mgd = tenants.Owned_Mgd;
+                //t.MgtFeePct = tenants.MgtFeePct;
+                //t.CCTNumber = tenants.CCTNumber;
 
 
                 t.contactNo2 = tenants.contactNo2;
                 t.contactNo3 = tenants.contactNo3;
                 t.workAddress = tenants.workAddress;
-                t.emergy_FullName = tenants.emergyFullName;
+                t.emergyFullName = tenants.emergyFullName;
                 t.emergyContactNo = tenants.emergyContactNo;
                 t.emergyAdrress = tenants.emergyAdrress;
                 t.emergyRelationshipOwner = tenants.emergyRelationshipOwner;
-                t.otherRestenanted1 = tenants.otherRestenanted1;
-                t.otherResResiding1 = tenants.otherResResiding1;
-                t.otherResFullName1 = tenants.otherResFullName1;
-                t.otherResRelationshipToOwner1 = tenants.otherResRelationshipToOwner1;
-                t.otherRestenanted2 = tenants.otherRestenanted2;
-                t.otherResResiding2 = tenants.otherResResiding2;
-                t.otherResFullName2 = tenants.otherResFullName2;
-                t.otherResRelationshipToOwner2 = tenants.otherResRelationshipToOwner2;
-                t.otherRestenanted3 = tenants.otherRestenanted3;
-                t.otherResResiding3 = tenants.otherResResiding3;
-                t.otherResFullName3 = tenants.otherResFullName3;
-                t.otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3;
+                //t.otherRestenanted1 = tenants.otherRestenanted1;
+                //t.otherResResiding1 = tenants.otherResResiding1;
+                //t.otherResFullName1 = tenants.otherResFullName1;
+                //t.otherResRelationshipToOwner1 = tenants.otherResRelationshipToOwner1;
+                //t.otherRestenanted2 = tenants.otherRestenanted2;
+                //t.otherResResiding2 = tenants.otherResResiding2;
+                //t.otherResFullName2 = tenants.otherResFullName2;
+                //t.otherResRelationshipToOwner2 = tenants.otherResRelationshipToOwner2;
+                //t.otherRestenanted3 = tenants.otherRestenanted3;
+                //t.otherResResiding3 = tenants.otherResResiding3;
+                //t.otherResFullName3 = tenants.otherResFullName3;
+                //t.otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3;
 
                 t.subTenantFullName1 = tenants.subTenantFullName1;
                 t.subTenantID1 = tenants.subTenantID1;
@@ -645,30 +645,30 @@ namespace terminus_webapp.Pages
                         withWT = data.withWT?"Y":"N",
                         ratePerSQMAssocDues = data.ratePerSQMAssocDues,
 
-                        Owned_Mgd = data.tenant.Owned_Mgd,
-                        MgtFeePct = data.tenant.MgtFeePct,
-                        CCTNumber = data.tenant.CCTNumber,
+                        //Owned_Mgd = data.tenant.Owned_Mgd,
+                        //MgtFeePct = data.tenant.MgtFeePct,
+                        //CCTNumber = data.tenant.CCTNumber,
 
 
                         contactNo2 = data.tenant.contactNo2,
                         contactNo3 = data.tenant.contactNo3,
                         workAddress = data.tenant.workAddress,
-                        emergyFullName = data.tenant.emergy_FullName,
+                        emergyFullName = data.tenant.emergyFullName,
                         emergyContactNo = data.tenant.emergyContactNo,
                         emergyAdrress = data.tenant.emergyAdrress,
                         emergyRelationshipOwner = data.tenant.emergyRelationshipOwner,
-                        otherRestenanted1 = data.tenant.otherRestenanted1,
-                        otherResResiding1 = data.tenant.otherResResiding1,
-                        otherResFullName1 = data.tenant.otherResFullName1,
-                        otherResRelationshipToOwner1 = data.tenant.otherResRelationshipToOwner1,
-                        otherRestenanted2 = data.tenant.otherRestenanted2,
-                        otherResResiding2 = data.tenant.otherResResiding2,
-                        otherResFullName2 = data.tenant.otherResFullName2,
-                        otherResRelationshipToOwner2 = data.tenant.otherResRelationshipToOwner2,
-                        otherRestenanted3 = data.tenant.otherRestenanted3,
-                        otherResResiding3 = data.tenant.otherResResiding3,
-                        otherResFullName3 = data.tenant.otherResFullName3,
-                        otherResRelationshipToOwner3 = data.tenant.otherResRelationshipToOwner3,
+                        //otherRestenanted1 = data.tenant.otherRestenanted1,
+                        //otherResResiding1 = data.tenant.otherResResiding1,
+                        //otherResFullName1 = data.tenant.otherResFullName1,
+                        //otherResRelationshipToOwner1 = data.tenant.otherResRelationshipToOwner1,
+                        //otherRestenanted2 = data.tenant.otherRestenanted2,
+                        //otherResResiding2 = data.tenant.otherResResiding2,
+                        //otherResFullName2 = data.tenant.otherResFullName2,
+                        //otherResRelationshipToOwner2 = data.tenant.otherResRelationshipToOwner2,
+                        //otherRestenanted3 = data.tenant.otherRestenanted3,
+                        //otherResResiding3 = data.tenant.otherResResiding3,
+                        //otherResFullName3 = data.tenant.otherResFullName3,
+                        //otherResRelationshipToOwner3 = data.tenant.otherResRelationshipToOwner3,
 
                         subTenantFullName1 = data.tenant.subTenantFullName1,
                         subTenantID1 = data.tenant.subTenantID1,
