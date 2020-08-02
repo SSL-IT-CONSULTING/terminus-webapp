@@ -62,6 +62,7 @@ namespace terminus.shared.models
         public decimal monthlyRate { get; set; }
         public decimal associationDues { get; set; }
 
+        public decimal monthlyRental { get; set; }
         public decimal penaltyPct { get; set; }
 
         public decimal ratePerSQM { get; set; }

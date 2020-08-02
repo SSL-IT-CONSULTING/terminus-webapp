@@ -84,9 +84,14 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string emergyRelationshipOwner { get; set; }
 
+        [Required]
+        [MaxLength(100)] 
+        public string residingType { get; set; }
 
+        [MaxLength(1)]
         public string otherRestenanted { get; set; }
 
+        [MaxLength(1)]
         public string otherResResiding { get; set; }
 
         [MaxLength(100)]

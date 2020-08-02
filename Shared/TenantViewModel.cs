@@ -29,6 +29,9 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string middleName { get; set; }
 
+
+
+
         [Required]
         [MaxLength(20)]
         public string contactNumber { get; set; }
@@ -70,6 +73,8 @@ namespace terminus.shared.models
         public List<TenantDocument> tenantDocument { get; set; }
 
 
+        [MaxLength(100)]
+        public string TenantIDs { get; set; }
 
         [MaxLength(1)]
         public string Owned_Mgd { get; set; }

@@ -85,6 +85,24 @@ else
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.middleName)" />
     </div>
 
+
+    <div class="form-group row">
+        <label for="balance" class="col-sm-2 col-form-label">Tenant ID: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@tenants.TenantIDs" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.TenantIDs</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.TenantIDs)" />
+    </div>
+
     <div class="form-group row">
         <label for="Revenue" class="col-sm-2 col-form-label">Contact Number 1: </label>
         <div class="col-sm-2">
@@ -217,7 +235,7 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">Relationship To Owner: </label>
+        <label for="Expense" class="col-sm-2 col-form-label">Relationship To Primary: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
@@ -697,7 +715,7 @@ else
         </div>
 
         <div class="form-group row">
-            <label for="monthlyRate" class="col-sm-2 col-form-label">Monthly Rate: </label>
+            <label for="monthlyRate" class="col-sm-2 col-form-label">Monthly Rental: </label>
             <div class="col-sm-2">
                 @if (!IsViewOnly)
                 {
@@ -833,29 +851,34 @@ else
                 {
                 <tr>
 
-                    <td>@td.fileDesc </td>
+                    @*<td>@td.fileDesc </td>*@
                     @*<td>@td.fi</td>*@
 
 
-                    <td>
-                        @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
-                        @{
-                            //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
-                            var _path = $"Uploaded/Attachments/{td.fileName}{td.extName}";
-                            //var _path = td.filePath;
+                <td>
+                    @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
+                    @{
+                        //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
+                        var _path = $"Uploaded/Attachments/{td.fileName}{td.extName}";
+                        //var _path = td.filePath;
 
-                            <a href="@_path"
-                               class="btn btn-primary table-btn" target="_blank">
-                                <i class="fas fa-info-circle"> DOWNLOAD </i>
-                            </a>
-                            <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(td.id.ToString()))">
-                                <i class="fas fa-info-circle">Delete</i>
-                            </button>
-                            @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
+                        @*<a href="@_path"
+                           class="btn btn-primary table-btn" target="_blank">
+                            <i class="fas fa-info-circle"> DOWNLOAD </i>
+                        </a>*@
 
-                        }
+                        <a href="@_path" target="_blank">@td.fileDesc</a>
+                        @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
 
-                    </td>
+                    }
+
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(td.id.ToString()))">
+                        <i class="fas fa-info-circle">Delete</i>
+                    </button>
+
+                </td>
 
                 </tr>
                 }

@@ -289,6 +289,7 @@ namespace terminus_webapp.Pages
                     lastName = tenants.lastName,
                     firstName = tenants.firstName,
                     middleName = tenants.middleName,
+                    TenantIDs = tenants.TenantIDs,
                     contactNumber = tenants.contactNumber,
                     emailAddress = tenants.emailAddress,
 
@@ -420,6 +421,7 @@ namespace terminus_webapp.Pages
                 t.lastName = tenants.lastName;
                 t.firstName = tenants.firstName;
                 t.middleName = tenants.middleName;
+                t.TenantIDs = tenants.TenantIDs;
                 t.contactNumber = tenants.contactNumber;
                 t.emailAddress = tenants.emailAddress;
 
@@ -666,6 +668,7 @@ namespace terminus_webapp.Pages
                         lastName = data.tenant.lastName,
                         firstName = data.tenant.firstName,
                         middleName = data.tenant.middleName,
+                        TenantIDs = data.tenant.TenantIDs,
                         contactNumber = data.tenant.contactNumber,
                         emailAddress = data.tenant.emailAddress,
                         propertyid = data.propertyId,
@@ -721,8 +724,8 @@ namespace terminus_webapp.Pages
                         subTenantEmailAdd2 = data.tenant.subTenantEmailAdd2,
                         RelToPrimary2 = data.tenant.RelToPrimary2,
 
-                        subTenantFullName3 = data.tenant.subTenantFullName1,
-                        subTenantID3 = data.tenant.subTenantID1,
+                        subTenantFullName3 = data.tenant.subTenantFullName3,
+                        subTenantID3 = data.tenant.subTenantID3,
                         subTenantHomeAddress3 = data.tenant.subTenantHomeAddress3,
                         subTenantWorkAddress3 = data.tenant.subTenantWorkAddress3,
                         subTenantContactNo3 = data.tenant.subTenantContactNo3,

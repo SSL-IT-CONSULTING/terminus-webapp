@@ -8,6 +8,8 @@ namespace terminus.shared.models
     public class Tenant:TPersonBase
     {
 
+        [MaxLength(100)]
+        public string TenantIDs { get; set; }
 
         [MaxLength(50)]
         public string contactNo2 { get; set; }

@@ -77,6 +77,7 @@ namespace terminus.shared.models
         public string emergyRelationshipOwner { get; set; }
 
 
+
         public string otherRestenanted { get; set; }
 
         public string otherResResiding { get; set; }

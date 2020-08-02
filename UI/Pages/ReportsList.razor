@@ -148,9 +148,10 @@ else
                     <th>Owned/ Managed</th>
                     <th>Type</th>
                     <th>areaInSqm</th>
-                    <th>Total Monthly Rate</th>
+                    <th>Total Monthly Rental</th>
                     <th>Monthly Rental</th>
                     <th>Monthly Association</th>
+                    <th>Monthly Rate</th>
                     <th>Lease Start</th>
                     <th>End</th>
                     <th>Tenant FULL Name</th>
@@ -192,8 +193,9 @@ else
                     <td>@pi.totalBalance</td>
                     <td>@pi.monthlyRate</td>
                     <td>@pi.associationDues</td>
-                    <td>@pi.dateFrom</td>
-                    <td>@pi.dateTo</td>
+                    <td>@pi.monthlyRental</td>
+                    <td>@pi.dateFrom.ToString("MM/dd/yyyy")</td>
+                    <td>@pi.dateTo.ToString("MM/dd/yyyy")</td>
                     <td>@pi.TenantName</td>
                     <td>@pi.Contacts</td>
                     <td>@pi.emailAddress</td>

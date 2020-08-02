@@ -275,7 +275,7 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">Manage Fee Percent: </label>
+        <label for="Expense" class="col-sm-2 col-form-label">Manage Fee %: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
@@ -384,47 +384,71 @@ else
 
     <h4>Other Resident</h4>
 
+    @*<div class="form-group row">
+            <label for="Expense" class="col-sm-2 col-form-label">Tenanted: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+
+                    <InputSelect @bind-Value="@properties.otherRestenanted" class="form-control">
+
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+
+                    </InputSelect>
+                }
+                else
+                {
+                    <label>@properties.otherRestenanted</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherRestenanted)" />
+        </div>
+
+        <div class="form-group row">
+            <label for="Expense" class="col-sm-2 col-form-label">Residing In Unit: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+
+                    <InputSelect @bind-Value="@properties.otherResResiding" class="form-control">
+
+                        <option value="Y">Yes</option>
+                        <option value="N">No</option>
+
+                    </InputSelect>
+                }
+                else
+                {
+                    <label>@properties.otherResResiding</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResResiding)" />
+        </div>*@
+
+
+
     <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">Tenanted: </label>
+        <label for="Expense" class="col-sm-2 col-form-label">Other Resident Type: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
 
-                <InputSelect @bind-Value="@properties.otherRestenanted" class="form-control">
+            <InputSelect @bind-Value="@properties.residingType" class="form-control">
+                <option value=""></option>
+                <option value="Tenanted">Tenanted</option>
+                <option value="Residing">Residing In Unit</option>
 
-                    <option value="Y">Yes</option>
-                    <option value="N">No</option>
-
-                </InputSelect>
+            </InputSelect>
             }
             else
             {
-                <label>@properties.otherRestenanted</label>
+                <label>@properties.residingType</label>
             }
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherRestenanted)" />
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.residingType)" />
     </div>
 
-    <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">Residing Unit: </label>
-        <div class="col-sm-5">
-            @if (!IsViewOnly)
-            {
-
-                <InputSelect @bind-Value="@properties.otherResResiding" class="form-control">
-
-                    <option value="Y">Yes</option>
-                    <option value="N">No</option>
-
-                </InputSelect>
-            }
-            else
-            {
-                <label>@properties.otherResResiding</label>
-            }
-        </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResResiding)" />
-    </div>
     <div class="form-group row">
         <label for="Expense" class="col-sm-2 col-form-label">Resident Full Name 1 : </label>
         <div class="col-sm-5">
@@ -537,46 +561,46 @@ else
 
     <InputFile multiple OnChange="HandleSelection" />
     @*<br />
-    <br />
-    <table class="table">
-        <thead>
-            <tr>
-                <th>File Name</th>
-                <th>File Size</th>
-                <th>File Type</th>
-                <th></th>
-            </tr>
-        </thead>
-        @if (selectedFiles != null)
-        {
-
-            foreach (var file in selectedFiles)
+        <br />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>File Size</th>
+                    <th>File Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @if (selectedFiles != null)
             {
-                var isLoading = file.Data.Position > 0;
+
+                foreach (var file in selectedFiles)
+                {
+                    var isLoading = file.Data.Position > 0;
 
 
-                <tbody>
+                    <tbody>
 
-                    <tr>
-                        <td>@file.Name</td>
-                        <td>@file.Size bytes </td>
-                        <td>@file.Type</td>
+                        <tr>
+                            <td>@file.Name</td>
+                            <td>@file.Size bytes </td>
+                            <td>@file.Type</td>
 
 
-                    </tr>
+                        </tr>
 
-                </tbody>
+                    </tbody>
 
+                }
             }
-        }
 
 
 
-    </table>*@
+        </table>*@
     <hr />
     <h3>File Attachment</h3>
     <hr />
-    @if (properties!=null && properties.propertyDocument!=null)
+    @if (properties != null && properties.propertyDocument != null)
     {
         <table>
             <thead>
@@ -588,32 +612,36 @@ else
             </thead>
 
             <tbody>
-                @foreach (var pd in properties.propertyDocument.Where(a=>!a.deleted))
+                @foreach (var pd in properties.propertyDocument.Where(a => !a.deleted))
                 {
                     <tr>
 
-                        <td>@pd.fileDesc </td>
+                        @*<td>@pd.fileDesc </td>*@
                         @*<td>@td.fi</td>*@
 
 
-                    <td>
+                        <td>
 
-                        @{
-                            var _path = $"Uploaded/Attachments/{pd.fileName}{pd.extName}";
-                            //var _path = $"/Uploaded/PropertDocument/{pd.fileName}{pd.extName}";
+                            @{
+                                var _path = $"Uploaded/Attachments/{pd.fileName}{pd.extName}";
+                                //var _path = $"/Uploaded/PropertDocument/{pd.fileName}{pd.extName}";
 
-                            <a href="@_path"
-                               class="btn btn-primary table-btn" target="_blank">
-                                <i class="fas fa-info-circle"> DOWNLOAD </i>
-                            </a>
+                                <a href="@_path" target="_blank">@pd.fileDesc</a>
+
+                                @*<a href="@_path"
+                                       class="btn btn-primary table-btn" target="_blank">
+                                        <i class="fas fa-info-circle"> DOWNLOAD </i>
+                                    </a>*@
+
+                            }
+
+                        </td>
+                        <td>
                             <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(pd.id.ToString()))">
                                 <i class="fas fa-info-circle">Delete</i>
                             </button>
 
-                        }
-
-                    </td>
-
+                        </td>
                     </tr>
                 }
             </tbody>

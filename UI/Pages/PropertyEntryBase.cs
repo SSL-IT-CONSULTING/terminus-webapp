@@ -117,7 +117,7 @@ namespace terminus_webapp.Pages
         }
 
         protected async Task HandleValidSubmit()
-        {
+          {
 
             UserName = await _sessionStorageService.GetItemAsync<string>("UserName");
             CompanyId = await _sessionStorageService.GetItemAsync<string>("CompanyId");
@@ -166,8 +166,29 @@ namespace terminus_webapp.Pages
                 else
                 {
 
+                    string resident_type = properties.residingType.ToString();
+
+                    string _tenanted;
+                    string _residing;
+
+                    if (resident_type == "Tenanted")
+                    {
+                        _tenanted = "Y";
+                        _residing = "N";
+                    }
+                    else
+                    {
+                        _tenanted = "N";
+                        _residing = "Y";
+                    }
+
+
+
                     Property pr = new Property()
                     {
+
+                        
+                        
 
                         id = propertyid,
                         companyId = CompanyId,
@@ -186,8 +207,11 @@ namespace terminus_webapp.Pages
                         emergyContactNo = properties.emergyContactNo,
                         emergyAdrress = properties.emergyAdrress,
                         emergyRelationshipOwner = properties.emergyRelationshipOwner,
-                        otherRestenanted = properties.otherRestenanted,
-                        otherResResiding = properties.otherResResiding,
+                        
+                        otherRestenanted = _tenanted,
+                        otherResResiding = _residing,
+                        
+                        
                         otherResFullName1 = properties.otherResFullName1,
                         otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1,
                         otherResFullName2 = properties.otherResFullName2,
@@ -233,12 +257,48 @@ namespace terminus_webapp.Pages
                           .Where(r => r.id.Equals(id) &&  r.companyId.Equals(CompanyId) && r.deleted.Equals(false)).FirstOrDefaultAsync();
 
 
+                string resident_type = properties.residingType;
+
+                string _tenanted;
+                string _residing;
+
+                if (resident_type == "Tenanted")
+                {
+                    _tenanted = "Y";
+                    _residing = "N";
+                }
+                else
+                {
+                    _tenanted = "N";
+                    _residing = "Y";
+                }
+
+
+
                 data.updateDate = DateTime.Now;
                 data.updatedBy = UserName;
                 data.description = properties.description;
                 data.address = properties.address;
                 data.propertyType = properties.propertyType;
                 data.areaInSqm = properties.areaInSqm;
+
+
+                data.Owned_Mgd = properties.Owned_Mgd;
+                data.MgtFeePct = properties.MgtFeePct;
+                data.CCTNumber = properties.CCTNumber;
+                data.emergyFullName = properties.emergyFullName;
+                data.emergyContactNo = properties.emergyContactNo;
+                data.emergyAdrress = properties.emergyAdrress;
+                data.emergyRelationshipOwner = properties.emergyRelationshipOwner;
+                data.otherRestenanted = _tenanted;
+                data.otherResResiding = _residing;
+                data.otherResFullName1 = properties.otherResFullName1;
+                data.otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1;
+                data.otherResFullName2 = properties.otherResFullName2;
+                data.otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2;
+                data.otherResFullName3 = properties.otherResFullName3;
+                data.otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3;
+
                 if (CompanyId == "ADBCA")
                 {
                     data.ownerLastName = properties.ownerLastName;
@@ -391,10 +451,54 @@ namespace terminus_webapp.Pages
                     IsViewOnly = false;
                     IsEditOnly = true;
 
+
+
+
                     var data = await appDBContext.Properties
                                                     .Where(a => a.id.Equals(id) &&  a.companyId.Equals(CompanyId) && a.deleted.Equals(false))
                                                     .OrderBy(a => a.description)
                                                     .FirstOrDefaultAsync();
+
+
+
+
+                    string resident_type = data.otherRestenanted;
+
+                    if (string.IsNullOrEmpty(data.otherRestenanted))
+                    {
+                        resident_type = "";
+                    }
+                    else
+                    {
+                        if (data.otherRestenanted == "Y")
+                        {
+                            resident_type = "Tenanted";
+                        }
+                        else
+                        {
+                            resident_type = "Residing";
+                        }
+
+                        
+                    }
+
+
+
+
+
+                    string _tenanted;
+                    string _residing;
+
+                    if (resident_type == "Tenanted")
+                    {
+                        _tenanted = "Y";
+                        _residing = "N";
+                    }
+                    else
+                    {
+                        _tenanted = "N";
+                        _residing = "Y";
+                    }
 
                     properties = new PropertyViewModel()
                     {
@@ -422,6 +526,7 @@ namespace terminus_webapp.Pages
                         emergyRelationshipOwner = data.emergyRelationshipOwner,
                         otherRestenanted = data.otherRestenanted,
                         otherResResiding = data.otherResResiding,
+                        residingType = resident_type,
                         otherResFullName1 = data.otherResFullName1,
                         otherResRelationshipToOwner1 = data.otherResRelationshipToOwner1,
                         otherResFullName2 = data.otherResFullName2,
