@@ -334,8 +334,8 @@ namespace terminus_webapp.Pages
                     subTenantEmailAdd2 = tenants.subTenantEmailAdd2,
                     RelToPrimary2 = tenants.RelToPrimary2,
 
-                    subTenantFullName3 = tenants.subTenantFullName1,
-                    subTenantID3 = tenants.subTenantID1,
+                    subTenantFullName3 = tenants.subTenantFullName3,
+                    subTenantID3 = tenants.subTenantID3,
                     subTenantHomeAddress3 = tenants.subTenantHomeAddress3,
                     subTenantWorkAddress3 = tenants.subTenantWorkAddress3,
                     subTenantContactNo3 = tenants.subTenantContactNo3,
@@ -464,8 +464,8 @@ namespace terminus_webapp.Pages
                 t.subTenantEmailAdd2 = tenants.subTenantEmailAdd2;
                 t.RelToPrimary2 = tenants.RelToPrimary2;
 
-                t.subTenantFullName3 = tenants.subTenantFullName1;
-                t.subTenantID3 = tenants.subTenantID1;
+                t.subTenantFullName3 = tenants.subTenantFullName3;
+                t.subTenantID3 = tenants.subTenantID3;
                 t.subTenantHomeAddress3 = tenants.subTenantHomeAddress3;
                 t.subTenantWorkAddress3 = tenants.subTenantWorkAddress3;
                 t.subTenantContactNo3 = tenants.subTenantContactNo3;

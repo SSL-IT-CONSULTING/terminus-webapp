@@ -39,6 +39,7 @@ namespace terminus.shared.models
 
         public string propertyDirectoryId { get; set; }
 
+        [Required]
         public string propertyid { get; set; }
         public List<Property> properties { get; set; }
 
