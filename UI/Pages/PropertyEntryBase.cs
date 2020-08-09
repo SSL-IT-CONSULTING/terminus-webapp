@@ -175,54 +175,129 @@ namespace terminus_webapp.Pages
                     {
                         _tenanted = "Y";
                         _residing = "N";
+
+
+                        Property pr = new Property()
+                        {
+
+
+
+                            id = propertyid,
+                            companyId = CompanyId,
+                            createDate = DateTime.Now,
+                            createdBy = UserName,
+                            description = properties.description,
+                            address = properties.address,
+                            propertyType = properties.propertyType,
+                            areaInSqm = properties.areaInSqm,
+
+
+                            Owned_Mgd = properties.Owned_Mgd,
+                            MgtFeePct = properties.MgtFeePct,
+                            CCTNumber = properties.CCTNumber,
+                            emergyFullName = properties.emergyFullName,
+                            emergyContactNo = properties.emergyContactNo,
+                            emergyAdrress = properties.emergyAdrress,
+                            emergyRelationshipOwner = properties.emergyRelationshipOwner,
+
+                            otherRestenanted = _tenanted,
+                            otherResResiding = _residing,
+
+
+                            otherResFullName1 = "",
+                            otherResRelationshipToOwner1 = "",
+                            otherResFullName2 = "",
+                            otherResRelationshipToOwner2 = "",
+                            otherResFullName3 = "",
+                            otherResRelationshipToOwner3 = ""
+                        };
+                        appDBContext.Properties.Add(pr);
                     }
-                    else
+                    else if (resident_type == "Residing")
                     {
                         _tenanted = "N";
                         _residing = "Y";
+
+
+                        Property pr = new Property()
+                        {
+
+                            id = propertyid,
+                            companyId = CompanyId,
+                            createDate = DateTime.Now,
+                            createdBy = UserName,
+                            description = properties.description,
+                            address = properties.address,
+                            propertyType = properties.propertyType,
+                            areaInSqm = properties.areaInSqm,
+
+
+                            Owned_Mgd = properties.Owned_Mgd,
+                            MgtFeePct = properties.MgtFeePct,
+                            CCTNumber = properties.CCTNumber,
+                            emergyFullName = properties.emergyFullName,
+                            emergyContactNo = properties.emergyContactNo,
+                            emergyAdrress = properties.emergyAdrress,
+                            emergyRelationshipOwner = properties.emergyRelationshipOwner,
+
+                            otherRestenanted = _tenanted,
+                            otherResResiding = _residing,
+
+
+                            otherResFullName1 = properties.otherResFullName1,
+                            otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1,
+                            otherResFullName2 = properties.otherResFullName2,
+                            otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2,
+                            otherResFullName3 = properties.otherResFullName3,
+                            otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3
+                        };
+                        appDBContext.Properties.Add(pr);
+                    }
+                    else 
+                    {
+                        _tenanted = "Y";
+                        _residing = "N";
+
+                        Property pr = new Property()
+                        {
+                            id = propertyid,
+                            companyId = CompanyId,
+                            createDate = DateTime.Now,
+                            createdBy = UserName,
+                            description = properties.description,
+                            address = properties.address,
+                            propertyType = properties.propertyType,
+                            areaInSqm = properties.areaInSqm,
+
+
+                            Owned_Mgd = properties.Owned_Mgd,
+                            MgtFeePct = properties.MgtFeePct,
+                            CCTNumber = properties.CCTNumber,
+                            emergyFullName = properties.emergyFullName,
+                            emergyContactNo = properties.emergyContactNo,
+                            emergyAdrress = properties.emergyAdrress,
+                            emergyRelationshipOwner = properties.emergyRelationshipOwner,
+
+                            otherRestenanted = _tenanted,
+                            otherResResiding = _residing,
+
+
+                            otherResFullName1 = "",
+                            otherResRelationshipToOwner1 = "",
+                            otherResFullName2 = "",
+                            otherResRelationshipToOwner2 = "",
+                            otherResFullName3 = "",
+                            otherResRelationshipToOwner3 = ""
+                        };
+                        appDBContext.Properties.Add(pr);
                     }
 
 
 
-                    Property pr = new Property()
-                    {
-
-                        
-                        
-
-                        id = propertyid,
-                        companyId = CompanyId,
-                        createDate = DateTime.Now,
-                        createdBy = UserName,
-                        description = properties.description,
-                        address = properties.address,
-                        propertyType = properties.propertyType,
-                        areaInSqm = properties.areaInSqm,
 
 
-                        Owned_Mgd = properties.Owned_Mgd,
-                        MgtFeePct = properties.MgtFeePct,
-                        CCTNumber = properties.CCTNumber,
-                        emergyFullName = properties.emergyFullName,
-                        emergyContactNo = properties.emergyContactNo,
-                        emergyAdrress = properties.emergyAdrress,
-                        emergyRelationshipOwner = properties.emergyRelationshipOwner,
-                        
-                        otherRestenanted = _tenanted,
-                        otherResResiding = _residing,
-                        
-                        
-                        otherResFullName1 = properties.otherResFullName1,
-                        otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1,
-                        otherResFullName2 = properties.otherResFullName2,
-                        otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2,
-                        otherResFullName3 = properties.otherResFullName3,
-                        otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3
-                    };
 
-                    appDBContext.Properties.Add(pr);
-
-                   // await appDBContext.SaveChangesAsync();
+                    // await appDBContext.SaveChangesAsync();
                 }
 
 
@@ -266,11 +341,36 @@ namespace terminus_webapp.Pages
                 {
                     _tenanted = "Y";
                     _residing = "N";
+
+                    data.otherResFullName1 = "";
+                    data.otherResRelationshipToOwner1 = "";
+                    data.otherResFullName2 = "";
+                    data.otherResRelationshipToOwner2 = "";
+                    data.otherResFullName3 = "";
+                    data.otherResRelationshipToOwner3 = "";
+                }
+                else if (resident_type == "Residing")
+                {
+                    _tenanted = "N";
+                    _residing = "Y";
+
+                    data.otherResFullName1 = properties.otherResFullName1;
+                    data.otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1;
+                    data.otherResFullName2 = properties.otherResFullName2;
+                    data.otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2;
+                    data.otherResFullName3 = properties.otherResFullName3;
+                    data.otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3;
                 }
                 else
                 {
                     _tenanted = "N";
-                    _residing = "Y";
+                    _residing = "N";
+                    data.otherResFullName1 = "";
+                    data.otherResRelationshipToOwner1 = "";
+                    data.otherResFullName2 = "";
+                    data.otherResRelationshipToOwner2 = "";
+                    data.otherResFullName3 = "";
+                    data.otherResRelationshipToOwner3 = "";
                 }
 
 
@@ -292,12 +392,7 @@ namespace terminus_webapp.Pages
                 data.emergyRelationshipOwner = properties.emergyRelationshipOwner;
                 data.otherRestenanted = _tenanted;
                 data.otherResResiding = _residing;
-                data.otherResFullName1 = properties.otherResFullName1;
-                data.otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1;
-                data.otherResFullName2 = properties.otherResFullName2;
-                data.otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2;
-                data.otherResFullName3 = properties.otherResFullName3;
-                data.otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3;
+
 
                 if (CompanyId == "ADBCA")
                 {
@@ -474,9 +569,13 @@ namespace terminus_webapp.Pages
                         {
                             resident_type = "Tenanted";
                         }
-                        else
+                        else if (data.otherResResiding == "Y")
                         {
                             resident_type = "Residing";
+                        }
+                        else
+                        {
+                            resident_type = "Vacant";
                         }
 
                         
@@ -494,10 +593,16 @@ namespace terminus_webapp.Pages
                         _tenanted = "Y";
                         _residing = "N";
                     }
-                    else
+                    else if (resident_type == "Residing")
                     {
                         _tenanted = "N";
                         _residing = "Y";
+                    }
+                    else
+                    {
+                        _tenanted = "N";
+                        _residing = "N";
+
                     }
 
                     properties = new PropertyViewModel()

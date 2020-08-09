@@ -87,7 +87,7 @@ else
 
 
     <div class="form-group row">
-        <label for="balance" class="col-sm-2 col-form-label">Tenant ID: </label>
+        <label for="balance" class="col-sm-2 col-form-label">Valid IDs: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
@@ -252,12 +252,14 @@ else
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.emergyRelationshipOwner)" />
     </div>
     <hr />
- 
+
 
 
     <hr />
 
-    <h4>Sub-Tenants</h4>
+    <h4>Other Lessees</h4>
+
+
     <div class="form-group row">
         <label for="Expense" class="col-sm-2 col-form-label">Full Name 1: </label>
         <div class="col-sm-5">
@@ -277,7 +279,7 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">ID's 1: </label>
+        <label for="Expense" class="col-sm-2 col-form-label">Valid IDs 1: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
@@ -405,7 +407,7 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">ID's 2: </label>
+        <label for="Expense" class="col-sm-2 col-form-label"> Valid IDs 2: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
@@ -543,7 +545,7 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">ID's 3: </label>
+        <label for="Expense" class="col-sm-2 col-form-label">Valid IDs 3: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
@@ -653,7 +655,7 @@ else
 
     <hr />
 
-
+    
     <div class="form-group row">
         <label for="properties" class="col-sm-2 col-form-label">Property: </label>
         <div class="col-sm-5">
@@ -661,7 +663,7 @@ else
             {
                 <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
                     <option value=""></option>
-                    @foreach (var p in tenants.properties)
+                    @foreach (var p in tenants.properties.Where(a => a.otherRestenanted.Equals("Y")).ToList())
                             {
                         <option value="@p.id">@p.description</option>
                             }
@@ -791,102 +793,102 @@ else
 
     <InputFile multiple OnChange="HandleSelection" />
     @*<br />
-    <br />
+        <br />
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>File Name</th>
-                <th>File Size</th>
-                <th>File Type</th>
-                <th></th>
-            </tr>
-        </thead>
-        @if (selectedFiles != null)
-        {
-
-            foreach (var file in selectedFiles)
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>File Name</th>
+                    <th>File Size</th>
+                    <th>File Type</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @if (selectedFiles != null)
             {
-                var isLoading = file.Data.Position > 0;
+
+                foreach (var file in selectedFiles)
+                {
+                    var isLoading = file.Data.Position > 0;
 
 
-                <tbody>
+                    <tbody>
 
-                    <tr>
-                        <td>@file.Name</td>
-                        <td>@file.Size bytes </td>
-                        <td>@file.Type</td>
+                        <tr>
+                            <td>@file.Name</td>
+                            <td>@file.Size bytes </td>
+                            <td>@file.Type</td>
 
 
-                    </tr>
+                        </tr>
 
-                </tbody>
+                    </tbody>
 
+                }
             }
-        }
 
 
 
-    </table>*@
+        </table>*@
 
     <hr />
     <h3>File Attachment</h3>
     <hr />
-  
-<table>
-    <thead>
-        <tr>
-            <th>File Name</th>
-            @*<th>File Size</th>*@
-            <th></th>
-        </tr>
-    </thead>
-    
-    
+
+    <table>
+        <thead>
+            <tr>
+                <th>File Name</th>
+                @*<th>File Size</th>*@
+                <th></th>
+            </tr>
+        </thead>
+
+
         <tbody>
 
             @if (tenants != null && tenants.tenantDocument != null)
             {
                 foreach (var td in tenants.tenantDocument.Where(a => !a.deleted).ToList())
                 {
-                <tr>
+                    <tr>
 
-                    @*<td>@td.fileDesc </td>*@
-                    @*<td>@td.fi</td>*@
+                        @*<td>@td.fileDesc </td>*@
+                        @*<td>@td.fi</td>*@
 
 
-                <td>
-                    @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
-                    @{
-                        //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
-                        var _path = $"Uploaded/Attachments/{td.fileName}{td.extName}";
-                        //var _path = td.filePath;
+                        <td>
+                            @*<a href="@($"/TenantDocument/{td.filePath.ToString()}")" class="btn btn-primary table-btn">*@
+                            @{
+                                //string _path = $"/TenantDocument/" + { td.fileName.ToString()};
+                                var _path = $"Uploaded/Attachments/{td.fileName}{td.extName}";
+                                //var _path = td.filePath;
 
-                        @*<a href="@_path"
-                           class="btn btn-primary table-btn" target="_blank">
-                            <i class="fas fa-info-circle"> DOWNLOAD </i>
-                        </a>*@
+                                @*<a href="@_path"
+                                       class="btn btn-primary table-btn" target="_blank">
+                                        <i class="fas fa-info-circle"> DOWNLOAD </i>
+                                    </a>*@
 
-                        <a href="@_path" target="_blank">@td.fileDesc</a>
-                        @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
+                                <a href="@_path" target="_blank">@td.fileDesc</a>
+                                @*<a href=@td.filePath class="btn btn-dark table-btn quick-add-btn" download>Download</a>*@
 
-                    }
+                            }
 
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(td.id.ToString()))">
-                        <i class="fas fa-info-circle">Delete</i>
-                    </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger table-btn" @onclick="@(() => HandleDeleteAttachment(td.id.ToString()))">
+                                <i class="fas fa-info-circle">Delete</i>
+                            </button>
 
-                </td>
+                        </td>
 
-                </tr>
+                    </tr>
                 }
-             }
+            }
         </tbody>
 
     </table>
-    
+
 
     <br />
 

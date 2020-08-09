@@ -159,10 +159,10 @@ else
                     <th>emailAddress</th>
                     <th>Tenant Address</th>
                     <th>Work Address</th>
-                    <th>Count</th>
-                    <th>Registered Sub-Tenants</th>
+                    <th>Other Tenants Count</th>
+                    <th>Other Tenants</th>
                     @*<th>Registered SubTenants IDs</th>*@
-                    <th>Count</th>
+                    <th>Registered  Residents Count</th>
                     <th>Registered  Residents</th>
                     <th>Emergency Contact Name</th>
                     <th>Emergency Contacts</th>
@@ -189,11 +189,11 @@ else
                     <td>@pi.CCTNumber</td>
                     <td>@pi.Owned_Mgd</td>
                     <td>@pi.propertyType</td>
-                    <td>@pi.areaInSqm</td>
-                    <td>@pi.totalBalance</td>
-                    <td>@pi.monthlyRate</td>
-                    <td>@pi.associationDues</td>
-                    <td>@pi.monthlyRental</td>
+                    <td>@pi.areaInSqm.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@pi.totalBalance.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@pi.monthlyRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@pi.associationDues.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@pi.monthlyRental.ToString("#,##0.00;(#,##0.00);'-'")</td>
                     <td>@pi.dateFrom.ToString("MM/dd/yyyy")</td>
                     <td>@pi.dateTo.ToString("MM/dd/yyyy")</td>
                     <td>@pi.TenantName</td>
@@ -201,10 +201,10 @@ else
                     <td>@pi.emailAddress</td>
                     <td>@pi.address</td>
                     <td>@pi.workAddress</td>
-                    <td>@pi.Resident_Count</td>
+                    <td>@pi.SubTenant_Count</td>
                     <td>@pi.SubTenants</td>
                     @*<td>@pi.subTenantIDs</td>*@
-                    <td>@pi.SubTenant_Count</td>
+                    <td>@pi.Resident_Count</td>
                     <td>@pi.OtherResidents</td>
                     <td>@pi.emergy_FullName</td>
                     <td>@pi.emergyContactNo</td>
