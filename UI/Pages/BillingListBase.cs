@@ -300,15 +300,13 @@ namespace terminus_webapp.Pages
                         generated = true,
                         billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT
                     });
-
-                    currentBill.totalAmount = billItems.Sum(a => a.amount);
-                    currentBill.balance = billItems.Sum(a => a.amount - a.amountPaid);
-                    currentBill.amountPaid = billItems.Sum(a => a.amountPaid);
-                    currentBill.billingLineItems = billItems;
-
-                    var result = await SaveBill(currentBill);
-
                 }
+
+                currentBill.totalAmount = billItems.Sum(a => a.amount);
+                currentBill.balance = billItems.Sum(a => a.amount - a.amountPaid);
+                currentBill.amountPaid = billItems.Sum(a => a.amountPaid);
+                currentBill.billingLineItems = billItems;
+                var result = await SaveBill(currentBill);
             }
         }
 
@@ -388,7 +386,8 @@ namespace terminus_webapp.Pages
                 IsGenerating = true;
                 var pdlist = await appDBContext.PropertyDirectory
                                                .Where(a => a.companyId.Equals(CompanyId)
-                                               && DateTime.Today >= a.dateFrom && DateTime.Today <= a.dateTo).ToListAsync();
+                                               && DateTime.Today >= a.dateFrom && DateTime.Today <= a.dateTo
+                                               && !a.deleted).ToListAsync();
 
 
                 var dueDate = DateTime.Parse(DateTime.Today.ToString("yyyy-MM-07"));
