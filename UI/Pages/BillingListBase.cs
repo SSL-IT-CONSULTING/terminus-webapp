@@ -277,7 +277,7 @@ namespace terminus_webapp.Pages
                 if (pd.associationDues > 0)
                 {
                     var assocDuesBeforevat = CalculateBeforeVat(pd.associationDues);
-                    var assocDuesVat = CalculateVat(pd.associationDues);
+                    //var assocDuesVat = CalculateVat(pd.associationDues);
 
                     billItems.Add(new BillingLineItem()
                     {
@@ -290,16 +290,16 @@ namespace terminus_webapp.Pages
                         billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE
                     });
 
-                    billItems.Add(new BillingLineItem()
-                    {
-                        Id = Guid.NewGuid(),
-                        description = "Association dues (VAT)",
-                        amount = assocDuesVat,
-                        amountPaid = 0,
-                        lineNo = 7,
-                        generated = true,
-                        billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT
-                    });
+                    //billItems.Add(new BillingLineItem()
+                    //{
+                    //    Id = Guid.NewGuid(),
+                    //    description = "Association dues (VAT)",
+                    //    amount = assocDuesVat,
+                    //    amountPaid = 0,
+                    //    lineNo = 7,
+                    //    generated = true,
+                    //    billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT
+                    //});
                 }
 
                 currentBill.totalAmount = billItems.Sum(a => a.amount);
