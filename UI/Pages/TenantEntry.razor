@@ -663,7 +663,7 @@ else
             {
                 <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
                     <option value=""></option>
-                    @foreach (var p in tenants.properties.Where(a => a.otherRestenanted.Equals("Y")).ToList())
+                    @foreach (var p in tenants.properties.Where(a => (!string.IsNullOrEmpty(a.otherRestenanted) && a.otherRestenanted.Equals("Y"))).ToList())
                             {
                         <option value="@p.id">@p.description</option>
                             }

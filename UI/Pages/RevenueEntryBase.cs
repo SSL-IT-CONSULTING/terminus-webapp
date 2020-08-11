@@ -183,9 +183,9 @@ namespace terminus_webapp.Pages
             }
         }
 
-        protected async Task HandleInvalidSubmit()
+        protected Task HandleInvalidSubmit()
         {
-
+            return Task.CompletedTask;
         }
 
 
