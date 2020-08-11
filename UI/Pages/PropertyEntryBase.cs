@@ -577,14 +577,10 @@ namespace terminus_webapp.Pages
                         {
                             resident_type = "Vacant";
                         }
-
-                        
                     }
 
-
-
-
-
+                    /*
+                     * Code not in use
                     string _tenanted;
                     string _residing;
 
@@ -604,6 +600,7 @@ namespace terminus_webapp.Pages
                         _residing = "N";
 
                     }
+                    */
 
                     properties = new PropertyViewModel()
                     {

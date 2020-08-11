@@ -51,6 +51,9 @@ namespace terminus.shared.models
         public string branch { get; set; }
 
         public DateTime? checkDate { get; set; }
+        public DateTime? checkReleaseDate { get; set; }
+        [MaxLength(50)]
+        public string checkNo { get; set; }
 
         public decimal checkAmount { get; set; }
 

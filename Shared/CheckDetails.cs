@@ -14,13 +14,15 @@ namespace terminus.shared.models
         [MaxLength(300)]
         public string branch { get; set; }
 
-        public DateTime checkDate { get; set; }
+        public DateTime? checkDate { get; set; }
 
         public decimal amount { get; set; }
 
         [MaxLength(50)]
         public string checkNo { get; set; }
 
+        public DateTime? releaseDate { get; set; }
+        public DateTime? depositDate { get; set; }
 
     }
 }

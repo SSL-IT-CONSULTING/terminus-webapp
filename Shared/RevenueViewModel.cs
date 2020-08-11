@@ -89,6 +89,9 @@ namespace terminus.shared.models
         public string branch { get; set; }
 
         public DateTime? checkDate { get; set; }
+        public DateTime? checkReleaseDate { get; set; }
+
+        public DateTime? checkDepositDate { get; set; }
 
         public decimal checkAmount { get; set; }
 

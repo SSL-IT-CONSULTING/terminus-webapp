@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -385,7 +386,12 @@ namespace terminus_webapp.Pages
                 ErrorMessage = string.Empty;
                 IsGenerating = true;
                 var pdlist = await appDBContext.PropertyDirectory
+                                                .Include(p=>p.property)
                                                .Where(a => a.companyId.Equals(CompanyId)
+                                               && !(a.property.Owned_Mgd.Equals("O") 
+                                                    && (a.property.otherResResiding.Equals("Y")
+                                                 && !a.property.otherRestenanted.Equals("Y")
+                                               ))
                                                && DateTime.Today >= a.dateFrom && DateTime.Today <= a.dateTo
                                                && !a.deleted).ToListAsync();
 

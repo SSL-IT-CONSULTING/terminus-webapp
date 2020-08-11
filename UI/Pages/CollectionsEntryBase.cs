@@ -543,6 +543,7 @@ namespace terminus_webapp.Pages
                             branch = revenue.branch,
                             checkDate = revenue.checkDate.HasValue ? revenue.checkDate.Value : DateTime.MinValue,
                             checkNo = revenue.checkNo,
+                            depositDate = revenue.checkDepositDate,
                             checkDetailId = Guid.NewGuid()
                         };
                     }
@@ -849,7 +850,7 @@ namespace terminus_webapp.Pages
 
 
                     revenue.dueDate = DateTime.Today;
-                    revenue.cashOrCheck = "0";
+                    revenue.cashOrCheck = "1";
                     IsViewonly = false;
                     revenue.documentId = documentId;
                 }
@@ -885,9 +886,11 @@ namespace terminus_webapp.Pages
                         billingType = data.billingType,
                         cashOrCheck = data.cashOrCheck,
                         bankName = data.cashOrCheck.Equals("1")?data.checkDetails.bankName:string.Empty,
+                        branch = data.cashOrCheck.Equals("1") ? data.checkDetails.branch : string.Empty,
                         checkNo = data.cashOrCheck.Equals("1") ? data.checkDetails.checkNo : string.Empty,
                         checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0m,
-                        checkDate = data.cashOrCheck.Equals("1") ? data.checkDetails.checkDate : DateTime.Today,
+                        checkDate = data.cashOrCheck.Equals("1") ? data.checkDetails.checkDate : null,
+                        checkDepositDate = data.cashOrCheck.Equals("1") ? data.checkDetails.depositDate : null,
                         ownerName = data.propertyDirectory.property.ownerFullName
                 };
                     BillingType = revenue.billingType;
