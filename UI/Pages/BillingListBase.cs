@@ -276,7 +276,7 @@ namespace terminus_webapp.Pages
 
                 if (pd.associationDues > 0)
                 {
-                    var assocDuesBeforevat = CalculateBeforeVat(pd.associationDues);
+                    var assocDuesBeforevat = pd.associationDues;
                     //var assocDuesVat = CalculateVat(pd.associationDues);
 
                     billItems.Add(new BillingLineItem()
