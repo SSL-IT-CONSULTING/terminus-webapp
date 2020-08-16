@@ -133,14 +133,14 @@ else
                 <tr>
 
                     @*<th>Description</th>
-        <th>Property Type</th>
-        <th>Tenant Name</th>
-        <th>Contact Number 1</th>
-        <th>Contact Number 2</th>
-        <th>Contact Number 3</th>
-        <th>Email Address</th>
-        <th>Date From</th>
-        <th>Date To</th>*@
+                        <th>Property Type</th>
+                        <th>Tenant Name</th>
+                        <th>Contact Number 1</th>
+                        <th>Contact Number 2</th>
+                        <th>Contact Number 3</th>
+                        <th>Email Address</th>
+                        <th>Date From</th>
+                        <th>Date To</th>*@
                     @*<th>Due Date</th>*@
 
                     <th>Property</th>
@@ -148,10 +148,10 @@ else
                     <th>Owned/ Managed</th>
                     <th>Type</th>
                     <th>areaInSqm</th>
-                    <th>Total Monthly Rental</th>
+                    @*<th>Total Monthly Rental</th>*@
                     <th>Monthly Rental</th>
                     <th>Monthly Association</th>
-                    <th>Monthly Rate</th>
+                    <th>Total Monthly Rental</th>
                     <th>Lease Start</th>
                     <th>End</th>
                     <th>Tenant FULL Name</th>
@@ -175,44 +175,44 @@ else
             <tbody>
                 @foreach (var pi in rptPropertypeInventoryMV)
                 {
-                <tr>
-                    @*<td>@pi.description</td>
-        <td>@pi.propertyType</td>
-        <td>@pi.TenantName</td>
-        <td>@pi.contactNumber</td>
-        <td>@pi.emailAddress</td>
-        <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                    <tr>
+                        @*<td>@pi.description</td>
+                            <td>@pi.propertyType</td>
+                            <td>@pi.TenantName</td>
+                            <td>@pi.contactNumber</td>
+                            <td>@pi.emailAddress</td>
+                            <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
 
-        <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
-                    @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
-                    <td>@pi.description</td>
-                    <td>@pi.CCTNumber</td>
-                    <td>@pi.Owned_Mgd</td>
-                    <td>@pi.propertyType</td>
-                    <td>@pi.areaInSqm.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                    <td>@pi.totalBalance.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                    <td>@pi.monthlyRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                    <td>@pi.associationDues.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                    <td>@pi.monthlyRental.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                    <td>@pi.dateFrom.ToString("MM/dd/yyyy")</td>
-                    <td>@pi.dateTo.ToString("MM/dd/yyyy")</td>
-                    <td>@pi.TenantName</td>
-                    <td>@pi.Contacts</td>
-                    <td>@pi.emailAddress</td>
-                    <td>@pi.address</td>
-                    <td>@pi.workAddress</td>
-                    <td>@pi.SubTenant_Count</td>
-                    <td>@pi.SubTenants</td>
-                    @*<td>@pi.subTenantIDs</td>*@
-                    <td>@pi.Resident_Count</td>
-                    <td>@pi.OtherResidents</td>
-                    <td>@pi.emergy_FullName</td>
-                    <td>@pi.emergyContactNo</td>
-                    <td>@pi.emergyAdrress</td>
-                    <td>@pi.emergyRelationshipOwner</td>
+                            <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+                        @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+                        <td>@pi.description</td>
+                        <td>@pi.CCTNumber</td>
+                        <td>@pi.Owned_Mgd</td>
+                        <td>@pi.propertyType</td>
+                        <td>@pi.areaInSqm.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                        @*<td>@pi.totalBalance.ToString("#,##0.00;(#,##0.00);'-'")</td>*@
+                        <td>@pi.monthlyRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                        <td>@pi.associationDues.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                        <td>@pi.monthlyRental.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                        <td>@pi.dateFrom.ToString("MM/dd/yyyy")</td>
+                        <td>@pi.dateTo.ToString("MM/dd/yyyy")</td>
+                        <td>@pi.TenantName</td>
+                        <td>@pi.Contacts</td>
+                        <td>@pi.emailAddress</td>
+                        <td>@pi.address</td>
+                        <td>@pi.workAddress</td>
+                        <td>@pi.SubTenant_Count</td>
+                        <td>@pi.SubTenants</td>
+                        @*<td>@pi.subTenantIDs</td>*@
+                        <td>@pi.Resident_Count</td>
+                        <td>@pi.OtherResidents</td>
+                        <td>@pi.emergy_FullName</td>
+                        <td>@pi.emergyContactNo</td>
+                        <td>@pi.emergyAdrress</td>
+                        <td>@pi.emergyRelationshipOwner</td>
 
 
-                </tr>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -643,13 +643,13 @@ else
 
         <table class="table">
             @*<thead>
-                <tr>
+                    <tr>
 
-                    <th>Description</th>
-                    <th>Amount</th>
+                        <th>Description</th>
+                        <th>Amount</th>
 
-                </tr>
-            </thead>*@
+                    </tr>
+                </thead>*@
             <tbody>
                 @{
                     int cnt = 0;
@@ -680,5 +680,137 @@ else
             </tbody>
         </table>
     }
+
+    @if (reportType == "Collections")
+    {
+
+        <h1 class="page-title">Collection Report</h1>
+
+
+
+        <table class="table" border="1px">
+            
+                <tr>
+                    <th colspan="8"></th>
+                    <th colspan="6" align="center">1st Quarter</th>
+                    <th colspan="6" align="center">2nd Quarter</th>
+                    <th colspan="6" align="center">3rd Quarter</th>
+                    <th colspan="6" align="center">4th Quarter</th>
+                </tr>
+                <tr>
+                    <td colspan="6"></td>
+                    <td colspan="2" align="center">Lease period</td>
+                    <td colspan="2" align="center">January</td>
+                    <td colspan="2" align="center">February</td>
+                    <td colspan="2" align="center">March</td>
+                    <td colspan="2" align="center">April</td>
+                    <td colspan="2" align="center">May</td>
+                    <td colspan="2" align="center">June</td>
+                    <td colspan="2" align="center">July</td>
+                    <td colspan="2" align="center">August</td>
+                    <td colspan="2" align="center">September</td>
+                    <td colspan="2" align="center">October</td>
+                    <td colspan="2" align="center">November</td>
+                    <td colspan="2" align="center">December</td>
+                </tr>
+                <tr>
+                    <td>UNIT</td>
+                    <td>Name of Lessee</td>
+                    <td>Classification</td>
+                    <td>Gross</td>
+                    <td>Rental Rate</td>
+                    <td>Dues</td>
+                    <td>Start</td>
+                    <td>End</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                    <td>Rent</td>
+                    <td>Dues</td>
+                </tr>
+
+                @{
+
+                    int rowcount = 0;
+                    rowcount = rptCollectionVM.Count;
+                }
+
+                    @foreach (var cvm in rptCollectionVM)
+                    {
+                        <tr>
+
+                            <td>@cvm.unit</td>
+                            <td>@cvm.tenantName</td>
+                            <td>@cvm.classifications</td>
+                            <td>@cvm.gross.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.rentalRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.dues.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.startDate</td>
+                            <td>@cvm.endDate</td>
+                            
+                            <td>@cvm.January_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.January_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.Febuary_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.Febuary_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.March_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.March_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.April_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.April_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.May_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.May_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.June_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.June_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.July_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.July_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.August_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.August_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.September_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.September_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.October_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.October_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.November_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.November_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            
+                            <td>@cvm.December_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                            <td>@cvm.December_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                        </tr>
+
+
+                    }
+
+
+        </table>
+    }
+
 
 }

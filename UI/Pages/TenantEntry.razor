@@ -104,6 +104,24 @@ else
     </div>
 
     <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Home Address: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputTextArea rows="4" @bind-Value="@tenants.homeAddress" class="form-control">
+
+                </InputTextArea>
+            }
+            else
+            {
+                <label>@tenants.homeAddress</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.homeAddress)" />
+    </div>
+
+    <div class="form-group row">
         <label for="Revenue" class="col-sm-2 col-form-label">Contact Number 1: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
@@ -655,7 +673,7 @@ else
 
     <hr />
 
-    
+
     <div class="form-group row">
         <label for="properties" class="col-sm-2 col-form-label">Property: </label>
         <div class="col-sm-5">

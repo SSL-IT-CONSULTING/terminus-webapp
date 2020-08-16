@@ -61,8 +61,37 @@ else
     </div>
 
 
-
     <div class="form-group row">
+        <label for="propertyType" class="col-sm-2 col-form-label">Building Name: </label>
+        <div class="col-sm-2">
+            @if (!IsViewOnly)
+            {
+                @*<InputSelect @bind-Value="@properties.BuildingCode" class="form-control">
+                <option value="">--- select item ---</option>
+                @foreach (var rf in properties.BuildingCode)
+                        {
+                    <option value="@rf.ReferenceCode">@rf.ReferenceValue</option>
+                        }
+
+            </InputSelect>*@
+                <InputSelect @bind-Value="@properties.BuildingCode" class="form-control">
+                    <option value=""></option>
+                    <option value="ADBC">Azote De Bel-Air</option>
+                    <option value="FBT">Ferros Bel-Air Tower</option>
+                    <option value="OSP">One Salcedo Place</option>
+
+                </InputSelect>
+            }
+            else
+            {
+                <label>@properties.BuildingCode</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.BuildingCode)" />
+    </div>
+
+
+    @*<div class="form-group row">
         <label for="propertyType" class="col-sm-2 col-form-label">Property Type: </label>
         <div class="col-sm-2">
             @if (!IsViewOnly)
@@ -83,7 +112,7 @@ else
             }
         </div>
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.propertyType)" />
-    </div>
+    </div>*@
 
     <div class="form-group row">
         <label for="areaInSqm" class="col-sm-2 col-form-label">Area: </label>
@@ -275,7 +304,7 @@ else
     </div>
 
     <div class="form-group row">
-        <label for="Expense" class="col-sm-2 col-form-label">Manage Fee %: </label>
+        <label for="Expense" class="col-sm-2 col-form-label">Management Fee %: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
             {
@@ -437,13 +466,13 @@ else
             @if (!IsViewOnly)
             {
 
-            <InputSelect @bind-Value="@properties.residingType" class="form-control">
-                <option value=""></option>
-                <option value="Tenanted">Tenanted</option>
-                <option value="Residing">Residing In Unit</option>
-                <option value="Vacant">Vacant</option>
+                <InputSelect @bind-Value="@properties.residingType" class="form-control">
+                    <option value=""></option>
+                    <option value="Tenanted">Tenanted</option>
+                    <option value="Residing">Residing In Unit</option>
+                    <option value="Vacant">Vacant</option>
 
-            </InputSelect>
+                </InputSelect>
             }
             else
             {
@@ -472,6 +501,25 @@ else
             </div>
             <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResFullName1)" />
         </div>
+
+        <div class="form-group row">
+            <label for="Expense" class="col-sm-2 col-form-label">Contact Number 1 : </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+
+                    <InputText @bind-Value="@properties.otherResContactNo1" class="form-control">
+
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.otherResContactNo1</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResContactNo1)" />
+        </div>
+
         <div class="form-group row">
             <label for="Expense" class="col-sm-2 col-form-label">Relationship to the Owner 1 : </label>
             <div class="col-sm-5">
@@ -507,6 +555,25 @@ else
             </div>
             <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResFullName2)" />
         </div>
+
+        <div class="form-group row">
+            <label for="Expense" class="col-sm-2 col-form-label">Contact Number 2 : </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+
+                    <InputText @bind-Value="@properties.otherResContactNo2" class="form-control">
+
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.otherResContactNo2</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResContactNo2)" />
+        </div>
+
         <div class="form-group row">
             <label for="Expense" class="col-sm-2 col-form-label">Relationship to the Owner 2 : </label>
             <div class="col-sm-5">
@@ -543,6 +610,24 @@ else
             </div>
             <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResFullName3)" />
         </div>
+
+        <div class="form-group row">
+            <label for="Expense" class="col-sm-2 col-form-label">Contact Number 3 : </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+
+                    <InputText @bind-Value="@properties.otherResContactNo3" class="form-control">
+
+                    </InputText>
+                }
+                else
+                {
+                    <label>@properties.otherResContactNo3</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResContactNo3)" />
+        </div>
         <div class="form-group row">
             <label for="Expense" class="col-sm-2 col-form-label">Relationship to the Owner 3 : </label>
             <div class="col-sm-5">
@@ -561,7 +646,7 @@ else
             <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => properties.otherResRelationshipToOwner3)" />
         </div>
     }
- 
+
 
     <hr />
     <br />

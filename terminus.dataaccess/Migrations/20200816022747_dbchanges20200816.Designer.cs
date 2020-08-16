@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus.dataaccess;
 
 namespace terminus.dataaccess.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200816022747_dbchanges20200816")]
+    partial class dbchanges20200816
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -992,10 +994,6 @@ namespace terminus.dataaccess.Migrations
                     b.Property<string>("id")
                         .HasColumnType("nvarchar(36)")
                         .HasMaxLength(36);
-
-                    b.Property<string>("BuildingCode")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
 
                     b.Property<string>("CCTNumber")
                         .HasColumnType("nvarchar(100)")

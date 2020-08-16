@@ -5,7 +5,7 @@ using System.Text;
 
 namespace terminus.shared.models
 {
-    public class TenantViewModel:TBase
+    public class TenantViewModel : TBase
     {
 
         [Key, MaxLength(36)]
@@ -16,7 +16,7 @@ namespace terminus.shared.models
 
 
         public Company company { get; set; }
-        
+
         [Required]
         [MaxLength(100)]
         public string lastName { get; set; }
@@ -36,7 +36,7 @@ namespace terminus.shared.models
         [MaxLength(20)]
         public string contactNumber { get; set; }
 
-        
+
         [MaxLength(300)]
         public string emailAddress { get; set; }
 
@@ -91,6 +91,9 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string contactNo3 { get; set; }
+
+        [MaxLength(1000)]
+        public string homeAddress { get; set; }
 
         [MaxLength(1000)]
         public string workAddress { get; set; }

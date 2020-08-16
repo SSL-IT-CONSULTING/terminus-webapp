@@ -301,6 +301,7 @@ namespace terminus_webapp.Pages
 
                     contactNo2 = tenants.contactNo2,
                     contactNo3 = tenants.contactNo3,
+                    homeAddress = tenants.homeAddress,
                     workAddress = tenants.workAddress,
                     emergyFullName = tenants.emergyFullName,
                     emergyContactNo = tenants.emergyContactNo,
@@ -422,6 +423,7 @@ namespace terminus_webapp.Pages
                 t.firstName = tenants.firstName;
                 t.middleName = tenants.middleName;
                 t.TenantIDs = tenants.TenantIDs;
+                t.homeAddress = tenants.homeAddress;
                 t.contactNumber = tenants.contactNumber;
                 t.emailAddress = tenants.emailAddress;
 
@@ -669,6 +671,7 @@ namespace terminus_webapp.Pages
                         firstName = data.tenant.firstName,
                         middleName = data.tenant.middleName,
                         TenantIDs = data.tenant.TenantIDs,
+                        homeAddress = data.tenant.homeAddress,
                         contactNumber = data.tenant.contactNumber,
                         emailAddress = data.tenant.emailAddress,
                         propertyid = data.propertyId,
@@ -690,6 +693,7 @@ namespace terminus_webapp.Pages
 
                         contactNo2 = data.tenant.contactNo2,
                         contactNo3 = data.tenant.contactNo3,
+                        
                         workAddress = data.tenant.workAddress,
                         emergyFullName = data.tenant.emergyFullName,
                         emergyContactNo = data.tenant.emergyContactNo,
@@ -733,19 +737,13 @@ namespace terminus_webapp.Pages
                         RelToPrimary3 = data.tenant.RelToPrimary3
                     };
 
-
                     tenants.tenantDocument = await appDBContext.TenantDocuments
                                                                         .Where(r => r.propertyDirectoryId.Equals(Guid.Parse(id)) && r.deleted.Equals(false))
-                                                                        .ToListAsync();
-                    
+                                                                        .ToListAsync();                    
                 }
                 tenants.properties = await appDBContext.Properties
                                                             .Where(r => r.companyId.Equals(CompanyId) && r.deleted.Equals(false))
                                                             .ToListAsync();
-
-
-
-
 
             }
             catch (Exception ex)

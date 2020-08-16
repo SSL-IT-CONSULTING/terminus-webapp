@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 
@@ -97,22 +98,35 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string otherResFullName1 { get; set; }
 
+        [MaxLength(50)]
+        public string otherResContactNo1 { get; set; }
+
+
         [MaxLength(100)]
         public string otherResRelationshipToOwner1 { get; set; }
 
         [MaxLength(100)]
         public string otherResFullName2 { get; set; }
 
+
+        [MaxLength(50)]
+        public string otherResContactNo2 { get; set; }
+
         [MaxLength(100)]
         public string otherResRelationshipToOwner2 { get; set; }
-
-
-
 
         [MaxLength(100)]
         public string otherResFullName3 { get; set; }
 
+        [MaxLength(50)]
+        public string otherResContactNo3 { get; set; }
+
         [MaxLength(100)]
         public string otherResRelationshipToOwner3 { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string BuildingCode { get; set; }
+
     }
 }
