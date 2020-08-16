@@ -96,7 +96,7 @@ else
         <label for="tenantId" class="col-sm-2 col-form-label">Owner: </label>
         <div class="col-sm-5">
             <label>@revenue.ownerName</label>
-         </div>
+        </div>
     </div>
 
     <div class="form-group row">
@@ -224,7 +224,7 @@ else
     @if (!string.IsNullOrEmpty(revenue.cashOrCheck) && revenue.cashOrCheck.Equals("1"))
     {
         <div class="form-group row">
-            <label for="bankName" class="col-sm-2 col-form-label">Check No: </label>
+            <label for="checkNo" class="col-sm-2 col-form-label">Check No: </label>
             <div class="col-sm-5">
                 @if (!IsViewonly)
                 {
@@ -233,13 +233,15 @@ else
                 }
                 else
                 {
-                    <label>@revenue.checkNo</label>
+                    <label>
+                        <label>@revenue.checkNo</label>
+                    </label>
                 }
             </div>
         </div>
 
         <div class="form-group row">
-            <label for="bankName" class="col-sm-2 col-form-label">Check Amount: </label>
+            <label for="checkNo" class="col-sm-2 col-form-label">Check Amount: </label>
             <div class="col-sm-5">
                 @if (!IsViewonly)
                 {
@@ -248,7 +250,9 @@ else
                 }
                 else
                 {
-                    <label>@revenue.checkAmount.ToString("#,##0.00;(#,##0.00)")</label>
+                    <label>
+                        <label>@revenue.checkAmount</label>
+                    </label>
                 }
             </div>
         </div>
@@ -263,6 +267,7 @@ else
                 }
                 else
                 {
+
                     <label>@revenue.bankName</label>
                 }
             </div>
@@ -278,28 +283,71 @@ else
                 }
                 else
                 {
+
                     <label>@revenue.branch</label>
                 }
             </div>
         </div>
+
         <div class="form-group row">
-            <label for="branch" class="col-sm-2 col-form-label">Check Date: </label>
+            <label for="checkDate" class="col-sm-2 col-form-label">Issue Date: </label>
             <div class="col-sm-5">
                 @if (!IsViewonly)
                 {
-                    <InputDate @bind-Value="@revenue.checkDate" class="form-control" placeholder="Check Date">
+                    <InputDate @bind-Value="@revenue.checkDate" class="form-control" placeholder="Issue Date">
                     </InputDate>
                 }
                 else
                 {
-                    if (revenue.checkDate.HasValue)
-                    {
-                        <label>@revenue.checkDate.Value.ToString("yyyy-MM-dd")</label>
-                    }
+                    <label>
+                        @if (revenue.checkDate.HasValue)
+                        {
+                            @revenue.checkDate.Value.ToString("yyyy-MM-dd")
+                        }
+                    </label>
                 }
             </div>
         </div>
 
+
+        <div class="form-group row">
+            <label for="checkDepositDate" class="col-sm-2 col-form-label">Deposit Date: </label>
+            <div class="col-sm-5">
+                @if (!IsViewonly)
+                {
+                    <InputDate @bind-Value="@revenue.checkDepositDate" class="form-control" placeholder="Deposit Date">
+                    </InputDate>
+                }
+                else
+                {
+                    <label>
+                        @if (revenue.checkDepositDate.HasValue)
+                        {
+                            @revenue.checkDepositDate.Value.ToString("yyyy-MM-dd")
+                        }
+                    </label>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="amount" class="col-sm-2 col-form-label">Amount: </label>
+            <div class="col-sm-5">
+                @if (!IsViewonly)
+                {
+                    <InputNumber @bind-Value="@revenue.amount" class="form-control">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>@revenue.amount</label>
+                }
+
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => revenue.amount)" />
+        </div>
     }
 
     @if (!IsViewonly || revenue.collect)

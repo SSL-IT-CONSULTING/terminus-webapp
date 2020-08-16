@@ -36,3 +36,4 @@ UI/.DS_Store
 /terminus.webapi/bin
 UI/wwwroot/Uploaded
 UI/wwwroot/Uploaded/Attachments/*.*
+/terminus-linux.pem

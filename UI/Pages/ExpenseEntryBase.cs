@@ -2,6 +2,7 @@
 using Dapper;
 using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateTime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -141,7 +142,9 @@ namespace terminus_webapp.Pages
                         bankName = expense.bankName,
                         branch = expense.branch,
                         checkDate = expense.checkDate.HasValue ? expense.checkDate.Value : DateTime.MinValue,
-                        checkDetailId = Guid.NewGuid()
+                        checkDetailId = Guid.NewGuid(),
+                        checkNo = expense.checkNo,
+                        releaseDate = expense.checkReleaseDate
                     };
                 }
 
@@ -259,14 +262,11 @@ namespace terminus_webapp.Pages
                     var documentId = string.Empty;
 
                     if (documentIdTable.Any())
-                    {
                         documentId = $"{IdKey}{documentIdTable.First().NextId.ToString(documentIdTable.First().Format)}";
-                    }
-
-
+                   
                     expense = new ExpenseViewModel();
                     expense.transactionDate = DateTime.Today;
-                    expense.cashOrCheck = "0";
+                    expense.cashOrCheck = "1";
                     expense.documentId = documentId;
                 }
                 else
@@ -305,6 +305,8 @@ namespace terminus_webapp.Pages
                         cashAccountCode = data.cashAccount.accountCode,
                         cashAccountName = data.cashAccount.accountDesc,
                         cashOrCheck = data.cashOrCheck,
+                        checkReleaseDate = data.cashOrCheck.Equals("1") ? (DateTime?)data.checkDetails.releaseDate : null,
+                        checkNo = data.cashOrCheck.Equals("1") ? data.checkDetails.checkNo : null,
                         checkAmount = data.cashOrCheck.Equals("1") ? data.checkDetails.amount : 0,
                         bankName = data.cashOrCheck.Equals("1") ? data.checkDetails.bankName : "",
                         branch = data.cashOrCheck.Equals("1") ? data.checkDetails.branch : "",

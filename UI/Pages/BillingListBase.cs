@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.JSInterop;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -276,8 +277,8 @@ namespace terminus_webapp.Pages
 
                 if (pd.associationDues > 0)
                 {
-                    var assocDuesBeforevat = CalculateBeforeVat(pd.associationDues);
-                    var assocDuesVat = CalculateVat(pd.associationDues);
+                    var assocDuesBeforevat = pd.associationDues;
+                    //var assocDuesVat = CalculateVat(pd.associationDues);
 
                     billItems.Add(new BillingLineItem()
                     {
@@ -290,25 +291,23 @@ namespace terminus_webapp.Pages
                         billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE
                     });
 
-                    billItems.Add(new BillingLineItem()
-                    {
-                        Id = Guid.NewGuid(),
-                        description = "Association dues (VAT)",
-                        amount = assocDuesVat,
-                        amountPaid = 0,
-                        lineNo = 7,
-                        generated = true,
-                        billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT
-                    });
-
-                    currentBill.totalAmount = billItems.Sum(a => a.amount);
-                    currentBill.balance = billItems.Sum(a => a.amount - a.amountPaid);
-                    currentBill.amountPaid = billItems.Sum(a => a.amountPaid);
-                    currentBill.billingLineItems = billItems;
-
-                    var result = await SaveBill(currentBill);
-
+                    //billItems.Add(new BillingLineItem()
+                    //{
+                    //    Id = Guid.NewGuid(),
+                    //    description = "Association dues (VAT)",
+                    //    amount = assocDuesVat,
+                    //    amountPaid = 0,
+                    //    lineNo = 7,
+                    //    generated = true,
+                    //    billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT
+                    //});
                 }
+
+                currentBill.totalAmount = billItems.Sum(a => a.amount);
+                currentBill.balance = billItems.Sum(a => a.amount - a.amountPaid);
+                currentBill.amountPaid = billItems.Sum(a => a.amountPaid);
+                currentBill.billingLineItems = billItems;
+                var result = await SaveBill(currentBill);
             }
         }
 
@@ -387,8 +386,14 @@ namespace terminus_webapp.Pages
                 ErrorMessage = string.Empty;
                 IsGenerating = true;
                 var pdlist = await appDBContext.PropertyDirectory
+                                                .Include(p=>p.property)
                                                .Where(a => a.companyId.Equals(CompanyId)
-                                               && DateTime.Today >= a.dateFrom && DateTime.Today <= a.dateTo).ToListAsync();
+                                               && !(a.property.Owned_Mgd.Equals("O") 
+                                                    && (a.property.otherResResiding.Equals("Y")
+                                                 && !a.property.otherRestenanted.Equals("Y")
+                                               ))
+                                               && DateTime.Today >= a.dateFrom && DateTime.Today <= a.dateTo
+                                               && !a.deleted).ToListAsync();
 
 
                 var dueDate = DateTime.Parse(DateTime.Today.ToString("yyyy-MM-07"));

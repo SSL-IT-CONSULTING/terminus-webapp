@@ -24,11 +24,11 @@ else
     <div class="form-group row">
         <label for="transactionDate" class="col-sm-2 col-form-label">Document Id: </label>
         <div class="col-sm-2">
-          
-                <label>@expense.documentId</label>
-            
+
+            <label>@expense.documentId</label>
+
         </div>
-        
+
     </div>
 
     <div class="form-group row">
@@ -54,7 +54,7 @@ else
             {
                 <InputSelect @bind-Value="@expense.glAccountId" class="form-control">
                     <option value=""></option>
-                    @foreach (var ga in expense.expenseAccounts.OrderBy(a=>a.accountCode).Where(a => a.expense))
+                    @foreach (var ga in expense.expenseAccounts.OrderBy(a => a.accountCode).Where(a => a.expense))
                             {
                         <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                             }
@@ -79,7 +79,7 @@ else
             {
                 <select id="vendorId" name="vendorId" @bind="VendorId" class="form-control">
                     <option value=""></option>
-                    @foreach (var p in expense.vendors.OrderBy(a=>a.vendorName))
+                    @foreach (var p in expense.vendors.OrderBy(a => a.vendorName))
                     {
                         <option value="@p.vendorId">@p.vendorName</option>
                     }
@@ -179,8 +179,42 @@ else
     @if (expense.cashOrCheck.Equals("1"))
     {
         <div class="form-group row">
-            <label for="bankName" class="col-sm-2 col-form-label">Check details: </label>
-            <div class="col-sm-2">
+            <label for="checkNo" class="col-sm-2 col-form-label">Check No: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputText @bind-Value="@expense.checkNo" class="form-control" placeholder="Check No">
+                    </InputText>
+                }
+                else
+                {
+                    <label>
+                        <label>@expense.checkNo</label>
+                    </label>
+                }
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="checkNo" class="col-sm-2 col-form-label">Check Amount: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputNumber @bind-Value="@expense.checkAmount" class="form-control" placeholder="Check Amount">
+                    </InputNumber>
+                }
+                else
+                {
+                    <label>
+                        <label>@expense.checkAmount</label>
+                    </label>
+                }
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="bankName" class="col-sm-2 col-form-label">Bank Name: </label>
+            <div class="col-sm-5">
                 @if (!IsViewOnly)
                 {
                     <InputText @bind-Value="@expense.bankName" class="form-control" placeholder="Bank name">
@@ -188,10 +222,15 @@ else
                 }
                 else
                 {
+
                     <label>@expense.bankName</label>
                 }
             </div>
-            <div class="col-sm-2">
+        </div>
+
+        <div class="form-group row">
+            <label for="branch" class="col-sm-2 col-form-label">Branch: </label>
+            <div class="col-sm-5">
                 @if (!IsViewOnly)
                 {
                     <InputText @bind-Value="@expense.branch" class="form-control" placeholder="Branch">
@@ -199,31 +238,49 @@ else
                 }
                 else
                 {
+
                     <label>@expense.branch</label>
                 }
             </div>
-            <div class="col-sm-2">
+        </div>
+
+        <div class="form-group row">
+            <label for="checkDate" class="col-sm-2 col-form-label">Issue Date: </label>
+            <div class="col-sm-5">
                 @if (!IsViewOnly)
                 {
-                    <InputDate @bind-Value="@expense.checkDate" class="form-control" placeholder="Check Date">
+                    <InputDate @bind-Value="@expense.checkDate" class="form-control" placeholder="Issue Date">
                     </InputDate>
                 }
                 else
                 {
-                    <label>@expense.checkDate.Value.ToString("yyyy-MM-dd")</label>
+                    <label>
+                        @if (expense.checkDate.HasValue)
+                        {
+                            @expense.checkDate.Value.ToString("yyyy-MM-dd")
+                        }
+                    </label>
                 }
             </div>
+        </div>
 
-            <div class="col-sm-2">
+
+        <div class="form-group row">
+            <label for="checkReleaseDate" class="col-sm-2 col-form-label">Release Date: </label>
+            <div class="col-sm-5">
                 @if (!IsViewOnly)
                 {
-
-                    <InputNumber @bind-Value="@expense.checkAmount" class="form-control" placeholder="Amount">
-                    </InputNumber>
+                    <InputDate @bind-Value="@expense.checkReleaseDate" class="form-control" placeholder="Release Date">
+                    </InputDate>
                 }
                 else
                 {
-                    <label>@expense.checkAmount</label>
+                    <label>
+                        @if (expense.checkReleaseDate.HasValue)
+                        {
+                            @expense.checkReleaseDate.Value.ToString("yyyy-MM-dd")
+                        }
+                    </label>
                 }
             </div>
         </div>
@@ -257,7 +314,7 @@ else
                 <InputSelect @bind-Value="@expense.cashAccountId" class="form-control">
                     <option value=""></option>
 
-                    @foreach (var ga in expense.expenseAccounts.OrderBy(a=>a.accountCode).Where(a => a.expense))
+                    @foreach (var ga in expense.expenseAccounts.OrderBy(a => a.accountCode).Where(a => a.expense))
                             {
                         <option value="@ga.accountId">@ga.accountCode - @ga.accountDesc</option>
                             }

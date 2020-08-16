@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using terminus.dataaccess;
 
 namespace terminus.dataaccess.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20200811133533_issue117-119-fields")]
+    partial class issue117119fields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -999,10 +1001,6 @@ namespace terminus.dataaccess.Migrations
                         .HasColumnType("nvarchar(36)")
                         .HasMaxLength(36);
 
-                    b.Property<string>("BuildingCode")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
                     b.Property<string>("CCTNumber")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
@@ -1055,18 +1053,6 @@ namespace terminus.dataaccess.Migrations
                     b.Property<string>("emergyRelationshipOwner")
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
-
-                    b.Property<string>("otherResContactNo1")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("otherResContactNo2")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("otherResContactNo3")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
 
                     b.Property<string>("otherResFullName1")
                         .HasColumnType("nvarchar(100)")

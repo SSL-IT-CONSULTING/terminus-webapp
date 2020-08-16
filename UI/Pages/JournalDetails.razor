@@ -15,6 +15,10 @@ else if (IsDataLoaded && !string.IsNullOrEmpty(ErrorMessage))
 else
 {
 
+    <div style="display:block">
+        <button @onclick="@DownloadReport" class="btn btn-dark table-btn quick-add-btn" type="button">Export to excel</button>
+    </div>
+
     <hr />
     <table class="table">
         <thead>
@@ -32,35 +36,35 @@ else
         <tbody>
             @foreach (var account in JournalEntries)
             {
-            <tr>
-                <td>
-                    @if (account.source.Equals("revenue"))
-                    {
-                        <a href="@($"collectionentry/{account.sourceId}")">
-                            @account.documentId
-                        </a>
-                    }
-                    else if (account.source.Equals("expense"))
-                    {
-                        <a href="@($"expense/{account.sourceId}")">
-                            @account.documentId
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@($"journalentry/{account.sourceId}")">
-                            @account.documentId
-                        </a>
-                    }
-                </td>
-                <td>@account.postingDate.ToString("yyyy-MM-dd")</td>
-                <td>@account.transactionDate.ToString("yyyy-MM-dd")</td>
-                <td align="left">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
-                <td align="left">@(account.crAmt.HasValue ? account.crAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
-                <td>@account.description</td>
-                <td>@account.reference</td>
-                <td>@account.remarks</td>
-            </tr>
+                <tr>
+                    <td>
+                        @if (account.source.Equals("revenue"))
+                        {
+                            <a href="@($"collectionentry/{account.sourceId}")">
+                                @account.documentId
+                            </a>
+                        }
+                        else if (account.source.Equals("expense"))
+                        {
+                            <a href="@($"expense/{account.sourceId}")">
+                                @account.documentId
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@($"journalentry/{account.sourceId}")">
+                                @account.documentId
+                            </a>
+                        }
+                    </td>
+                    <td>@account.postingDate.ToString("yyyy-MM-dd")</td>
+                    <td>@account.transactionDate.ToString("yyyy-MM-dd")</td>
+                    <td align="left">@(account.drAmt.HasValue ? account.drAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
+                    <td align="left">@(account.crAmt.HasValue ? account.crAmt.Value.ToString("#,##0.00;(#,##0.00)") : "")</td>
+                    <td>@account.description</td>
+                    <td>@account.reference</td>
+                    <td>@account.remarks</td>
+                </tr>
             }
 
             <tr>

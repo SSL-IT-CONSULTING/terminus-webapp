@@ -186,15 +186,26 @@ namespace terminus_webapp.Components
                     }
 
                     var dateDue = DateTime.Parse(dueDate);
-                    var pdlist = await appDBContext.
-                                        PropertyDirectory
-                                        .Include(a => a.property)
-                                        .Include(a => a.tenant)
-                                        .Where(p => p.propertyId.Equals(propertyId)
-                                        && p.tenandId.Equals(tenantId)
-                                        && dateDue >= p.dateFrom && dateDue <= p.dateTo
-                                        && p.companyId.Equals(CompanyId)
-                                        ).ToListAsync();
+                    //var pdlist = await appDBContext.
+                    //                    PropertyDirectory
+                    //                    .Include(a => a.property)
+                    //                    .Include(a => a.tenant)
+                    //                    .Where(p => p.propertyId.Equals(propertyId)
+                    //                    && p.tenandId.Equals(tenantId)
+                    //                    && dateDue >= p.dateFrom && dateDue <= p.dateTo
+                    //                    && p.companyId.Equals(CompanyId)
+                    //                    ).ToListAsync();
+
+                    var sql = @$"select t0.* from PropertyDirectory t0 with(nolock) 
+                                where t0.tenantId='{tenantId.Replace("'","''")}' 
+                                and t0.companyId='{CompanyId.Replace("'","''")}'
+                                and t0.propertyId='{propertyId.Replace("'", "''")}'
+                                and '{dateDue.ToString("yyyy-MM-dd")}' >=p.dateFrom
+                                and p.dateTo <='{dateDue.ToString("yyyy-MM-dd")}'";
+
+
+                    var pdlist = await dapperManager.GetAllAsync<PropertyDirectory>(sql, null, CommandType.Text);
+
 
                     if (!pdlist.Any())
                     {
@@ -356,8 +367,8 @@ namespace terminus_webapp.Components
 
                         if (pd.associationDues > 0)
                         {
-                            var assocDuesBeforevat = CalculateBeforeVat(pd.associationDues);
-                            var assocDuesVat = CalculateVat(pd.associationDues);
+                            var assocDuesBeforevat =pd.associationDues;
+                            //var assocDuesVat = CalculateVat(pd.associationDues);
 
                             billItems.Add(new BillingLineItem()
                             {
@@ -370,16 +381,16 @@ namespace terminus_webapp.Components
                                 billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE
                             });
 
-                            billItems.Add(new BillingLineItem()
-                            {
-                                Id = Guid.NewGuid(),
-                                description = "Association dues (VAT)",
-                                amount = assocDuesVat,
-                                amountPaid = 0,
-                                lineNo = 7,
-                                generated = true,
-                                billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT
-                            });
+                            //billItems.Add(new BillingLineItem()
+                            //{
+                            //    Id = Guid.NewGuid(),
+                            //    description = "Association dues (VAT)",
+                            //    amount = assocDuesVat,
+                            //    amountPaid = 0,
+                            //    lineNo = 7,
+                            //    generated = true,
+                            //    billLineType = Constants.BillLineTypes.MONTHLYASSOCDUE_VAT
+                            //});
 
                         }
 
