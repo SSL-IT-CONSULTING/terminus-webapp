@@ -631,7 +631,8 @@ namespace terminus_webapp.Pages
                                             .Include(a => a.propertyDirectory).ThenInclude(b => b.tenant)
                                             .Include(a => a.propertyDirectory).ThenInclude(b => b.property)
                                             .Where(a => a.companyId.Equals(CompanyId))
-                                            .OrderByDescending(a => a.createDate)
+                                            .OrderBy(a => a.propertyDirectory.property.description)
+                                            .ThenByDescending(a=>a.createDate)
                                             .ToListAsync();
 
             Bills = data.Select(a => new BillingViewModel()
