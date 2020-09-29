@@ -495,8 +495,8 @@ namespace terminus_webapp.Pages
                 pd.updateDate = datetoday;
                 pd.updatedBy = UserName;
 
-                //pd.dateFrom = tenants.dateFrom;
-                //pd.dateTo = tenants.dateTo;
+                pd.dateFrom = tenants.dateFrom;
+                pd.dateTo = tenants.dateTo;
                 //pd.monthlyRate = tenants.monthlyRate;
                 pd.monthlyRate = new_monthly_rate;
                 pd.associationDues = _assorate;
