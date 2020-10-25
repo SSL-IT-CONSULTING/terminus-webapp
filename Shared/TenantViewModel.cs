@@ -208,5 +208,17 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string RelToPrimary3 { get; set; }
 
+
+        [MaxLength(100)]
+        public string tenantProxID { get; set; }
+
+        [MaxLength(100)]
+        public string subTenantProxID1 { get; set; }
+
+        [MaxLength(100)]
+        public string subTenantProxID2 { get; set; }
+
+        [MaxLength(100)]
+        public string subTenantProxID3 { get; set; }
     }
 }

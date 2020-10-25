@@ -15,6 +15,11 @@ namespace terminus.shared.models
         public string description { get; set; }
         [MaxLength(100)]
         public string propertyType { get; set; }
+
+
+        [MaxLength(100)]
+        public string TenantProxyID { get; set; }
+
         [MaxLength(100)]
         public string TenantName { get; set; }
         [MaxLength(100)]
@@ -104,9 +109,13 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string emergyRelationshipOwner { get; set; }
 
-        public bool otherRestenanted1 { get; set; }
+        //public bool otherRestenanted1 { get; set; }
 
-        public bool otherResResiding1 { get; set; }
+        //public bool otherResResiding1 { get; set; }
+
+
+        [MaxLength(100)]
+        public string otherResProxyID1 { get; set; }
 
         [MaxLength(100)]
         public string otherResFullName1 { get; set; }
@@ -115,10 +124,14 @@ namespace terminus.shared.models
         public string otherResRelationshipToOwner1 { get; set; }
 
 
-        public bool otherRestenanted2 { get; set; }
+        //public bool otherRestenanted2 { get; set; }
 
-        public bool otherResResiding2 { get; set; }
+        //public bool otherResResiding2 { get; set; }
 
+
+
+        [MaxLength(100)]
+        public string otherResProxyID2 { get; set; }
         [MaxLength(100)]
         public string otherResFullName2 { get; set; }
 
@@ -126,10 +139,17 @@ namespace terminus.shared.models
         public string otherResRelationshipToOwner2 { get; set; }
 
 
-        public bool otherRestenanted3 { get; set; }
 
-        public bool otherResResiding3 { get; set; }
 
+        //public bool otherRestenanted3 { get; set; }
+
+        //public bool otherResResiding3 { get; set; }
+
+
+
+
+        [MaxLength(100)]
+        public string otherResProxyID3 { get; set; }
         [MaxLength(100)]
         public string otherResFullName3 { get; set; }
 
@@ -138,82 +158,85 @@ namespace terminus.shared.models
 
 
 
-
+        [MaxLength(100)]
+        public string subTenantProxyID1 { get; set; }
         [MaxLength(100)]
         public string subTenantFullName1 { get; set; }
 
         [MaxLength(100)]
         public string subTenantID1 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantHomeAddress1 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantHomeAddress1 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantWorkAddress1 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantWorkAddress1 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantContactNo1 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantContactNo1 { get; set; }
+
+        //[MaxLength(100)]
+        //public string subTenantEmailAdd1 { get; set; }
+
+        //[MaxLength(100)]
+        //public string RelToPrimary1 { get; set; }
+
+
 
         [MaxLength(100)]
-        public string subTenantEmailAdd1 { get; set; }
-
-        [MaxLength(100)]
-        public string RelToPrimary1 { get; set; }
-
-
-
-
+        public string subTenantProxyID2 { get; set; }
         [MaxLength(100)]
         public string subTenantFullName2 { get; set; }
 
         [MaxLength(100)]
         public string subTenantID2 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantHomeAddress2 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantHomeAddress2 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantWorkAddress2 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantWorkAddress2 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantContactNo2 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantContactNo2 { get; set; }
+
+        //[MaxLength(100)]
+        //public string subTenantEmailAdd2 { get; set; }
+
+        //[MaxLength(100)]
+        //public string RelToPrimary2 { get; set; }
+
 
         [MaxLength(100)]
-        public string subTenantEmailAdd2 { get; set; }
-
-        [MaxLength(100)]
-        public string RelToPrimary2 { get; set; }
-
-
-
+        public string subTenantProxyID3 { get; set; }
         [MaxLength(100)]
         public string subTenantFullName3 { get; set; }
 
         [MaxLength(100)]
         public string subTenantID3 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantHomeAddress3 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantHomeAddress3 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantWorkAddress3 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantWorkAddress3 { get; set; }
 
-        [MaxLength(1000)]
-        public string subTenantContactNo3 { get; set; }
+        //[MaxLength(1000)]
+        //public string subTenantContactNo3 { get; set; }
 
-        [MaxLength(100)]
-        public string subTenantEmailAdd3 { get; set; }
+        //[MaxLength(100)]
+        //public string subTenantEmailAdd3 { get; set; }
 
-        [MaxLength(100)]
-        public string RelToPrimary3 { get; set; }
+        //[MaxLength(100)]
+        //public string RelToPrimary3 { get; set; }
 
 
 
-        [MaxLength(1000)]
-        public string SubTenants { get; set; }
+        //[MaxLength(1000)]
+        //public string SubTenants { get; set; }
 
-        [MaxLength(1000)]
-        public string OtherResidents { get; set; }
+        //[MaxLength(1000)]
+        //public string OtherResidents { get; set; }
 
         public int SubTenant_Count { get; set; }
 

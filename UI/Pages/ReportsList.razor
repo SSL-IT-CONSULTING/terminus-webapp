@@ -133,14 +133,14 @@ else
                 <tr>
 
                     @*<th>Description</th>
-                        <th>Property Type</th>
-                        <th>Tenant Name</th>
-                        <th>Contact Number 1</th>
-                        <th>Contact Number 2</th>
-                        <th>Contact Number 3</th>
-                        <th>Email Address</th>
-                        <th>Date From</th>
-                        <th>Date To</th>*@
+        <th>Property Type</th>
+        <th>Tenant Name</th>
+        <th>Contact Number 1</th>
+        <th>Contact Number 2</th>
+        <th>Contact Number 3</th>
+        <th>Email Address</th>
+        <th>Date From</th>
+        <th>Date To</th>*@
                     @*<th>Due Date</th>*@
 
                     <th>Property</th>
@@ -154,16 +154,35 @@ else
                     <th>Total Monthly Rental</th>
                     <th>Lease Start</th>
                     <th>End</th>
-                    <th>Tenant FULL Name</th>
+                    <th>Tenant Proximity ID</th>
+                    <th>Tenant Full Name</th>
                     <th>contactNumbers</th>
                     <th>emailAddress</th>
                     <th>Tenant Address</th>
                     <th>Work Address</th>
                     <th>Other Tenants Count</th>
-                    <th>Other Tenants</th>
+
+
+
+                    <th>Sub Tenants 1 Name</th>
+                    <th>Sub Tenants 1 Proximity ID</th>
+
+                    <th>Sub Tenants 2 Name</th>
+                    <th>Sub Tenants 2 Proximity ID</th>
+
+                    <th>Sub Tenants 3 Name</th>
+                    <th>Sub Tenants 3 Proximity ID</th>
                     @*<th>Registered SubTenants IDs</th>*@
                     <th>Registered  Residents Count</th>
-                    <th>Registered  Residents</th>
+                    <th>Sub Resident 1 Name</th>
+                    <th>Sub Resident 1 Proximity ID</th>
+
+                    <th>Sub Resident 2 Name</th>
+                    <th>Sub Resident 2 Proximity ID</th>
+
+                    <th>Sub Resident 3 Name</th>
+                    <th>Sub Resident 3 Proximity ID</th>
+                    @*<th>Registered  Residents</th>*@
                     <th>Emergency Contact Name</th>
                     <th>Emergency Contacts</th>
                     <th>Emergency Contact Address</th>
@@ -175,44 +194,59 @@ else
             <tbody>
                 @foreach (var pi in rptPropertypeInventoryMV)
                 {
-                    <tr>
-                        @*<td>@pi.description</td>
-                            <td>@pi.propertyType</td>
-                            <td>@pi.TenantName</td>
-                            <td>@pi.contactNumber</td>
-                            <td>@pi.emailAddress</td>
-                            <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                <tr>
+                    @*<td>@pi.description</td>
+        <td>@pi.propertyType</td>
+        <td>@pi.TenantName</td>
+        <td>@pi.contactNumber</td>
+        <td>@pi.emailAddress</td>
+        <td>@pi.dateFrom.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
 
-                            <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
-                        @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
-                        <td>@pi.description</td>
-                        <td>@pi.CCTNumber</td>
-                        <td>@pi.Owned_Mgd</td>
-                        <td>@pi.propertyType</td>
-                        <td>@pi.areaInSqm.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                        @*<td>@pi.totalBalance.ToString("#,##0.00;(#,##0.00);'-'")</td>*@
-                        <td>@pi.monthlyRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                        <td>@pi.associationDues.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                        <td>@pi.monthlyRental.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                        <td>@pi.dateFrom.ToString("MM/dd/yyyy")</td>
-                        <td>@pi.dateTo.ToString("MM/dd/yyyy")</td>
-                        <td>@pi.TenantName</td>
-                        <td>@pi.Contacts</td>
-                        <td>@pi.emailAddress</td>
-                        <td>@pi.address</td>
-                        <td>@pi.workAddress</td>
-                        <td>@pi.SubTenant_Count</td>
-                        <td>@pi.SubTenants</td>
-                        @*<td>@pi.subTenantIDs</td>*@
-                        <td>@pi.Resident_Count</td>
-                        <td>@pi.OtherResidents</td>
-                        <td>@pi.emergy_FullName</td>
-                        <td>@pi.emergyContactNo</td>
-                        <td>@pi.emergyAdrress</td>
-                        <td>@pi.emergyRelationshipOwner</td>
+        <td>@pi.dateTo.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+                    @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+                    <td>@pi.description</td>
+                    <td>@pi.CCTNumber</td>
+                    <td>@pi.Owned_Mgd</td>
+                    <td>@pi.propertyType</td>
+                    <td>@pi.areaInSqm.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    @*<td>@pi.totalBalance.ToString("#,##0.00;(#,##0.00);'-'")</td>*@
+                    <td>@pi.monthlyRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@pi.associationDues.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@pi.monthlyRental.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@pi.dateFrom.ToString("MM/dd/yyyy")</td>
+                    <td>@pi.dateTo.ToString("MM/dd/yyyy")</td>
+                    <td>@pi.TenantProxyID</td>
+                    <td>@pi.TenantName</td>
+                    <td>@pi.Contacts</td>
+                    <td>@pi.emailAddress</td>
+                    <td>@pi.address</td>
+                    <td>@pi.workAddress</td>
+                    <td>@pi.SubTenant_Count</td>
+                    <td>@pi.subTenantFullName1</td>
+                    <td>@pi.subTenantProxyID1</td>
+
+                    <td>@pi.subTenantFullName2</td>
+                    <td>@pi.subTenantProxyID2</td>
+
+                    <td>@pi.subTenantFullName3</td>
+                    <td>@pi.subTenantProxyID3</td>
+                    @*<td>@pi.SubTenants</td>*@
+                    @*<td>@pi.subTenantIDs</td>*@
+                    <td>@pi.Resident_Count</td>
+                    @*<td>@pi.OtherResidents</td>*@
+                    <td>@pi.otherResFullName1</td>
+                    <td>@pi.otherResProxyID1</td>
+                    <td>@pi.otherResFullName2</td>
+                    <td>@pi.otherResProxyID2</td>
+                    <td>@pi.otherResFullName3</td>
+                    <td>@pi.otherResProxyID3</td>
+                    <td>@pi.emergy_FullName</td>
+                    <td>@pi.emergyContactNo</td>
+                    <td>@pi.emergyAdrress</td>
+                    <td>@pi.emergyRelationshipOwner</td>
 
 
-                    </tr>
+                </tr>
                 }
             </tbody>
         </table>
@@ -231,25 +265,64 @@ else
                     <th>Description</th>
                     <th>Property Type</th>
                     <th>Tenant Name</th>
+                    <th>Proximity ID</th>
                     <th>Contact Number</th>
                     <th>Email Address</th>
+
+                    <th>Resident 1 Name</th>
+                    <th>Resident 1 Proximity ID</th>
+
+                    <th>Resident 2 Name</th>
+                    <th>Resident 2 Proximity ID</th>
+
+                    <th>Resident 3 Name</th>
+                    <th>Resident 3 Proximity ID</th>
+
+                    <th>Sub Tenant 1 Name</th>
+                    <th>Sub Tenant 1 Proximity ID</th>
+
+                    <th>Sub Tenant 2 Name</th>
+                    <th>Sub Tenant 2 Proximity ID</th>
+
+                    <th>Sub Tenant 3 Name</th>
+                    <th>Sub Tenant 3 Proximity ID</th>
                     @*<th>Date From</th>
-                        <th>Date To</th>*@
+        <th>Date To</th>*@
                     @*<th>Due Date</th>*@
+
                 </tr>
             </thead>
             <tbody>
                 @foreach (var pi in rptBuildingDirectoryVM)
                 {
-                    <tr>
-                        <td>@pi.description</td>
-                        <td>@pi.propertyType</td>
-                        <td>@pi.TenantName</td>
-                        <td>@pi.contactNumber</td>
-                        <td>@pi.emailAddress</td>
-                        @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+                <tr>
+                    <td>@pi.description</td>
+                    <td>@pi.propertyType</td>
+                    <td>@pi.TenantName</td>
+                    <td>@pi.tenantProxID</td>
+                    <td>@pi.contactNumber</td>
+                    <td>@pi.emailAddress</td>
 
-                    </tr>
+                    <td>@pi.otherResFullName1</td>
+                    <td>@pi.otherResProxID1</td>
+
+                    <td>@pi.otherResFullName2</td>
+                    <td>@pi.otherResProxID2</td>
+
+                    <td>@pi.otherResFullName3</td>
+                    <td>@pi.otherResProxID3</td>
+
+                    <td>@pi.subTenantFullName1</td>
+                    <td>@pi.subTenantProxID1</td>
+
+                    <td>@pi.subTenantFullName2</td>
+                    <td>@pi.subTenantProxID2</td>
+
+                    <td>@pi.subTenantFullName3</td>
+                    <td>@pi.subTenantProxID3</td>
+                    @*<td>@pi.dueDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>*@
+
+                </tr>
                 }
             </tbody>
         </table>

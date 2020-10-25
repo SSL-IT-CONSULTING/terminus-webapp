@@ -116,5 +116,21 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string BuildingCode { get; set; }
 
+
+
+        [MaxLength(100)]
+        public string otherResProxID1 { get; set; }
+
+
+        [MaxLength(100)]
+        public string otherResProxID2 { get; set; }
+
+
+        [MaxLength(100)]
+        public string otherResProxID3 { get; set; }
+
+        [MaxLength(100)]
+        public string ownerProxID { get; set; }
+
     }
 }

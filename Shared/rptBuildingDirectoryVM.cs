@@ -22,5 +22,55 @@ namespace terminus.shared.models
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime dueDate { get; set; }
+
+
+
+        [MaxLength(100)]
+        public string otherResResiding { get; set; }
+
+        [MaxLength(100)]
+        public string otherRestenanted { get; set; }
+        [MaxLength(100)]
+        public string ownerProxID{ get; set; }
+        [MaxLength(100)]
+        public string ownerFullName{ get; set; }
+        [MaxLength(100)]
+        public string otherResProxID1{ get; set; }
+		[MaxLength(100)]
+        public string otherResFullName1{ get; set; }
+		
+        [MaxLength(100)]
+        public string otherResProxID2{ get; set; }
+		
+        [MaxLength(100)]
+        public string otherResFullName2{ get; set; }
+		
+        [MaxLength(100)]
+        public string otherResProxID3{ get; set; }
+		
+        [MaxLength(100)]
+        public string otherResFullName3{ get; set; }
+	
+        [MaxLength(100)]
+        public string tenantProxID { get; set; }
+        
+        [MaxLength(100)]
+
+        public string subTenantProxID1{ get; set; }
+		
+        [MaxLength(100)]
+        public string subTenantFullName1{ get; set; }
+		
+        [MaxLength(100)]
+        public string subTenantProxID2{ get; set; }
+		
+        [MaxLength(100)]
+        public string subTenantFullName2{ get; set; }
+		
+        [MaxLength(100)]
+        public string subTenantProxID3{ get; set; }
+		
+        [MaxLength(100)]
+        public string subTenantFullName3{ get; set; }
     }
 }

@@ -11,6 +11,10 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string TenantIDs { get; set; }
 
+
+        [MaxLength(100)]
+        public string tenantProxID { get; set; }
+
         [MaxLength(50)]
         public string contactNo2 { get; set; }
 
@@ -61,7 +65,8 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string RelToPrimary1 { get; set; }
 
-
+        [MaxLength(100)]
+        public string subTenantProxID1 { get; set; }
 
 
         [MaxLength(100)]
@@ -85,6 +90,8 @@ namespace terminus.shared.models
         [MaxLength(100)]
         public string RelToPrimary2 { get; set; }
 
+        [MaxLength(100)]
+        public string subTenantProxID2 { get; set; }
 
 
         [MaxLength(100)]
@@ -107,6 +114,9 @@ namespace terminus.shared.models
 
         [MaxLength(100)]
         public string RelToPrimary3 { get; set; }
+
+        [MaxLength(100)]
+        public string subTenantProxID3 { get; set; }
 
     }
 }

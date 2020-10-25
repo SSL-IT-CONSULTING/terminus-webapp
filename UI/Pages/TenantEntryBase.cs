@@ -292,7 +292,7 @@ namespace terminus_webapp.Pages
                     TenantIDs = tenants.TenantIDs,
                     contactNumber = tenants.contactNumber,
                     emailAddress = tenants.emailAddress,
-
+                    tenantProxID = tenants.tenantProxID,
 
                     //Owned_Mgd = tenants.Owned_Mgd,
                     //MgtFeePct = tenants.MgtFeePct,
@@ -319,7 +319,7 @@ namespace terminus_webapp.Pages
                     //otherResResiding3 = tenants.otherResResiding3,
                     //otherResFullName3 = tenants.otherResFullName3,
                     //otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3,
-
+                    subTenantProxID1 = tenants.subTenantProxID1,
                     subTenantFullName1 = tenants.subTenantFullName1,
                     subTenantID1 = tenants.subTenantID1,
                     subTenantHomeAddress1 = tenants.subTenantHomeAddress1,
@@ -328,6 +328,7 @@ namespace terminus_webapp.Pages
                     subTenantEmailAdd1 = tenants.subTenantEmailAdd1,
                     RelToPrimary1 = tenants.RelToPrimary1,
 
+                    subTenantProxID2 = tenants.subTenantProxID2,
                     subTenantFullName2 = tenants.subTenantFullName2,
                     subTenantID2 = tenants.subTenantID2,
                     subTenantHomeAddress2 = tenants.subTenantHomeAddress2,
@@ -336,6 +337,7 @@ namespace terminus_webapp.Pages
                     subTenantEmailAdd2 = tenants.subTenantEmailAdd2,
                     RelToPrimary2 = tenants.RelToPrimary2,
 
+                    subTenantProxID3 = tenants.subTenantProxID3,
                     subTenantFullName3 = tenants.subTenantFullName3,
                     subTenantID3 = tenants.subTenantID3,
                     subTenantHomeAddress3 = tenants.subTenantHomeAddress3,
@@ -418,7 +420,7 @@ namespace terminus_webapp.Pages
                                                 .Where(r => r.id.Equals(tenandId) && r.company.companyId.Equals(CompanyId) && r.deleted.Equals(false)).FirstOrDefaultAsync();
 
 
-
+                t.tenantProxID = tenants.tenantProxID;
                 t.lastName = tenants.lastName;
                 t.firstName = tenants.firstName;
                 t.middleName = tenants.middleName;
@@ -452,6 +454,7 @@ namespace terminus_webapp.Pages
                 //t.otherResFullName3 = tenants.otherResFullName3;
                 //t.otherResRelationshipToOwner3 = tenants.otherResRelationshipToOwner3;
 
+                t.subTenantProxID1 = tenants.subTenantProxID1;
                 t.subTenantFullName1 = tenants.subTenantFullName1;
                 t.subTenantID1 = tenants.subTenantID1;
                 t.subTenantHomeAddress1 = tenants.subTenantHomeAddress1;
@@ -460,6 +463,8 @@ namespace terminus_webapp.Pages
                 t.subTenantEmailAdd1 = tenants.subTenantEmailAdd1;
                 t.RelToPrimary1 = tenants.RelToPrimary1;
 
+
+                t.subTenantProxID2 = tenants.subTenantProxID2;
                 t.subTenantFullName2 = tenants.subTenantFullName2;
                 t.subTenantID2 = tenants.subTenantID2;
                 t.subTenantHomeAddress2 = tenants.subTenantHomeAddress2;
@@ -468,6 +473,7 @@ namespace terminus_webapp.Pages
                 t.subTenantEmailAdd2 = tenants.subTenantEmailAdd2;
                 t.RelToPrimary2 = tenants.RelToPrimary2;
 
+                t.subTenantProxID3 = tenants.subTenantProxID3;
                 t.subTenantFullName3 = tenants.subTenantFullName3;
                 t.subTenantID3 = tenants.subTenantID3;
                 t.subTenantHomeAddress3 = tenants.subTenantHomeAddress3;
@@ -734,7 +740,12 @@ namespace terminus_webapp.Pages
                         subTenantWorkAddress3 = data.tenant.subTenantWorkAddress3,
                         subTenantContactNo3 = data.tenant.subTenantContactNo3,
                         subTenantEmailAdd3 = data.tenant.subTenantEmailAdd3,
-                        RelToPrimary3 = data.tenant.RelToPrimary3
+                        RelToPrimary3 = data.tenant.RelToPrimary3,
+
+                        tenantProxID =data.tenant.tenantProxID,
+                        subTenantProxID1 = data.tenant.subTenantProxID1,
+                        subTenantProxID2 = data.tenant.subTenantProxID2,
+                        subTenantProxID3 = data.tenant.subTenantProxID3
                     };
 
                     tenants.tenantDocument = await appDBContext.TenantDocuments

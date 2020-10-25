@@ -30,6 +30,24 @@ else
         <label for="errorMessagePropertyDateRange" class="offset-sm-2 col-sm-8" style="color: red;">@errorMessagePropertyDateRange</label>
     </div>
 
+
+        <div class="form-group row">
+            <label for="accountCode" class="col-sm-2 col-form-label">Proximity ID:</label>
+        <div class="col-sm-5">
+
+            @if (!IsViewOnly)
+            {
+                <InputText @bind-Value="@tenants.tenantProxID" class="form-control">
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.tenantProxID</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.tenantProxID)" />
+    </div>
+
     <div class="form-group row">
         <label for="accountCode" class="col-sm-2 col-form-label">Last Name:</label>
         <div class="col-sm-5">
@@ -279,6 +297,24 @@ else
 
 
     <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Proximity ID 1: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantProxID1" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantProxID1</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantProxID1)" />
+    </div>
+
+    <div class="form-group row">
         <label for="Expense" class="col-sm-2 col-form-label">Full Name 1: </label>
         <div class="col-sm-5">
             @if (!IsViewOnly)
@@ -405,6 +441,25 @@ else
         <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.RelToPrimary1)" />
     </div>
 
+
+
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Proximity ID 2: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
+
+                <InputText @bind-Value="@tenants.subTenantProxID2" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantProxID2</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantProxID2)" />
+    </div>
 
     <div class="form-group row">
         <label for="Expense" class="col-sm-2 col-form-label">Full Name 2: </label>
@@ -542,7 +597,23 @@ else
 
 
 
+    <div class="form-group row">
+        <label for="Expense" class="col-sm-2 col-form-label">Proximity ID 3: </label>
+        <div class="col-sm-5">
+            @if (!IsViewOnly)
+            {
 
+                <InputText @bind-Value="@tenants.subTenantProxID3" class="form-control">
+
+                </InputText>
+            }
+            else
+            {
+                <label>@tenants.subTenantProxID3</label>
+            }
+        </div>
+        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.subTenantProxID3)" />
+    </div>
 
     <div class="form-group row">
         <label for="Expense" class="col-sm-2 col-form-label">Full Name 3: </label>

@@ -144,7 +144,7 @@ namespace terminus_webapp.Pages
                         createDate = DateTime.Now,
                         createdBy = UserName,
                         description = properties.description,
-                        BuildingCode = properties.BuildingCode,
+                        BuildingCode = "ADBC",
                         address = properties.address,
                         propertyType = properties.propertyType,
                         areaInSqm = properties.areaInSqm,
@@ -157,8 +157,8 @@ namespace terminus_webapp.Pages
                         ownerAddress = properties.ownerAddress,
                         ownerContactNo = properties.ownerContactNo,
                         ownerEmailAdd = properties.ownerEmailAdd,
-                        ownerRemarks = properties.ownerRemarks
-
+                        ownerRemarks = properties.ownerRemarks,
+                        ownerProxID = properties.ownerProxID
 
                     };
 
@@ -190,7 +190,8 @@ namespace terminus_webapp.Pages
                             createDate = DateTime.Now,
                             createdBy = UserName,
                             description = properties.description,
-                            BuildingCode = properties.BuildingCode,
+                            //BuildingCode = properties.BuildingCode,
+                            BuildingCode = "ADBC",
                             address = properties.address,
                             propertyType = properties.propertyType,
                             areaInSqm = properties.areaInSqm,
@@ -216,8 +217,11 @@ namespace terminus_webapp.Pages
                             otherResContactNo2 = "",
                             otherResFullName3 = "",
                             otherResRelationshipToOwner3 = "",
-                            otherResContactNo3 = ""
-                        };
+                            otherResContactNo3 = "",
+                            otherResProxID1 = "",
+                            otherResProxID2 = "",
+                            otherResProxID3 = ""
+                    };
                         appDBContext.Properties.Add(pr);
                     }
                     else if (resident_type == "Residing")
@@ -234,7 +238,7 @@ namespace terminus_webapp.Pages
                             createDate = DateTime.Now,
                             createdBy = UserName,
                             description = properties.description,
-                            BuildingCode = properties.BuildingCode,
+                            BuildingCode = "ADBC",
                             
                             address = properties.address,
                             propertyType = properties.propertyType,
@@ -261,7 +265,10 @@ namespace terminus_webapp.Pages
                             otherResRelationshipToOwner2 = properties.otherResRelationshipToOwner2,
                             otherResFullName3 = properties.otherResFullName3,
                             otherResContactNo3 = properties.otherResContactNo3,
-                            otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3
+                            otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3,
+                            otherResProxID1 = properties.otherResProxID1,
+                            otherResProxID2 = properties.otherResProxID2,
+                            otherResProxID3 = properties.otherResProxID3
                         };
                         appDBContext.Properties.Add(pr);
                     }
@@ -277,7 +284,7 @@ namespace terminus_webapp.Pages
                             createDate = DateTime.Now,
                             createdBy = UserName,
                             description = properties.description,
-                            BuildingCode = properties.BuildingCode,
+                            BuildingCode = "ADBC",
                             address = properties.address,
                             propertyType = properties.propertyType,
                             areaInSqm = properties.areaInSqm,
@@ -369,6 +376,11 @@ namespace terminus_webapp.Pages
                     data.otherResFullName3 = "";
                     data.otherResContactNo3 = "";
                     data.otherResRelationshipToOwner3 = "";
+
+                    
+                    data.otherResProxID1 = "";
+                    data.otherResProxID2 = "";
+                    data.otherResProxID3 = "";
                 }
                 else if (resident_type == "Residing")
                 {
@@ -384,6 +396,10 @@ namespace terminus_webapp.Pages
                     data.otherResFullName3 = properties.otherResFullName3;
                     data.otherResContactNo3 = properties.otherResContactNo3;
                     data.otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3;
+
+                    data.otherResProxID1 = properties.otherResProxID1;
+                    data.otherResProxID2 = properties.otherResProxID2;
+                    data.otherResProxID3 = properties.otherResProxID3;
                 }
                 else
                 {
@@ -405,7 +421,7 @@ namespace terminus_webapp.Pages
                 data.updateDate = DateTime.Now;
                 data.updatedBy = UserName;
                 data.description = properties.description;
-                data.BuildingCode = properties.BuildingCode;
+                data.BuildingCode = "ADBC";
                 data.address = properties.address;
                 data.propertyType = properties.propertyType;
                 data.areaInSqm = properties.areaInSqm;
@@ -439,8 +455,8 @@ namespace terminus_webapp.Pages
                     data.emergyContactNo = properties.emergyContactNo;
                     data.emergyAdrress = properties.emergyAdrress;
                     data.emergyRelationshipOwner = properties.emergyRelationshipOwner;
-                    data.otherRestenanted = properties.otherRestenanted;
-                    data.otherResResiding = properties.otherResResiding;
+                    data.otherRestenanted = _tenanted;
+                    data.otherResResiding = _residing;
                     data.otherResFullName1 = properties.otherResFullName1;
                     data.otherResContactNo1 = properties.otherResContactNo1;
                     data.otherResRelationshipToOwner1 = properties.otherResRelationshipToOwner1;
@@ -450,6 +466,11 @@ namespace terminus_webapp.Pages
                     data.otherResFullName3 = properties.otherResFullName3;
                     data.otherResContactNo3 = properties.otherResContactNo3;
                     data.otherResRelationshipToOwner3 = properties.otherResRelationshipToOwner3;
+
+                    data.ownerProxID = properties.ownerProxID;
+                    data.otherResProxID1 = properties.otherResProxID1;
+                    data.otherResProxID2 = properties.otherResProxID2;
+                    data.otherResProxID3 = properties.otherResProxID3;
                 }
                 appDBContext.Properties.Update(data);
 
@@ -669,7 +690,12 @@ namespace terminus_webapp.Pages
                         otherResRelationshipToOwner2 = data.otherResRelationshipToOwner2,
                         otherResFullName3 = data.otherResFullName3,
                         otherResContactNo3 = data.otherResContactNo3,
-                        otherResRelationshipToOwner3 = data.otherResRelationshipToOwner3
+                        otherResRelationshipToOwner3 = data.otherResRelationshipToOwner3,
+                        ownerProxID = data.ownerProxID,
+                        otherResProxID1 = data.otherResProxID1,
+                        otherResProxID2 = data.otherResProxID2,
+                        otherResProxID3 = data.otherResProxID3
+
 
                     };
 
