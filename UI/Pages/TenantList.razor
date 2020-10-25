@@ -25,7 +25,7 @@
             <li><a href="glaccountlist">General Ledger</a></li>
             <li><a href="vendorlist">Vendors</a></li>
             <li><a href="propertylist">Properties</a></li>
-            <li><a href="tenantlist" class="active">Tenants</a></li>
+            <li><a href="tenantlist" class="active">Resident/Tenant</a></li>
         }
 
         @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("ADBCA", StringComparison.OrdinalIgnoreCase))
@@ -33,7 +33,7 @@
             <li><a href="glaccountlist">General Ledger</a></li>
             <li><a href="vendorlist">Vendors</a></li>
             <li><a href="propertylist">Properties</a></li>
-            <li><a href="tenantlist" class="active">Tenants</a></li>
+            <li><a href="tenantlist" class="active">Resident/Tenant</a></li>
         }
 
         @if (!string.IsNullOrEmpty(CompanyId) && CompanyId.Equals("APMI", StringComparison.OrdinalIgnoreCase))
@@ -48,7 +48,7 @@
     </ul>
 
 
-    <h3>Tenant List</h3>
+    <h3>Resident/Tenant List</h3>
 
 @if (!DataLoaded && string.IsNullOrEmpty(ErrorMessage))
 {
