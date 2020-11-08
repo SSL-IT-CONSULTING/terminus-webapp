@@ -31,8 +31,8 @@ else
     </div>
 
 
-        <div class="form-group row">
-            <label for="accountCode" class="col-sm-2 col-form-label">Proximity ID:</label>
+    <div class="form-group row">
+        <label for="accountCode" class="col-sm-2 col-form-label">Proximity ID:</label>
         <div class="col-sm-5">
 
             @if (!IsViewOnly)
@@ -744,30 +744,60 @@ else
 
     <hr />
 
+    @if (IsEditOnly == true)
+    {
+        <div class="form-group row">
+            <label for="properties" class="col-sm-2 col-form-label">Property: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputSelect @bind-Value="@tenants.propertyid" class="form-control" disabled>
+                        <option value=""></option>
+                        @foreach (var p in tenants.properties)
+                                    {
+                            <option value="@p.id">@p.description</option>
+                                    }
+                        /**/
 
-    <div class="form-group row">
-        <label for="properties" class="col-sm-2 col-form-label">Property: </label>
-        <div class="col-sm-5">
-            @if (!IsViewOnly)
-            {
-                <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
-                    <option value=""></option>
-                    @foreach (var p in tenants.properties.Where(a => (!string.IsNullOrEmpty(a.otherRestenanted) && a.otherRestenanted.Equals("Y"))).ToList())
-                            {
-                        <option value="@p.id">@p.description</option>
-                            }
-                    /**/
 
-
-                </InputSelect>
-            }
-            else
-            {
-                <label>@tenants.propertyid</label>
-            }
+                    </InputSelect>
+                }
+                else
+                {
+                    <label>@tenants.propertyid</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.propertyid)" />
         </div>
-        <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.propertyid)" />
-    </div>
+    }
+    else
+    {
+        <div class="form-group row">
+            <label for="properties" class="col-sm-2 col-form-label">Property: </label>
+            <div class="col-sm-5">
+                @if (!IsViewOnly)
+                {
+                    <InputSelect @bind-Value="@tenants.propertyid" class="form-control">
+                        <option value=""></option>
+                        @foreach (var p in tenants.properties.Where(a => (!string.IsNullOrEmpty(a.otherRestenanted) && a.otherRestenanted.Equals("Y"))).ToList())
+                                    {
+                            <option value="@p.id">@p.description</option>
+                                    }
+                        /**/
+
+
+                    </InputSelect>
+                }
+                else
+                {
+                    <label>@tenants.propertyid</label>
+                }
+            </div>
+            <ValidationMessage class="offset-sm-2 col-sm-8" For="@(() => tenants.propertyid)" />
+        </div>
+
+    }
+
 
 
 
