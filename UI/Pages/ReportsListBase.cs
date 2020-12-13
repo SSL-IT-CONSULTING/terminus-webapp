@@ -176,7 +176,6 @@ namespace terminus_webapp.Pages
                 if (reportType == "TrialBalance")
                 {
 
-
                     table = (DataTable)JsonConvert.DeserializeObject(JsonConvert.SerializeObject(rptTrialBalanceVM), (typeof(DataTable)));
                 }
 

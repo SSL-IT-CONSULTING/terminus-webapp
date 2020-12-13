@@ -582,6 +582,8 @@ else
                 <tr>
 
                     <th>Description</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
                     <th>Amount</th>
 
 
@@ -596,21 +598,25 @@ else
 
                     @foreach (var pi in rptTrialBalanceVM)
                     {
-                        <tr>
-                            @if (cnt == rowcount - 1)
-                            {
-                                <td><b>@pi.accountDesc</b></td>
-                                <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
-                            }
-                            else
-                            {
-                                <td>@pi.accountDesc</td>
-                                <td>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                <tr>
+                    @if (cnt == rowcount - 1)
+                    {
+                        <td><b>@pi.accountDesc</b></td>
+                        <td><b>@pi.debit</b></td>
+                        <td><b>@pi.credit</b></td>
+                        <td><b>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    }
+                    else
+                    {
+                        <td>@pi.accountDesc</td>
+                        <td><b>@pi.debit</b></td>
+                        <td><b>@pi.credit</b></td>
+                        <td>@pi.amount.ToString("#,##0.00;(#,##0.00);'-'")</td>
 
-                            }
+                    }
 
 
-                        </tr>
+                </tr>
                         cnt = cnt + 1;
                     }
                 }
@@ -687,7 +693,7 @@ else
                     {
 
                         <tr>
-                            @if (cnt == 0 || cnt == 11 || cnt == 13 || cnt == 18 || cnt == 20 || cnt == 24 || cnt == 25)
+                            @if (@pi.accountDesc == "ASSETS" || @pi.accountDesc == "Total Assets" || @pi.accountDesc == "LIABILITIES" || @pi.accountDesc == "Total Liabilities" || @pi.accountDesc == "EQUITY" || @pi.accountDesc == "Total Equity" || @pi.accountDesc == "Total Liabilities & Equity")
                             {
 
                                 <td><b>@pi.accountDesc</b></td>
@@ -830,54 +836,104 @@ else
 
                     @foreach (var cvm in rptCollectionVM)
                     {
-                        <tr>
+        <tr>
+            @*@if (@cvm.tenantName == "" && @cvm.startDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "") = "" && @cvm.endDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "") = "")*@
+                @if (@cvm.tenantName == null || @cvm.classifications == null)
+                {
+                    <td><b>@cvm.unit</b></td>
+                    <td><b>@cvm.tenantName</b></td>
+                    <td><b>@cvm.classifications</b></td>
+                    <td><b>@cvm.gross.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.rentalRate.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.dues.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.startDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</b></td>
+                    <td><b>@cvm.endDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</b></td>
 
-                            <td>@cvm.unit</td>
-                            <td>@cvm.tenantName</td>
-                            <td>@cvm.classifications</td>
-                            <td>@cvm.gross.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.rentalRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.dues.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.startDate</td>
-                            <td>@cvm.endDate</td>
-                            
-                            <td>@cvm.January_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.January_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.Febuary_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.Febuary_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.March_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.March_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.April_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.April_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.May_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.May_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.June_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.June_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.July_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.July_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.August_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.August_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.September_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.September_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.October_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.October_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.November_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.November_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            
-                            <td>@cvm.December_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
-                            <td>@cvm.December_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td><b>@cvm.January_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.January_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
 
-                        </tr>
+                    <td><b>@cvm.Febuary_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.Febuary_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.March_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.March_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.April_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.April_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.May_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.May_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.June_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.June_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.July_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.July_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.August_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.August_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.September_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.September_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.October_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.October_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.November_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.November_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+
+                    <td><b>@cvm.December_Rent.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                    <td><b>@cvm.December_Due.ToString("#,##0.00;(#,##0.00);'-'")</b></td>
+                }
+                else
+                {
+                    <td>@cvm.unit</td>
+                    <td>@cvm.tenantName</td>
+                    <td>@cvm.classifications</td>
+                    <td>@cvm.gross.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.rentalRate.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.dues.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.startDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+                    <td>@cvm.endDate.ToString("MM/dd/yyyy").Replace("01/01/0001", "")</td>
+
+                    <td>@cvm.January_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.January_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.Febuary_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.Febuary_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.March_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.March_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.April_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.April_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.May_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.May_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.June_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.June_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.July_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.July_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.August_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.August_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.September_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.September_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.October_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.October_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.November_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.November_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                    <td>@cvm.December_Rent.ToString("#,##0.00;(#,##0.00);'-'")</td>
+                    <td>@cvm.December_Due.ToString("#,##0.00;(#,##0.00);'-'")</td>
+
+                }
+        </tr>
 
 
                     }
