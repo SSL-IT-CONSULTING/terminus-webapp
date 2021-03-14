@@ -754,6 +754,7 @@ namespace terminus_webapp.Pages
                 }
                 tenants.properties = await appDBContext.Properties
                                                             .Where(r => r.companyId.Equals(CompanyId) && r.deleted.Equals(false))
+                                                            .OrderBy(a=>a.description)
                                                             .ToListAsync();
 
             }
